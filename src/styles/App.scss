@@ -1,0 +1,90 @@
+@import 'variables.scss';
+
+:root {
+    // Colores de la aplicación.
+    --primary: #439776;
+    --secondary: #328ab2;
+    --auxiliar: #c1cf3a;
+    --optional1: #4bb5c3;
+    --optional2: #8ab832;
+    --white: #ffffff;
+
+    // Color de los grupos de alimentos.
+    --colorFrutas: #ff7a00;
+    --colorVerduras: #00a24f;
+    --colorCarne: #e01400;
+    --colorLeguminosas: #ff2088;
+    --colorCereales: #cd8d00;
+    --colorLacteos: #00a2fb;
+
+    scrollbar-color: #c4c4c4 transparent !important;
+    scrollbar-width: thin !important;
+
+    font-size: 16px;
+}
+
+.ant-menu .ant-menu-root .ant-menu-vertical .ant-menu-dark .ant-menu-inline-collapsed {
+    overflow: hidden;
+}
+
+.ant-menu-inline,
+.ant-menu-vertical,
+.ant-menu-vertical-left {
+    border-right: none !important;
+}
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+    background-color: transparent !important;
+}
+
+html,
+body {
+    padding: 0;
+    margin: 0;
+
+    ::-webkit-scrollbar {
+        width: 15px;
+        border-radius: 8px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: #ffffff;
+        box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 100px;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: #484848;
+        border-radius: 8px;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: darken($color: #484848, $amount: 25%);
+        border-radius: 8px;
+    }
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
+        'Helvetica Neue', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.ant-typography {
+    color: #595959 !important;
+}
+
+.ant-typography {
+    color: #595959 !important;
+}
+
+.ant-tabs-tab-btn {
+    color: #fff;
+}
+
+.ant-form-item-label {
+    margin-left: 0.5rem;
+    text-align: start !important;
+}

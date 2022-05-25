@@ -1,0 +1,2 @@
+export const ADD_AUTHORIZATIONS = 'ADD_AUTHORIZATIONS';
+export const SIGN_OUT = 'SIGN_OUT';

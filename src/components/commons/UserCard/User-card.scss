@@ -1,0 +1,97 @@
+@import '../../../styles/variables.scss';
+
+@font-face {
+    font-family: 'Poppins', sans-serif;
+    src: url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+}
+
+.user-card {
+    cursor: pointer;
+    padding-top: 0px;
+    font-family: 'Poppins', sans-serif;
+    border-radius: 20px;
+    min-height: 240px;
+    height: auto;
+    width: 240px;
+    box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.3);
+    transition: transform 150ms;
+}
+
+.user-card:hover {
+    transform: scale(1.03, 1.03);
+}
+
+.profile-img-name {
+    position: relative;
+    text-align: center;
+    margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-img img {
+    position: relative;
+    width: 98px;
+    height: 98px;
+    border-radius: 50%;
+
+    /*Colorful border*/
+    background: $WHITE;
+    padding: 3px;
+
+    /*Shadow*/
+    box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.3);
+}
+
+.email-icon::before {
+    font-family: 'Poppins';
+    content: '\e0be';
+}
+
+.info-text {
+    margin-bottom: 0;
+}
+
+.contact-info {
+    margin-left: 3rem;
+    padding-bottom: 1rem;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.person-name {
+    position: relative;
+    color: $BLACK;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $WHITE;
+    border: 1px solid $BLACK;
+    height: 3rem;
+    width: 14.375rem;
+    align-self: center;
+    border-radius: 0.5rem;
+
+    h2 {
+        padding: 0 1rem;
+        width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        position: absolute;
+        margin-bottom: 0;
+        // color: $WHITE;
+        font-weight: bold;
+    }
+    &:hover {
+        min-height: 6rem;
+        height: auto;
+        h2 {
+            white-space: unset;
+            text-overflow: unset;
+        }
+    }
+}

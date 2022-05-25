@@ -1,0 +1,31 @@
+.sideMenuContainer {
+    position: fixed;
+    max-width: 80px;
+    min-width: 80px;
+    min-height: 100vh;
+    max-height: 100vh;
+    z-index: 9999;
+    transition: all 0.3s ease-in-out;
+    background-color: var(--white);
+    box-shadow: -0.8rem 0 1rem 1rem rgba(#000000, 0.3) !important;
+
+    &-open {
+        position: fixed;
+        z-index: 9999;
+        max-width: 240px;
+        min-height: 100vh;
+        box-shadow: -0.8rem 0 1rem 1rem rgba(#000000, 0.3) !important;
+    }
+}
+
+.ant-menu-inline .ant-menu-item:not(:last-child).exit,
+.ant-menu-vertical-left .ant-menu-item:not(:last-child).exit,
+.ant-menu-vertical-right .ant-menu-item:not(:last-child).exit,
+.ant-menu-vertical .ant-menu-item:not(:last-child).exit,
+.ant-menu-inline .ant-menu-item:last-child.exit,
+.ant-menu-vertical .ant-menu-item:last-child.exit {
+    position: absolute;
+    bottom: 3%;
+    left: 1%;
+    width: 100%;
+}

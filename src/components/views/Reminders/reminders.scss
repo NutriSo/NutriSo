@@ -1,0 +1,36 @@
+.main-container {
+    //position: relative;
+    //min-height: 500px;
+    //padding: 0 170px 32px 64px;
+    background: #fff;
+    //overflow: auto;
+    overflow-x: hidden;
+}
+
+.main-R {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.btnAg {
+    margin-left: 550px;
+    min-width: 32px;
+    padding-right: 0;
+    background: #1890ff;
+    border-color: #1890ff;
+    text-align: center;
+    border-radius: 50%;
+}
+.h2 {
+    padding: 20px;
+}
+.sc_recordatorios {
+    overflow: hidden;
+    overflow-y: auto;
+}
+.plistaR {
+    margin-top: 7px;
+}
+.card {
+    
+}

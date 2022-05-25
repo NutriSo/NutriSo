@@ -1,0 +1,128 @@
+@import '~antd/dist/antd.css';
+
+@primary-color: var(--primary);
+
+.ant-table {
+    .ant-table-thead {
+        background-color: #fafafa !important;
+        tr {
+            z-index: 1;
+        }
+        tr,
+        th {
+            height: 1rem !important;
+            background: #fafafa !important;
+        }
+    }
+
+    .table-modal .ant-table {
+        margin-top: 0.5rem;
+        background-color: var(--white);
+        .ant-table-thead {
+            tr.ant-table-row,
+            th.ant-table-cell {
+                border: 0;
+            }
+        }
+        .ant-table-tbody {
+            background-color: var(--white);
+            tr.ant-table-row,
+            td.ant-table-cell {
+                background-color: var(--white);
+                border: 0;
+                text-align: center;
+                &:hover {
+                    background: #ececec !important;
+                }
+            }
+        }
+    }
+}
+.ant-table-cell {
+    .ant-table-filter-trigger-container {
+        display: grid;
+        place-content: center;
+        .ant-dropdown-trigger {
+            display: grid;
+            place-content: center;
+        }
+    }
+}
+.ant-table-row {
+    .ant-table-cell *,
+    .ant-table-cell {
+        font-size: 1.2rem;
+    }
+}
+
+.ant-menu-inline > .ant-menu-submenu > .ant-menu-submenu-title,
+.ant-menu-vertical-left > .ant-menu-submenu > .ant-menu-submenu-title,
+.ant-menu-vertical-right > .ant-menu-submenu > .ant-menu-submenu-title,
+.ant-menu-vertical > .ant-menu-submenu > .ant-menu-submenu-title {
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    z-index: 10;
+}
+
+.ant-menu-inline,
+.ant-menu-vertical,
+.ant-menu-vertical-left {
+    border-right: none !important;
+}
+
+.ant-menu-vertical .ant-menu-submenu,
+.ant-menu-vertical-left .ant-menu-submenu,
+.ant-menu-vertical-right .ant-menu-submenu,
+.ant-menu-inline .ant-menu-submenu {
+    padding-bottom: 0;
+}
+
+.ant-form-item {
+    margin-bottom: 0;
+}
+
+.ant-table {
+    display: block;
+
+    @media screen and (max-width: 600px) {
+        &-thead {
+            display: none;
+        }
+
+        &-thead > tr,
+        &-tbody > tr {
+            th,
+            td {
+                &:first-of-type {
+                    padding-top: 1rem;
+                }
+
+                &:last-of-type {
+                    padding-bottom: 1rem;
+                }
+            }
+
+            > th,
+            > td {
+                display: block;
+                width: auto !important;
+                border: none;
+                padding: 0 1rem;
+                font-size: 1.1rem;
+
+                &:last-child {
+                    border-bottom: 1px solid #eee;
+                }
+            }
+        }
+    }
+}
+
+.ant-picker-panel-container .ant-picker-panels {
+    flex-wrap: wrap;
+}
+
+.ant-input {
+    max-height: 2.5rem !important;
+}

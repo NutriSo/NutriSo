@@ -1,0 +1,180 @@
+.main-Administracion {    
+    min-height: 100vh;
+    margin-left: 80px;
+    padding: 10px;
+    background: linear-gradient(180deg,
+            rgba(50, 138, 178, 1) 0%,
+            rgba(0, 162, 79, 1) 100%);            
+}
+
+.primerosDos {
+    display: flex;                  
+    background-color: rgba(255, 0, 0, 0);
+    flex-wrap: wrap;
+    flex-direction: row-reverse;
+}
+
+.primero {        
+    background-color:rgba(102, 102, 102, 0);   
+    border-radius: 10px;    
+    display: flex;
+    flex-grow: 1;
+    margin: 10px;    
+    padding: 10px;
+}
+
+.labels{
+    display: flex;
+    flex-direction: column;    
+}
+
+.switches{
+    display: flex;
+    flex-direction: column;    
+    justify-content: space-around;
+}
+
+.segundo {
+    background-color: rgba(214, 0, 0, 0);
+    border-radius: 10px;
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;       
+    margin: 10px;
+    padding: 10px;
+}
+
+.tercero {
+    display: block;    
+}
+
+.texto {
+    margin-top: 10px;
+    font-size: 30px;
+    font-family: 'Roboto';
+    display: inline-block;
+    color: white;
+    padding-left: 5px;
+    margin-right: 5px;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+    margin-left: 20px;
+    /* margin-bottom: 0px; */
+    margin-top: 10px;
+
+}
+
+.dataInput{    
+    margin: 2%;  
+    padding: 10px;     
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba( 255, 255, 255, 0.25 );
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 4px );
+    -webkit-backdrop-filter: blur( 4px );
+    border-radius: 10px;    
+    border: 1px solid rgba( 255, 255, 255, 0.18 );    
+}
+
+.ant-form-item-label > label{
+    color: white;
+    background-color: rgba(240, 0, 0, 0);
+    width: 100px;    
+}
+
+.form{
+    background-color: rgba(255, 0, 0, 0);
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;            
+    flex-grow: 0.5;    
+}
+
+#btnSubir{
+    width: 200px;
+}
+
+.btnera{
+    background-color: rgba(102, 51, 153, 0);
+    display: flex;
+    justify-content: center;
+}
+
+.levels{
+    display: flex;
+    
+    width: 100%;
+    background-color: rgba(255, 0, 0, 0);
+    justify-content: space-around;
+    flex-wrap: wrap;    
+}
+
+.lvl{    
+    width: 100%;
+    height: fit-content;    
+    display: flex; 
+    align-items: center;
+    justify-content: space-evenly;           
+    margin: 5px;    
+
+
+
+    background: rgba( 255, 255, 255, 0.25 );
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 4px );
+    -webkit-backdrop-filter: blur( 4px );
+    border-radius: 10px;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+}
+
+.imagenes{
+    width: 70%;
+    display: flex;  
+    height: fit-content; 
+    min-height: 100px;
+    flex-wrap: wrap;
+    flex-direction: row;
+    margin: 5px;    
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    background-color: rgba(68, 68, 68, 0.307);
+    border-radius: 10px;
+}
+
+.ant-upload-list::before {    
+}
+
+.ant-upload-list::after {
+    
+}
+
+.ant-upload-list-picture-card-container {
+    width: 100px !important;
+    height: 100px !important;
+    background-color: rgba(102, 51, 153, 0);    
+}
+
+.ant-upload-picture-card-wrapper {    
+    background-color: rgba(255, 0, 0, 0);
+    width: auto !important;    
+    margin: 5px;
+    padding: 8px 0px 0px 8px!important;
+}
+
+#titleLvl{
+    background-color: rgba(137, 43, 226, 0);
+    width: 99%;
+    font-weight: 800;
+    color: white;
+    font-size: 1.5rem;
+}

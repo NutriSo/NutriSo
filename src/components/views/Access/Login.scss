@@ -1,0 +1,82 @@
+$background: #24282f;
+$white: #ffffff;
+
+.loginContainer {
+    min-width: 100vw;
+    min-height: 100vh;
+    background: linear-gradient(to bottom, rgb(105, 105, 150), rgb(120, 248, 255), rgb(220, 255, 255));
+    display: flex;
+    flex-direction: column !important;
+    justify-content: center;
+    align-items: center;
+    color: $white;
+    padding: 20px;
+
+    .form {
+        width: 35vw;
+        min-width: 19rem;
+        height: fit-content;
+        padding: 10%;
+        background: rgba(255, 255, 255, 0.626);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        border-radius: 30px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        align-items: center;
+        display: flex;
+        flex-direction: column !important;
+        color: $white !important;
+        &__item {
+            width: 100% !important;
+            display: flex;
+            flex-direction: column !important;
+            justify-content: flex-start !important;
+        }
+    }
+
+    .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+        color: #000000;
+    }
+    .ant-tabs-ink-bar {
+        background-color: #000000;
+    }
+
+    .ant-form-item-label > label {
+        color: #000000 !important;
+    }
+
+    .ant-btn-primary {
+        background-color: green;
+        border-radius: 30px;
+        width: 15vw;
+        min-width: 10rem;
+        height: 5vh;
+    }
+
+    .logoDietaso {
+        background-color: rgba(102, 51, 153, 0);
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 4rem;
+        color: black;
+        overflow: hidden;
+    }
+
+    .logoDietaso p {
+        margin: 0px;
+    }
+
+    .logoDietaso #title {
+        border-bottom: solid green 4px;
+        background-color: rgba(0, 0, 255, 0);
+    }
+    #sub {
+        background-color: rgba(255, 0, 0, 0);
+        margin-top: 1em;
+        font-size: 2rem;
+        font-weight: 600;
+    }
+}

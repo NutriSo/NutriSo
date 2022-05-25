@@ -1,0 +1,32 @@
+$PRIMARY_COLOR: #439776;
+$SECONDARY_COLOR: #328ab2;
+$TERTIARY_COLOR: #5dccaf;
+$FOURTH_COLOR: #4ebdd0;
+$AUXILIAR_COLOR: #c1cf3a;
+$OPTIONAL_COLOR: #4bb5c3;
+$OPTIONAL2_COLOR: #8ab832;
+
+$WHITE: #ffffff;
+$BLACK: #000000;
+
+$FRUTAS_COLOR: #ff7a00;
+$VERDURAS_COLOR: #00a24f;
+$CARNE_COLOR: #e01400;
+$LEGUMINOSAS_COLOR: #ff2088;
+$CEREALES_COLOR: #cd8d00;
+$LACTEOS_COLOR: #00a2fb;
+
+:export {
+    primary: $PRIMARY_COLOR;
+    secondary: $SECONDARY_COLOR;
+    tertiary: $TERTIARY_COLOR;
+    fourth: $FOURTH_COLOR;
+    optional1: $OPTIONAL_COLOR;
+    optional2: $OPTIONAL2_COLOR;
+    frutas: $FRUTAS_COLOR;
+    verduras: $VERDURAS_COLOR;
+    carne: $CARNE_COLOR;
+    leguminosas: $LEGUMINOSAS_COLOR;
+    cereales: $CEREALES_COLOR;
+    lacteos: $LACTEOS_COLOR;
+}

@@ -1,0 +1,77 @@
+@import '../../../styles//variables.scss';
+
+.main-Recetas {
+    width: auto;
+    height: auto;
+    min-height: 100vh;
+    overflow-x: hidden;
+    padding: 0 1rem 0;
+    background: linear-gradient(180deg, rgba(50, 138, 178, 1) 0%, rgba(0, 162, 79, 1) 100%);
+
+    & h1,
+    h2,
+    div {
+        color: $WHITE !important;
+        font-size: 17px;
+    }
+    h1 {
+        font-size: 40px;
+    }
+    h2 {
+        font-size: 25px;
+    }
+
+    .grid_recetas {
+        display: flex;
+        flex-direction: column;
+        row-gap: 1rem;
+        flex-wrap: wrap;
+
+        & .items {
+            height: auto;
+            width: 100%;
+            & .ant-card {
+                background: rgba(255, 255, 255, 0.2);
+                border-radius: 16px;
+                box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+                backdrop-filter: blur(5px);
+                -webkit-backdrop-filter: blur(5px);
+                border: 1px solid rgba(255, 255, 255, 0.3);
+            }
+        }
+
+        .sc_receta_destacada {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(200px, 0.5fr));
+            grid-template-rows: min-content;
+            row-gap: 1rem;
+            column-gap: 2rem;
+        }
+        button {
+            margin-right: 15px;
+        }
+        .video {
+            text-align: center;
+        }
+        iframe {
+            height: 200px;
+            width: 400px;
+        }
+        .sc_receta_desayuno,
+        .sc_receta_colacion1,
+        .sc_receta_comida,
+        .sc_receta_colacion2,
+        .sc_receta_cena {
+            display: grid;
+            grid-template-columns: 50% 50%;
+            row-gap: 1rem;
+            column-gap: 2rem;
+        }
+        .tituloR {
+            border-bottom: 1px solid $WHITE;
+        }
+        .separadorR {
+            padding-top: 15px;
+        }
+    }
+}
