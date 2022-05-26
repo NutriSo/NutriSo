@@ -1,6 +1,7 @@
 [![npm](https://img.shields.io/badge/npm-v6.14.8-lightgrey.svg)](https://www.npmjs.com/)
 [![NodeJs](https://img.shields.io/badge/NodeJs-v14.15.1-green.svg)](https://nodejs.org/dist/v14.15.1/docs/api/)
 <p align="center">
+  <img src="https://res.cloudinary.com/dwjv6orjf/image/upload/v1650242782/tgjxryqqdcchxe3xq6n2.png" alt="Logo" width="200" height="180">
   <h1 align="center">NutriSó Web</h1>
 </p>
 
