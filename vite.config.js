@@ -6,6 +6,7 @@ export default defineConfig(({ command, mode }) => {
     console.log('Comand: ', command, '\nMode: ', mode);
     if (mode === 'production') {
         return {
+            base: './',
             plugins: [react()],
             resolve: {
                 browser: true,
@@ -25,9 +26,6 @@ export default defineConfig(({ command, mode }) => {
         plugins: [react()],
         server: {
             host: true,
-        },
-        define: {
-            'process.env': {},
         },
     };
 });
