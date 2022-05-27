@@ -3,54 +3,77 @@
     padding: 0px;
 }
 
+.addFood {
+    position: relative;
+    margin-top: 10px;
+    left: 0;
+    background-color: rgba(102, 51, 153, 0);
+    width: 100%;
+}
+
 .container {
     width: 100%;
     height: 100vh;
     display: flex;
     flex-direction: row;
     background-color: white;
+    justify-content: center;
 }
 
 .food {
     display: flex;
     flex-direction: column;
     margin-left: 1%;
-    width: 45%;
-    max-height: 100%;
+    width: 80%;
+    //min-height: 80vh;
+    max-height: 150vh;
     align-items: center;
     justify-content: center;
 
     & .exportButton {
-        position: absolute;
-        top: 85%;
-        left: 55%;
+        position: relative;
+        margin-top: 10px;
+        left: 0;
+        width: 100%;
+        background-color: rgba(102, 51, 153, 0);
     }
 }
 
 .search {
     display: flex;
-    height: 20%;
-    margin-bottom: 10px;
+    height: 5%;
+    margin: 3%;
+    //margin-bottom: 10px;
+    //margin-top: 10px;
+    //max-height: 5%;
     width: 60%;
     align-items: center;
 }
 
+#search_valor {
+    width: 100%;
+    padding-left: 2%;
+    height: 100%;
+    min-height: 30px;
+    max-height: 30px;
+    border-radius: 10px;
+}
+
 .grid_container {
-    max-height: 600px;
+    border-radius: 10px;
     width: 100%;
     margin-bottom: 4%;
     overflow: hidden;
     overflow-y: scroll;
+    box-shadow: 0px 0px 30px #909497;
 }
 
 .grid_food {
-    height: 100%;
     width: 100%;
-    display: grid;
-    justify-items: center;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 0.5fr));
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     box-shadow: 0px 0px 30px #909497;
-    border-radius: 10px;
     gap: 1rem;
 }
 
@@ -73,7 +96,7 @@
 }
 
 .icons {
-    width: 40%;
+    width: 60%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -81,29 +104,24 @@
 
 .img_food {
     width: 100%;
-    height: 40%;    
+    margin-bottom: 5%;
+    height: 40%;
     text-align: center;
-    display: flex;    
+    display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;        
+    justify-content: center;
 
     & .ant-upload-list-picture-card-container {
         width: 80% !important;
-        height: auto;        
+        height: auto;
     }
 }
 
 #icons-icons {
     display: flex;
-    gap: 20px;
-}
-
-#search_valor {
-    width: 100%;
-    padding-left: 2%;
-    height: 30%;
-    border-radius: 10px;
+    width: fit-content;
+    column-gap: 10px;
 }
 
 .img-alimento {
@@ -115,8 +133,8 @@
 
 .icon_healty {
     width: 90%;
-    margin-top: 5%;
-    height: 10%;
+    margin-top: 0%;
+    //    height: 10%;
     display: flex;
     flex-direction: column;
 }
@@ -124,7 +142,7 @@
 .icon_enviroment {
     width: 90%;
     margin-top: 5%;
-    height: 10%;
+    //height: 10%;
     display: flex;
     flex-direction: column;
 }
@@ -132,7 +150,7 @@
 .icon_economy {
     width: 90%;
     margin-top: 5%;
-    height: 10%;
+    //height: 10%;
     display: flex;
     flex-direction: column;
 }
@@ -140,13 +158,14 @@
 .icon_culture_society {
     width: 90%;
     margin-top: 5%;
-    height: 10%;
+    //height: 10%;
     display: flex;
     flex-direction: column;
 }
 
 .props {
     width: 50%;
+    max-height: 180vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -249,26 +268,35 @@ input:invalid:required {
     width: 80%;
 }
 
-
-/*
-    CREO QUE YA NO SON NECESARIO PORQUE YA NO ESTÁN ESTOS CONTENEDORES
-
-#img-container {
-    border-radius: 10px;
-    width: 300px;
-    height: 300px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+@media screen and (max-width: 1400px) {
+    .search {
+        margin-top: 8%;
+        margin-bottom: 8%;
+    }
+    .food {
+        flex-grow: 0.4;
+    }
+    .icons {
+        flex-grow: 0.4;
+        margin: 5%;
+        text-align: right;
+    }
+    .props {
+        flex-grow: 1;
+    }
+    .icon_healty {
+        align-items: flex-end;
+    }
+    .icon_enviroment {
+        align-items: flex-end;
+    }
+    .icon_economy {
+        align-items: flex-end;
+    }
+    .icon_culture_society {
+        align-items: flex-end;
+    }
+    .container {
+        flex-wrap: wrap;
+    }
 }
-
-#img-container-hidden {
-    border-radius: 10px;
-    width: 300px;
-    height: 300px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    visibility: hidden;
-}
-*/

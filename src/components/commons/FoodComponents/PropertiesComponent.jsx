@@ -31,25 +31,20 @@ const PropertiesComponent = ({
             document.getElementById('pName').value = item?.nombreAlimento;
             document.getElementById('pSku').value = item?.sku;
             document.getElementById('pGroupE').value = item?.grupoExportable;
-            document.getElementById('pSubGroupE').value =
-                item?.subGrupoExportable;
-            document.getElementById('pClasE').value =
-                item?.clasificacionExportable;
+            document.getElementById('pSubGroupE').value = item?.subGrupoExportable;
+            document.getElementById('pClasE').value = item?.clasificacionExportable;
             document.getElementById('pGroupAli').value = item?.grupoAlimento;
 
             /**  MENSAJES  */
-            document.getElementById('mNutri').value =
-                item?.mensaje?.nutricional;
+            document.getElementById('mNutri').value = item?.mensaje?.nutricional;
             document.getElementById('mAmbien').value = item?.mensaje?.ambiental;
-            document.getElementById('mEcono').value =
-                item?.mensaje?.mensajeEconomia;
+            document.getElementById('mEcono').value = item?.mensaje?.mensajeEconomia;
             document.getElementById('mCult_Soci').value =
                 item?.mensaje?.mensajeCulturaSociedad;
             /**  CANTIDADES  */
             document.getElementById('sugerida').value =
                 item?.cantidadAlimento?.cantidadSugerida;
-            document.getElementById('unidad').value =
-                item?.cantidadAlimento?.unidad;
+            document.getElementById('unidad').value = item?.cantidadAlimento?.unidad;
             document.getElementById('pesoneto').value =
                 item?.cantidadAlimento?.pesoNeto + ' (g)';
             /**  MACRONUTRIENTES  */
@@ -86,43 +81,31 @@ const PropertiesComponent = ({
             document.getElementById('etanol').value =
                 item?.caloriasMacronutrientes?.etanol + ' (g)';
             /**  VITAMINAS  */
-            document.getElementById('tiamina').value =
-                item?.vitaminas?.tiamina + ' (mg)';
+            document.getElementById('tiamina').value = item?.vitaminas?.tiamina + ' (mg)';
             document.getElementById('riboflavin').value =
                 item?.vitaminas?.riboflavin + ' (mg)';
-            document.getElementById('niacina').value =
-                item?.vitaminas?.niacina + ' (mg)';
+            document.getElementById('niacina').value = item?.vitaminas?.niacina + ' (mg)';
             document.getElementById('acidopantotenico').value =
                 item?.vitaminas?.acidoPantotenico + ' (mg)';
             document.getElementById('piridoxina').value =
                 item?.vitaminas?.piridoxina + ' (mg)';
-            document.getElementById('biotina').value =
-                item?.vitaminas?.biotina + ' (mg)';
-            document.getElementById('cobalmina').value =
-                item?.vitaminas?.cobalmina + ' (mg)';
+            document.getElementById('biotina').value = item?.vitaminas?.biotina + ' (mg)';
+            document.getElementById('cobalmina').value = item?.vitaminas?.cobalmina + ' (mg)';
             document.getElementById('acidoascorbico').value =
                 item?.vitaminas?.acidoAscorbico + ' (mg)';
             document.getElementById('acidofolico').value =
                 item?.vitaminas?.acidoFolico + ' (mg)';
-            document.getElementById('vitaminaA').value =
-                item?.vitaminas?.vitaminaA;
-            document.getElementById('vitaminaD').value =
-                item?.vitaminas?.vitaminaD;
-            document.getElementById('vitaminaK').value =
-                item?.vitaminas?.vitaminaK;
-            document.getElementById('vitaminaE').value =
-                item?.vitaminas?.vitaminaE;
+            document.getElementById('vitaminaA').value = item?.vitaminas?.vitaminaA;
+            document.getElementById('vitaminaD').value = item?.vitaminas?.vitaminaD;
+            document.getElementById('vitaminaK').value = item?.vitaminas?.vitaminaK;
+            document.getElementById('vitaminaE').value = item?.vitaminas?.vitaminaE;
             /**  MINERALES  */
             document.getElementById('calcio').value = item?.minerales?.calcio;
-            document.getElementById('fosforo1').value =
-                item?.minerales?.fosforo;
+            document.getElementById('fosforo1').value = item?.minerales?.fosforo;
             document.getElementById('hierro').value = item?.minerales?.hierro;
-            document.getElementById('hierronohem').value =
-                item?.minerales?.hierroNoHem;
-            document.getElementById('hierrototal').value =
-                item?.minerales?.hierroTotal;
-            document.getElementById('magnesio').value =
-                item?.minerales?.magnesio;
+            document.getElementById('hierronohem').value = item?.minerales?.hierroNoHem;
+            document.getElementById('hierrototal').value = item?.minerales?.hierroTotal;
+            document.getElementById('magnesio').value = item?.minerales?.magnesio;
             document.getElementById('sodio').value = item?.minerales?.sodio;
             document.getElementById('potasio').value = item?.minerales?.potasio;
             document.getElementById('zinc').value = item?.minerales?.zinc;
@@ -135,10 +118,8 @@ const PropertiesComponent = ({
             /**  ASPECTO MEDIOAMBIENTAL  */
             document.getElementById('fchh').value =
                 item?.aspectoMedioambiental?.factorDeCorreccionParaHuellaHidricaYEGEI;
-            document.getElementById('tipo').value =
-                item?.aspectoMedioambiental?.tipo;
-            document.getElementById('lugar').value =
-                item?.aspectoMedioambiental?.lugar;
+            document.getElementById('tipo').value = item?.aspectoMedioambiental?.tipo;
+            document.getElementById('lugar').value = item?.aspectoMedioambiental?.lugar;
             document.getElementById('hht').value =
                 item?.aspectoMedioambiental?.huellaHidricaTotal;
             document.getElementById('hhv').value =
@@ -153,8 +134,7 @@ const PropertiesComponent = ({
                 item?.aspectoMedioambiental?.aguaParaCoccion;
             document.getElementById('lugaregei').value =
                 item?.aspectoMedioambiental?.lugarEGEI;
-            document.getElementById('citaegei').value =
-                item?.aspectoMedioambiental?.citaEGEI;
+            document.getElementById('citaegei').value = item?.aspectoMedioambiental?.citaEGEI;
             document.getElementById('hcarbono').value =
                 item?.aspectoMedioambiental?.huellaCarbono;
             document.getElementById('hecologica').value =
@@ -165,13 +145,11 @@ const PropertiesComponent = ({
                 item?.aspectoMedioambiental?.usoDeSuelo;
             document.getElementById('nitrogeno').value =
                 item?.aspectoMedioambiental?.nitrogeno;
-            document.getElementById('fosforo2').value =
-                item?.aspectoMedioambiental?.fosforo;
+            document.getElementById('fosforo2').value = item?.aspectoMedioambiental?.fosforo;
             document.getElementById('puntajeecologico').value =
                 item?.aspectoMedioambiental?.puntajeEcologico;
             /**  ASPECTO ECONÓMICO  */
-            document.getElementById('precio').value =
-                item?.aspectoEconomico?.precio;
+            document.getElementById('precio').value = item?.aspectoEconomico?.precio;
             document.getElementById('lugarcompra').value =
                 item?.aspectoEconomico?.lugarDeCompra;
             document.getElementById('lugarventa').value =
@@ -183,8 +161,7 @@ const PropertiesComponent = ({
                 item?.componentesBioactivos?.polifenoles;
             document.getElementById('antocianinas').value =
                 item?.componentesBioactivos?.antocianinas;
-            document.getElementById('taninos').value =
-                item?.componentesBioactivos?.taninos;
+            document.getElementById('taninos').value = item?.componentesBioactivos?.taninos;
             document.getElementById('isoflavonas').value =
                 item?.componentesBioactivos?.isoflavonas;
             document.getElementById('reserveratrol').value =
@@ -195,16 +172,11 @@ const PropertiesComponent = ({
                 item?.componentesBioactivos?.caretenoides;
             document.getElementById('betacarotenos').value =
                 item?.componentesBioactivos?.betacarotenos;
-            document.getElementById('licopeno').value =
-                item?.componentesBioactivos?.licopeno;
-            document.getElementById('luteina').value =
-                item?.componentesBioactivos?.luteina;
-            document.getElementById('alicina').value =
-                item?.componentesBioactivos?.alicina;
-            document.getElementById('cafeina').value =
-                item?.componentesBioactivos?.cafeina;
-            document.getElementById('ufc').value =
-                item?.componentesBioactivos?.UFC;
+            document.getElementById('licopeno').value = item?.componentesBioactivos?.licopeno;
+            document.getElementById('luteina').value = item?.componentesBioactivos?.luteina;
+            document.getElementById('alicina').value = item?.componentesBioactivos?.alicina;
+            document.getElementById('cafeina').value = item?.componentesBioactivos?.cafeina;
+            document.getElementById('ufc').value = item?.componentesBioactivos?.UFC;
             /**  ADITIVOS ALIMENTARIOS  */
             document.getElementById('benzoatodesodio').value =
                 item?.aditivosAlimentarios?.benzoatoDeSodio;
@@ -218,16 +190,13 @@ const PropertiesComponent = ({
                 item?.aditivosAlimentarios?.amarilloOcasoFDFoE110;
             document.getElementById('tartrazina').value =
                 item?.aditivosAlimentarios?.tartrazinaOE102;
-            document.getElementById('e142').value =
-                item?.aditivosAlimentarios?.verdeSoE142;
+            document.getElementById('e142').value = item?.aditivosAlimentarios?.verdeSoE142;
             document.getElementById('bn').value =
                 item?.aditivosAlimentarios?.negroBrillanteBNoE151;
             document.getElementById('sucralosa').value =
                 item?.aditivosAlimentarios?.sucralosa;
-            document.getElementById('stevia').value =
-                item?.aditivosAlimentarios?.estevia;
-            document.getElementById('sacarina').value =
-                item?.aditivosAlimentarios?.sacarina;
+            document.getElementById('stevia').value = item?.aditivosAlimentarios?.estevia;
+            document.getElementById('sacarina').value = item?.aditivosAlimentarios?.sacarina;
             document.getElementById('aspartame').value =
                 item?.aditivosAlimentarios?.aspartame;
             document.getElementById('acesulfame').value =
@@ -264,11 +233,11 @@ const PropertiesComponent = ({
                     {/** DEFINE EL FORMULARIO DONDE APARECERÁN TODAS LAS PROPIEDADES DE LOS ALIMENTOS */}
                     <Props />
                 </div>
-                <div id='save'>
+                {/*<div id='save'>
                     <Button id='save' onClick={() => getData()} type='primary'>
                         <strong>Guardar</strong>
                     </Button>
-                </div>
+                </div>*/}
                 <div className='preparaciones'>
                     <div className='tags'>
                         <Tags borrar={borrar} itm={item?.opcionesPreparacion} />
@@ -288,9 +257,7 @@ const PropertiesComponent = ({
                 onOk={() => handleOk(nuevaOpcion)}
                 onCancel={handleCancel}>
                 <p id='sub'>Tip de preparación</p>
-                <input
-                    onChange={({ target }) => setNuevaOpcion(target.value)}
-                />
+                <input onChange={({ target }) => setNuevaOpcion(target.value)} />
             </Modal>
         </>
     );

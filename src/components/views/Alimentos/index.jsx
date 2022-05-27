@@ -233,8 +233,7 @@ const Alimentos = () => {
     const borrar = (value) => {
         try {
             const borrado = data2.opcionesPreparacion.filter(
-                (opcion) =>
-                    opcion.toLowerCase().trim() !== value.toLowerCase().trim()
+                (opcion) => opcion.toLowerCase().trim() !== value.toLowerCase().trim()
             );
             console.log(borrado);
             setData({
@@ -547,7 +546,7 @@ const Alimentos = () => {
 
     return (
         <div className='container'>
-            <div style={{ position: 'absolute' }}>
+            <div className='addFood'>
                 <AddFood />
             </div>
             <Consulta onClick={(item) => fetchData(item)} />
