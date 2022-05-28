@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card } from 'antd';
 import YouTube from '@u-wave/react-youtube';
-
 import UploadImgs from '../../commons/UploadImgs';
 import HeaderTitle from './components/Header';
 import { getUrlsID } from '../../../utils';
@@ -30,9 +29,11 @@ const RecipesCard = ({ recipe, onEdit, onDelete, onUploadImg }) => {
 
     return (
         <Card title={<HeaderTitle recipe={recipe} onEdit={onEdit} onDelete={onDelete} />}>
-            <UploadImgs disabled={onUploadImgDisabled} onChange={onUpload} url={recipePhotoUrl} />
+            
             <div>
+                
                 <YouTube video={getUrlsID(recipe.url)} autoplay={false} />
+                <UploadImgs disabled={onUploadImgDisabled} onChange={onUpload} url={recipePhotoUrl} />
             </div>
             <div>{`${isStar(recipe.destacado)}`}</div>
             <div>{description}</div>

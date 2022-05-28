@@ -159,8 +159,9 @@
 }
 
 .ant-upload-list-picture-card-container {
-    width: 100px !important;
-    height: 100px !important;
+    display: flex !important;
+    width: 200px !important;
+    height: 200px !important;
     background-color: rgba(102, 51, 153, 0);    
 }
 
