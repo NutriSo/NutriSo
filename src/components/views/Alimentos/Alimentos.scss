@@ -101,7 +101,7 @@
 .img_food {
     width: 100%;
     margin-bottom: 5%;
-    height: 40%;
+    height: 21.25rem;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -127,36 +127,31 @@
     cursor: pointer;
 }
 
-.icon_healty {
-    width: 90%;
-    margin-top: 0%;
-    //    height: 10%;
+.iconsSection {
+    width: 100%;
     display: flex;
     flex-direction: column;
+    align-items: center;
+}
+
+.icon_healty {
+    margin-top: 0%;
+    @extend .iconsSection;
 }
 
 .icon_enviroment {
-    width: 90%;
     margin-top: 5%;
-    //height: 10%;
-    display: flex;
-    flex-direction: column;
+    @extend .iconsSection;
 }
 
 .icon_economy {
-    width: 90%;
     margin-top: 5%;
-    //height: 10%;
-    display: flex;
-    flex-direction: column;
+    @extend .iconsSection;
 }
 
 .icon_culture_society {
-    width: 90%;
     margin-top: 5%;
-    //height: 10%;
-    display: flex;
-    flex-direction: column;
+    @extend .iconsSection;
 }
 
 .props {
@@ -279,18 +274,6 @@ input:invalid:required {
     }
     .props {
         flex-grow: 1;
-    }
-    .icon_healty {
-        align-items: flex-end;
-    }
-    .icon_enviroment {
-        align-items: flex-end;
-    }
-    .icon_economy {
-        align-items: flex-end;
-    }
-    .icon_culture_society {
-        align-items: flex-end;
     }
     .container {
         flex-wrap: wrap;

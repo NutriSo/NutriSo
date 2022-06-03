@@ -19,7 +19,7 @@ const PropertiesComponent = ({
     const [nuevaOpcion, setNuevaOpcion] = useState('');
 
     useEffect(() => {
-        establecerValores();
+        // establecerValores();
         return () => {};
     }, [item]);
 
