@@ -6,7 +6,10 @@ import { message, Button } from 'antd';
 import dayjs from 'dayjs';
 
 import ButtonsArea from '../ButtonsArea';
+import AddFood from '../../views/addfood/AddFoodModal/AddFoodModal';
 import { returnArrayToString } from '../../../utils';
+
+import styles from './Consulta.module.scss';
 
 const Consulta = ({ onClick }) => {
     const [data, setData] = useState([]);
@@ -72,13 +75,17 @@ const Consulta = ({ onClick }) => {
     };
 
     const onSearch = ({ target }) => {
-        setFilterData(data.filter((alimento) => alimento.nombreAlimento.includes(target.value)));
+        setFilterData(
+            data.filter((alimento) => alimento.nombreAlimento.includes(target.value))
+        );
     };
 
     const getExportData = async () => {
         try {
             console.log('getExportData');
-            const foodArrayInfo = await Promise.all(data.map(async (food) => await getFoodData(food.id)));
+            const foodArrayInfo = await Promise.all(
+                data.map(async (food) => await getFoodData(food.id))
+            );
 
             foodArrayInfo.forEach((food, foodIndex) => {
                 const newData = {
@@ -180,20 +187,30 @@ const Consulta = ({ onClick }) => {
                     ufc: Number(food.componentesBioactivos.UFC),
                     benzoatoDeSodio: Number(food.aditivosAlimentarios.benzoatoDeSodio),
                     polisorbato: Number(food.aditivosAlimentarios.polisorbato),
-                    azulBrillanteFCFoE133: Number(food.aditivosAlimentarios.azulBrillanteFCFoE133),
+                    azulBrillanteFCFoE133: Number(
+                        food.aditivosAlimentarios.azulBrillanteFCFoE133
+                    ),
                     azurrubinaOE102: Number(food.aditivosAlimentarios.azurrubinaOE102),
-                    amarilloOcasoFDFoE110: Number(food.aditivosAlimentarios.amarilloOcasoFDFoE110),
+                    amarilloOcasoFDFoE110: Number(
+                        food.aditivosAlimentarios.amarilloOcasoFDFoE110
+                    ),
                     tartrazinaOE102: Number(food.aditivosAlimentarios.tartrazinaOE102),
                     verdeSoE142: Number(food.aditivosAlimentarios.verdeSoE142),
-                    negroBrillanteBNoE151: Number(food.aditivosAlimentarios.negroBrillanteBNoE151),
+                    negroBrillanteBNoE151: Number(
+                        food.aditivosAlimentarios.negroBrillanteBNoE151
+                    ),
                     sucralosa: Number(food.aditivosAlimentarios.sucralosa),
                     estevia: Number(food.aditivosAlimentarios.estevia),
                     sacarina: Number(food.aditivosAlimentarios.sacarina),
                     aspartame: Number(food.aditivosAlimentarios.aspartame),
                     acesulfameK: Number(food.aditivosAlimentarios.acesulfameK),
-                    carboxymethylcellulose: Number(food.aditivosAlimentarios.carboxymethylcellulose),
+                    carboxymethylcellulose: Number(
+                        food.aditivosAlimentarios.carboxymethylcellulose
+                    ),
                     dioxidoDeTitanio: Number(food.aditivosAlimentarios.dioxidoDeTitanio),
-                    monolauratoDeGlicerol: Number(food.aditivosAlimentarios.monolauratoDeGlicerol),
+                    monolauratoDeGlicerol: Number(
+                        food.aditivosAlimentarios.monolauratoDeGlicerol
+                    ),
                 };
 
                 setExportedData((prevState) => [...prevState, newData]);
@@ -240,18 +257,23 @@ const Consulta = ({ onClick }) => {
 
     return (
         <div className='food'>
-            <div className='exportButton'>
-                <Button onClick={handleButton}>Exportar archivo</Button>
-                <div style={{ display: 'none' }}>
-                    <ButtonsArea
-                        fileReady={fileReady}
-                        xlsxData={{
-                            columns: columns,
-                            data: exportedData,
-                            fileName: `Alimentos ${dayjs(new Date()).format('DD-MM-YYYY')}`,
-                        }}
-                    />
+            <div className={styles.buttonsContainer}>
+                <div className='exportButton'>
+                    <Button onClick={handleButton}>Exportar archivo</Button>
+                    <div style={{ display: 'none' }}>
+                        <ButtonsArea
+                            fileReady={fileReady}
+                            xlsxData={{
+                                columns: columns,
+                                data: exportedData,
+                                fileName: `Alimentos ${dayjs(new Date()).format(
+                                    'DD-MM-YYYY'
+                                )}`,
+                            }}
+                        />
+                    </div>
                 </div>
+                <AddFood />
             </div>
             <div className='search'>
                 <input id='search_valor' onChange={onSearch} placeholder='Busqueda rápida' />

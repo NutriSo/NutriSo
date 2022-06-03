@@ -1,0 +1,14 @@
+@import '../../../../styles/variables.scss';
+
+.addFoodFormContainer {
+    position: relative;
+}
+
+.formItem {
+    color: $BLACK;
+    font-weight: 500;
+}
+
+.selectItem {
+    width: 13rem !important;
+}
