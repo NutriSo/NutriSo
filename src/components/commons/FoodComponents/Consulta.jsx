@@ -45,7 +45,7 @@ const Consulta = ({ onClick }) => {
         }
     }, [isLoading]);
 
-    const hasMoreItems = !!page;
+    const hasMoreItems = page < 17;
 
     useEffect(() => {
         fetchData();
