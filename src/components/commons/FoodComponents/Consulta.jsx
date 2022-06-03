@@ -22,7 +22,7 @@ const Consulta = ({ onClick }) => {
     const scrollRef = useRef();
 
     const fetchItems = useCallback(async () => {
-        if (isLoading) {
+        if (isLoading || page > 17) {
             return;
         }
         setIsLoading(true);
