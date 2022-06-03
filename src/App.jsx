@@ -5,6 +5,7 @@ import { Redirect } from 'react-router-dom';
 
 import './styles/App.scss';
 import 'antd/dist/antd.css';
+import './styles/antd.less';
 
 require('dotenv').config();
 
