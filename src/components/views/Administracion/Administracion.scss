@@ -146,15 +146,9 @@
     border-radius: 10px;
 }
 
-.ant-upload-list::before {
-}
-
-.ant-upload-list::after {
-}
-
 .ant-upload-list-picture-card-container {
-    width: 100px !important;
-    height: 100px !important;
+    // width: 100px !important;
+    // height: 100px !important;
     background-color: rgba(102, 51, 153, 0);
 }
 
@@ -171,4 +165,9 @@
     font-weight: 800;
     color: white;
     font-size: 1.5rem;
+}
+
+.ant-upload-list-picture .ant-upload-list-item-info,
+.ant-upload-list-picture-card .ant-upload-list-item-info::before {
+    left: 0;
 }
