@@ -1,6 +1,8 @@
 import { Form, Input, Button, Checkbox } from 'antd';
 import { max } from 'moment';
 
+import { getSku } from '../../../services';
+
 const Props = () => {
     let auxOutSugerida = 0; // VARIABLE DE SALIDA AUXILIAR (ESTA SI SALE)
     let auxOutFCHH = 0; // VARIABLE DE SALIDA AUXILIAR (ESTA SI SALE)
@@ -86,19 +88,10 @@ const Props = () => {
         <>
             <Form
                 id='propsform'
+                layout='vertical'
                 name='basic'
-                labelCol={{
-                    span: 10,
-                }}
-                wrapperCol={{
-                    span: 0,
-                }}
-                initialValues={{
-                    remember: true,
-                }}
                 onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
-                autoComplete='off'>
+                onFinishFailed={onFinishFailed}>
                 <Form.Item
                     label='Nombre'
                     name='pName'
@@ -113,6 +106,11 @@ const Props = () => {
                 <Form.Item
                     label='SKU'
                     name='pSku'
+                    getValueFromEvent={(event) => {
+                        console.log('Evento ->', event);
+                        console.log('getSku ->', getSku());
+                        return getSku(event);
+                    }}
                     rules={[
                         {
                             required: false,
