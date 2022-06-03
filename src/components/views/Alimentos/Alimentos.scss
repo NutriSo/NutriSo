@@ -100,8 +100,9 @@
 
 .img_food {
     width: 100%;
-    margin-bottom: 5%;
     height: 21.25rem;
+    overflow: hidden;
+    margin-bottom: 5%;
     text-align: center;
     display: flex;
     flex-direction: column;
