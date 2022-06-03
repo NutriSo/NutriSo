@@ -1,81 +1,9 @@
-import { Form, Input, Button, Checkbox } from 'antd';
-import { max } from 'moment';
+import { Form, Input, Button } from 'antd';
 
+import { Rules } from '../../../utils/formRules';
 import { getSku } from '../../../services';
 
-const Props = () => {
-    let auxOutSugerida = 0; // VARIABLE DE SALIDA AUXILIAR (ESTA SI SALE)
-    let auxOutFCHH = 0; // VARIABLE DE SALIDA AUXILIAR (ESTA SI SALE)
-    let auxOutPrecio = 0; // VARIABLE DE SALIDA AUXILIAR (ESTA SI SALE)
-    let auxOutPunEcologico = 0; // VARIABLE DE SALIDA AUXILIAR (ESTA SI SALE)
-    //let auxOut = 0
-    function validaNumericos(event, campo) {
-        let out; // SERÁ LA VARIABLE DE SALIDA (ESTA NO SALE)
-        switch (
-            campo // OBTENGO EL VALOR DE CADA CAMPO
-        ) {
-            case 'sugerida':
-                out = document.getElementById('sugerida').value;
-                break;
-            case 'fchh':
-                out = document.getElementById('fchh').value;
-                break;
-            case 'precio':
-                out = document.getElementById('precio').value;
-                break;
-            case 'punEcologico':
-                out = document.getElementById('puntajeecologico').value;
-        }
-
-        console.log('Out ->', out);
-        console.log('Evento ->', event);
-        console.log('Campo ->', campo);
-        //console.log('AuxOut ->',auxOut)
-        console.log('KeyCode ->', event.keyCode);
-
-        /*
-            keyCode -> 48 = 0
-            keyCode -> 57 = 9
-            keyCode -> 8  = retroceso
-            keyCode -> 190 = Punto
-            keyCode -> 188 = Coma
-        */
-        if (
-            (event.keyCode >= 48 && event.keyCode <= 57) ||
-            event.keyCode === 8 ||
-            event.keyCode === 190 ||
-            event.keyCode === 188
-        ) {
-            switch (campo) {
-                case 'sugerida':
-                    auxOutSugerida = out;
-                    break;
-                case 'fchh':
-                    auxOutFCHH = out;
-                    break;
-                case 'precio':
-                    auxOutPrecio = out;
-                    break;
-                case 'punEcologico':
-                    auxOutPunEcologico = out;
-            }
-        } else {
-            switch (campo) {
-                case 'sugerida':
-                    document.getElementById('sugerida').value = auxOutSugerida;
-                    break;
-                case 'fchh':
-                    document.getElementById('fchh').value = auxOutFCHH;
-                    break;
-                case 'precio':
-                    document.getElementById('precio').value = auxOutPrecio;
-                    break;
-                case 'punEcologico':
-                    document.getElementById('puntajeecologico').value = auxOutPunEcologico;
-            }
-        }
-    }
-
+const Props = ({ dataSource }) => {
     const onFinish = (values) => {
         console.log('Success:', values);
     };
@@ -83,84 +11,59 @@ const Props = () => {
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
-
+    console.log(dataSource);
     return (
         <>
             <Form
-                id='propsform'
                 layout='vertical'
                 name='basic'
                 onFinish={onFinish}
-                onFinishFailed={onFinishFailed}>
-                <Form.Item
-                    label='Nombre'
-                    name='pName'
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                onFinishFailed={onFinishFailed}
+                fields={[
+                    {
+                        name: 'pName',
+                        value: dataSource?.nombreAlimento,
+                    },
+                    {
+                        name: 'pSku',
+                        value: dataSource?.sku,
+                    },
+                    {
+                        name: 'pGroupE',
+                        value: dataSource?.grupoExportable,
+                    },
+                    {
+                        name: 'pSubGroupE',
+                        value: dataSource?.subGrupoExportable,
+                    },
+                    {
+                        name: 'pClasE',
+                        value: dataSource?.clasificacionExportable,
+                    },
+                    {
+                        name: 'pGroupAli',
+                        value: dataSource?.grupoAlimento,
+                    },
+                ]}>
+                <Form.Item label='Nombre' name='pName' rules={[Rules.basicSpanish]}>
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label='SKU'
-                    name='pSku'
-                    getValueFromEvent={(event) => {
-                        console.log('Evento ->', event);
-                        console.log('getSku ->', getSku());
-                        return getSku(event);
-                    }}
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='SKU' name='pSku'>
                     <Input disabled />
                 </Form.Item>
-                <Form.Item
-                    label='Grupo exportable'
-                    name='pGroupE'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Grupo exportable' name='pGroupE'>
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label='Sub grupo exportable'
-                    name='pSubGroupE'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Sub grupo exportable' name='pSubGroupE'>
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label='Clasificación exportable'
-                    name='pClasE'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Clasificación exportable' name='pClasE'>
                     <Input />
                 </Form.Item>
                 <Form.Item
                     label='Grupo de alimento'
                     name='pGroupAli'
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                    rules={[Rules.basicSpanish]}>
                     <Input />
                 </Form.Item>
                 <div className='property'>
@@ -169,48 +72,16 @@ const Props = () => {
                         <hr />
                     </h3>
                 </div>
-                <Form.Item
-                    label='Mensaje nutricional'
-                    name='mNutri'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Mensaje nutricional' name='mNutri'>
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label='Mensaje ambiental'
-                    name='mAmbien'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Mensaje ambiental' name='mAmbien'>
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label='Mensaje económico'
-                    name='mEcono'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Mensaje económico' name='mEcono'>
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label='Mensaje cultura y sociedad'
-                    name='mCult_Soci'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Mensaje cultura y sociedad' name='mCult_Soci'>
                     <Input />
                 </Form.Item>
                 <div className='property'>
@@ -219,37 +90,13 @@ const Props = () => {
                         <hr />
                     </h3>
                 </div>
-                <Form.Item
-                    label='Sugerida'
-                    name='sugerida'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Sugerida' name='sugerida'>
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label='Unidad'
-                    name='unidad'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Unidad' name='unidad'>
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label='Peso neto'
-                    name='pesoneto'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Peso neto' name='pesoneto'>
                     <Input />
                 </Form.Item>
                 <div className='property'>
@@ -258,180 +105,52 @@ const Props = () => {
                         <hr />
                     </h3>
                 </div>
-                <Form.Item
-                    label='Energía'
-                    name='energia'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Energía' name='energia'>
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label='Proteína'
-                    name='proteina'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Proteína' name='proteina'>
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label='Lípidos'
-                    name='lipidos'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Lípidos' name='lipidos'>
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label='AG Saturados'
-                    name='saturados'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='AG Saturados' name='saturados'>
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label='AG Monoinsaturados'
-                    name='monoinsaturados'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='AG Monoinsaturados' name='monoinsaturados'>
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label='Polinsaturados'
-                    name='polinsaturados'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Polinsaturados' name='polinsaturados'>
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label='Colesterol'
-                    name='colesterol'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Colesterol' name='colesterol'>
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label='Omega 3'
-                    name='omega3'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Omega 3' name='omega3'>
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label='Omega 6'
-                    name='omega6'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Omega 6' name='omega6'>
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label='Omega 9'
-                    name='omega9'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Omega 9' name='omega9'>
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label='Hidratos de carbono'
-                    name='hdratoscarbono'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Hidratos de carbono' name='hdratoscarbono'>
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label='Fibra'
-                    name='fibra'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Fibra' name='fibra'>
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label='Fibra insoluble'
-                    name='fibrainsoluble'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Fibra insoluble' name='fibrainsoluble'>
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label='Fibra soluble'
-                    name='fibrasoluble'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Fibra soluble' name='fibrasoluble'>
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label='Azúcar'
-                    name='azucar'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Azúcar' name='azucar'>
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label='Etanol'
-                    name='etanol'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Etanol' name='etanol'>
                     <Input />
                 </Form.Item>
                 <div className='property'>
@@ -440,147 +159,43 @@ const Props = () => {
                         <hr />
                     </h3>
                 </div>
-                <Form.Item
-                    label='Tiamina'
-                    name='tiamina'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Tiamina' name='tiamina'>
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label='Riboflavin'
-                    name='riboflavin'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Riboflavin' name='riboflavin'>
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label='Niacina'
-                    name='niacina'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Niacina' name='niacina'>
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label='Ácido pantoténico'
-                    name='acidopantotenico'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Ácido pantoténico' name='acidopantotenico'>
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label='Piridoxina'
-                    name='piridoxina'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Piridoxina' name='piridoxina'>
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label='Biotina'
-                    name='biotina'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Biotina' name='biotina'>
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label='Cobalmina'
-                    name='cobalmina'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Cobalmina' name='cobalmina'>
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label='Ácido ascórbico'
-                    name='acidoascorbico'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Ácido ascórbico' name='acidoascorbico'>
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label='Ácido fólico'
-                    name='acidofolico'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Ácido fólico' name='acidofolico'>
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label='Vitamina A'
-                    name='vitaminaA'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Vitamina A' name='vitaminaA'>
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label='Vitamina D'
-                    name='vitaminaD'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Vitamina D' name='vitaminaD'>
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label='Vitamina K'
-                    name='vitaminaK'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Vitamina K' name='vitaminaK'>
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label='Vitamina E'
-                    name='vitaminaE'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Vitamina E' name='vitaminaE'>
                     <Input />
                 </Form.Item>
                 <div className='property'>
@@ -589,114 +204,34 @@ const Props = () => {
                         <hr />
                     </h3>
                 </div>
-                <Form.Item
-                    label='Calcio'
-                    name='calcio'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Calcio' name='calcio'>
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label='Fósforo'
-                    name='fosforo1'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Fósforo' name='fosforo1'>
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label='Hierro'
-                    name='hierro'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Hierro' name='hierro'>
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label='Hierro no hem'
-                    name='hierronohem'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Hierro no hem' name='hierronohem'>
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label='Hierro total'
-                    name='hierrototal'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Hierro total' name='hierrototal'>
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label='Magnesio'
-                    name='magnesio'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Magnesio' name='magnesio'>
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label='Sodio'
-                    name='sodio'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Sodio' name='sodio'>
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label='Potasio'
-                    name='potasi'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Potasio' name='potasio'>
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label='Zinc'
-                    name='zinc'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Zinc' name='zinc'>
                     <Input />
                 </Form.Item>
-                <Form.Item
-                    label='Selenio'
-                    name='selenio'
-                    rules={[
-                        {
-                            required: false,
-                            message: 'Este campo es requerido',
-                        },
-                    ]}>
+                <Form.Item label='Selenio' name='selenio'>
                     <Input />
                 </Form.Item>
                 <div className='property'>

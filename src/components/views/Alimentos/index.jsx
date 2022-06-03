@@ -157,10 +157,9 @@ const Alimentos = () => {
     const fetchData = async (alimento) => {
         try {
             const { data } = await apiURL.get('/alimentos/' + alimento.id);
-            console.log('ID AL CLICKEAR: ' + alimento.id);
+            // console.log('ID AL CLICKEAR: ' + alimento.id);
             setId(alimento.id);
             setData(data);
-            //console.log(data2)
         } catch (error) {
             message.error(`Error: ${error.message}`);
         }

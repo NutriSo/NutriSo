@@ -231,7 +231,7 @@ const PropertiesComponent = ({
                 </div>
                 <div className='data_props'>
                     {/** DEFINE EL FORMULARIO DONDE APARECERÁN TODAS LAS PROPIEDADES DE LOS ALIMENTOS */}
-                    <Props />
+                    <Props dataSource={item} />
                 </div>
                 {/*<div id='save'>
                     <Button id='save' onClick={() => getData()} type='primary'>
