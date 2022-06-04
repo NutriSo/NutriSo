@@ -12,7 +12,7 @@ const Props = ({ dataSource }) => {
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
-    console.log(dataSource);
+
     return (
         <>
             <Form
@@ -20,7 +20,7 @@ const Props = ({ dataSource }) => {
                 name='basic'
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
-                fields={generateFormDTO(dataSource)}>
+                fields={dataSource}>
                 <Form.Item label='Nombre' name='pName' rules={[Rules.basicSpanish]}>
                     <Input />
                 </Form.Item>

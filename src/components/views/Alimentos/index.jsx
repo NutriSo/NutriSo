@@ -7,6 +7,8 @@ import IconsComponent from '../../commons/FoodComponents/IconsComponent.jsx';
 import PropertiesComponent from '../../commons/FoodComponents/PropertiesComponent';
 import Consulta from '../../commons/FoodComponents/Consulta.jsx';
 
+import { isEmptyArray } from '../../../utils';
+
 import './Alimentos.scss';
 
 const Alimentos = () => {
@@ -28,10 +30,6 @@ const Alimentos = () => {
             opc.push(value);
             console.log(opc);
         }
-        /**
-         * GUARDARLO EN EL ARREGLO CON SPREAD OPERATOR
-         */
-        //        document.getElementById('nueva_preparacion').value = "";
     };
 
     const validateExist = (array, value) => {
@@ -166,6 +164,8 @@ const Alimentos = () => {
     };
 
     const handleNutricional = (value) => {
+        if (isEmptyArray(data2)) return;
+
         setData({
             ...data2,
             icono: {
@@ -176,6 +176,8 @@ const Alimentos = () => {
     };
 
     const handleAmbiental = (value) => {
+        if (isEmptyArray(data2)) return;
+
         setData({
             ...data2,
             icono: {
@@ -186,6 +188,8 @@ const Alimentos = () => {
     };
 
     const handleEconomia = (value) => {
+        if (isEmptyArray(data2)) return;
+
         setData({
             ...data2,
             icono: {
@@ -194,7 +198,10 @@ const Alimentos = () => {
             },
         });
     };
+
     const handleCulturaSociedad = (value) => {
+        if (isEmptyArray(data2)) return;
+
         setData({
             ...data2,
             icono: {
@@ -202,30 +209,6 @@ const Alimentos = () => {
                 iconoCulturaSociedad: value,
             },
         });
-    };
-
-    /**
-     * @description Se encarga de verificar que al menos las siguientes variables contengan un valor.
-     * @var nombre es requerida
-     * @var SKU es requerida
-     * @var grupoAlimento es requerida
-     */
-    const validateRequireds = () => {
-        //console.log(showAlimento)
-        if (showAlimento) {
-            //Solo si se está mostrando un alimento
-            if (nombre.length == 0 || grupoAlimento.length == 0) {
-                //Si el tamaño de los textos es mayor a 0, incluye los espacios "  " -> Cadena no vacia por lo tanto entrará al else
-                alert('Llene los campos marcados en rojo');
-            } else {
-                sendData();
-            }
-        } else {
-            /**
-             * MESSAGE
-             */
-            console.log('No se está mostrando un alimento');
-        }
     };
 
     const borrar = (value) => {
@@ -241,130 +224,6 @@ const Alimentos = () => {
         } catch (error) {
             console.log('Error al borrar', error);
         }
-    };
-
-    const getData = () => {
-        /**  GENERAL  */
-        imagen = data2.imagen;
-        nombre = document.getElementById('pName')?.value;
-        SKU = document.getElementById('pSku')?.value;
-        grupoE = document.getElementById('pGroupE')?.value;
-        subGrupoE = document.getElementById('pSubGroupE')?.value;
-        clasificacionE = document.getElementById('pClasE')?.value;
-        grupoAlimento = document.getElementById('pGroupAli')?.value;
-
-        /**  MENSAJES  */
-        mNutri = document.getElementById('mNutri')?.value;
-        mAmbiental = document.getElementById('mAmbien')?.value;
-        mEconomico = document.getElementById('mEcono')?.value;
-        mCultuSociedad = document.getElementById('mCult_Soci')?.value;
-        /**  CANTIDADES  */
-        sugerida = document.getElementById('sugerida')?.value;
-        unidad = document.getElementById('unidad')?.value;
-        pesoNeto = document.getElementById('pesoneto')?.value;
-        /**  MACRONUTRIENTES  */
-        energia = document.getElementById('energia')?.value;
-        proteina = document.getElementById('proteina')?.value;
-        lipidos = document.getElementById('lipidos')?.value;
-        saturados = document.getElementById('saturados')?.value;
-        monoinsaturados = document.getElementById('monoinsaturados')?.value;
-        polinsaturados = document.getElementById('polinsaturados')?.value;
-        colesterol = document.getElementById('colesterol')?.value;
-        omega3 = document.getElementById('omega3')?.value;
-        omega6 = document.getElementById('omega6')?.value;
-        omega9 = document.getElementById('omega9')?.value;
-        hdratoscarbono = document.getElementById('hdratoscarbono')?.value;
-        fibra = document.getElementById('fibra')?.value;
-        fibrainsoluble = document.getElementById('fibrainsoluble')?.value;
-        fibrasoluble = document.getElementById('fibrasoluble')?.value;
-        azucar = document.getElementById('azucar')?.value;
-        etanol = document.getElementById('etanol')?.value;
-        /**  VITAMINAS  */
-        tiamina = document.getElementById('tiamina')?.value;
-        riboflavin = document.getElementById('riboflavin')?.value;
-        niacina = document.getElementById('niacina')?.value;
-        acidopantotenico = document.getElementById('acidopantotenico')?.value;
-        piridoxina = document.getElementById('piridoxina')?.value;
-        biotina = document.getElementById('biotina')?.value;
-        cobalmina = document.getElementById('cobalmina')?.value;
-        acidoascorbico = document.getElementById('acidoascorbico')?.value;
-        acidofolico = document.getElementById('acidofolico')?.value;
-        vitaminaA = document.getElementById('vitaminaA')?.value;
-        vitaminaD = document.getElementById('vitaminaD')?.value;
-        vitaminaK = document.getElementById('vitaminaK')?.value;
-        vitaminaE = document.getElementById('vitaminaE')?.value;
-        /**  MINERALES  */
-        calcio = document.getElementById('calcio')?.value;
-        fosforo1 = document.getElementById('fosforo1')?.value;
-        hierro = document.getElementById('hierro')?.value;
-        hierronohem = document.getElementById('hierronohem')?.value;
-        hierrototal = document.getElementById('hierrototal')?.value;
-        magnesio = document.getElementById('magnesio')?.value;
-        sodio = document.getElementById('sodio')?.value;
-        potasio = document.getElementById('potasio')?.value;
-        zinc = document.getElementById('zinc')?.value;
-        selenio = document.getElementById('selenio')?.value;
-        /**  ASPECTO GLUCÉMICO  */
-        indiceglicemico = document.getElementById('indiceglicemico')?.value;
-        cargaglicemica = document.getElementById('cargaglicemica')?.value;
-        /**  ASPECTO MEDIOAMBIENTAL  */
-        fchh = document.getElementById('fchh')?.value;
-        tipo = document.getElementById('tipo')?.value;
-        lugar = document.getElementById('lugar')?.value;
-        hht = document.getElementById('hht')?.value;
-        hhv = document.getElementById('hhv')?.value;
-        hha = document.getElementById('hha')?.value;
-        hhg = document.getElementById('hhg')?.value;
-        agualavado = document.getElementById('agualavado')?.value;
-        aguacoccion = document.getElementById('aguacoccion')?.value;
-        lugaregei = document.getElementById('lugaregei')?.value;
-        citaegei = document.getElementById('citaegei')?.value;
-        hcarbono = document.getElementById('hcarbono')?.value;
-        hecologica = document.getElementById('hecologica')?.value;
-        energiafosil = document.getElementById('energiafosil')?.value;
-        usosuelo = document.getElementById('usosuelo')?.value;
-        nitrogeno = document.getElementById('nitrogeno')?.value;
-        fosforo2 = document.getElementById('fosforo2')?.value;
-        puntajeecologico = document.getElementById('puntajeecologico')?.value;
-        /**  ASPECTO ECONÓMICO  */
-        precio = document.getElementById('precio')?.value;
-        lugarcompra = document.getElementById('lugarcompra')?.value;
-        lugarventa = document.getElementById('lugarventa')?.value;
-        /**  COMPONENTES BIOACTIVOS */
-        fitoquimicos = document.getElementById('fitoquimicos')?.value;
-        polifenoles = document.getElementById('polifenoles')?.value;
-        antocianinas = document.getElementById('antocianinas')?.value;
-        taninos = document.getElementById('taninos')?.value;
-        isoflavonas = document.getElementById('isoflavonas')?.value;
-        reserveratrol = document.getElementById('reserveratrol')?.value;
-        isotiocinatos = document.getElementById('isotiocinatos')?.value;
-        caretenoides = document.getElementById('caretenoides')?.value;
-        betacarotenos = document.getElementById('betacarotenos')?.value;
-        licopeno = document.getElementById('licopeno')?.value;
-        luteina = document.getElementById('luteina')?.value;
-        alicina = document.getElementById('alicina')?.value;
-        cafeina = document.getElementById('cafeina')?.value;
-        ufc = document.getElementById('ufc')?.value;
-        /**  ADITIVOS ALIMENTARIOS  */
-        benzoatodesodio = document.getElementById('benzoatodesodio')?.value;
-        polisorbato = document.getElementById('polisorbato')?.value;
-        fcf = document.getElementById('fcf')?.value;
-        azorrubina = document.getElementById('azorrubina')?.value;
-        fdf = document.getElementById('fdf')?.value;
-        tartrazina = document.getElementById('tartrazina')?.value;
-        e142 = document.getElementById('e142')?.value;
-        bn = document.getElementById('bn')?.value;
-        sucralosa = document.getElementById('sucralosa')?.value;
-        stevia = document.getElementById('stevia')?.value;
-        sacarina = document.getElementById('sacarina')?.value;
-        aspartame = document.getElementById('aspartame')?.value;
-        acesulfame = document.getElementById('acesulfame')?.value;
-        carboxy = document.getElementById('carboxy')?.value;
-        dioxidodetitanio = document.getElementById('dioxidodetitanio')?.value;
-        glicerol = document.getElementById('glicerol')?.value;
-        marca = document.getElementById('marca')?.value;
-
-        validateRequireds();
     };
 
     const sendData = async () => {
@@ -522,11 +381,6 @@ const Alimentos = () => {
                     monolauratoDeGlicerol: glicerol,
                 },
             ],
-            /*atributosAdicionales: [
-                {
-                    atributoAdicional: `${rowValues[109] ?? 'N/A'}`,
-                },
-            ],*/
             marca: marca,
         };
         console.log(data);
@@ -556,7 +410,6 @@ const Alimentos = () => {
             <PropertiesComponent
                 borrar={borrar}
                 item={data2}
-                getData={getData}
                 setShowAlimento={setShowAlimento}
                 handleOk={handleOk}
                 showModal={showModal}

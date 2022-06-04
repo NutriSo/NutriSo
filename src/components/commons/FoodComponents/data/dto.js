@@ -1,4 +1,4 @@
-import { isInvalidElem, isEmptyArray } from '../../../../utils';
+import { isInvalidElem } from '../../../../utils';
 
 export const generateFormDTO = (data) => {
     if (isInvalidElem(data) || Array.isArray(data)) return [];
