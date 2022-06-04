@@ -1,7 +1,8 @@
 import { Form, Input, Button } from 'antd';
 
-import { Rules } from '../../../utils/formRules';
 import { getSku } from '../../../services';
+import { generateFormDTO } from './data/dto';
+import { Rules } from '../../../utils/formRules';
 
 const Props = ({ dataSource }) => {
     const onFinish = (values) => {
@@ -19,32 +20,7 @@ const Props = ({ dataSource }) => {
                 name='basic'
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
-                fields={[
-                    {
-                        name: 'pName',
-                        value: dataSource?.nombreAlimento,
-                    },
-                    {
-                        name: 'pSku',
-                        value: dataSource?.sku,
-                    },
-                    {
-                        name: 'pGroupE',
-                        value: dataSource?.grupoExportable,
-                    },
-                    {
-                        name: 'pSubGroupE',
-                        value: dataSource?.subGrupoExportable,
-                    },
-                    {
-                        name: 'pClasE',
-                        value: dataSource?.clasificacionExportable,
-                    },
-                    {
-                        name: 'pGroupAli',
-                        value: dataSource?.grupoAlimento,
-                    },
-                ]}>
+                fields={generateFormDTO(dataSource)}>
                 <Form.Item label='Nombre' name='pName' rules={[Rules.basicSpanish]}>
                     <Input />
                 </Form.Item>
