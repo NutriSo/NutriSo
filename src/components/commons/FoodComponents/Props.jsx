@@ -1,75 +1,233 @@
-const Props = () => {          
-    let auxOutSugerida = 0; // VARIABLE DE SALIDA AUXILIAR (ESTA SI SALE)
-    let auxOutFCHH = 0; // VARIABLE DE SALIDA AUXILIAR (ESTA SI SALE)
-    let auxOutPrecio = 0; // VARIABLE DE SALIDA AUXILIAR (ESTA SI SALE)
-    let auxOutPunEcologico = 0; // VARIABLE DE SALIDA AUXILIAR (ESTA SI SALE)
-    //let auxOut = 0
-    function validaNumericos(event,campo) {     
-        let out; // SERÁ LA VARIABLE DE SALIDA (ESTA NO SALE)
-        switch (campo) { // OBTENGO EL VALOR DE CADA CAMPO
-            case "sugerida":
-                out = document.getElementById("sugerida").value;                            
-                break;
-            case "fchh":
-                out = document.getElementById("fchh").value;                            
-                break;
-            case "precio":
-                out = document.getElementById("precio").value;                            
-                break;
-            case "punEcologico":
-                out = document.getElementById("puntajeecologico").value;                            
-        }   
+import { Form, Input, Button } from 'antd';
 
+import { getSku } from '../../../services';
+import { generateFormDTO } from './data/dto';
+import { Rules } from '../../../utils/formRules';
 
-        
-        console.log('Out ->',out);
-        console.log('Evento ->',event);
-        console.log('Campo ->',campo)
-        //console.log('AuxOut ->',auxOut)
-        console.log('KeyCode ->',event.keyCode);
+const Props = ({ dataSource }) => {
+    const onFinish = (values) => {
+        console.log('Success:', values);
+    };
 
+    const onFinishFailed = (errorInfo) => {
+        console.log('Failed:', errorInfo);
+    };
 
-        /*
-            keyCode -> 48 = 0
-            keyCode -> 57 = 9
-            keyCode -> 8  = retroceso
-            keyCode -> 190 = Punto
-            keyCode -> 188 = Coma
-        */
-        if((event.keyCode >= 48 && event.keyCode <= 57) || event.keyCode === 8 || event.keyCode === 190 || event.keyCode === 188){            
-            switch (campo) {
-                case "sugerida":
-                    auxOutSugerida = out
-                break;
-                case "fchh":
-                    auxOutFCHH = out
-                break;
-                case "precio":
-                    auxOutPrecio = out
-                break;
-                case "punEcologico":
-                    auxOutPunEcologico = out
-            }       
-        }else{
-            
-            switch (campo) {
-                case "sugerida":
-                    document.getElementById("sugerida").value = auxOutSugerida;
-                break;
-                case "fchh":
-                    document.getElementById("fchh").value = auxOutFCHH;
-                break;
-                case "precio":
-                    document.getElementById("precio").value = auxOutPrecio;
-                break;
-                case "punEcologico":
-                    document.getElementById("puntajeecologico").value = auxOutPunEcologico;                         
-            }            
-        }              
-    }
+    return (
+        <>
+            <Form
+                layout='vertical'
+                name='basic'
+                onFinish={onFinish}
+                onFinishFailed={onFinishFailed}
+                fields={dataSource}>
+                <Form.Item label='Nombre' name='pName' rules={[Rules.basicSpanish]}>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='SKU' name='pSku'>
+                    <Input disabled />
+                </Form.Item>
+                <Form.Item label='Grupo exportable' name='pGroupE'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Sub grupo exportable' name='pSubGroupE'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Clasificación exportable' name='pClasE'>
+                    <Input />
+                </Form.Item>
+                <Form.Item
+                    label='Grupo de alimento'
+                    name='pGroupAli'
+                    rules={[Rules.basicSpanish]}>
+                    <Input />
+                </Form.Item>
+                <div className='property'>
+                    <h3 id='atr-titulo'>
+                        Mensajes
+                        <hr />
+                    </h3>
+                </div>
+                <Form.Item label='Mensaje nutricional' name='mNutri'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Mensaje ambiental' name='mAmbien'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Mensaje económico' name='mEcono'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Mensaje cultura y sociedad' name='mCult_Soci'>
+                    <Input />
+                </Form.Item>
+                <div className='property'>
+                    <h3 id='atr-titulo'>
+                        Cantidades
+                        <hr />
+                    </h3>
+                </div>
+                <Form.Item label='Sugerida' name='sugerida'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Unidad' name='unidad'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Peso neto' name='pesoneto'>
+                    <Input />
+                </Form.Item>
+                <div className='property'>
+                    <h3 id='atr-titulo'>
+                        Macronutrientes
+                        <hr />
+                    </h3>
+                </div>
+                <Form.Item label='Energía' name='energia'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Proteína' name='proteina'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Lípidos' name='lipidos'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='AG Saturados' name='saturados'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='AG Monoinsaturados' name='monoinsaturados'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Polinsaturados' name='polinsaturados'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Colesterol' name='colesterol'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Omega 3' name='omega3'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Omega 6' name='omega6'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Omega 9' name='omega9'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Hidratos de carbono' name='hdratoscarbono'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Fibra' name='fibra'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Fibra insoluble' name='fibrainsoluble'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Fibra soluble' name='fibrasoluble'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Azúcar' name='azucar'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Etanol' name='etanol'>
+                    <Input />
+                </Form.Item>
+                <div className='property'>
+                    <h3 id='atr-titulo'>
+                        Vitaminas
+                        <hr />
+                    </h3>
+                </div>
+                <Form.Item label='Tiamina' name='tiamina'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Riboflavin' name='riboflavin'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Niacina' name='niacina'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Ácido pantoténico' name='acidopantotenico'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Piridoxina' name='piridoxina'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Biotina' name='biotina'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Cobalmina' name='cobalmina'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Ácido ascórbico' name='acidoascorbico'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Ácido fólico' name='acidofolico'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Vitamina A' name='vitaminaA'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Vitamina D' name='vitaminaD'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Vitamina K' name='vitaminaK'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Vitamina E' name='vitaminaE'>
+                    <Input />
+                </Form.Item>
+                <div className='property'>
+                    <h3 id='atr-titulo'>
+                        Minerales
+                        <hr />
+                    </h3>
+                </div>
+                <Form.Item label='Calcio' name='calcio'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Fósforo' name='fosforo1'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Hierro' name='hierro'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Hierro no hem' name='hierronohem'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Hierro total' name='hierrototal'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Magnesio' name='magnesio'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Sodio' name='sodio'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Potasio' name='potasio'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Zinc' name='zinc'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Selenio' name='selenio'>
+                    <Input />
+                </Form.Item>
+                <div className='property'>
+                    <h3 id='atr-titulo'>
+                        Aspecto glucémico
+                        <hr />
+                    </h3>
+                </div>
 
-    return(
-        <>                                                
+                <Form.Item
+                    wrapperCol={{
+                        offset: 0,
+                        span: 0,
+                    }}>
+                    <Button type='primary' htmlType='submit' id='save'>
+                        Submit
+                    </Button>
+                </Form.Item>
+            </Form>
+            {/*
             <form id="propsform">
                 <div className="property">
                     <h3 id="atr-titulo">Nombre</h3>
@@ -103,7 +261,7 @@ const Props = () => {
 
 
 
-                {/* MENSAJES */}
+                {/* MENSAJES *
                 <div className="property">
                     <h3 id="atr-titulo">Mensajes<hr/></h3>
                 </div>
@@ -130,7 +288,7 @@ const Props = () => {
                 
 
             
-                {/* CANTIDADES */}
+                {/* CANTIDADES *
                 <div className="property">
                     <h3 id="atr-titulo">Cantidades<hr/></h3>
                 </div>
@@ -152,7 +310,7 @@ const Props = () => {
 
 
 
-                {/* MACRONUTRIENTES */}
+                {/* MACRONUTRIENTES *
                 <div className="property">
                     <h3 id="atr-titulo">Macronutrientes<hr/></h3>
                 </div>
@@ -239,7 +397,7 @@ const Props = () => {
 
 
 
-                {/* VITAMINAS */}
+                {/* VITAMINAS *
                 <div className="property">
                     <h3 id="atr-titulo">Vitaminas<hr/></h3>
                 </div>
@@ -311,7 +469,7 @@ const Props = () => {
 
 
 
-                {/* MINERALES */}
+                {/* MINERALES *
                 <div className="property">
                     <h3 id="atr-titulo">Minerales<hr/></h3>
                 </div>
@@ -368,7 +526,7 @@ const Props = () => {
 
 
 
-                {/* ASPECTO GLUCEMICO */}
+                {/* ASPECTO GLUCEMICO *
                 <div className="property">
                     <h3 id="atr-titulo">Aspecto glucémico<hr/></h3>
                 </div>
@@ -385,7 +543,7 @@ const Props = () => {
 
 
 
-                {/* ASPECTO MEDIOAMBIENTAL */}
+                {/* ASPECTO MEDIOAMBIENTAL *
                 <div className="property">
                     <h3 id="atr-titulo">Aspecto medioambiental<hr/></h3>
                 </div>
@@ -482,7 +640,7 @@ const Props = () => {
 
 
 
-                {/* ASPECTO ECONÓMICO */}
+                {/* ASPECTO ECONÓMICO *
                 <div className="property">
                     <h3 id="atr-titulo">Aspecto económico<hr/></h3>
                 </div>
@@ -504,7 +662,7 @@ const Props = () => {
 
 
 
-                {/* COMPONENTES BIOACTIVOS */}
+                {/* COMPONENTES BIOACTIVOS *
                 <div className="property">
                     <h3 id="atr-titulo">Componentes bioactivos<hr/></h3>
                 </div>
@@ -581,7 +739,7 @@ const Props = () => {
 
 
 
-                {/* ADITIVOS ALIMENTARIOS */}
+                {/* ADITIVOS ALIMENTARIOS *
                 <div className="property">
                     <h3 id="atr-titulo">Aditivos alimentarios<hr/></h3>
                 </div>
@@ -667,7 +825,7 @@ const Props = () => {
                 </div>
 
                 {/* ATRIBUTOS ADICIONALES */}
-                {/*<div className="property">
+            {/*<div className="property">
                     <h3 id="atr-titulo">Atributos adicionales<hr/></h3>
                 </div>
 
@@ -681,7 +839,7 @@ const Props = () => {
                     <input className="atr-editable" id="atr-adicional" placeholder="Inserte valor de la propiedad"/>                                                     
                 </div>*/}
 
-                {/* MARCA */}
+            {/* MARCA *
                 <div className="property">
                     <h3 id="atr-titulo">Marca<hr/></h3>
                 </div>
@@ -690,9 +848,10 @@ const Props = () => {
                     <h4 id="sub">Marca</h4>
                     <input className="atr-editable" id="marca" placeholder="Inserte valor de la propiedad"/>                                                     
                 </div>                               
-            </form>                            
+            </form>  
+            */}
         </>
     );
-}
+};
 
 export default Props;
