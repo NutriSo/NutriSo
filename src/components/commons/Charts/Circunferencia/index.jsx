@@ -26,11 +26,11 @@ const Circunferencia = ({ data, dates, option = 1 }) => {
                     datasets: [
                         {
                             label: 'Cadera',
-                            data: cintura,
+                            data: cadera,
                         },
                         {
                             label: 'Cintura',
-                            data: cadera,
+                            data: cintura,
                         },
                     ],
                 });
@@ -95,7 +95,7 @@ export const initialData2 = {
     datasets: [
         {
             label: 'Cadera',
-            fill: false,
+            fill: true,
             lineTension: 0.3,
             backgroundColor: 'rgba(75,192,192,1)',
             borderColor: 'rgba(0,0,0,1)',
@@ -104,9 +104,9 @@ export const initialData2 = {
         },
         {
             label: 'Cintura',
-            fill: false,
+            fill: true,
             lineTension: 0.3,
-            backgroundColor: 'rgba(75,192,192,1)',
+            backgroundColor: 'rgba(175,19,192,1)',
             borderColor: 'rgba(0,0,0,1)',
             borderWidth: 2,
             data: [],

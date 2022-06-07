@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import apiURL from '../../../axios/axiosConfig';
 
-import { DatePicker, Space, Select, Form, Divider } from 'antd';
+import { DatePicker, Space, Select, Form, message } from 'antd';
 import Popup from './popup';
 import moment from 'moment';
 import dayjs from 'dayjs';
 
 import { isEmptyArray } from '../../../utils';
 
-import Circunferencia from '../../commons/Charts/Circunferencia';
+
 import CampoCor from '../../commons/Charts/CampoCor';
 import IndicadoresBio from '../../commons/Charts/IndicadoresBio';
 import Weight from '../../commons/UserUpdate/Weight';
+import Circumference from '../../commons/UserUpdate/Circumference';
+import BodyFields from '../../commons/UserUpdate/BodyFields';
 import { capitilizeWord } from '../../../utils';
 import { Rules } from '../../../utils/formRules';
 
@@ -29,7 +31,6 @@ const Usuarios = () => {
     const globalUserId = window.location.hash.split('usuarios/')[1].trim();
     const isPhotoExist = info?.foto && info.foto !== '';
     const formattedBirthday = dayjs(info.fechaDeNacimiento).format('YYYY-MM-DD');
-
     //Variables
     let [name, setName] = useState('');
     let [apellidoP, setApellidoP] = useState('');
@@ -42,24 +43,10 @@ const Usuarios = () => {
     let [genero, setGenero] = useState('');
 
     //Circunferencia
-    const [infoCircunferencia, setInfoCircunferencia] = useState({});
-    const [circunferenciaDates, setCircunferenciaDates] = useState({
-        cintura: '',
-        cadera: '',
-    });
-    const [cinturaEntry, setCinturaEn] = useState(-1);
-    const [caderaEntry, setCaderaEn] = useState(-1);
+
 
     //Campos Corporales
-    const [infoCampoCor, setInfoCampCor] = useState({});
-    const [infoCorDates, setInfoCorDates] = useState({});
-    let [grasaEntry, setGrasaEn] = useState(-1);
-    let [masaEntry, setMasaEn] = useState(-1);
-    let [aguaEntry, setAguaEn] = useState(-1);
-    let [oseaEntry, setOseaEn] = useState(-1);
-    let [visceralEntry, setVisceralEn] = useState(-1);
-    let [tMetabolicaEntry, setTMetabolicaEn] = useState(-1);
-    let [eMetabolicaEntry, setEMetabolicaEn] = useState(-1);
+    
 
     // Bioquimicos
     const [infoBioquimicos, setInfoBioquimicos] = useState({});
@@ -116,18 +103,6 @@ const Usuarios = () => {
         setFechaNacimiento(dateString);
     }
 
-    //popup Window Circunferencia
-    const [isOpen, setIsOpen] = useState(false);
-    const togglePopup = () => {
-        setIsOpen(!isOpen);
-    };
-
-    //popup Window Campos Corporales
-    const [isOpenCampCor, setIsOpenCampCor] = useState(false);
-    const togglePopupCampCor = () => {
-        setIsOpenCampCor(!isOpenCampCor);
-    };
-
     //popup Window Estado General
     const [isOpenEstadoG, setIsOpenEstadoG] = useState(false);
     const togglePopupEstadoG = () => {
@@ -159,12 +134,6 @@ const Usuarios = () => {
     };
 
     //popup Window Error Circunferencia
-    const [isOpenError, setIsOpenError] = useState(false);
-    const togglePopupError = () => {
-        setIsOpenError(!isOpenError);
-    };
-
-    //popup Window Error Circunferencia
     const [isOpenErrorCampCor, setIsOpenErrorCampCor] = useState(false);
     const togglePopupErrorCampCor = () => {
         setIsOpenErrorCampCor(!isOpenErrorCampCor);
@@ -179,8 +148,6 @@ const Usuarios = () => {
 
     useEffect(() => {
         if (info?.usuario) {
-            getCircunferencias();
-            getinfoCampCor();
             getEstadoGeneral();
             getExpoSolar();
             getBioquimicos();
@@ -202,65 +169,9 @@ const Usuarios = () => {
         }
     };
 
-    const getCircunferencias = async () => {
-        try {
-            const { data, status } = await apiURL.get(`/extrasCircunferencia/individual?usuario=${info?.usuario}`);
+    
 
-            if (status === 200 || data.length > 0) {
-                const cadera = data[0].cadera.map((elem) => elem.valor);
-                const cintura = data[0].cintura.map((elem) => elem.valor);
-                const datesCadera = data[0].cadera.map((elem) => elem.fecha);
-                const datesCintura = data[0].cintura.map((elem) => elem.fecha);
-
-                setCircunferenciaDates({
-                    cadera: datesCadera,
-                    cintura: datesCintura,
-                });
-
-                setInfoCircunferencia({
-                    cadera: cadera,
-                    cintura: cintura,
-                });
-            }
-        } catch (error) {
-            console.groupCollapsed('Error en la funcion fetchInfo');
-            console.error(error);
-            console.groupEnd();
-        }
-    };
-
-    const getinfoCampCor = async () => {
-        try {
-            const { data, status } = await apiURL.get(`/extrasComposCorp/individual?usuario=${info?.usuario}`);
-
-            if (status === 200 || data.length > 0) {
-                const grasas = data[0].porcentGrasa.map((elem) => elem.valor);
-                const masas = data[0].porcentMasa.map((elem) => elem.valor);
-                const agua = data[0].porcentAgua.map((elem) => elem.valor);
-                const grasaVisceral = data[0].grasaVisceral.map((elem) => elem.valor);
-                const densidadOsea = data[0].densidadOsea.map((elem) => elem.valor);
-                const edadMetabolica = data[0].edadMetabolica.map((elem) => elem.valor);
-                const tasaMetabolica = data[0].tasaMetabolica.map((elem) => elem.valor);
-                const dates = data[0].porcentGrasa.map((elem) => elem.fecha);
-
-                setInfoCorDates(dates);
-
-                setInfoCampCor({
-                    grasas,
-                    masas,
-                    agua,
-                    grasaVisceral,
-                    densidadOsea,
-                    edadMetabolica,
-                    tasaMetabolica,
-                });
-            }
-        } catch (error) {
-            console.groupCollapsed('Error en la funcion getinfoCampCor');
-            console.error(error);
-            console.groupEnd();
-        }
-    };
+    
 
     const getEstadoGeneral = async () => {
         try {
@@ -304,6 +215,7 @@ const Usuarios = () => {
 
             if (status === 200 || data.length > 0) {
                 const glucosaAyuno = data[0].glucosaAyuno.map((elem) => elem.valor);
+                console.log(glucosaAyuno);
                 const glucosaDespues = data[0].glucosaDespues.map((elem) => elem.valor);
                 const trigliceridos = data[0].trigliceridos.map((elem) => elem.valor);
                 const colesterolTotal = data[0].colesterolTotal.map((elem) => elem.valor);
@@ -330,11 +242,11 @@ const Usuarios = () => {
             console.groupEnd();
         }
     };
-
+    // console.log(infoLactancia);
     const getLactancia = async () => {
         try {
             const { data, status } = await apiURL.get(`/lactancia/individual?usuario=${globalUserId}`);
-
+            // console.log(data);
             if (status === 200 || data.length > 0) {
                 const maternaExclusiva = data?.maternaExclusiva;
                 const artificial = data?.artificial;
@@ -359,125 +271,9 @@ const Usuarios = () => {
         }
     };
 
-    const updateCinturas = async () => {
-        if (cinturaEntry !== -1 && caderaEntry !== -1) {
-            if (!infoCircunferencia?.cadera || !infoCircunferencia?.cintura) {
-                try {
-                    const body = {
-                        cintura: { fecha: new Date(), valor: cinturaEntry },
-                        cadera: { fecha: new Date(), valor: caderaEntry },
-                    };
+    
 
-                    await apiURL.post(`/extrasCircunferencia/individual?usuario=${info.usuario}`, body);
-                } catch (error) {
-                    console.groupCollapsed('Error en la funcion updateCintura');
-                    console.error(error);
-                    console.groupEnd();
-                }
-            } else {
-                try {
-                    const body = {
-                        cintura: { fecha: new Date(), valor: cinturaEntry },
-                        cadera: { fecha: new Date(), valor: caderaEntry },
-                    };
-
-                    await apiURL.patch(`/extrasCircunferencia/individual?usuario=${info.usuario}`, body);
-                } catch (error) {
-                    console.groupCollapsed('Error en la funcion updateCintura');
-                    console.error(error);
-                    console.groupEnd();
-                }
-            }
-
-            setIsOpen(false);
-        } else {
-            setIsOpenError(true);
-        }
-        setCinturaEn(-1);
-        setCaderaEn(-1);
-        setIsOpen(false);
-    };
-
-    const updateCampCor = async () => {
-        if (
-            grasaEntry !== -1 ||
-            masaEntry !== -1 ||
-            aguaEntry !== -1 ||
-            oseaEntry !== -1 ||
-            visceralEntry !== -1 ||
-            tMetabolicaEntry !== -1 ||
-            eMetabolicaEntry !== -1
-        ) {
-            if (!infoCampoCor?.masas) {
-                try {
-                    console.log('POST');
-                    const body = {
-                        porcentGrasa: { fecha: new Date(), valor: grasaEntry },
-                        porcentMasa: { fecha: new Date(), valor: masaEntry },
-                        porcentAgua: { fecha: new Date(), valor: aguaEntry },
-                        densidadOsea: { fecha: new Date(), valor: oseaEntry },
-                        grasaVisceral: {
-                            fecha: new Date(),
-                            valor: visceralEntry,
-                        },
-                        tasaMetabolica: {
-                            fecha: new Date(),
-                            valor: tMetabolicaEntry,
-                        },
-                        edadMetabolica: {
-                            fecha: new Date(),
-                            valor: eMetabolicaEntry,
-                        },
-                    };
-
-                    await apiURL.post(`/extrasComposCorp/individual?usuario=${info.usuario}`, body);
-                } catch (error) {
-                    console.groupCollapsed('Error en la funcion updateCampCor');
-                    console.error(error);
-                    console.groupEnd();
-                }
-            } else {
-                try {
-                    console.log('PATCH');
-                    const body = {
-                        porcentGrasa: { fecha: new Date(), valor: grasaEntry },
-                        porcentMasa: { fecha: new Date(), valor: masaEntry },
-                        porcentAgua: { fecha: new Date(), valor: aguaEntry },
-                        densidadOsea: { fecha: new Date(), valor: oseaEntry },
-                        grasaVisceral: {
-                            fecha: new Date(),
-                            valor: visceralEntry,
-                        },
-                        tasaMetabolica: {
-                            fecha: new Date(),
-                            valor: tMetabolicaEntry,
-                        },
-                        edadMetabolica: {
-                            fecha: new Date(),
-                            valor: eMetabolicaEntry,
-                        },
-                    };
-
-                    await apiURL.patch(`/extrasComposCorp/individual?usuario=${info.usuario}`, body);
-                } catch (error) {
-                    console.groupCollapsed('Error en la funcion updateCampCor');
-                    console.error(error);
-                    console.groupEnd();
-                }
-            }
-            setIsOpenCampCor(false);
-        } else {
-            setIsOpenErrorCampCor(true);
-        }
-        setGrasaEn(-1);
-        setMasaEn(-1);
-        setAguaEn(-1);
-        setOseaEn(-1);
-        setVisceralEn(-1);
-        setTMetabolicaEn(-1);
-        setEMetabolicaEn(-1);
-        setIsOpenCampCor(false);
-    };
+    
 
     const updateEstadoGeneral = async (values) => {
         try {
@@ -553,8 +349,10 @@ const Usuarios = () => {
                     boca,
                     tipoDeNacimiento: values.tipoDeNacimiento,
                 };
+                console.log('Body', body);
                 console.log('PATCH');
-                await apiURL.patch(`extrasEstadoGeneral/individual?usuario=${info.usuario}`, body);
+                const { data } = await apiURL.patch(`extrasEstadoGeneral/individual?usuario=${info.usuario}`, body);
+                console.log(data);
             } else {
                 const datosPies = {
                     seHinchan: generalCheckPYM ? 'No' : values.seHinchan,
@@ -617,8 +415,10 @@ const Usuarios = () => {
                     boca: [datosBoca],
                     tipoDeNacimiento: values.tipoDeNacimiento,
                 };
+                console.log('Body', body);
                 console.log('POST');
-                await apiURL.post(`extrasEstadoGeneral/individual?usuario=${info.usuario}`, body);
+                const { data } = await apiURL.post(`extrasEstadoGeneral/individual?usuario=${info.usuario}`, body);
+                console.log(data);
             }
         } catch (error) {
             console.groupCollapsed('[ERROR] updateEstadoGeneral');
@@ -641,9 +441,11 @@ const Usuarios = () => {
                     bloqueadorSolar: ExpoSolChecBloSolar ? 'No' : { valor: values.bloqueadorSolar, fecha: new Date() },
                     diasXsemana: ExpoSolChecBloSolar ? 'N/A' : { valor: values.diasXsemana, fecha: new Date() },
                 };
+                console.log('Body', body);
                 console.log('PATCH');
 
-                await apiURL.patch(`exposicionSolar/individual?usuario=${info.usuario}`, body);
+                const { data } = await apiURL.patch(`exposicionSolar/individual?usuario=${info.usuario}`, body);
+                console.log(data);
             } else {
                 const body = {
                     usuario: info.usuario,
@@ -654,9 +456,11 @@ const Usuarios = () => {
                     ],
                     diasXsemana: [ExpoSolChecBloSolar ? 'N/A' : { valor: values.diasXsemana, fecha: new Date() }],
                 };
+                console.log('Body', body);
                 console.log('POST');
 
-                await apiURL.post(`exposicionSolar/individual?usuario=${info.usuario}`, body);
+                const { data } = await apiURL.post(`exposicionSolar/individual?usuario=${info.usuario}`, body);
+                console.log(data);
             }
         } catch (error) {
             console.groupCollapsed('[ERROR] updateExpoSol');
@@ -695,13 +499,15 @@ const Usuarios = () => {
                     fecha: new Date(),
                 },
             };
-
+            console.log(infoBioquimicos);
             if (infoBioquimicos?.glucosaAyuno) {
                 console.log('PATCH');
-                await apiURL.patch(`bioquimicos/individual?usuario=${info.usuario}`, body);
+                const { data } = await apiURL.patch(`bioquimicos/individual?usuario=${info.usuario}`, body);
+                console.log(data);
             } else {
                 console.log('POST');
-                await apiURL.post(`bioquimicos/individual?usuario=${info.usuario}`, body);
+                const { data } = await apiURL.post(`bioquimicos/individual?usuario=${info.usuario}`, body);
+                console.log(data);
             }
         } catch (error) {
             console.groupCollapsed('[ERROR] updateIndicadoresBio');
@@ -713,6 +519,7 @@ const Usuarios = () => {
     };
 
     const updateLactancia = async (values) => {
+        console.log('Hello');
         const matExc = !isEmptyArray(infoLactancia?.maternaExclusiva);
         const artif = !isEmptyArray(infoLactancia?.artificial);
         const mix = !isEmptyArray(infoLactancia?.mixta);
@@ -723,6 +530,8 @@ const Usuarios = () => {
         try {
             if (matExc || artif || mix || mixCont || artifCont) {
                 const opc = values.opcionLactancia;
+                console.log(opc);
+
                 if (opc === 'Lactancia materna exclusiva') {
                     const body = {
                         usuario: globalUserId,
@@ -733,7 +542,9 @@ const Usuarios = () => {
                             LactanciaCheckExlusiva ? 'N/A' : { valor: values.tiempoLactancia, fecha: new Date() },
                         ],
                     };
-                    await apiURL.patch(`lactancia/individual?usuario=${globalUserId}`, body);
+                    console.log('Body', body);
+                    const { data } = await apiURL.patch(`lactancia/individual?usuario=${globalUserId}`, body);
+                    console.log(data);
                 }
 
                 if (opc === 'Lactancia artificial') {
@@ -746,8 +557,9 @@ const Usuarios = () => {
                             LactanciaCheckExlusiva ? 'N/A' : { valor: values.tiempoLactancia, fecha: new Date() },
                         ],
                     };
-
-                    await apiURL.patch(`lactancia/individual?usuario=${globalUserId}`, body);
+                    console.log('Body', body);
+                    const { data } = await apiURL.patch(`lactancia/individual?usuario=${globalUserId}`, body);
+                    console.log(data);
                 }
 
                 if (opc === 'Lactancia mixta') {
@@ -758,8 +570,9 @@ const Usuarios = () => {
                             LactanciaCheckExlusiva ? 'N/A' : { valor: values.tiempoLactancia, fecha: new Date() },
                         ],
                     };
-
-                    await apiURL.patch(`lactancia/individual?usuario=${globalUserId}`, body);
+                    console.log('Body', body);
+                    const { data } = await apiURL.patch(`lactancia/individual?usuario=${globalUserId}`, body);
+                    console.log(data);
                 }
 
                 if (opc === 'Lactancia materna complementada') {
@@ -772,8 +585,9 @@ const Usuarios = () => {
                             LactanciaCheckExlusiva ? 'N/A' : { valor: values.tiempoLactancia, fecha: new Date() },
                         ],
                     };
-
-                    await apiURL.patch(`lactancia/individual?usuario=${globalUserId}`, body);
+                    console.log('Body', body);
+                    const { data } = await apiURL.patch(`lactancia/individual?usuario=${globalUserId}`, body);
+                    console.log(data);
                 }
 
                 if (opc === 'Lactancia mixta complementada') {
@@ -786,8 +600,9 @@ const Usuarios = () => {
                             LactanciaCheckExlusiva ? 'N/A' : { valor: values.tiempoLactancia, fecha: new Date() },
                         ],
                     };
-
-                    await apiURL.patch(`lactancia/individual?usuario=${globalUserId}`, body);
+                    console.log('Body', body);
+                    const { data } = await apiURL.patch(`lactancia/individual?usuario=${globalUserId}`, body);
+                    console.log(data);
                 }
 
                 if (opc === 'Lactancia artificial complementada') {
@@ -800,12 +615,15 @@ const Usuarios = () => {
                             LactanciaCheckExlusiva ? 'N/A' : { valor: values.tiempoLactancia, fecha: new Date() },
                         ],
                     };
-
-                    await apiURL.patch(`lactancia/individual?usuario=${globalUserId}`, body);
+                    console.log('Body', body);
+                    const { data } = await apiURL.patch(`lactancia/individual?usuario=${globalUserId}`, body);
+                    console.log(data);
                 }
                 console.log('PATCH');
             } else {
                 const opc = values.opcionLactancia;
+                console.log(opc);
+
                 if (opc === 'Lactancia materna exclusiva') {
                     const body = {
                         usuario: info.usuario,
@@ -816,8 +634,9 @@ const Usuarios = () => {
                             LactanciaCheckExlusiva ? 'N/A' : { valor: values.tiempoLactancia, fecha: new Date() },
                         ],
                     };
-
-                    await apiURL.post(`lactancia/individual?usuario=${info.usuario}`, body);
+                    console.log('Body', body);
+                    const { data } = await apiURL.post(`lactancia/individual?usuario=${info.usuario}`, body);
+                    console.log(data);
                 }
 
                 if (opc === 'Lactancia artificial') {
@@ -830,7 +649,9 @@ const Usuarios = () => {
                             LactanciaCheckExlusiva ? 'N/A' : { valor: values.tiempoLactancia, fecha: new Date() },
                         ],
                     };
-                    await apiURL.post(`lactancia/individual?usuario=${info.usuario}`, body);
+                    console.log('Body', body);
+                    const { data } = await apiURL.post(`lactancia/individual?usuario=${info.usuario}`, body);
+                    console.log(data);
                 }
 
                 if (opc === 'Lactancia mixta') {
@@ -841,7 +662,9 @@ const Usuarios = () => {
                             LactanciaCheckExlusiva ? 'N/A' : { valor: values.tiempoLactancia, fecha: new Date() },
                         ],
                     };
-                    await apiURL.post(`lactancia/individual?usuario=${info.usuario}`, body);
+                    console.log('Body', body);
+                    const { data } = await apiURL.post(`lactancia/individual?usuario=${info.usuario}`, body);
+                    console.log(data);
                 }
 
                 if (opc === 'Lactancia materna complementada') {
@@ -854,8 +677,9 @@ const Usuarios = () => {
                             LactanciaCheckExlusiva ? 'N/A' : { valor: values.tiempoLactancia, fecha: new Date() },
                         ],
                     };
-
-                    await apiURL.post(`lactancia/individual?usuario=${info.usuario}`, body);
+                    console.log('Body', body);
+                    const { data } = await apiURL.post(`lactancia/individual?usuario=${info.usuario}`, body);
+                    console.log(data);
                 }
 
                 if (opc === 'Lactancia mixta complementada') {
@@ -868,8 +692,9 @@ const Usuarios = () => {
                             LactanciaCheckExlusiva ? 'N/A' : { valor: values.tiempoLactancia, fecha: new Date() },
                         ],
                     };
-
-                    await apiURL.post(`lactancia/individual?usuario=${info.usuario}`, body);
+                    console.log('Body', body);
+                    const { data } = await apiURL.post(`lactancia/individual?usuario=${info.usuario}`, body);
+                    console.log(data);
                 }
 
                 if (opc === 'Lactancia artificial complementada') {
@@ -882,8 +707,9 @@ const Usuarios = () => {
                             LactanciaCheckExlusiva ? 'N/A' : { valor: values.tiempoLactancia, fecha: new Date() },
                         ],
                     };
-
-                    await apiURL.post(`lactancia/individual?usuario=${info.usuario}`, body);
+                    console.log('Body', body);
+                    const { data } = await apiURL.post(`lactancia/individual?usuario=${info.usuario}`, body);
+                    console.log(data);
                 }
 
                 console.log('POST');
@@ -894,98 +720,8 @@ const Usuarios = () => {
             console.groupEnd();
         }
     };
-
-    const updateIndicadoresCliSchema = () => {
-        const lengthIndicadoresCliSchema = [0, 0];
-        let EntryIndicadoresCliSchema = 0;
-        if (presionArterialEntry !== -1 || acanthosisNigricansEntry !== -1) {
-            if (presionArterialEntry !== -1) {
-                setPresionArterial([...newPresionArterial, presionArterialEntry]);
-                lengthIndicadoresCliSchema[0] = newPresionArterial.length;
-            } else {
-                setPresionArterial([...newPresionArterial, newPresionArterial[newPresionArterial.length - 1]]);
-                lengthIndicadoresCliSchema[0] = newPresionArterial.length;
-            }
-
-            if (acanthosisNigricansEntry !== -1) {
-                setAcanthosisNigricans([...newAcanthosisNigricans, acanthosisNigricansEntry]);
-                lengthIndicadoresCliSchema[1] = newAcanthosisNigricans.length;
-            } else {
-                setAcanthosisNigricans([
-                    ...newAcanthosisNigricans,
-                    newAcanthosisNigricans[newAcanthosisNigricans.length - 1],
-                ]);
-                lengthIndicadoresCliSchema[1] = newAcanthosisNigricans.length;
-            }
-
-            for (let x = 0; x <= 6; x++) {
-                if (EntryIndicadoresCliSchema === 1) {
-                    break;
-                } else {
-                    if (lengthIndicadoresCliSchema[x] >= newPosicionesCliSchema.length) {
-                        setPosicionesCliSchema([...newPosicionesCliSchema, newPosicionesCliSchema.length + 1]);
-                        EntryIndicadoresCliSchema = 1;
-                    }
-                }
-            }
-
-            EntryIndicadoresCliSchema = 0;
-
-            setIsOpenIndicadoresCliShema(false);
-        }
-
-        setPresionArterialEn(-1);
-        setAcenthosisNigricansEn(-1);
-        setIsOpenIndicadoresCliShema(false);
-    };
-
-    const updateIndicadoresSleep = () => {
-        const lengthIndicadoresSleep = [0, 0];
-        let EntryIndicadoresSleep = 0;
-        if (horasDeSleepEntry !== -1 || estadoDeDescansoEntry !== -1) {
-            if (horasDeSleepEntry !== -1) {
-                setHorasSleep([...newHorasSleep, horasDeSleepEntry]);
-                lengthIndicadoresSleep[0] = newHorasSleep.length;
-            } else {
-                setHorasSleep([...newHorasSleep, newHorasSleep[newHorasSleep.length - 1]]);
-                lengthIndicadoresSleep[0] = newHorasSleep.length;
-            }
-
-            if (estadoDeDescansoEntry !== -1) {
-                setEstadoDeDescanso([...newEstadoDeDescanso, estadoDeDescansoEntry]);
-                lengthIndicadoresSleep[1] = newEstadoDeDescanso.length;
-            } else {
-                setEstadoDeDescanso([...newEstadoDeDescanso, newEstadoDeDescanso[newEstadoDeDescanso.length - 1]]);
-                lengthIndicadoresSleep[1] = newEstadoDeDescanso.length;
-            }
-
-            for (let x = 0; x <= 1; x++) {
-                if (EntryIndicadoresSleep === 1) {
-                    break;
-                } else {
-                    if (lengthIndicadoresSleep[x] >= newPosicionesIndSleep.length) {
-                        setPosicionesIndSleep([...newPosicionesIndSleep, newPosicionesIndSleep.length + 1]);
-                        EntryIndicadoresSleep = 1;
-                    }
-                }
-            }
-
-            EntryIndicadoresSleep = 0;
-            setIsOpenIndicadoresSleep(false);
-        }
-
-        setHorasDeSleepEn(-1);
-        setEstadoDeDescansoEn(-1);
-        setIsOpenIndicadoresSleep(false);
-    };
-
-    const closeError = () => {
-        setIsOpenError(false);
-    };
-
-    const closeErrorCampCor = () => {
-        setIsOpenErrorCampCor(false);
-    };
+    
+    
 
     function InflamacionInt(e) {
         const x = e;
@@ -994,46 +730,55 @@ const Usuarios = () => {
 
     async function GuardarCambios() {
         if (name !== '') {
+
         } else {
             name = info.nombre;
         }
 
         if (apellidoP !== '') {
+
         } else {
             apellidoP = info.apellidoPaterno;
         }
 
         if (apellidoM !== '') {
+            
         } else {
             apellidoM = info.apellidoMaterno;
         }
 
         if (celular !== '') {
+            
         } else {
             celular = info.celular;
         }
 
         if (ciudadResidencia !== '') {
+            
         } else {
             ciudadResidencia = info.ciudadDeResidencia;
         }
 
         if (tiempoResidando !== '') {
+            
         } else {
             tiempoResidando = info.tiempoViviendoAhi;
         }
 
         if (estadoDeNacomiento !== '') {
+            
         } else {
             estadoDeNacomiento = info.estadoDeNacimiento;
         }
 
         if (fechaNacimiento !== '') {
+            
         } else {
             fechaNacimiento = info.fechaDeNacimiento;
         }
 
         if (genero !== '') {
+            
         } else {
             genero = info.genero;
         }
@@ -1053,7 +798,8 @@ const Usuarios = () => {
                 genero: genero,
             };
 
-            await apiURL.patch(`/informacionUsuarios/individual?usuario=${userId}`, body);
+            const res = await apiURL.patch(`/informacionUsuarios/individual?usuario=${userId}`, body);
+            console.log(res);
         } catch (error) {
             console.groupCollapsed('Error en la funcion fetchInfo');
             console.error(error);
@@ -1062,6 +808,10 @@ const Usuarios = () => {
 
         fethInfo();
     }
+
+    async function GuardarGastroInt() {}
+
+    async function guardarLactancia() {}
 
     return (
         <>
@@ -1172,264 +922,10 @@ const Usuarios = () => {
                     </div>
                 </div>
                 <Weight id={globalUserId} />
-                <div className='containerCircunferencia'>
-                    <div className='basicInfo-Title'>Circunferencia</div>
-                    <div className='circunferencia-Container3'>
-                        {infoCircunferencia?.cintura?.length > 0 && (
-                            <Circunferencia data={infoCircunferencia} dates={circunferenciaDates.cadera} />
-                        )}
-                    </div>
-                    {/*Fin de grafica----------------------------------------------------------------*/}
-                    <div>
-                        <div className='circunferencia-Container'>
-                            <div className='campoCor-Container2'>
-                                <input
-                                    type='button'
-                                    value='Agregar'
-                                    onClick={togglePopup}
-                                    className='btn-see-circunferencia'
-                                />
-                                {isOpen && (
-                                    <Popup
-                                        content={
-                                            <>
-                                                <b>Agregando un nuevo valor</b>
-                                                <div>
-                                                    <div className='circunferencia-Container'>
-                                                        <div className='circunferencia-Container4'>
-                                                            <label className='label-circunferencia'>Cintura:</label>
-                                                            <input
-                                                                className='input-circunferencia'
-                                                                type='number'
-                                                                name='numero'
-                                                                min={0}
-                                                                placeholder={''}
-                                                                onChange={(event) =>
-                                                                    setCinturaEn(event.target.value)
-                                                                }></input>
-                                                        </div>
-                                                        <div className='circunferencia-Container4'>
-                                                            <label className='label-circunferencia'>Cadera:</label>
-                                                            <input
-                                                                className='input-circunferencia'
-                                                                type='number'
-                                                                name='numero'
-                                                                min={0}
-                                                                placeholder={''}
-                                                                onChange={(event) =>
-                                                                    setCaderaEn(event.target.value)
-                                                                }></input>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <button
-                                                    className='btn-see-circunferencia'
-                                                    onClick={updateCinturas}
-                                                    value='Add'>
-                                                    Agregar
-                                                </button>
-                                            </>
-                                        }
-                                        handleClose={togglePopup}
-                                    />
-                                )}
-                            </div>
-                        </div>
-                    </div>
+                <Circumference id={globalUserId} /> 
 
-                    {/*PopUpError----------------------------------------------------------------*/}
-                    <div>
-                        <div className='campCor-Container'>
-                            <div className='campoCor-Container2'>
-                                <p></p>
-                                {isOpenError && (
-                                    <Popup
-                                        content={
-                                            <>
-                                                <b>Error</b>
-                                                <div>
-                                                    <div className='campoCor-Container'>
-                                                        <div className='campCor-Container4'>
-                                                            <label className='label-campCor'>
-                                                                Porfavor ingrese todos los campos para guardar
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <button className='btn-see-camCor' onClick={closeError} value='Add'>
-                                                    Okay
-                                                </button>
-                                            </>
-                                        }
-                                        handleClose={togglePopupError}
-                                    />
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 {/*new Campos Corporales--------------------------------------------------------------------------------------------------------------------------------------------------- */}
-                <div className='containerCampoCor'>
-                    <div className='basicInfo-Title'>Campos Corporales</div>
-                    {/*Grafica-----------------------------------------------------------------------*/}
-                    <div className='campCor-Container3'>
-                        <div>
-                            {infoCampoCor?.grasas && Array.isArray(infoCampoCor.grasas) && (
-                                <CampoCor data={infoCampoCor} dates={infoCorDates} />
-                            )}
-                        </div>
-                    </div>
-                    {/*Fin de grafica----------------------------------------------------------------*/}
-                    <div>
-                        <div className='campCor-Container'>
-                            <div className='campoCor-Container2'>
-                                <input
-                                    type='button'
-                                    value='Agregar'
-                                    onClick={togglePopupCampCor}
-                                    className='btn-see-camCor'
-                                />
-                                <p></p>
-                                {isOpenCampCor && (
-                                    <Popup
-                                        content={
-                                            <>
-                                                <b>Agregando un nuevo valor</b>
-                                                <div>
-                                                    <div className='campoCor-Container'>
-                                                        <div className='campCor-Container4'>
-                                                            <label className='label-campCor'>
-                                                                Porcentaje de grasa:
-                                                            </label>
-                                                            <input
-                                                                className='input-campCor'
-                                                                type='number'
-                                                                name='numero'
-                                                                min={0}
-                                                                placeholder={''}
-                                                                onChange={(event) =>
-                                                                    setGrasaEn(event.target.value)
-                                                                }></input>
-                                                        </div>
-                                                        <div className='campCor-Container4'>
-                                                            <label className='label-campCor'>Porcentaje de masa:</label>
-                                                            <input
-                                                                className='input-campCor'
-                                                                type='number'
-                                                                name='numero'
-                                                                min={0}
-                                                                placeholder={''}
-                                                                onChange={(event) =>
-                                                                    setMasaEn(event.target.value)
-                                                                }></input>
-                                                        </div>
-                                                        <div className='campCor-Container4'>
-                                                            <label className='label-campCor'>Porcentaje de agua:</label>
-                                                            <input
-                                                                className='input-campCor'
-                                                                type='number'
-                                                                name='numero'
-                                                                min={0}
-                                                                placeholder={''}
-                                                                onChange={(event) =>
-                                                                    setAguaEn(event.target.value)
-                                                                }></input>
-                                                        </div>
-                                                        <div className='campCor-Container4'>
-                                                            <label className='label-campCor'>Densidad osea:</label>
-                                                            <input
-                                                                className='input-campCor'
-                                                                type='number'
-                                                                name='numero'
-                                                                min={0}
-                                                                placeholder={''}
-                                                                onChange={(event) =>
-                                                                    setOseaEn(event.target.value)
-                                                                }></input>
-                                                        </div>
-                                                        <div className='campCor-Container4'>
-                                                            <label className='label-campCor'>Grasa visceral:</label>
-                                                            <input
-                                                                className='input-campCor'
-                                                                type='number'
-                                                                name='numero'
-                                                                min={0}
-                                                                placeholder={''}
-                                                                onChange={(event) =>
-                                                                    setVisceralEn(event.target.value)
-                                                                }></input>
-                                                        </div>
-                                                        <div className='campCor-Container4'>
-                                                            <label className='label-campCor'>Tasa metabolica:</label>
-                                                            <input
-                                                                className='input-campCor'
-                                                                type='number'
-                                                                name='numero'
-                                                                min={0}
-                                                                placeholder={''}
-                                                                onChange={(event) =>
-                                                                    setTMetabolicaEn(event.target.value)
-                                                                }></input>
-                                                        </div>
-                                                        <div className='campCor-Container4'>
-                                                            <label className='label-campCor'>Edad metabolica:</label>
-                                                            <input
-                                                                className='input-campCor'
-                                                                type='number'
-                                                                name='numero'
-                                                                min={0}
-                                                                placeholder={''}
-                                                                onChange={(event) =>
-                                                                    setEMetabolicaEn(event.target.value)
-                                                                }></input>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <button className='btn-see-camCor' onClick={updateCampCor} value='Add'>
-                                                    Agregar
-                                                </button>
-                                            </>
-                                        }
-                                        handleClose={togglePopupCampCor}
-                                    />
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                    {/*Error Campos Corporales----------------------------------------------------------------*/}
-                    <div>
-                        <div className='campCor-Container'>
-                            <div className='campoCor-Container2'>
-                                <p></p>
-                                {isOpenErrorCampCor && (
-                                    <Popup
-                                        content={
-                                            <>
-                                                <b>Error</b>
-                                                <div>
-                                                    <div className='campoCor-Container'>
-                                                        <div className='campCor-Container4'>
-                                                            <label className='label-campCor'>
-                                                                Porfavor ingrese todos los campos para guardar
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <button
-                                                    className='btn-see-camCor'
-                                                    onClick={closeErrorCampCor}
-                                                    value='Add'>
-                                                    Okay
-                                                </button>
-                                            </>
-                                        }
-                                        handleClose={togglePopupErrorCampCor}
-                                    />
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
 
                 {/*Indicadores Bioquimicos--------------------------------------------------------------------------------------------------------------------------------------------------- */}
                 <div className='containerCampoCor'>
@@ -1590,206 +1086,33 @@ const Usuarios = () => {
                         </div>
                     </div>
                 </div>
-                {/*new Estado General--------------------------------------------------------------------------------------------------------------------------------------------------- */}
-                {/*<div className='containerCampoCor'>
-                    
-                    <div className='basicInfo-Title'>Estado General</div>
-                    Grafica-----------------------------------------------------------------------
-                    <div className='campCor-Container3'>
-                        <div>
-                            {/* <Line
-                                width={750}
-                                height={500}
-                                data={dataEstadoGeneral}
-                                options={{
-                                    maintainAspectRatio: false,
-                                    title: {
-                                        display: true,
-                                        text: 'Exposicion Solar',
-                                        fontSize: 20,
-                                    },
-                                    legend: {
-                                        display: true,
-                                        position: 'right',
-                                    },
-                                }}
-                            /> 
-                        </div>
-                    </div>
-                    */}
-                {/*Fin de grafica----------------------------------------------------------------*/}
-                {/*
-                    <div>
-                        <div className='campCor-Container'>
-                            <div className='campoCor-Container2'>
-                                <input
-                                    type='button'
-                                    value='Agregar'
-                                    onClick={togglePopupEstadoG}
-                                    className='btn-see-camCor'
-                                />
-                                <p></p>
-                                {isOpenEstadoG && (
-                                    <Popup
-                                        content={
-                                            <>
-                                                <b>Agregando un nuevo valor</b>
-                                                <div>
-                                                    <div className='campoCor-Container'>
-                                                        <div className='campCor-Container4'>
-                                                            <label className='label-campCor'>
-                                                                Nivel de
-                                                                cansancio:
-                                                            </label>
-                                                            <input
-                                                                className='input-campCor'
-                                                                type='number'
-                                                                name='numero'
-                                                                min={0}
-                                                                placeholder={''}
-                                                                onChange={(
-                                                                    event
-                                                                ) =>
-                                                                    setCansansioEn(
-                                                                        event
-                                                                            .target
-                                                                            .value
-                                                                    )
-                                                                }></input>
-                                                        </div>
-                                                        <div className='campCor-Container4'>
-                                                            <label className='label-campCor'>
-                                                                Nivel de mareo:
-                                                            </label>
-                                                            <input
-                                                                className='input-campCor'
-                                                                type='number'
-                                                                name='numero'
-                                                                min={0}
-                                                                placeholder={''}
-                                                                onChange={(
-                                                                    event
-                                                                ) =>
-                                                                    setMareoEn(
-                                                                        event
-                                                                            .target
-                                                                            .value
-                                                                    )
-                                                                }></input>
-                                                        </div>
-                                                        <div className='campCor-Container4'>
-                                                            <label className='label-campCor'>
-                                                                Nivel de sed:
-                                                            </label>
-                                                            <input
-                                                                className='input-campCor'
-                                                                type='number'
-                                                                name='numero'
-                                                                min={0}
-                                                                placeholder={''}
-                                                                onChange={(
-                                                                    event
-                                                                ) =>
-                                                                    setSedEn(
-                                                                        event
-                                                                            .target
-                                                                            .value
-                                                                    )
-                                                                }></input>
-                                                        </div>
-                                                        <div className='campCor-Container4'>
-                                                            <label className='label-campCor'>
-                                                                Frecuencia de
-                                                                orinar:
-                                                            </label>
-                                                            <input
-                                                                className='input-campCor'
-                                                                type='number'
-                                                                name='numero'
-                                                                min={0}
-                                                                placeholder={''}
-                                                                onChange={(
-                                                                    event
-                                                                ) =>
-                                                                    setGanasDOrinarEn(
-                                                                        event
-                                                                            .target
-                                                                            .value
-                                                                    )
-                                                                }></input>
-                                                        </div>
-                                                        <div className='campCor-Container4'>
-                                                            <label className='label-campCor'>
-                                                                Nivel de hambre:
-                                                            </label>
-                                                            <input
-                                                                className='input-campCor'
-                                                                type='number'
-                                                                name='numero'
-                                                                min={0}
-                                                                placeholder={''}
-                                                                onChange={(
-                                                                    event
-                                                                ) =>
-                                                                    setHambreEn(
-                                                                        event
-                                                                            .target
-                                                                            .value
-                                                                    )
-                                                                }></input>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <button
-                                                    className='btn-see-camCor'
-                                                    onClick={
-                                                        updateEstadoGeneral
-                                                    }
-                                                    value='Add'>
-                                                    Agregar
-                                                </button>
-                                            </>
-                                        }
-                                        handleClose={togglePopupEstadoG}
-                                    />
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                    */}
                 {/*new new Estado Genaral--------------------------------------------------------------------------------------------------------------------------------------------------- */}
                 <div className='containerEstadoGen'>
                     <div className='basicInfo-Title3'>Estado general</div>
-
-                    <Divider />
                     <Form form={form} requiredMark={false} onFinish={updateEstadoGeneral}>
-                        {
-                            <div className='basicInfo-Name-Container3'>
-                                <div className='basicInfo-Name-Container4'>
-                                    <label className='id-gastroIn'>Mucho cansancio:</label>
-                                    <Form.Item
-                                        name='muchoCansancio'
-                                        className='lb-gastrInSelect'
-                                        rules={[Rules.basicSpanish]}>
-                                        <Select name='mCancancio' defaultValue={''}>
-                                            <Option value={'Si'}>Si</Option>
-                                            <Option value={'No'}>No</Option>
-                                        </Select>
-                                    </Form.Item>
-                                </div>
-
-                                <div className='basicInfo-Name-Container4'>
-                                    <label className='id-gastroIn'>Mareos:</label>
-                                    <Form.Item name='mareos' className='lb-gastrInSelect' rules={[Rules.basicSpanish]}>
-                                        <Select defaultValue={''}>
-                                            <Option value={'Si'}>Si</Option>
-                                            <Option value={'No'}>No</Option>
-                                        </Select>
-                                    </Form.Item>
-                                </div>
+                        <div className='basicInfo-Name-Container3'>
+                            <div className='basicInfo-Name-Container4'>
+                                <label className='id-gastroIn'>Mucho cansancio:</label>
+                                <Form.Item
+                                    name='muchoCansancio'
+                                    className='lb-gastrInSelect'
+                                    rules={[Rules.basicSpanish]}>
+                                    <Select name='mCancancio' defaultValue={''}>
+                                        <Option value={'Si'}>Si</Option>
+                                        <Option value={'No'}>No</Option>
+                                    </Select>
+                                </Form.Item>
                             </div>
-                        }
-
+                            <div className='basicInfo-Name-Container4'>
+                                <label className='id-gastroIn'>Mareos:</label>
+                                <Form.Item name='mareos' className='lb-gastrInSelect' rules={[Rules.basicSpanish]}>
+                                    <Select defaultValue={''}>
+                                        <Option value={'Si'}>Si</Option>
+                                        <Option value={'No'}>No</Option>
+                                    </Select>
+                                </Form.Item>
+                            </div>
+                        </div>
                         <div className='basicInfo-Name-Container3'>
                             <div className='basicInfo-Name-Container4'>
                                 <label className='id-gastroIn'>Mucha sed:</label>
@@ -1813,7 +1136,6 @@ const Usuarios = () => {
                                 </Form.Item>
                             </div>
                         </div>
-
                         <div className='basicInfo-Name-Container3'>
                             <div className='basicInfo-Name-Container4'>
                                 <label className='id-gastroIn'>Mucha Hambre:</label>
@@ -1827,7 +1149,7 @@ const Usuarios = () => {
                         </div>
 
                         <div className='basicInfo-Title2'>Pies y manos</div>
-                        <Divider />
+
                         <div className='basicInfo-Name-Container3'>
                             <div className='basicInfo-Name-Container4'>
                                 <label className='id-gastroIn'>¿Se hinchan sus pies o manos?</label>
@@ -1835,9 +1157,9 @@ const Usuarios = () => {
                                     name='seHinchan'
                                     className='lb-gastrInSelect'
                                     /*
-                                        rules={[
-                                            Rules.basicSpanish,
-                                        ]}*/
+                                    rules={[
+                                        Rules.basicSpanish,
+                                    ]}*/
                                 >
                                     <Select
                                         onChange={(value) => setGeneralCheckPYM(value === 'No' ? true : false)}
@@ -1853,9 +1175,9 @@ const Usuarios = () => {
                                     name='aQuehora'
                                     className='lb-gastrInSelect'
                                     /*
-                                        rules={[
-                                            Rules.basicSpanish,
-                                        ]}*/
+                                    rules={[
+                                        Rules.basicSpanish,
+                                    ]}*/
                                 >
                                     <Select disabled={generalCheckPYM} defaultValue={''}>
                                         <Option value={'Al despertar'}>Al despertar</Option>
@@ -1872,9 +1194,9 @@ const Usuarios = () => {
                                     name='frecuencia'
                                     className='lb-gastrInSelect'
                                     /*
-                                        rules={[
-                                            Rules.basicSpanish,
-                                        ]}*/
+                                    rules={[
+                                        Rules.basicSpanish,
+                                    ]}*/
                                 >
                                     <Select disabled={generalCheckPYM} defaultValue={''}>
                                         <Option value={'Al despertar'}>Todos los días</Option>
@@ -1888,9 +1210,9 @@ const Usuarios = () => {
                                 <Form.Item
                                     name='horasSentado'
                                     /*
-                                        rules={[
-                                            Rules.basicSpanish,
-                                        ]}*/
+                                    rules={[
+                                        Rules.basicSpanish,
+                                    ]}*/
                                 >
                                     {/*<input disabled = {generalCheckPYM} className='lb-gastrIn2'></input>*/}
                                     <input
@@ -1903,16 +1225,15 @@ const Usuarios = () => {
                                 </Form.Item>
                             </div>
                         </div>
-
                         <div className='basicInfo-Name-Container3'>
                             <div className='basicInfo-Name-Container4'>
                                 <label className='id-gastroIn'>¿Cuántas horas pasa parado al día? </label>
                                 <Form.Item
                                     name='horasParado'
                                     /*
-                                        rules={[
-                                            Rules.basicSpanish,
-                                        ]}*/
+                                    rules={[
+                                        Rules.basicSpanish,
+                                    ]}*/
                                 >
                                     {/*<input disabled = {generalCheckPYM} className='lb-gastrIn2'></input>*/}
                                     <input
@@ -1925,9 +1246,8 @@ const Usuarios = () => {
                                 </Form.Item>
                             </div>
                         </div>
-
                         <div className='basicInfo-Title2'>Nariz</div>
-                        <Divider />
+
                         <div className='basicInfo-Name-Container3'>
                             <div className='basicInfo-Name-Container4'>
                                 <label className='id-gastroIn'>Sangrado de nariz:</label>
@@ -1935,9 +1255,9 @@ const Usuarios = () => {
                                     name='sangradoDe'
                                     className='lb-gastrInSelect'
                                     /*
-                                        rules={[
-                                            Rules.basicSpanish,
-                                        ]}*/
+                                    rules={[
+                                        Rules.basicSpanish,
+                                    ]}*/
                                 >
                                     <Select
                                         onChange={(value) => setGeneralCheckNa(value === 'No' ? true : false)}
@@ -1953,9 +1273,9 @@ const Usuarios = () => {
                                     name='frecuenciaDe'
                                     className='lb-gastrInSelect'
                                     /*
-                                        rules={[
-                                            Rules.basicSpanish,
-                                        ]}*/
+                                    rules={[
+                                        Rules.basicSpanish,
+                                    ]}*/
                                 >
                                     <Select disabled={generalCheckNa} defaultValue={''}>
                                         <Option value={'Casi todos los días'}>Casi todos los días</Option>
@@ -1967,7 +1287,7 @@ const Usuarios = () => {
                         </div>
 
                         <div className='basicInfo-Title2'>Piel</div>
-                        <Divider />
+
                         <div className='basicInfo-Name-Container3'>
                             <div className='basicInfo-Name-Container4'>
                                 <label className='id-gastroIn'>Manchas rojas en su piel o moretes sin motivo:</label>
@@ -1975,9 +1295,9 @@ const Usuarios = () => {
                                     name='manchasRojasMoretes'
                                     className='lb-gastrInSelect'
                                     /*
-                                        rules={[
-                                            Rules.basicSpanish,
-                                        ]}*/
+                                    rules={[
+                                        Rules.basicSpanish,
+                                    ]}*/
                                 >
                                     <Select
                                         onChange={(value) => setGeneralCheckPi(value === 'No' ? true : false)}
@@ -1993,9 +1313,9 @@ const Usuarios = () => {
                                     name='frecuenciaDeEllo'
                                     className='lb-gastrInSelect'
                                     /*
-                                        rules={[
-                                            Rules.basicSpanish,
-                                        ]}*/
+                                    rules={[
+                                        Rules.basicSpanish,
+                                    ]}*/
                                 >
                                     <Select disabled={generalCheckPi} defaultValue={''}>
                                         <Option value={'Casi todos los días'}>Casi todos los días</Option>
@@ -2007,7 +1327,7 @@ const Usuarios = () => {
                         </div>
 
                         <div className='basicInfo-Title2'>Uñas</div>
-                        <Divider />
+
                         <div className='basicInfo-Name-Container3'>
                             <div className='basicInfo-Name-Container4'>
                                 <label className='id-gastroIn'>Uñas quebradizas:</label>
@@ -2015,9 +1335,9 @@ const Usuarios = () => {
                                     name='quebradizas'
                                     className='lb-gastrInSelect'
                                     /*
-                                        rules={[
-                                            Rules.basicSpanish,
-                                        ]}*/
+                                    rules={[
+                                        Rules.basicSpanish,
+                                    ]}*/
                                 >
                                     <Select
                                         onChange={(value) => setGeneralCheckNails(value === 'No' ? true : false)}
@@ -2035,9 +1355,9 @@ const Usuarios = () => {
                                     name='frecuencia2'
                                     className='lb-gastrInSelect'
                                     /*
-                                        rules={[
-                                            Rules.basicSpanish,
-                                        ]}*/
+                                    rules={[
+                                        Rules.basicSpanish,
+                                    ]}*/
                                 >
                                     <Select disabled={generalCheckNails} defaultValue={''}>
                                         <Option value={'Si'}>Si</Option>
@@ -2048,7 +1368,7 @@ const Usuarios = () => {
                         </div>
 
                         <div className='basicInfo-Title2'>Cabello</div>
-                        <Divider />
+
                         <div className='basicInfo-Name-Container3'>
                             <div className='basicInfo-Name-Container4'>
                                 <label className='id-gastroIn'>Caída de cabello:</label>
@@ -2056,9 +1376,9 @@ const Usuarios = () => {
                                     name='caidaDeCabello'
                                     className='lb-gastrInSelect'
                                     /*
-                                        rules={[
-                                            Rules.basicSpanish,
-                                        ]}*/
+                                    rules={[
+                                        Rules.basicSpanish,
+                                    ]}*/
                                 >
                                     <Select
                                         onChange={(value) => setGeneralCheckCabello(value === 'No' ? true : false)}
@@ -2074,9 +1394,9 @@ const Usuarios = () => {
                                     name='cabelloQuebradizo'
                                     className='lb-gastrInSelect'
                                     /*
-                                        rules={[
-                                            Rules.basicSpanish,
-                                        ]}*/
+                                    rules={[
+                                        Rules.basicSpanish,
+                                    ]}*/
                                 >
                                     <Select disabled={generalCheckCabello} defaultValue={''}>
                                         <Option value={'Si'}>Si</Option>
@@ -2085,7 +1405,6 @@ const Usuarios = () => {
                                 </Form.Item>
                             </div>
                         </div>
-
                         <div className='basicInfo-Name-Container3'>
                             <div className='basicInfo-Name-Container4'>
                                 <label className='id-gastroIn'>
@@ -2095,9 +1414,9 @@ const Usuarios = () => {
                                     name='cabelloTenidoOTratamiento'
                                     className='lb-gastrInSelect'
                                     /*
-                                        rules={[
-                                            Rules.basicSpanish,
-                                        ]}*/
+                                    rules={[
+                                        Rules.basicSpanish,
+                                    ]}*/
                                 >
                                     <Select disabled={generalCheckCabello} defaultValue={''}>
                                         <Option value={'Si'}>Si</Option>
@@ -2106,9 +1425,8 @@ const Usuarios = () => {
                                 </Form.Item>
                             </div>
                         </div>
-
                         <div className='basicInfo-Title2'>Boca</div>
-                        <Divider />
+
                         <div className='basicInfo-Name-Container3'>
                             <div className='basicInfo-Name-Container4'>
                                 <label className='id-gastroIn'>Cortaduras en las comisuras de su boca:</label>
@@ -2116,9 +1434,9 @@ const Usuarios = () => {
                                     name='cortadurasEnComisuras'
                                     className='lb-gastrInSelect'
                                     /*
-                                        rules={[
-                                            Rules.basicSpanish,
-                                        ]}*/
+                                    rules={[
+                                        Rules.basicSpanish,
+                                    ]}*/
                                 >
                                     <Select
                                         onChange={(value) => setGeneralCheckBoca1(value === 'No' ? true : false)}
@@ -2134,9 +1452,9 @@ const Usuarios = () => {
                                     name='frecuencia3'
                                     className='lb-gastrInSelect'
                                     /*
-                                        rules={[
-                                            Rules.basicSpanish,
-                                        ]}*/
+                                    rules={[
+                                        Rules.basicSpanish,
+                                    ]}*/
                                 >
                                     <Select disabled={generalCheckBoca1} defaultValue={''}>
                                         <Option value={'Casi todos los días'}>Casi todos los días</Option>
@@ -2153,9 +1471,9 @@ const Usuarios = () => {
                                     name='inflamacionDeLengua'
                                     className='lb-gastrInSelect'
                                     /*
-                                        rules={[
-                                            Rules.basicSpanish,
-                                        ]}*/
+                                    rules={[
+                                        Rules.basicSpanish,
+                                    ]}*/
                                 >
                                     <Select
                                         onChange={(value) => setGeneralCheckBoca2(value === 'No' ? true : false)}
@@ -2171,9 +1489,9 @@ const Usuarios = () => {
                                     name='frecuenciaDe2'
                                     className='lb-gastrInSelect'
                                     /*
-                                        rules={[
-                                            Rules.basicSpanish,
-                                        ]}*/
+                                    rules={[
+                                        Rules.basicSpanish,
+                                    ]}*/
                                 >
                                     <Select disabled={generalCheckBoca2} defaultValue={''}>
                                         <Option value={'Casi todos los días'}>Casi todos los días</Option>
@@ -2190,9 +1508,9 @@ const Usuarios = () => {
                                     name='inflamacionEncias'
                                     className='lb-gastrInSelect'
                                     /*
-                                        rules={[
-                                            Rules.basicSpanish,
-                                        ]}*/
+                                    rules={[
+                                        Rules.basicSpanish,
+                                    ]}*/
                                 >
                                     <Select
                                         onChange={(value) => setGeneralCheckBoca3(value === 'No' ? true : false)}
@@ -2208,9 +1526,9 @@ const Usuarios = () => {
                                     name='frecuenciaDeIE'
                                     className='lb-gastrInSelect'
                                     /*
-                                        rules={[
-                                            Rules.basicSpanish,
-                                        ]}*/
+                                    rules={[
+                                        Rules.basicSpanish,
+                                    ]}*/
                                 >
                                     <Select disabled={generalCheckBoca3} defaultValue={''}>
                                         <Option value={'Casi todos los días'}>Casi todos los días</Option>
@@ -2227,9 +1545,9 @@ const Usuarios = () => {
                                     name='sangradoEncias'
                                     className='lb-gastrInSelect'
                                     /*
-                                        rules={[
-                                            Rules.basicSpanish,
-                                        ]}*/
+                                    rules={[
+                                        Rules.basicSpanish,
+                                    ]}*/
                                 >
                                     <Select
                                         onChange={(value) => setGeneralCheckBoca4(value === 'No' ? true : false)}
@@ -2245,9 +1563,9 @@ const Usuarios = () => {
                                     name='frecuenciaDeSE'
                                     className='lb-gastrInSelect'
                                     /*
-                                        rules={[
-                                            Rules.basicSpanish,
-                                        ]}*/
+                                    rules={[
+                                        Rules.basicSpanish,
+                                    ]}*/
                                 >
                                     <Select disabled={generalCheckBoca4} defaultValue={''}>
                                         <Option value={'Casi todos los días'}>Casi todos los días</Option>
@@ -2257,9 +1575,8 @@ const Usuarios = () => {
                                 </Form.Item>
                             </div>
                         </div>
-
                         <div className='basicInfo-Title2'>Nacimiento</div>
-                        <Divider />
+
                         <div className='basicInfo-Name-Container3'>
                             <div className='basicInfo-Name-Container4'>
                                 <label className='id-gastroIn'>Naciste por:</label>
@@ -2287,114 +1604,6 @@ const Usuarios = () => {
                         </div>
                     </Form>
                 </div>
-
-                {/*Exposicion solar--------------------------------------------------------------------------------------------------------------------------------------------------- 
-                <div className='containerCampoCor'>
-                    <div className='basicInfo-Title'>Exposición Solar</div>
-                    {/*Grafica-----------------------------------------------------------------------
-                    <div className='campCor-Container3'>
-                        <div>
-                            {/* <Line
-                                width={750}
-                                height={500}
-                                data={dataExpoSol}
-                                options={{
-                                    maintainAspectRatio: false,
-                                    title: {
-                                        display: true,
-                                        text: 'Campos Corporales',
-                                        fontSize: 20,
-                                    },
-                                    legend: {
-                                        display: true,
-                                        position: 'right',
-                                    },
-                                }}
-                            /> 
-                        </div>
-                    </div>
-                    {/*Fin de grafica----------------------------------------------------------------
-                    <div>
-                        <div className='campCor-Container'>
-                            <div className='campoCor-Container2'>
-                                <input
-                                    type='button'
-                                    value='Agregar'
-                                    onClick={togglePopupExpoSol}
-                                    className='btn-see-camCor'
-                                />
-                                <p></p>
-                                {isOpenExpoSol && (
-                                    <Popup
-                                        content={
-                                            <>
-                                                <b>Agregando un nuevo valor</b>
-                                                <div>
-                                                    <div className='campoCor-Container'>
-                                                        <div className='campCor-Container4'>
-                                                            <label className='label-campCor'>Minutos en el sol:</label>
-                                                            <input
-                                                                className='input-campCor'
-                                                                type='number'
-                                                                name='numero'
-                                                                min={0}
-                                                                placeholder={''}
-                                                                onChange={(event) =>
-                                                                    setMinSolEn(event.target.value)
-                                                                }></input>
-                                                        </div>
-                                                        <div className='campCor-Container4'>
-                                                            <label className='label-campCor'>Piel cubierta:</label>
-                                                            <input
-                                                                className='input-campCor'
-                                                                type='number'
-                                                                name='numero'
-                                                                min={0}
-                                                                placeholder={''}
-                                                                onChange={(event) =>
-                                                                    setCubrePielEn(event.target.value)
-                                                                }></input>
-                                                        </div>
-                                                        <div className='campCor-Container4'>
-                                                            <label className='label-campCor'>
-                                                                Bloqueador solar usado:
-                                                            </label>
-                                                            <input
-                                                                className='input-campCor'
-                                                                type='number'
-                                                                name='numero'
-                                                                min={0}
-                                                                placeholder={''}
-                                                                onChange={(event) =>
-                                                                    setBloqueadroSolEn(event.target.value)
-                                                                }></input>
-                                                        </div>
-                                                        <div className='campCor-Container4'>
-                                                            <label className='label-campCor'>Dias por semana:</label>
-                                                            <input
-                                                                className='input-campCor'
-                                                                type='number'
-                                                                name='numero'
-                                                                min={0}
-                                                                placeholder={''}
-                                                                onChange={(event) =>
-                                                                    setDiasXSemEn(event.target.value)
-                                                                }></input>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <button className='btn-see-camCor' onClick={updateExpoSol} value='Add'>
-                                                    Agregar
-                                                </button>
-                                            </>
-                                        }
-                                        handleClose={togglePopupExpoSol}
-                                    />
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                </div>*/}
 
                 {/*new Expocicion solar--------------------------------------------------------------------------------------------------------------------------------------------------- */}
                 <div className='containerGastroInt'>
@@ -2582,7 +1791,9 @@ const Usuarios = () => {
                     </div>
                     <div className='basicInfo-Save-Container'>
                         <div className='basicInfo-Save-Container2'>
-                            <button className='btn-Save-basicInfo'>Save</button>
+                            <button className='btn-Save-basicInfo' onClick={() => GuardarGastroInt()}>
+                                Save
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -2645,202 +1856,6 @@ const Usuarios = () => {
                             </div>
                         </div>
                     </Form>
-                </div>
-
-                {/*Indicadores Clinicos Schema--------------------------------------------------------------------------------------------------------------------------------------------------- */}
-                <div className='containerCampoCor'>
-                    <div className='basicInfo-Title'>Indicadores Clinicos Schema</div>
-                    {/*Grafica-----------------------------------------------------------------------*/}
-                    <div className='campCor-Container3'>
-                        <div>
-                            {/*  <Line
-                                width={750}
-                                height={500}
-                                data={dataIndicadoresCliSchema}
-                                options={{
-                                    maintainAspectRatio: false,
-                                    title: {
-                                        display: true,
-                                        text: 'Campos Corporales',
-                                        fontSize: 20,
-                                    },
-                                    legend: {
-                                        display: true,
-                                        position: 'right',
-                                    },
-                                }}
-                            /> */}
-                        </div>
-                    </div>
-                    {/*Fin de grafica----------------------------------------------------------------*/}
-                    <div>
-                        <div className='campCor-Container'>
-                            <div className='campoCor-Container2'>
-                                <input
-                                    type='button'
-                                    value='Agregar'
-                                    onClick={togglePopupIndicadoresCliSchema}
-                                    className='btn-see-camCor'
-                                />
-                                <p></p>
-                                {isOpenIndicadoresCliSchema && (
-                                    <Popup
-                                        content={
-                                            <>
-                                                <b>Agregando un nuevo valor</b>
-                                                <div>
-                                                    <div className='campoCor-Container'>
-                                                        <div className='campCor-Container4'>
-                                                            <label className='label-campCor'>Presion arterial:</label>
-                                                            <input
-                                                                className='input-campCor'
-                                                                type='number'
-                                                                name='numero'
-                                                                min={0}
-                                                                placeholder={''}
-                                                                onChange={(event) =>
-                                                                    setPresionArterialEn(event.target.value)
-                                                                }></input>
-                                                        </div>
-                                                        <div className='campCor-Container4'>
-                                                            <label className='label-campCor'>
-                                                                Acanthosis nigricans:
-                                                            </label>
-                                                            <input
-                                                                className='input-campCor'
-                                                                type='number'
-                                                                name='numero'
-                                                                min={0}
-                                                                placeholder={''}
-                                                                onChange={(event) =>
-                                                                    setAcenthosisNigricansEn(event.target.value)
-                                                                }></input>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <button
-                                                    className='btn-see-camCor'
-                                                    onClick={updateIndicadoresCliSchema}
-                                                    value='Add'>
-                                                    Agregar
-                                                </button>
-                                            </>
-                                        }
-                                        handleClose={togglePopupIndicadoresCliSchema}
-                                    />
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {/*Indicadores Sueño--------------------------------------------------------------------------------------------------------------------------------------------------- */}
-                <div className='containerCampoCor'>
-                    <div className='basicInfo-Title'>Indicadores de Sueño</div>
-                    {/*Grafica-----------------------------------------------------------------------*/}
-                    <div className='campCor-Container3'>
-                        <div>
-                            {/* <Line
-                                width={750}
-                                height={500}
-                                data={dataIndicadoresSleep}
-                                options={{
-                                    maintainAspectRatio: false,
-                                    title: {
-                                        display: true,
-                                        text: 'Indicadores de Sueño',
-                                        fontSize: 20,
-                                    },
-                                    legend: {
-                                        display: true,
-                                        position: 'right',
-                                    },
-                                }}
-                            /> */}
-                        </div>
-                    </div>
-                    {/*Fin de grafica----------------------------------------------------------------*/}
-                    <div>
-                        <div className='campCor-Container'>
-                            <div className='campoCor-Container2'>
-                                <input
-                                    type='button'
-                                    value='Agregar'
-                                    onClick={togglePopupIndicadoresSleep}
-                                    className='btn-see-camCor'
-                                />
-                                <p></p>
-                                {isOpenIndicadoresSleep && (
-                                    <Popup
-                                        content={
-                                            <>
-                                                <b>Agregando un nuevo valor</b>
-                                                <div>
-                                                    <div className='campoCor-Container'>
-                                                        <div className='campCor-Container4'>
-                                                            <label className='label-campCor'>Horas Dormido:</label>
-                                                            <input
-                                                                className='input-campCor'
-                                                                type='number'
-                                                                name='numero'
-                                                                min={0}
-                                                                placeholder={''}
-                                                                onChange={(event) =>
-                                                                    setHorasDeSleepEn(event.target.value)
-                                                                }></input>
-                                                        </div>
-                                                        <div className='campCor-Container4'>
-                                                            <label className='label-campCor'>Estado de descanso:</label>
-                                                            <input
-                                                                className='input-campCor'
-                                                                type='number'
-                                                                name='numero'
-                                                                min={0}
-                                                                placeholder={''}
-                                                                onChange={(event) =>
-                                                                    setEstadoDeDescansoEn(event.target.value)
-                                                                }></input>
-                                                        </div>
-                                                        <div className='campCor-Container4'>
-                                                            <label className='id-indicadorS'>
-                                                                Despierto por la noche:
-                                                            </label>
-                                                            <Select
-                                                                id='inflaInt'
-                                                                defaultValue={'No'}
-                                                                className='lb-indicadorSSelect'
-                                                                onChange={(e) => setDespiertaXNoche(e)}>
-                                                                <Option value={'Si'}>Si</Option>
-                                                                <Option value={'No'}>No</Option>
-                                                            </Select>
-                                                        </div>
-                                                        <div className='campCor-Container4'>
-                                                            <label className='label-campCor'>Frecuencia:</label>
-                                                            <input
-                                                                className='input-campCor'
-                                                                placeholder={''}
-                                                                type='text'
-                                                                name='Frecuencia'
-                                                                onChange={(event) =>
-                                                                    setFrecuenciaDesXNoche(event.target.value)
-                                                                }></input>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <button
-                                                    className='btn-see-camCor'
-                                                    onClick={updateIndicadoresSleep}
-                                                    value='Add'>
-                                                    Agregar
-                                                </button>
-                                            </>
-                                        }
-                                        handleClose={togglePopupIndicadoresSleep}
-                                    />
-                                )}
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </>
