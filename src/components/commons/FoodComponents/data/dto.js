@@ -1,6 +1,7 @@
 import { isInvalidElem } from '../../../../utils';
 
 export const generateFormDTO = (data) => {
+    //console.log(data)
     if (isInvalidElem(data) || Array.isArray(data)) return [];
 
     const {
@@ -26,9 +27,11 @@ export const generateFormDTO = (data) => {
         imagen,
         marca,
     } = data;
+
     const { nutricional, ambiental, mensajeEconomia, mensajeCulturaSociedad } = mensaje;
     const { iconoNutricional, iconoAmbiental, iconoEconomia, iconoCulturaSociedad } = icono;
     const { cantidadSugerida, unidad, pesoNeto } = cantidadAlimento;
+
     const {
         energia,
         proteina,
@@ -47,6 +50,7 @@ export const generateFormDTO = (data) => {
         azucar,
         etanol,
     } = caloriasMacronutrientes;
+
     const {
         tiamina,
         riboflavin,
@@ -62,6 +66,7 @@ export const generateFormDTO = (data) => {
         vitaminaK,
         vitaminaE,
     } = vitaminas;
+
     const {
         calcio,
         fosforo,
@@ -74,10 +79,11 @@ export const generateFormDTO = (data) => {
         zinc,
         selenio,
     } = minerales;
+
     const { indiceGlicemico, cargaGlicemica } = aspectoGlucemico;
+
     const {
-        factorDeCorreccionParaHuellaHidricaYEGEI,
-        puntajeEcologico,
+        factorDeCorreccionParaHuellaHidricaYEGEI,        
         tipo,
         lugar,
         huellaHidricaTotal,
@@ -92,10 +98,13 @@ export const generateFormDTO = (data) => {
         huellaEcologica,
         energiaFosil,
         usoDeSuelo,
-        nitrogeno,
+        nitrogeno,        
+        puntajeEcologico,
         ...rest
     } = aspectoMedioambiental;
+
     const { precio, lugarDeCompra, lugarDeVenta } = aspectoEconomico;
+
     const {
         fitoquimicos,
         polifenoles,
@@ -112,6 +121,7 @@ export const generateFormDTO = (data) => {
         cafeina,
         UFC,
     } = componentesBioactivos;
+
     const {
         benzoatoDeSodio,
         polisorbato,
@@ -340,5 +350,250 @@ export const generateFormDTO = (data) => {
             name: 'zinc',
             value: zinc,
         },
+        {
+            name: 'indiceglicemico',
+            value: indiceGlicemico,
+        },
+        {
+            name: 'cargaglicemica',
+            value: cargaGlicemica,
+        },
+        {
+            name: 'fchh',
+            value: factorDeCorreccionParaHuellaHidricaYEGEI,
+        },
+        {
+            name: 'puntajeecologico',
+            value: puntajeEcologico,
+        },
+        {
+            name: 'tipo',
+            value: tipo,
+        },
+        {
+            name: 'lugar',
+            value: lugar,
+        },
+        {
+            name: 'hht',
+            value: huellaHidricaTotal,
+        },
+        {
+            name: 'hhv',
+            value: huellaHidricaVerde,
+        },
+        {
+            name: 'hha',
+            value: huellaHidricaAzul,
+        },
+        {
+            name: 'hhg',
+            value: huellaHidricaGris,
+        },
+        {
+            name: 'agualavado',
+            value: aguaParaLavado,
+        },
+        {
+            name: 'aguacoccion',
+            value: aguaParaCoccion,
+        },
+        {
+            name: 'lugaregei',
+            value: lugarEGEI,
+        },
+        {
+            name: 'citaegei',
+            value: citaEGEI,
+        },
+        {
+            name: 'hcarbono',
+            value: huellaCarbono,
+        },
+        {
+            name: 'hecologica',
+            value: huellaEcologica,
+        },
+        {
+            name: 'energiafosil',
+            value: energiaFosil,
+        },
+        {
+            name: 'usosuelo',
+            value: usoDeSuelo,
+        },
+        {
+            name: 'nitrogeno',
+            value: nitrogeno,
+        },
+        {
+            name: 'fosforo2',
+            value: rest.fosforo,
+        },
+        {
+            name: 'precio',
+            value: precio,
+        },
+        {
+            name: 'lugarcompra',
+            value: lugarDeCompra,
+        },
+        {
+            name: 'lugarventa',
+            value: lugarDeVenta,
+        },
+        {
+            name: 'fitoquimicos',
+            value: fitoquimicos,
+        },
+        {
+            name: 'polifenoles',
+            value: polifenoles,
+        },
+        {
+            name: 'antocianinas',
+            value: antocianinas,
+        },
+        {
+            name: 'taninos',
+            value: taninos,
+        },
+        {
+            name: 'isoflavonas',
+            value: isoflavonas,
+        },
+        {
+            name: 'reserveratrol',
+            value: resveratrol,
+        },
+        {
+            name: 'isotiocinatos',
+            value: isotiocinatos,
+        },
+        {
+            name: 'caretenoides',
+            value: caretenoides,
+        },
+        {
+            name: 'betacarotenos',
+            value: betacarotenos,
+        },
+        {
+            name: 'licopeno',
+            value: licopeno,
+        },
+        {
+            name: 'luteina',
+            value: luteina,
+        },
+        {
+            name: 'alicina',
+            value: alicina,
+        },
+        {
+            name: 'cafeina',
+            value: cafeina,
+        },
+        {
+            name: 'ufc',
+            value: UFC,
+        },        
+        {
+            name: 'benzoatodesodio',
+            value: benzoatoDeSodio,
+        },
+        {
+            name: 'polisorbato',
+            value: polisorbato,
+        },
+        {
+            name: 'fcf',
+            value: azulBrillanteFCFoE133,
+        },
+        {
+            name: 'azorrubina',
+            value: azurrubinaOE102,
+        },
+        {
+            name: 'fdf',
+            value: amarilloOcasoFDFoE110,
+        },
+        {
+            name: 'tartrazina',
+            value: tartrazinaOE102,
+        },
+        {
+            name: 'e142',
+            value: verdeSoE142,
+        },
+        {
+            name: 'bn',
+            value: negroBrillanteBNoE151,
+        },
+        {
+            name: 'sucralosa',
+            value: sucralosa,
+        },
+        {
+            name: 'stevia',
+            value: estevia,
+        },
+        {
+            name: 'sacarina',
+            value: sacarina,
+        },
+        {
+            name: 'aspartame',
+            value: aspartame,
+        },
+        {
+            name: 'acesulfame',
+            value: acesulfameK,
+        },
+        {
+            name: 'carboxy',
+            value: carboxymethylcellulose,
+        },
+        {
+            name: 'dioxidodetitanio',
+            value: dioxidoDeTitanio,
+        },
+        {
+            name: 'glicerol',
+            value: monolauratoDeGlicerol,
+        },
+        {
+            name: 'marca',
+            value: marca,
+        },
+
+
+
+
+        /*{
+            name: 'imagen',
+            value: imagen,
+        },
+        {
+            name: 'opcionesPreparacion',
+            value: opcionesPreparacion,
+        },
+        
+        {
+            name: 'iconoNutricional',
+            value: iconoNutricional,
+        },
+        {
+            name: 'iconoAmbiental',
+            value: iconoAmbiental,
+        },
+        {
+            name: 'iconoEconomia',
+            value: iconoEconomia,
+        },
+        {
+            name: 'iconoCulturaSociedad',
+            value: iconoCulturaSociedad,
+        },*/
     ];
 };

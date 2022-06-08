@@ -8,6 +8,8 @@ import PropertiesComponent from '../../commons/FoodComponents/PropertiesComponen
 import Consulta from '../../commons/FoodComponents/Consulta.jsx';
 
 import { isEmptyArray } from '../../../utils';
+import { generateFormDTO } from '../../commons/FoodComponents/data/dto';
+
 
 import './Alimentos.scss';
 
@@ -164,7 +166,8 @@ const Alimentos = () => {
     };
 
     const handleNutricional = (value) => {
-        if (isEmptyArray(data2)) return;
+        console.log(data2)
+        //if (isEmptyArray(data2)) return;
 
         setData({
             ...data2,
@@ -399,7 +402,7 @@ const Alimentos = () => {
     return (
         <div className='container'>
             <Consulta onClick={(item) => fetchData(item)} />
-            <IconsComponent
+            <IconsComponent                
                 img={data2}
                 nutricional={handleNutricional}
                 ambiental={handleAmbiental}

@@ -26,16 +26,11 @@ const PropertiesComponent = ({
                     <h1 id='title'>Propiedades</h1>
                 </div>
                 <div className='data_props'>
-                    <Props dataSource={generateFormDTO(item)} />
-                </div>
-                {/*<div id='save'>
-                    <Button id='save' onClick={() => getData()} type='primary'>
-                        <strong>Guardar</strong>
-                    </Button>
-                </div>*/}
+                    <Props dataSource={generateFormDTO(item)}/>
+                </div>                
                 <div className='preparaciones'>
                     <div className='tags'>
-                        <Tags borrar={borrar} itm={item?.opcionesPreparacion} />
+                        <Tags borrar={borrar} itm={item?.opcionesPreparacion}/>
                     </div>
                     <div className='add_tag'>
                         <PlusCircleTwoTone
