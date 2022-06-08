@@ -8,7 +8,7 @@ import PropertiesComponent from '../../commons/FoodComponents/PropertiesComponen
 import Consulta from '../../commons/FoodComponents/Consulta.jsx';
 
 import { isEmptyArray } from '../../../utils';
-import { generateFormDTO } from '../../commons/FoodComponents/data/dto';
+import { generateIconsDTO } from '../../commons/FoodComponents/data/dto';
 
 import './Alimentos.scss';
 
@@ -397,7 +397,7 @@ const Alimentos = () => {
         });
     };
 
-    const iconsData = generateFormDTO(data2);
+    const iconsData = generateIconsDTO(data2);
 
     return (
         <div className='container'>

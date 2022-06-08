@@ -594,3 +594,152 @@ export const generateFormDTO = (data) => {
         },
     ];
 };
+
+export const generateIconsDTO = (data) => {
+    if (isInvalidElem(data) || Array.isArray(data)) return [];
+
+    const {
+        id,
+        sku,
+        nombreAlimento,
+        grupoExportable,
+        subGrupoExportable,
+        grupoAlimento,
+        clasificacionExportable,
+        opcionesPreparacion,
+        icono,
+        mensaje,
+        cantidadAlimento,
+        caloriasMacronutrientes,
+        vitaminas,
+        minerales,
+        aspectoGlucemico,
+        aspectoEconomico,
+        aspectoMedioambiental,
+        componentesBioactivos,
+        aditivosAlimentarios,
+        imagen,
+        marca,
+    } = data;
+
+    const { nutricional, ambiental, mensajeEconomia, mensajeCulturaSociedad } = mensaje;
+    const { iconoNutricional, iconoAmbiental, iconoEconomia, iconoCulturaSociedad } = icono;
+    const { cantidadSugerida, unidad, pesoNeto } = cantidadAlimento;
+
+    const {
+        energia,
+        proteina,
+        lipidos,
+        agSaturados,
+        agMonoinsaturados,
+        adPoliinsaturados,
+        colesterol,
+        omega3,
+        omega6,
+        omega9,
+        hidratosDeCarbono,
+        fibra,
+        fibraSoluble,
+        fibraInsoluble,
+        azucar,
+        etanol,
+    } = caloriasMacronutrientes;
+
+    const {
+        tiamina,
+        riboflavin,
+        niacina,
+        acidoPantotenico,
+        piridoxina,
+        biotina,
+        cobalmina,
+        acidoAscorbico,
+        acidoFolico,
+        vitaminaA,
+        vitaminaD,
+        vitaminaK,
+        vitaminaE,
+    } = vitaminas;
+
+    const {
+        calcio,
+        fosforo,
+        hierro,
+        hierroNoHem,
+        hierroTotal,
+        magnesio,
+        sodio,
+        potasio,
+        zinc,
+        selenio,
+    } = minerales;
+
+    const { indiceGlicemico, cargaGlicemica } = aspectoGlucemico;
+
+    const {
+        factorDeCorreccionParaHuellaHidricaYEGEI,
+        tipo,
+        lugar,
+        huellaHidricaTotal,
+        huellaHidricaVerde,
+        huellaHidricaAzul,
+        huellaHidricaGris,
+        aguaParaLavado,
+        aguaParaCoccion,
+        lugarEGEI,
+        citaEGEI,
+        huellaCarbono,
+        huellaEcologica,
+        energiaFosil,
+        usoDeSuelo,
+        nitrogeno,
+        puntajeEcologico,
+        ...rest
+    } = aspectoMedioambiental;
+
+    const { precio, lugarDeCompra, lugarDeVenta } = aspectoEconomico;
+
+    const {
+        fitoquimicos,
+        polifenoles,
+        antocianinas,
+        taninos,
+        isoflavonas,
+        resveratrol,
+        isotiocinatos,
+        caretenoides,
+        betacarotenos,
+        licopeno,
+        luteina,
+        alicina,
+        cafeina,
+        UFC,
+    } = componentesBioactivos;
+
+    const {
+        benzoatoDeSodio,
+        polisorbato,
+        azulBrillanteFCFoE133,
+        azurrubinaOE102,
+        amarilloOcasoFDFoE110,
+        tartrazinaOE102,
+        verdeSoE142,
+        negroBrillanteBNoE151,
+        sucralosa,
+        estevia,
+        sacarina,
+        aspartame,
+        acesulfameK,
+        carboxymethylcellulose,
+        dioxidoDeTitanio,
+        monolauratoDeGlicerol,
+    } = aditivosAlimentarios;
+
+    return {
+        imagen,
+        iconoAmbiental,
+        iconoEconomia,
+        iconoCulturaSociedad,
+        iconoNutricional,
+    };
+};
