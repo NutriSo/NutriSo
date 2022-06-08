@@ -596,7 +596,7 @@ export const generateFormDTO = (data) => {
 };
 
 export const generateIconsDTO = (data) => {
-    if (isInvalidElem(data) || isEmptyObject(data)) return {};
+    if (isInvalidElem(data) || isEmptyObject(data)) return null;
 
     const { icono, imagen } = data;
 
