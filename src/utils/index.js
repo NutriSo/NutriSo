@@ -86,6 +86,12 @@ export const isEmptyArray = (arr) => {
     return arr.length === 0;
 };
 
+export const isEmptyObject = (obj) => {
+    if (isInvalidElem(obj)) return true;
+
+    return Object.values(obj).length === 0;
+};
+
 export const returnJoinedArray = (arr) => {
     if (isEmptyArray(arr)) return '';
 

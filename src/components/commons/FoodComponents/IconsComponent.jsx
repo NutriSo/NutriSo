@@ -38,7 +38,7 @@ const IconsComponent = ({
             setData([]);
         };
     }, [dataSource]);
-    console.log(dataSource);
+
     return (
         <>
             <div className='icons'>

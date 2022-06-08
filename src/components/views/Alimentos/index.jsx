@@ -7,13 +7,13 @@ import IconsComponent from '../../commons/FoodComponents/IconsComponent.jsx';
 import PropertiesComponent from '../../commons/FoodComponents/PropertiesComponent';
 import Consulta from '../../commons/FoodComponents/Consulta.jsx';
 
-import { isEmptyArray } from '../../../utils';
+import { isEmptyObject } from '../../../utils';
 import { generateIconsDTO } from '../../commons/FoodComponents/data/dto';
 
 import './Alimentos.scss';
 
 const Alimentos = () => {
-    const [data2, setData] = useState([]);
+    const [data2, setData] = useState(null);
     const [showAlimento, setShowAlimento] = useState(false);
     const [ID, setId] = useState('');
 
@@ -165,7 +165,8 @@ const Alimentos = () => {
     };
 
     const handleNutricional = (value) => {
-        if (isEmptyArray(data2)) return;
+        console.log('valid', isEmptyObject(data2), data2);
+        if (isEmptyObject(data2)) return;
 
         setData({
             ...data2,
@@ -177,7 +178,7 @@ const Alimentos = () => {
     };
 
     const handleAmbiental = (value) => {
-        if (isEmptyArray(data2)) return;
+        if (isEmptyObject(data2)) return;
 
         setData({
             ...data2,
@@ -189,7 +190,7 @@ const Alimentos = () => {
     };
 
     const handleEconomia = (value) => {
-        if (isEmptyArray(data2)) return;
+        if (isEmptyObject(data2)) return;
 
         setData({
             ...data2,
@@ -201,7 +202,7 @@ const Alimentos = () => {
     };
 
     const handleCulturaSociedad = (value) => {
-        if (isEmptyArray(data2)) return;
+        if (isEmptyObject(data2)) return;
 
         setData({
             ...data2,
