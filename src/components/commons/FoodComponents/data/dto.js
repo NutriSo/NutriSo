@@ -83,7 +83,7 @@ export const generateFormDTO = (data) => {
     const { indiceGlicemico, cargaGlicemica } = aspectoGlucemico;
 
     const {
-        factorDeCorreccionParaHuellaHidricaYEGEI,        
+        factorDeCorreccionParaHuellaHidricaYEGEI,
         tipo,
         lugar,
         huellaHidricaTotal,
@@ -98,7 +98,7 @@ export const generateFormDTO = (data) => {
         huellaEcologica,
         energiaFosil,
         usoDeSuelo,
-        nitrogeno,        
+        nitrogeno,
         puntajeEcologico,
         ...rest
     } = aspectoMedioambiental;
@@ -497,7 +497,7 @@ export const generateFormDTO = (data) => {
         {
             name: 'ufc',
             value: UFC,
-        },        
+        },
         {
             name: 'benzoatodesodio',
             value: benzoatoDeSodio,
@@ -567,10 +567,7 @@ export const generateFormDTO = (data) => {
             value: marca,
         },
 
-
-
-
-        /*{
+        {
             name: 'imagen',
             value: imagen,
         },
@@ -578,7 +575,7 @@ export const generateFormDTO = (data) => {
             name: 'opcionesPreparacion',
             value: opcionesPreparacion,
         },
-        
+
         {
             name: 'iconoNutricional',
             value: iconoNutricional,
@@ -594,6 +591,6 @@ export const generateFormDTO = (data) => {
         {
             name: 'iconoCulturaSociedad',
             value: iconoCulturaSociedad,
-        },*/
+        },
     ];
 };

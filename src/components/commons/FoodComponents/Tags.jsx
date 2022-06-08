@@ -7,7 +7,7 @@ const Tags = ({ dataSource, borrar }) => {
     useEffect(() => {
         setData(dataSource[0]?.value);
     }, [dataSource]);
-
+    console.log(dataSource);
     return (
         <>
             {data?.map((item, index) => (
