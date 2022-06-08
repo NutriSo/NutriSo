@@ -1,24 +1,22 @@
 import { Tag } from 'antd';
 import { useEffect, useState } from 'react';
 
+const Tags = ({ dataSource, borrar }) => {
+    const [data, setData] = useState([]);
 
-const Tags = ({itm, borrar, dataSource}) => {
-    const [data,setData] = useState([]);    
-    //console.log(data)
-    useEffect(() => {   
-        setData(itm)       
-    }, [itm])        
+    useEffect(() => {
+        setData(dataSource[0]?.value);
+    }, [dataSource]);
 
-    //console.log(data)
-
-    return(
-        <>     
-            {data?.map((item) =>                 
-                <Tag color="blue" onClick={()=>borrar(item)}>{item}</Tag>   
-            )}           
-                             
+    return (
+        <>
+            {data?.map((item, index) => (
+                <Tag key={index} color='blue' onClick={() => borrar(item)}>
+                    {item}
+                </Tag>
+            ))}
         </>
     );
-}
+};
 
 export default Tags;
