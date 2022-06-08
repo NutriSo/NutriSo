@@ -5,7 +5,14 @@ import { SmileTwoTone, MehTwoTone, FrownTwoTone } from '@ant-design/icons';
 import UploadImg from '../UploadImgs';
 import { isInvalidElem } from '../../../utils';
 
-const IconsComponent = ({ img, nutricional, ambiental, economia, sociedad, handleImage }) => {
+const IconsComponent = ({
+    dataSource,
+    nutricional,
+    ambiental,
+    economia,
+    sociedad,
+    handleImage,
+}) => {
     const [data, setData] = useState([]);
 
     const hasImage = !isInvalidElem(data?.imagen);
@@ -24,11 +31,11 @@ const IconsComponent = ({ img, nutricional, ambiental, economia, sociedad, handl
     const economiaIcon3Color = data?.icono?.iconoEconomia === '3' ? ' #c0392b' : '#f2d7d5';
 
     useEffect(() => {
-        img && setData(img);
+        dataSource && setData(dataSource);
         return () => {
             setData([]);
         };
-    }, [img]);
+    }, [dataSource]);
 
     return (
         <>

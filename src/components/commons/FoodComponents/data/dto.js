@@ -340,5 +340,9 @@ export const generateFormDTO = (data) => {
             name: 'zinc',
             value: zinc,
         },
+        {
+            name: 'opcionesPreparacion',
+            value: opcionesPreparacion,
+        },
     ];
 };

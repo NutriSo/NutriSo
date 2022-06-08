@@ -19,6 +19,10 @@ const PropertiesComponent = ({
 }) => {
     const [nuevaOpcion, setNuevaOpcion] = useState('');
 
+    const data = generateFormDTO(item);
+
+    const opcs = data?.filter((elem) => elem.name === 'opcionesPreparacion');
+
     return (
         <>
             <div className='props'>
@@ -26,7 +30,7 @@ const PropertiesComponent = ({
                     <h1 id='title'>Propiedades</h1>
                 </div>
                 <div className='data_props'>
-                    <Props dataSource={generateFormDTO(item)} />
+                    <Props dataSource={data} />
                 </div>
                 {/*<div id='save'>
                     <Button id='save' onClick={() => getData()} type='primary'>
@@ -35,7 +39,7 @@ const PropertiesComponent = ({
                 </div>*/}
                 <div className='preparaciones'>
                     <div className='tags'>
-                        <Tags borrar={borrar} itm={item?.opcionesPreparacion} />
+                        <Tags borrar={borrar} dataSource={opcs} />
                     </div>
                     <div className='add_tag'>
                         <PlusCircleTwoTone

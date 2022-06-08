@@ -8,6 +8,7 @@ import PropertiesComponent from '../../commons/FoodComponents/PropertiesComponen
 import Consulta from '../../commons/FoodComponents/Consulta.jsx';
 
 import { isEmptyArray } from '../../../utils';
+import { generateFormDTO } from '../../commons/FoodComponents/data/dto';
 
 import './Alimentos.scss';
 
@@ -396,11 +397,13 @@ const Alimentos = () => {
         });
     };
 
+    const iconsData = generateFormDTO(data2);
+
     return (
         <div className='container'>
             <Consulta onClick={(item) => fetchData(item)} />
             <IconsComponent
-                img={data2}
+                dataSource={iconsData}
                 nutricional={handleNutricional}
                 ambiental={handleAmbiental}
                 economia={handleEconomia}
