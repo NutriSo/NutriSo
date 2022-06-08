@@ -28,9 +28,9 @@ const IconsComponent = ({
     const economiaIcon1Color = data?.iconoEconomia === '1' ? '#27ae60' : '#d4efdf';
     const economiaIcon2Color = data?.iconoEconomia === '2' ? '#ffcb00' : '#f7efcd';
     const economiaIcon3Color = data?.iconoEconomia === '3' ? ' #c0392b' : '#f2d7d5';
-    const culturaIcon1Color = data?.iconoEconomia === '1' ? '#27ae60' : '#d4efdf';
-    const culturaIcon2Color = data?.iconoEconomia === '2' ? '#ffcb00' : '#f7efcd';
-    const culturaIcon3Color = data?.iconoEconomia === '3' ? ' #c0392b' : '#f2d7d5';
+    const culturaIcon2Color = data?.iconoCulturaSociedad === '2' ? '#ffcb00' : '#f7efcd';
+    const culturaIcon1Color = data?.iconoCulturaSociedad === '1' ? '#27ae60' : '#d4efdf';
+    const culturaIcon3Color = data?.iconoCulturaSociedad === '3' ? ' #c0392b' : '#f2d7d5';
 
     useEffect(() => {
         dataSource && setData(dataSource);

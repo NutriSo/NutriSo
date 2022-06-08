@@ -201,7 +201,7 @@ const Alimentos = () => {
         });
     };
 
-    const handleCulturaSociedad = (value) => {
+    const handleCulturaSociedad = (value) => {        
         if (isEmptyObject(data2)) return;
 
         setData({
