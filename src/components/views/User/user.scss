@@ -314,97 +314,7 @@
     margin-left: 5rem;
 }
 
-//Circunferencia
-.containerCircunferencia {
-    width: 60%;
-    //background-color: white;
-    margin-left: 20%;
-    margin-top: 5%;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-radius: 10px;
-    border: solid 2px black;
-    /* From https://css.glass */
-    background: rgba(81, 118, 139, 0.2);
-    border-radius: 16px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    border: 1px solid rgba(52, 202, 222, 0.3);
-}
 
-.circunferencia-Container {
-    width: 90%;
-    //background-color: red;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    height: 100%;
-}
-
-.circunferencia-ContainerGrafica {
-    width: 60%;
-    //background-color: rgb(255, 0, 212);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-weight: 600;
-    font-size: larger;
-    height: 20rem;
-}
-
-.circunferencia-Container2 {
-    width: 60%;
-    //background-color: rgb(255, 0, 212);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-weight: 600;
-    font-size: larger;
-    height: 100%;
-}
-
-.circunferencia-Container3 {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: 50rem;
-    height: 50rem;
-    //margin-right: 23rem;
-    margin-left: 3rem;
-    //background-color: red;
-}
-
-.circunferencia-Container4 {
-    width: 60%;
-    //background-color: rgb(255, 0, 212);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-weight: 600;
-    font-size: larger;
-    height: 100%;
-    margin-left: 10vh;
-}
-
-.label-circunferencia {
-    margin-right: 3rem;
-    font-weight: 600;
-}
-
-.input-circunferencia {
-    background-color: white;
-    border-radius: 5px;
-    border: solid 1px black;
-    width: 80%;
-    height: 50%;
-    margin-top: 0px;
-    margin-right: 2.3rem;
-    text-align: center;
-}
 
 #select-pro {
     display: flex;
@@ -437,118 +347,7 @@
 }
 
 //Campo Corporales
-.containerCampoCor {
-    width: 60%;
-    //background-color: white;
-    margin-left: 20%;
-    margin-top: 5%;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-radius: 10px;
-    border: solid 2px black;
-    /* From https://css.glass */
-    background: rgba(81, 118, 139, 0.2);
-    border-radius: 16px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    border: 1px solid rgba(52, 202, 222, 0.3);
-}
 
-.campCor-Container {
-    width: 90%;
-    //background-color: red;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    height: 100%;
-}
-
-.campoCor-Container2 {
-    width: 15rem;
-    //background-color: rgb(255, 0, 212);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-weight: 600;
-    font-size: larger;
-    height: 100%;
-}
-
-.campCor-Container3 {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: 50rem;
-    height: 50rem;
-    //margin-right: 23rem;
-    margin-left: 3rem;
-    //background-color: red;
-}
-
-.campCor-Container4 {
-    width: 100%;
-    //background-color: rgb(255, 0, 212);
-    display: flex;
-    flex-direction: row;
-    justify-content: right;
-    font-weight: 600;
-    font-size: larger;
-    height: 100%;
-    margin-right: 0vh;
-    margin-top: 1rem;
-}
-
-.label-campCor {
-    margin-left: 3rem;
-    font-weight: 600;
-}
-
-.input-campCor {
-    background-color: white;
-    border-radius: 5px;
-    border: solid 1px black;
-    width: 80%;
-    height: 50%;
-    margin-top: 0px;
-    margin-right: 0vh;
-    text-align: center;
-    //align-items: left;
-}
-
-.label-campCor2 {
-    margin-right: 2rem;
-    width: 10rem;
-    font-weight: 600;
-}
-
-.input-campCor2 {
-    background-color: white;
-    border-radius: 5px;
-    border: solid 1px black;
-    width: 11rem;
-    height: 1.8rem;
-    margin-top: 0px;
-    text-align: center;
-    margin-right: 1rem;
-}
-
-.btn-see-camCor {
-    background-color: rgb(159, 245, 163);
-    width: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    font-weight: 600;
-    //margin-left:25vh;
-    font-size: larger;
-    border-radius: 10px;
-    margin-top: 1.5rem;
-}
 
 //Estado General
 .containerEstadoGen {
@@ -556,7 +355,7 @@
     //background-color: rgb(255, 255, 255);
     margin-left: 20%;
     margin-top: 5%;
-    // height: 175rem;
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
