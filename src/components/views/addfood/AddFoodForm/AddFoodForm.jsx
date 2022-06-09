@@ -6,6 +6,8 @@ import UploadImgs from '../../../commons/UploadImgs';
 import InputTags from '../../../commons/InputTags';
 import apiURL from '../../../../axios/axiosConfig';
 import { getSku } from '../../../../services';
+import mocks from '../../../../mocks/alimentos';
+import { Rules } from '../../../../utils/formRules';
 
 import './AddFoodForm.scss';
 
@@ -60,165 +62,167 @@ const AddFoodForm = () => {
 
         console.log('Received values of form: ', values);
 
-        const data = {
-            sku: sku,
-            nombreAlimento: `${rowValues[1] ?? 'N/A'}`,
-            grupoExportable: `${rowValues[2] ?? 'N/A'}`,
-            subGrupoExportable: `${rowValues[3] ?? 'N/A'}`,
-            grupoAlimento: `${rowValues[4] ?? 'N/A'}`,
-            mensaje: {
-                nutricional: `${rowValues[5] ?? 'N/A'}`,
-                ambiental: `${rowValues[6] ?? 'N/A'}`,
-                mensajeEconomia: `${rowValues[7] ?? 'N/A'}`,
-                mensajeCulturaSociedad: `${rowValues[8] ?? 'N/A'}`,
-            },
+        // const data = {
+        //     sku: sku,
+        //     nombreAlimento: `${rowValues[1] ?? 'N/A'}`,
+        //     grupoExportable: `${rowValues[2] ?? 'N/A'}`,
+        //     subGrupoExportable: `${rowValues[3] ?? 'N/A'}`,
+        //     grupoAlimento: `${rowValues[4] ?? 'N/A'}`,
+        //     mensaje: {
+        //         nutricional: `${rowValues[5] ?? 'N/A'}`,
+        //         ambiental: `${rowValues[6] ?? 'N/A'}`,
+        //         mensajeEconomia: `${rowValues[7] ?? 'N/A'}`,
+        //         mensajeCulturaSociedad: `${rowValues[8] ?? 'N/A'}`,
+        //     },
 
-            icono: {
-                iconoNutricional: `${rowValues[9] ?? '4'}`,
-                iconoAmbiental: `${rowValues[10] ?? '4'}`,
-                iconoEconomia: `${rowValues[11] ?? '4'}`,
-                iconoCulturaSociedad: `${rowValues[12] ?? '4'}`,
-            },
-            imagen: url,
-            clasificacionExportable: `${rowValues[14] ?? 'N/A'}`,
-            opcionesPreparacion: opciones,
-            cantidadAlimento: {
-                cantidadSugerida: rowValues[16] ?? 0,
-                unidad: `${rowValues[17] ?? 'N/A'}`,
-                pesoNeto: `${rowValues[18] ?? '0'}`,
-            },
-            caloriasMacronutrientes: {
-                energia: `${rowValues[19] ?? '0'}`,
-                proteina: `${rowValues[20] ?? '0'}`,
-                lipidos: `${rowValues[21] ?? '0'}`,
-                agSaturados: `${rowValues[22] ?? '0'}`,
-                agMonoinsaturados: `${rowValues[23] ?? '0'}`,
-                adPoliinsaturados: `${rowValues[24] ?? '0'}`,
-                colesterol: `${rowValues[25] ?? '0'}`,
-                omega3: `${rowValues[26] ?? '0'}`,
-                omega6: `${rowValues[27] ?? '0'}`,
-                omega9: `${rowValues[28] ?? '0'}`,
-                hidratosDeCarbono: `${rowValues[29] ?? '0'}`,
-                fibra: `${rowValues[30] ?? '0'}`,
-                fibraInsoluble: `${rowValues[31] ?? '0'}`,
-                fibraSoluble: `${rowValues[32] ?? '0'}`,
-                azucar: `${rowValues[33] ?? '0'}`,
-                etanol: `${rowValues[34] ?? '0'}`,
-            },
-            vitaminas: {
-                tiamina: `${rowValues[35] ?? '0'}`,
-                riboflavin: `${rowValues[36] ?? '0'}`,
-                niacina: `${rowValues[37] ?? '0'}`,
-                acidoPantotenico: `${rowValues[38] ?? '0'}`,
-                piridoxina: `${rowValues[39] ?? '0'}`,
-                biotina: `${rowValues[40] ?? '0'}`,
-                cobalmina: `${rowValues[41] ?? '0'}`,
-                acidoAscorbico: `${rowValues[42] ?? '0'}`,
-                acidoFolico: `${rowValues[43] ?? '0'}`,
-                vitaminaA: `${rowValues[44] ?? '0'}`,
-                vitaminaD: `${rowValues[45] ?? '0'}`,
-                vitaminaK: `${rowValues[46] ?? '0'}`,
-                vitaminaE: `${rowValues[47] ?? '0'}`,
-            },
-            minerales: {
-                calcio: `${rowValues[48] ?? '0'}`,
-                fosforo: `${rowValues[49] ?? '0'}`,
-                hierro: `${rowValues[50] ?? '0'}`,
-                hierroNoHem: `${rowValues[51] ?? '0'}`,
-                hierroTotal: `${Number(rowValues[50] + rowValues[51]) ?? '0'}`,
-                magnesio: `${rowValues[52] ?? '0'}`,
-                sodio: `${rowValues[53] ?? '0'}`,
-                potasio: `${rowValues[54] ?? '0'}`,
-                zinc: `${rowValues[55] ?? '0'}`,
-                selenio: `${rowValues[56] ?? '0'}`,
-            },
-            aspectoGlucemico: {
-                indiceGlicemico: `${rowValues[57] ?? '0'}`,
-                cargaGlicemica: `${rowValues[58] ?? '0'}`,
-            },
-            aspectoMedioambiental: {
-                factorDeCorreccionParaHuellaHidricaYEGEI: rowValues[59] ?? 0,
-                tipo: `${rowValues[60] ?? 'N/A'}`,
-                lugar: `${rowValues[61] ?? 'N/A'}`,
-                huellaHidricaTotal: `${
-                    Number(rowValues[62]) + Number(rowValues[63]) + Number(rowValues[64])
-                }`,
-                huellaHidricaVerde: `${rowValues[62] ?? '0'}`,
-                huellaHidricaAzul: `${rowValues[63] ?? '0'}`,
-                huellaHidricaGris: `${rowValues[64] ?? '0'}`,
-                aguaParaLavado: `${rowValues[65] ?? '0'}`,
-                aguaParaCoccion: `${rowValues[66] ?? '0'}`,
-                lugarEGEI: `${rowValues[67] ?? '0'}`,
-                citaEGEI: `${rowValues[68] ?? '0'}`,
-                huellaCarbono: `${rowValues[69] ?? '0'}`, // EGEI.
-                huellaEcologica: `${rowValues[70] ?? '0'}`,
-                usoDeSuelo: `${rowValues[71] ?? '0'}`,
-                energiaFosil: `${rowValues[72] ?? '0'}`,
-                nitrogeno: `${rowValues[73] ?? '0'}`,
-                fosforo: `${rowValues[74] ?? '0'}`,
-                puntajeEcologico: rowValues[75] ?? 0,
-            },
-            aspectoEconomico: {
-                precio: rowValues[76] ?? 0,
-                lugarDeCompra: `${rowValues[77] ?? 'N/A'}`,
-                lugarDeVenta: `${rowValues[78] ?? 'N/A'}`,
-            },
-            componentesBioactivos: {
-                fitoquimicos: `${rowValues[79] ?? '0'}`,
-                polifenoles: `${rowValues[80] ?? '0'}`,
-                antocianinas: `${rowValues[81] ?? '0'}`,
-                taninos: `${rowValues[82] ?? '0'}`,
-                isoflavonas: `${rowValues[83] ?? '0'}`,
-                resveratrol: `${rowValues[84] ?? '0'}`,
-                isotiocinatos: `${rowValues[85] ?? '0'}`,
-                caretenoides: `${rowValues[86] ?? '0'}`,
-                betacarotenos: `${rowValues[87] ?? '0'}`,
-                licopeno: `${rowValues[88] ?? '0'}`,
-                luteina: `${rowValues[89] ?? '0'}`,
-                alicina: `${rowValues[90] ?? '0'}`,
-                cafeina: `${rowValues[91] ?? '0'}`,
-                UFC: `${rowValues[92] ?? '0'}`,
-            },
-            aditivosAlimentarios: {
-                benzoatoDeSodio: `${rowValues[93] ?? '0'}`,
-                polisorbato: `${rowValues[94] ?? '0'}`,
-                azulBrillanteFCFoE133: `${rowValues[95] ?? '0'}`,
-                azurrubinaOE102: `${rowValues[96] ?? '0'}`,
-                amarilloOcasoFDFoE110: `${rowValues[97] ?? '0'}`,
-                tartrazinaOE102: `${rowValues[98] ?? '0'}`,
-                verdeSoE142: `${rowValues[99] ?? '0'}`,
-                negroBrillanteBNoE151: `${rowValues[100] ?? '0'}`,
-                sucralosa: `${rowValues[101] ?? '0'}`,
-                estevia: `${rowValues[102] ?? '0'}`,
-                sacarina: `${rowValues[103] ?? '0'}`,
-                aspartame: `${rowValues[104] ?? '0'}`,
-                acesulfameK: `${rowValues[105] ?? '0'}`,
-                carboxymethylcellulose: `${rowValues[106] ?? '0'}`,
-                dioxidoDeTitanio: `${rowValues[107] ?? '0'}`,
-                monolauratoDeGlicerol: `${rowValues[108] ?? '0'}`,
-            },
-            atributosAdicionales: [
-                {
-                    atributoAdicional: `${rowValues[109] ?? 'N/A'}`,
-                },
-            ],
-            marca: `${rowValues[108] ?? ''}`,
-        };
+        //     icono: {
+        //         iconoNutricional: `${rowValues[9] ?? '4'}`,
+        //         iconoAmbiental: `${rowValues[10] ?? '4'}`,
+        //         iconoEconomia: `${rowValues[11] ?? '4'}`,
+        //         iconoCulturaSociedad: `${rowValues[12] ?? '4'}`,
+        //     },
+        //     imagen: url,
+        //     clasificacionExportable: `${rowValues[14] ?? 'N/A'}`,
+        //     opcionesPreparacion: opciones,
+        //     cantidadAlimento: {
+        //         cantidadSugerida: rowValues[16] ?? 0,
+        //         unidad: `${rowValues[17] ?? 'N/A'}`,
+        //         pesoNeto: `${rowValues[18] ?? '0'}`,
+        //     },
+        //     caloriasMacronutrientes: {
+        //         energia: `${rowValues[19] ?? '0'}`,
+        //         proteina: `${rowValues[20] ?? '0'}`,
+        //         lipidos: `${rowValues[21] ?? '0'}`,
+        //         agSaturados: `${rowValues[22] ?? '0'}`,
+        //         agMonoinsaturados: `${rowValues[23] ?? '0'}`,
+        //         adPoliinsaturados: `${rowValues[24] ?? '0'}`,
+        //         colesterol: `${rowValues[25] ?? '0'}`,
+        //         omega3: `${rowValues[26] ?? '0'}`,
+        //         omega6: `${rowValues[27] ?? '0'}`,
+        //         omega9: `${rowValues[28] ?? '0'}`,
+        //         hidratosDeCarbono: `${rowValues[29] ?? '0'}`,
+        //         fibra: `${rowValues[30] ?? '0'}`,
+        //         fibraInsoluble: `${rowValues[31] ?? '0'}`,
+        //         fibraSoluble: `${rowValues[32] ?? '0'}`,
+        //         azucar: `${rowValues[33] ?? '0'}`,
+        //         etanol: `${rowValues[34] ?? '0'}`,
+        //     },
+        //     vitaminas: {
+        //         tiamina: `${rowValues[35] ?? '0'}`,
+        //         riboflavin: `${rowValues[36] ?? '0'}`,
+        //         niacina: `${rowValues[37] ?? '0'}`,
+        //         acidoPantotenico: `${rowValues[38] ?? '0'}`,
+        //         piridoxina: `${rowValues[39] ?? '0'}`,
+        //         biotina: `${rowValues[40] ?? '0'}`,
+        //         cobalmina: `${rowValues[41] ?? '0'}`,
+        //         acidoAscorbico: `${rowValues[42] ?? '0'}`,
+        //         acidoFolico: `${rowValues[43] ?? '0'}`,
+        //         vitaminaA: `${rowValues[44] ?? '0'}`,
+        //         vitaminaD: `${rowValues[45] ?? '0'}`,
+        //         vitaminaK: `${rowValues[46] ?? '0'}`,
+        //         vitaminaE: `${rowValues[47] ?? '0'}`,
+        //     },
+        //     minerales: {
+        //         calcio: `${rowValues[48] ?? '0'}`,
+        //         fosforo: `${rowValues[49] ?? '0'}`,
+        //         hierro: `${rowValues[50] ?? '0'}`,
+        //         hierroNoHem: `${rowValues[51] ?? '0'}`,
+        //         hierroTotal: `${Number(rowValues[50] + rowValues[51]) ?? '0'}`,
+        //         magnesio: `${rowValues[52] ?? '0'}`,
+        //         sodio: `${rowValues[53] ?? '0'}`,
+        //         potasio: `${rowValues[54] ?? '0'}`,
+        //         zinc: `${rowValues[55] ?? '0'}`,
+        //         selenio: `${rowValues[56] ?? '0'}`,
+        //     },
+        //     aspectoGlucemico: {
+        //         indiceGlicemico: `${rowValues[57] ?? '0'}`,
+        //         cargaGlicemica: `${rowValues[58] ?? '0'}`,
+        //     },
+        //     aspectoMedioambiental: {
+        //         factorDeCorreccionParaHuellaHidricaYEGEI: rowValues[59] ?? 0,
+        //         tipo: `${rowValues[60] ?? 'N/A'}`,
+        //         lugar: `${rowValues[61] ?? 'N/A'}`,
+        //         huellaHidricaTotal: `${
+        //             Number(rowValues[62]) + Number(rowValues[63]) + Number(rowValues[64])
+        //         }`,
+        //         huellaHidricaVerde: `${rowValues[62] ?? '0'}`,
+        //         huellaHidricaAzul: `${rowValues[63] ?? '0'}`,
+        //         huellaHidricaGris: `${rowValues[64] ?? '0'}`,
+        //         aguaParaLavado: `${rowValues[65] ?? '0'}`,
+        //         aguaParaCoccion: `${rowValues[66] ?? '0'}`,
+        //         lugarEGEI: `${rowValues[67] ?? '0'}`,
+        //         citaEGEI: `${rowValues[68] ?? '0'}`,
+        //         huellaCarbono: `${rowValues[69] ?? '0'}`, // EGEI.
+        //         huellaEcologica: `${rowValues[70] ?? '0'}`,
+        //         usoDeSuelo: `${rowValues[71] ?? '0'}`,
+        //         energiaFosil: `${rowValues[72] ?? '0'}`,
+        //         nitrogeno: `${rowValues[73] ?? '0'}`,
+        //         fosforo: `${rowValues[74] ?? '0'}`,
+        //         puntajeEcologico: rowValues[75] ?? 0,
+        //     },
+        //     aspectoEconomico: {
+        //         precio: rowValues[76] ?? 0,
+        //         lugarDeCompra: `${rowValues[77] ?? 'N/A'}`,
+        //         lugarDeVenta: `${rowValues[78] ?? 'N/A'}`,
+        //     },
+        //     componentesBioactivos: {
+        //         fitoquimicos: `${rowValues[79] ?? '0'}`,
+        //         polifenoles: `${rowValues[80] ?? '0'}`,
+        //         antocianinas: `${rowValues[81] ?? '0'}`,
+        //         taninos: `${rowValues[82] ?? '0'}`,
+        //         isoflavonas: `${rowValues[83] ?? '0'}`,
+        //         resveratrol: `${rowValues[84] ?? '0'}`,
+        //         isotiocinatos: `${rowValues[85] ?? '0'}`,
+        //         caretenoides: `${rowValues[86] ?? '0'}`,
+        //         betacarotenos: `${rowValues[87] ?? '0'}`,
+        //         licopeno: `${rowValues[88] ?? '0'}`,
+        //         luteina: `${rowValues[89] ?? '0'}`,
+        //         alicina: `${rowValues[90] ?? '0'}`,
+        //         cafeina: `${rowValues[91] ?? '0'}`,
+        //         UFC: `${rowValues[92] ?? '0'}`,
+        //     },
+        //     aditivosAlimentarios: {
+        //         benzoatoDeSodio: `${rowValues[93] ?? '0'}`,
+        //         polisorbato: `${rowValues[94] ?? '0'}`,
+        //         azulBrillanteFCFoE133: `${rowValues[95] ?? '0'}`,
+        //         azurrubinaOE102: `${rowValues[96] ?? '0'}`,
+        //         amarilloOcasoFDFoE110: `${rowValues[97] ?? '0'}`,
+        //         tartrazinaOE102: `${rowValues[98] ?? '0'}`,
+        //         verdeSoE142: `${rowValues[99] ?? '0'}`,
+        //         negroBrillanteBNoE151: `${rowValues[100] ?? '0'}`,
+        //         sucralosa: `${rowValues[101] ?? '0'}`,
+        //         estevia: `${rowValues[102] ?? '0'}`,
+        //         sacarina: `${rowValues[103] ?? '0'}`,
+        //         aspartame: `${rowValues[104] ?? '0'}`,
+        //         acesulfameK: `${rowValues[105] ?? '0'}`,
+        //         carboxymethylcellulose: `${rowValues[106] ?? '0'}`,
+        //         dioxidoDeTitanio: `${rowValues[107] ?? '0'}`,
+        //         monolauratoDeGlicerol: `${rowValues[108] ?? '0'}`,
+        //     },
+        //     atributosAdicionales: [
+        //         {
+        //             atributoAdicional: `${rowValues[109] ?? 'N/A'}`,
+        //         },
+        //     ],
+        //     marca: `${rowValues[108] ?? ''}`,
+        // };
     };
 
     return (
         <Form
+            scrollToFirstError
             className={'addFoodFormContainer'}
             form={form}
             layout='vertical'
             onFinish={onFinish}
             onValuesChange={onRequiredTypeChange}
-            requiredMark={requiredMark}>
+            requiredMark={false}>
             <Col xs={12}>
                 <Form.Item
+                    hasFeedback
                     name={'nombre'}
                     label={<label className={'formItem'}>Nombre</label>}
-                    required>
+                    rules={[Rules.basicSpanish]}>
                     <Input placeholder='Ingrese el nombre del alimento' />
                 </Form.Item>
                 <Form.Item
@@ -243,15 +247,11 @@ const AddFoodForm = () => {
                                 icon: <InfoCircleOutlined />,
                             }}>
                             <Select defaultValue='1' className={'selectItem'}>
-                                <Option key={1} value={'1'}>
-                                    Bueno
-                                </Option>
-                                <Option key={2} value={'2'}>
-                                    Regular
-                                </Option>
-                                <Option key={3} value={'3'}>
-                                    Malo
-                                </Option>
+                                {mocks.iconos.map((elem, index) => (
+                                    <Option key={index} value={elem.value}>
+                                        {elem.label}
+                                    </Option>
+                                ))}
                             </Select>
                         </Form.Item>
                     </Col>
@@ -265,15 +265,11 @@ const AddFoodForm = () => {
                                 icon: <InfoCircleOutlined />,
                             }}>
                             <Select defaultValue='1' className={'selectItem'}>
-                                <Option key={1} value={'1'}>
-                                    Bueno
-                                </Option>
-                                <Option key={2} value={'2'}>
-                                    Regular
-                                </Option>
-                                <Option key={3} value={'3'}>
-                                    Malo
-                                </Option>
+                                {mocks.iconos.map((elem, index) => (
+                                    <Option key={index} value={elem.value}>
+                                        {elem.label}
+                                    </Option>
+                                ))}
                             </Select>
                         </Form.Item>
                     </Col>
@@ -289,15 +285,11 @@ const AddFoodForm = () => {
                                 icon: <InfoCircleOutlined />,
                             }}>
                             <Select defaultValue='1' className={'selectItem'}>
-                                <Option key={1} value={'1'}>
-                                    Bueno
-                                </Option>
-                                <Option key={2} value={'2'}>
-                                    Regular
-                                </Option>
-                                <Option key={3} value={'3'}>
-                                    Malo
-                                </Option>
+                                {mocks.iconos.map((elem, index) => (
+                                    <Option key={index} value={elem.value}>
+                                        {elem.label}
+                                    </Option>
+                                ))}
                             </Select>
                         </Form.Item>
                     </Col>
@@ -316,15 +308,11 @@ const AddFoodForm = () => {
                                 icon: <InfoCircleOutlined />,
                             }}>
                             <Select defaultValue='1' className={'selectItem'}>
-                                <Option key={1} value={'1'}>
-                                    Bueno
-                                </Option>
-                                <Option key={2} value={'2'}>
-                                    Regular
-                                </Option>
-                                <Option key={3} value={'3'}>
-                                    Malo
-                                </Option>
+                                {mocks.iconos.map((elem, index) => (
+                                    <Option key={index} value={elem.value}>
+                                        {elem.label}
+                                    </Option>
+                                ))}
                             </Select>
                         </Form.Item>
                     </Col>
@@ -334,23 +322,11 @@ const AddFoodForm = () => {
             <br />
             {/*CANTIDAD DE ALIMENTOS*/}
             <Card title='Cantidad de alimento'>
-                <Form.Item
-                    name={'cantidadAlimento'}
-                    label={<label className={'formItem'}>Cantidad sugerida</label>}
-                    required>
-                    <Select defaultValue='1' className={'selectItem'}>
-                        {Array.from({ length: 15 }).map((_, index) => (
-                            <option value={index} key={index}>
-                                {index}
-                            </option>
-                        ))}
-                    </Select>
-                </Form.Item>
                 <Row gutter={[8, 8]}>
                     <Col span={12}>
                         <Form.Item
-                            name={'unidad'}
-                            label={<label className={'formItem'}>Unidad</label>}
+                            name={'cantidadAlimento'}
+                            label={<label className={'formItem'}>Cantidad sugerida</label>}
                             required>
                             <InputNumber
                                 type='number'
@@ -359,18 +335,31 @@ const AddFoodForm = () => {
                             />
                         </Form.Item>
                     </Col>
-
                     <Col span={12}>
                         <Form.Item
-                            label={<label className={'formItem'}>Peso neto</label>}
+                            name={'unidad'}
+                            label={<label className={'formItem'}>Unidad</label>}
                             required>
-                            <InputNumber
-                                addonAfter={afterG}
-                                type='number'
-                                placeholder='Ingrese el peso neto'
-                            />
+                            <Select placeholder='Selecciona una unidad'>
+                                {mocks.unidadesRecomendadas.map((elem) => (
+                                    <Option key={elem.id} value={elem.value}>
+                                        {elem.label}
+                                    </Option>
+                                ))}
+                            </Select>
                         </Form.Item>
                     </Col>
+                </Row>
+                <Row>
+                    <Form.Item
+                        label={<label className={'formItem'}>Peso neto</label>}
+                        required>
+                        <InputNumber
+                            addonAfter={afterG}
+                            type='number'
+                            placeholder='Ingrese el peso neto'
+                        />
+                    </Form.Item>
                 </Row>
             </Card>
             <br />
@@ -396,7 +385,14 @@ const AddFoodForm = () => {
                 name={'grupoAlimentos'}
                 label={<label className={'formItem'}>Grupo de alimento</label>}
                 required>
-                <Input placeholder='Ingrese el grupo de alimento al que pertenece' />
+                <Select placeholder='Selecciona un grupo'>
+                    {mocks.gruposAlimento.map((elem) => (
+                        <Option key={elem.id} value={elem.label}>
+                            {elem.label}
+                        </Option>
+                    ))}
+                </Select>
+                {/* <Input placeholder='Ingrese el grupo de alimento al que pertenece' /> */}
             </Form.Item>
             <Form.Item
                 name={'mensajeNutricional'}
@@ -1185,31 +1181,12 @@ const AddFoodForm = () => {
                             name={'lugarCompra'}
                             label={<label className={'formItem'}>Lugar de compra</label>}
                             required>
-                            <Select defaultValue='Mercado'>
-                                <Option key={1} value='Tianguis'>
-                                    Tianguis
-                                </Option>
-                                <Option key={2} value='Mercado'>
-                                    Mercado
-                                </Option>
-                                <Option key={3} value='Supermercado Menudeo'>
-                                    Supermercado Menudeo
-                                </Option>
-                                <Option key={4} value='Supermercado Mayoreo'>
-                                    Supermercado Mayoreo
-                                </Option>
-                                <Option key={5} value='Carniceria'>
-                                    Carniceria
-                                </Option>
-                                <Option key={6} value='Cremeria'>
-                                    Cremeria
-                                </Option>
-                                <Option key={7} value='Fruteria'>
-                                    Fruteria
-                                </Option>
-                                <Option key={8} value='Otros'>
-                                    Otros
-                                </Option>
+                            <Select placeholder='Selecciona una opción'>
+                                {mocks.lugares.map((elem) => (
+                                    <Option key={elem.id} value={elem.label}>
+                                        {elem.label}
+                                    </Option>
+                                ))}
                             </Select>
                         </Form.Item>
                     </Col>
@@ -1218,31 +1195,12 @@ const AddFoodForm = () => {
                             name={'lugarVenta'}
                             label={<label className={'formItem'}>Lugar de venta</label>}
                             required>
-                            <Select defaultValue='Mercado'>
-                                <Option key={1} value='Tianguis'>
-                                    Tianguis
-                                </Option>
-                                <Option key={2} value='Mercado'>
-                                    Mercado
-                                </Option>
-                                <Option key={3} value='Supermercado Menudeo'>
-                                    Supermercado Menudeo
-                                </Option>
-                                <Option key={4} value='Supermercado Mayoreo'>
-                                    Supermercado Mayoreo
-                                </Option>
-                                <Option key={5} value='Carniceria'>
-                                    Carniceria
-                                </Option>
-                                <Option key={6} value='Cremeria'>
-                                    Cremeria
-                                </Option>
-                                <Option key={7} value='Fruteria'>
-                                    Fruteria
-                                </Option>
-                                <Option key={8} value='Otros'>
-                                    Otros
-                                </Option>
+                            <Select placeholder='Selecciona una opción'>
+                                {mocks.lugares.map((elem) => (
+                                    <Option key={elem.id} value={elem.label}>
+                                        {elem.label}
+                                    </Option>
+                                ))}
                             </Select>
                         </Form.Item>
                     </Col>

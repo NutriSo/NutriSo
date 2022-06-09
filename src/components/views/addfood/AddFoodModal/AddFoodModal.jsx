@@ -23,6 +23,7 @@ const AddFoodModal = () => {
                 Agregar alimento
             </Button>
             <Modal
+                destroyOnClose
                 title='Agregar alimento'
                 visible={isModalVisible}
                 onOk={handleOk}
