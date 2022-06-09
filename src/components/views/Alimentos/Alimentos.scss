@@ -155,12 +155,17 @@
     @extend .iconsSection;
 }
 
+.ant-tag.ant-tag-blue{
+    cursor: default;
+}
+
 .props {
     width: 50%;
     max-height: 180vh;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-around;
 }
 
 #sub {

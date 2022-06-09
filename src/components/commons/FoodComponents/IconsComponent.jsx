@@ -1,4 +1,6 @@
 import React from 'react';
+import { Form, Input, Button } from 'antd';
+
 import { useEffect, useState } from 'react';
 import { SmileTwoTone, MehTwoTone, FrownTwoTone } from '@ant-design/icons';
 
@@ -17,18 +19,18 @@ const IconsComponent = ({
 
     const hasImage = !isInvalidElem(data?.imagen);
 
-    const nutricionalIcon1Color =
-        data?.icono?.iconoNutricional === '1' ? '#27ae60' : '#d4efdf';
-    const nutricionalIcon2Color =
-        data?.icono?.iconoNutricional === '2' ? '#ffcb00' : '#f7efcd';
-    const nutricionalIcon3Color =
-        data?.icono?.iconoNutricional === '3' ? '#c0392b' : '#f2d7d5';
-    const ambientalIcon1Color = data?.icono?.iconoAmbiental === '1' ? '#27ae60' : '#d4efdf';
-    const ambientalIcon2Color = data?.icono?.iconoAmbiental === '2' ? '#ffcb00' : '#f7efcd';
-    const ambientalIcon3Color = data?.icono?.iconoAmbiental === '3' ? '#c0392b' : '#f2d7d5';
-    const economiaIcon1Color = data?.icono?.iconoEconomia === '1' ? '#27ae60' : '#d4efdf';
-    const economiaIcon2Color = data?.icono?.iconoEconomia === '2' ? '#ffcb00' : '#f7efcd';
-    const economiaIcon3Color = data?.icono?.iconoEconomia === '3' ? ' #c0392b' : '#f2d7d5';
+    const nutricionalIcon1Color = data?.iconoNutricional === '1' ? '#27ae60' : '#d4efdf';
+    const nutricionalIcon2Color = data?.iconoNutricional === '2' ? '#ffcb00' : '#f7efcd';
+    const nutricionalIcon3Color = data?.iconoNutricional === '3' ? '#c0392b' : '#f2d7d5';
+    const ambientalIcon1Color = data?.iconoAmbiental === '1' ? '#27ae60' : '#d4efdf';
+    const ambientalIcon2Color = data?.iconoAmbiental === '2' ? '#ffcb00' : '#f7efcd';
+    const ambientalIcon3Color = data?.iconoAmbiental === '3' ? '#c0392b' : '#f2d7d5';
+    const economiaIcon1Color = data?.iconoEconomia === '1' ? '#27ae60' : '#d4efdf';
+    const economiaIcon2Color = data?.iconoEconomia === '2' ? '#ffcb00' : '#f7efcd';
+    const economiaIcon3Color = data?.iconoEconomia === '3' ? ' #c0392b' : '#f2d7d5';
+    const culturaIcon2Color = data?.iconoCulturaSociedad === '2' ? '#ffcb00' : '#f7efcd';
+    const culturaIcon1Color = data?.iconoCulturaSociedad === '1' ? '#27ae60' : '#d4efdf';
+    const culturaIcon3Color = data?.iconoCulturaSociedad === '3' ? ' #c0392b' : '#f2d7d5';
 
     useEffect(() => {
         dataSource && setData(dataSource);
@@ -108,29 +110,17 @@ const IconsComponent = ({
                     <h1 id='culture'>Cultura sociedad</h1>
                     <div id='icons-icons'>
                         <SmileTwoTone
-                            twoToneColor={
-                                data?.icono?.iconoCulturaSociedad === '1'
-                                    ? ' #27ae60'
-                                    : '#d4efdf'
-                            }
+                            twoToneColor={culturaIcon1Color}
                             style={{ fontSize: '35px' }}
                             onClick={() => sociedad('1')}
                         />
                         <MehTwoTone
-                            twoToneColor={
-                                data?.icono?.iconoCulturaSociedad === '2'
-                                    ? '#ffcb00'
-                                    : '#f7efcd'
-                            }
+                            twoToneColor={culturaIcon2Color}
                             style={{ fontSize: '35px' }}
                             onClick={() => sociedad('2')}
                         />
                         <FrownTwoTone
-                            twoToneColor={
-                                data?.icono?.iconoCulturaSociedad === '3'
-                                    ? ' #c0392b'
-                                    : ' #f2d7d5'
-                            }
+                            twoToneColor={culturaIcon3Color}
                             style={{ fontSize: '35px' }}
                             onClick={() => sociedad('3')}
                         />

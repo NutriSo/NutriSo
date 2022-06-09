@@ -21,7 +21,7 @@ const PropertiesComponent = ({
 
     const data = generateFormDTO(item);
 
-    const opcs = data?.filter((elem) => elem.name === 'opcionesPreparacion');
+    const tagsData = data.filter((elem) => elem.name === 'opcionesPreparacion');
 
     return (
         <>
@@ -32,14 +32,9 @@ const PropertiesComponent = ({
                 <div className='data_props'>
                     <Props dataSource={data} />
                 </div>
-                {/*<div id='save'>
-                    <Button id='save' onClick={() => getData()} type='primary'>
-                        <strong>Guardar</strong>
-                    </Button>
-                </div>*/}
                 <div className='preparaciones'>
                     <div className='tags'>
-                        <Tags borrar={borrar} dataSource={opcs} />
+                        <Tags borrar={borrar} dataSource={tagsData} />
                     </div>
                     <div className='add_tag'>
                         <PlusCircleTwoTone
