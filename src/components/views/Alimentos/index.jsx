@@ -166,7 +166,7 @@ const Alimentos = () => {
                 hidratosDeCarbono: values?.hdratoscarbono,
                 fibra: values?.fibra,
                 fibraInsoluble: values?.fibrainsoluble,
-                fibraSoluble: values?.fibrasoluble, //NO VIENE EN MI OBJETO LO PONDRÁ GAMA
+                fibraSoluble: values?.fibrasoluble,
                 azucar: values?.azucar,
                 etanol: values?.etanol,
             },
@@ -265,9 +265,9 @@ const Alimentos = () => {
         };
         console.log(data);
         console.log('ID AL GUARDAR: ' + ID);
-        // const res = await apiURL.patch(`alimentos/${ID}`, data);
-        // if (res.status === 200 || res.status === 204)
-        //     message.success('Alimento actualizado correctamente');
+        const res = await apiURL.patch(`alimentos/${ID}`, data);
+        if (res.status === 200 || res.status === 204)
+            message.success('Alimento actualizado correctamente');
     };
 
     const handleImage = (response) => {
