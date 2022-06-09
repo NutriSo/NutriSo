@@ -11,6 +11,7 @@ const AddFoodModal = () => {
 
     const handleOk = () => {
         setIsModalVisible(false);
+        alert("Cerrando")
     };
 
     const handleCancel = () => {

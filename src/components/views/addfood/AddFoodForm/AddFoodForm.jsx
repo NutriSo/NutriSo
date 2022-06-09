@@ -59,153 +59,151 @@ const AddFoodForm = () => {
 
     const onFinish = async (values) => {
         const sku = await getSku();
+        //console.log(sku+1) //Sumar uno porque es un alimento nuevo
+        //console.log('Received values of form: ', values);
+        //console.log(foodOptions)
 
-        console.log('Received values of form: ', values);
-
-        // const data = {
-        //     sku: sku,
-        //     nombreAlimento: `${rowValues[1] ?? 'N/A'}`,
-        //     grupoExportable: `${rowValues[2] ?? 'N/A'}`,
-        //     subGrupoExportable: `${rowValues[3] ?? 'N/A'}`,
-        //     grupoAlimento: `${rowValues[4] ?? 'N/A'}`,
-        //     mensaje: {
-        //         nutricional: `${rowValues[5] ?? 'N/A'}`,
-        //         ambiental: `${rowValues[6] ?? 'N/A'}`,
-        //         mensajeEconomia: `${rowValues[7] ?? 'N/A'}`,
-        //         mensajeCulturaSociedad: `${rowValues[8] ?? 'N/A'}`,
-        //     },
-
-        //     icono: {
-        //         iconoNutricional: `${rowValues[9] ?? '4'}`,
-        //         iconoAmbiental: `${rowValues[10] ?? '4'}`,
-        //         iconoEconomia: `${rowValues[11] ?? '4'}`,
-        //         iconoCulturaSociedad: `${rowValues[12] ?? '4'}`,
-        //     },
-        //     imagen: url,
-        //     clasificacionExportable: `${rowValues[14] ?? 'N/A'}`,
-        //     opcionesPreparacion: opciones,
-        //     cantidadAlimento: {
-        //         cantidadSugerida: rowValues[16] ?? 0,
-        //         unidad: `${rowValues[17] ?? 'N/A'}`,
-        //         pesoNeto: `${rowValues[18] ?? '0'}`,
-        //     },
-        //     caloriasMacronutrientes: {
-        //         energia: `${rowValues[19] ?? '0'}`,
-        //         proteina: `${rowValues[20] ?? '0'}`,
-        //         lipidos: `${rowValues[21] ?? '0'}`,
-        //         agSaturados: `${rowValues[22] ?? '0'}`,
-        //         agMonoinsaturados: `${rowValues[23] ?? '0'}`,
-        //         adPoliinsaturados: `${rowValues[24] ?? '0'}`,
-        //         colesterol: `${rowValues[25] ?? '0'}`,
-        //         omega3: `${rowValues[26] ?? '0'}`,
-        //         omega6: `${rowValues[27] ?? '0'}`,
-        //         omega9: `${rowValues[28] ?? '0'}`,
-        //         hidratosDeCarbono: `${rowValues[29] ?? '0'}`,
-        //         fibra: `${rowValues[30] ?? '0'}`,
-        //         fibraInsoluble: `${rowValues[31] ?? '0'}`,
-        //         fibraSoluble: `${rowValues[32] ?? '0'}`,
-        //         azucar: `${rowValues[33] ?? '0'}`,
-        //         etanol: `${rowValues[34] ?? '0'}`,
-        //     },
-        //     vitaminas: {
-        //         tiamina: `${rowValues[35] ?? '0'}`,
-        //         riboflavin: `${rowValues[36] ?? '0'}`,
-        //         niacina: `${rowValues[37] ?? '0'}`,
-        //         acidoPantotenico: `${rowValues[38] ?? '0'}`,
-        //         piridoxina: `${rowValues[39] ?? '0'}`,
-        //         biotina: `${rowValues[40] ?? '0'}`,
-        //         cobalmina: `${rowValues[41] ?? '0'}`,
-        //         acidoAscorbico: `${rowValues[42] ?? '0'}`,
-        //         acidoFolico: `${rowValues[43] ?? '0'}`,
-        //         vitaminaA: `${rowValues[44] ?? '0'}`,
-        //         vitaminaD: `${rowValues[45] ?? '0'}`,
-        //         vitaminaK: `${rowValues[46] ?? '0'}`,
-        //         vitaminaE: `${rowValues[47] ?? '0'}`,
-        //     },
-        //     minerales: {
-        //         calcio: `${rowValues[48] ?? '0'}`,
-        //         fosforo: `${rowValues[49] ?? '0'}`,
-        //         hierro: `${rowValues[50] ?? '0'}`,
-        //         hierroNoHem: `${rowValues[51] ?? '0'}`,
-        //         hierroTotal: `${Number(rowValues[50] + rowValues[51]) ?? '0'}`,
-        //         magnesio: `${rowValues[52] ?? '0'}`,
-        //         sodio: `${rowValues[53] ?? '0'}`,
-        //         potasio: `${rowValues[54] ?? '0'}`,
-        //         zinc: `${rowValues[55] ?? '0'}`,
-        //         selenio: `${rowValues[56] ?? '0'}`,
-        //     },
-        //     aspectoGlucemico: {
-        //         indiceGlicemico: `${rowValues[57] ?? '0'}`,
-        //         cargaGlicemica: `${rowValues[58] ?? '0'}`,
-        //     },
-        //     aspectoMedioambiental: {
-        //         factorDeCorreccionParaHuellaHidricaYEGEI: rowValues[59] ?? 0,
-        //         tipo: `${rowValues[60] ?? 'N/A'}`,
-        //         lugar: `${rowValues[61] ?? 'N/A'}`,
-        //         huellaHidricaTotal: `${
-        //             Number(rowValues[62]) + Number(rowValues[63]) + Number(rowValues[64])
-        //         }`,
-        //         huellaHidricaVerde: `${rowValues[62] ?? '0'}`,
-        //         huellaHidricaAzul: `${rowValues[63] ?? '0'}`,
-        //         huellaHidricaGris: `${rowValues[64] ?? '0'}`,
-        //         aguaParaLavado: `${rowValues[65] ?? '0'}`,
-        //         aguaParaCoccion: `${rowValues[66] ?? '0'}`,
-        //         lugarEGEI: `${rowValues[67] ?? '0'}`,
-        //         citaEGEI: `${rowValues[68] ?? '0'}`,
-        //         huellaCarbono: `${rowValues[69] ?? '0'}`, // EGEI.
-        //         huellaEcologica: `${rowValues[70] ?? '0'}`,
-        //         usoDeSuelo: `${rowValues[71] ?? '0'}`,
-        //         energiaFosil: `${rowValues[72] ?? '0'}`,
-        //         nitrogeno: `${rowValues[73] ?? '0'}`,
-        //         fosforo: `${rowValues[74] ?? '0'}`,
-        //         puntajeEcologico: rowValues[75] ?? 0,
-        //     },
-        //     aspectoEconomico: {
-        //         precio: rowValues[76] ?? 0,
-        //         lugarDeCompra: `${rowValues[77] ?? 'N/A'}`,
-        //         lugarDeVenta: `${rowValues[78] ?? 'N/A'}`,
-        //     },
-        //     componentesBioactivos: {
-        //         fitoquimicos: `${rowValues[79] ?? '0'}`,
-        //         polifenoles: `${rowValues[80] ?? '0'}`,
-        //         antocianinas: `${rowValues[81] ?? '0'}`,
-        //         taninos: `${rowValues[82] ?? '0'}`,
-        //         isoflavonas: `${rowValues[83] ?? '0'}`,
-        //         resveratrol: `${rowValues[84] ?? '0'}`,
-        //         isotiocinatos: `${rowValues[85] ?? '0'}`,
-        //         caretenoides: `${rowValues[86] ?? '0'}`,
-        //         betacarotenos: `${rowValues[87] ?? '0'}`,
-        //         licopeno: `${rowValues[88] ?? '0'}`,
-        //         luteina: `${rowValues[89] ?? '0'}`,
-        //         alicina: `${rowValues[90] ?? '0'}`,
-        //         cafeina: `${rowValues[91] ?? '0'}`,
-        //         UFC: `${rowValues[92] ?? '0'}`,
-        //     },
-        //     aditivosAlimentarios: {
-        //         benzoatoDeSodio: `${rowValues[93] ?? '0'}`,
-        //         polisorbato: `${rowValues[94] ?? '0'}`,
-        //         azulBrillanteFCFoE133: `${rowValues[95] ?? '0'}`,
-        //         azurrubinaOE102: `${rowValues[96] ?? '0'}`,
-        //         amarilloOcasoFDFoE110: `${rowValues[97] ?? '0'}`,
-        //         tartrazinaOE102: `${rowValues[98] ?? '0'}`,
-        //         verdeSoE142: `${rowValues[99] ?? '0'}`,
-        //         negroBrillanteBNoE151: `${rowValues[100] ?? '0'}`,
-        //         sucralosa: `${rowValues[101] ?? '0'}`,
-        //         estevia: `${rowValues[102] ?? '0'}`,
-        //         sacarina: `${rowValues[103] ?? '0'}`,
-        //         aspartame: `${rowValues[104] ?? '0'}`,
-        //         acesulfameK: `${rowValues[105] ?? '0'}`,
-        //         carboxymethylcellulose: `${rowValues[106] ?? '0'}`,
-        //         dioxidoDeTitanio: `${rowValues[107] ?? '0'}`,
-        //         monolauratoDeGlicerol: `${rowValues[108] ?? '0'}`,
-        //     },
-        //     atributosAdicionales: [
-        //         {
-        //             atributoAdicional: `${rowValues[109] ?? 'N/A'}`,
-        //         },
-        //     ],
-        //     marca: `${rowValues[108] ?? ''}`,
-        // };
+        const data = {
+            sku: sku + 1,
+            nombreAlimento: values.nombre,
+            grupoExportable: values.grupoExp,
+            subGrupoExportable: values.subGrupoExp,
+            mensaje: {
+                nutricional: values.mensajeNutricional,
+                ambiental: values.mensajeAmbiental,
+                mensajeEconomia: values.mensajeEconomico,
+                mensajeCulturaSociedad: values.mensajeCultural,
+            },
+            icono: {
+                iconoNutricional: values.iconoNutricional,
+                iconoAmbiental: values.iconoAmbiental,
+                iconoEconomia: values.iconoEconomia,
+                iconoCulturaSociedad: values.iconoCultura,
+            },
+            imagen: values.image,
+            clasificacionExportable: values.clasificacionExp,
+            opcionesPreparacion: foodOptions, //El values no contiene esto
+            cantidadAlimento: {
+                cantidadSugerida: values.cantidadSugerida,
+                unidad: values.unidad,
+                pesoNeto: values.neto, //Este hacía falta
+            },
+            caloriasMacronutrientes: {
+                energia: values.energiamacro,
+                proteina: values.proteinamacro,
+                lipidos: values.lipidosmacro,
+                agSaturados: values.saturadasmacro,
+                agMonoinsaturados: values.monoinsaturadosmacro,
+                adPoliinsaturados: values.adpoliinsaturadosmacro,
+                colesterol: values.colestrerolmacro,
+                omega3: values.omega3macro,
+                omega6: values.omega6macro,
+                omega9: values.omega9,
+                hidratosDeCarbono: values.hidratosCarbonomacro,
+                fibra: values.fibramacro,
+                fibraInsoluble: values.fibrainsolublemacro,
+                fibraSoluble: values.fibrasolublemacro,
+                azucar: values.azucarmacro,
+                etanol: values.etanolmacro,
+            },
+            vitaminas: {
+                tiamina: values.tiamina,
+                riboflavin: values.riboflavin,
+                niacina: values.niacina,
+                acidoPantotenico: values.acidoPantotenico,
+                piridoxina: values.piridoxina,
+                biotina: values.biotina,
+                cobalmina: values.cobalmina,
+                acidoAscorbico: values.acidoAscorbico,
+                acidoFolico: values.acidoFolico,
+                vitaminaA: values.vitaminaA,
+                vitaminaD: values.vitaminaD,
+                vitaminaK: values.vitaminaK,
+                vitaminaE: values.vitaminaE,
+            },
+            minerales: {
+                calcio: values.calcio,
+                fosforo: values.fosforo,
+                hierro: values.hierro,
+                hierroNoHem: values.hierroNoHem,
+                hierroTotal: values.hierroTotal,
+                magnesio: values.magnesio,
+                sodio: values.sodio,
+                potasio: values.potasio,
+                zinc: values.zinc,
+                selenio: values.selenio,
+            },
+            aspectoGlucemico: {
+                indiceGlicemico: values.indiceGlucemico,
+                cargaGlicemica: values.cargaGlucemica,
+            },
+            aspectoMedioambiental: {
+                factorDeCorreccionParaHuellaHidricaYEGEI: values.factorCoreccion,
+                tipo: values.tipoma,
+                lugar: values.lugarma,
+                huellaHidricaTotal: values.huellaHidricaTotal,
+                huellaHidricaVerde: values.huellaHidricaVerde,
+                huellaHidricaAzul: values.huellaHidricaAzul,
+                huellaHidricaGris: values.huellaHidricaGris,
+                aguaParaLavado: values.aguaParaLavado,
+                aguaParaCoccion: values.aguaParaCoccion,
+                lugarEGEI: values.lugarEGEI,
+                citaEGEI: values.citaEGEI,
+                huellaCarbono: values.huellaCarbono,
+                huellaEcologica: values.huellaEcologica,
+                usoDeSuelo: values.usoSuelo, //Se agregó este campo que no existia
+                energiaFosil: values.energiaFosil,
+                nitrogeno: values.nitrogeno,
+                fosforo: values.fosforo, //¿Debemos cambiarlo a otro fósforo o usamos el mismo que de minerales?
+                puntajeEcologico: values.puntajeEcologico,
+            },
+            aspectoEconomico: {
+                precio: values.precio,
+                lugarDeCompra: values.lugarCompra,
+                lugarDeVenta: values.lugarVenta,
+            },
+            componentesBioactivos: {
+                fitoquimicos: values.fitoquimicos,
+                polifenoles: values.polifenoles,
+                antocianinas: values.antocianinas,
+                taninos: values.taninos,
+                isoflavonas: values.isoflavonas,
+                resveratrol: values.resveraterol,
+                isotiocinatos: values.isotiocinatos,
+                caretenoides: values.caretenoides,
+                betacarotenos: values.betacarotenos,
+                licopeno: values.licopeno,
+                luteina: values.luteina,
+                alicina: values.alicina,
+                cafeina: values.cafeina,
+                UFC: values.UFC,
+            },
+            aditivosAlimentarios: {
+                benzoatoDeSodio: values.benzoatoDeSodio,
+                polisorbato: values.polisorbato,
+                azulBrillanteFCFoE133: values.azulBrillanteFCFoE133,
+                azurrubinaOE102: values.azurrubinaOE102,
+                amarilloOcasoFDFoE110: values.amarilloOcasoFDFoE110,
+                tartrazinaOE102: values.tartrazinaOE102,
+                verdeSoE142: values.verdeSoE142,
+                negroBrillanteBNoE151: values.negroBrillanteBNoE151,
+                sucralosa: values.sucralosa,
+                estevia: values.estevia,
+                sacarina: values.sacarina,
+                aspartame: values.aspartame,
+                acesulfameK: values.acesulfameK,
+                carboxymethylcellulose: values.carboxymethylcellulose,
+                dioxidoDeTitanio: values.dioxidoDeTitanio,
+                monolauratoDeGlicerol: values.monolauratoDeGlicerol,
+            },
+            /*atributosAdicionales: [
+                {
+                    atributoAdicional: `${rowValues[109] ?? 'N/A'}`,
+                },
+            ],*/
+            marca: values.marca,
+        }
+        console.log(data)
     };
 
     return (
@@ -319,13 +317,16 @@ const AddFoodForm = () => {
                 </Row>
             </Card>
             {/*OPCIONES DE PREPARACIÓN AQUÍ*/}
-            <br />
+            <br /> <h1 className='duda'>Esto qué onda, es un <code>br/></code> aqui nomas solito?</h1>
+
+
+            
             {/*CANTIDAD DE ALIMENTOS*/}
             <Card title='Cantidad de alimento'>
                 <Row gutter={[8, 8]}>
                     <Col span={12}>
                         <Form.Item
-                            name={'cantidadAlimento'}
+                            name={'cantidadSugerida'}
                             label={<label className={'formItem'}>Cantidad sugerida</label>}
                             required>
                             <InputNumber
@@ -352,6 +353,7 @@ const AddFoodForm = () => {
                 </Row>
                 <Row>
                     <Form.Item
+                        name={'neto'}
                         label={<label className={'formItem'}>Peso neto</label>}
                         required>
                         <InputNumber
@@ -384,6 +386,7 @@ const AddFoodForm = () => {
             <Form.Item
                 name={'grupoAlimentos'}
                 label={<label className={'formItem'}>Grupo de alimento</label>}
+                rules={[Rules.basicSpanish]}
                 required>
                 <Select placeholder='Selecciona un grupo'>
                     {mocks.gruposAlimento.map((elem) => (
@@ -391,8 +394,7 @@ const AddFoodForm = () => {
                             {elem.label}
                         </Option>
                     ))}
-                </Select>
-                {/* <Input placeholder='Ingrese el grupo de alimento al que pertenece' /> */}
+                </Select>                
             </Form.Item>
             <Form.Item
                 name={'mensajeNutricional'}
@@ -674,7 +676,7 @@ const AddFoodForm = () => {
 
                     <Col span={12}>
                         <Form.Item
-                            name={'fosforo'}
+                            name={'fosforo'} //Este es el primer fósforo
                             label={<label className={'formItem'}>Fósforo</label>}
                             required>
                             <InputNumber
@@ -1135,6 +1137,14 @@ const AddFoodForm = () => {
                     <Col span={8}>
                         <Form.Item
                             name={'usoSuelo'}
+                            label={<label className={'formItem'}>Uso de suelo</label>}
+                            required>
+                            <Input placeholder='Ingrese el uso de suelo' />
+                        </Form.Item>
+                    </Col>
+                    <Col span={8}>
+                        <Form.Item
+                            name={'nitrogeno'}
                             label={<label className={'formItem'}>Nitrogeno</label>}
                             required>
                             <Input placeholder='Ingrese la cantidad de nitrógeno' />
@@ -1144,7 +1154,7 @@ const AddFoodForm = () => {
                 <Row gutter={[8, 8]}>
                     <Col span={12}>
                         <Form.Item
-                            name={'fosforo'}
+                            name={'fosforo'} //Este fósforo ya existe
                             label={<label className={'formItem'}>Fósforo</label>}
                             required>
                             <Input placeholder='Ingrese la cantidad de fósforo' />
@@ -1506,28 +1516,8 @@ const AddFoodForm = () => {
                     </Col>
                 </Row>
             </Card>
-            {/*
-            ATRIBUTOS ADICIONALES 
-
-            <Card title="Atributos adicionales">
-            <Row gutter={[8, 8]}>
-                    <Col span={24}>
-                        <Form.Item
-                            name={"atributoadicional"}
-                            label={
-                                <label className={'formItem'}>
-                                    Atributo adicional
-                                </label>
-                            }
-                            required>
-                            <Input placeholder='Ingrese el atributo adicional' />
-                        </Form.Item>
-                    </Col>
-                    
-                </Row>
-            </Card>
-            <Card title="">
-            <Row gutter={[8, 8]}>
+            <Card title="Marca">
+                <Row gutter={[8, 8]}>
                     <Col span={24}>
                         <Form.Item
                             name={"marca"}
@@ -1540,11 +1530,27 @@ const AddFoodForm = () => {
                             <Input placeholder='Ingrese la marca' />
                         </Form.Item>
                     </Col>
-                    
+
                 </Row>
             </Card>
+            {/* ATRIBUTOS ADICIONALES 
+            <Card title="Atributos adicionales">
+                <Row gutter={[8, 8]}>
+                    <Col span={24}>
+                        <Form.Item
+                            name={"atributoadicional"}
+                            label={
+                                <label className={'formItem'}>
+                                    Atributo adicional
+                                </label>
+                            }
+                            required>
+                            <Input placeholder='Ingrese el atributo adicional' />
+                        </Form.Item>
+                    </Col>                    
+                </Row>
+            </Card>            
             */}
-
             <Form.Item>
                 <Button type='primary' htmlType='submit'>
                     Submit
@@ -1555,3 +1561,152 @@ const AddFoodForm = () => {
 };
 
 export default AddFoodForm;
+
+
+
+
+
+// const data = {
+        //     sku: sku,
+        //     nombreAlimento: `${rowValues[1] ?? 'N/A'}`,
+        //     grupoExportable: `${rowValues[2] ?? 'N/A'}`,
+        //     subGrupoExportable: `${rowValues[3] ?? 'N/A'}`,
+        //     grupoAlimento: `${rowValues[4] ?? 'N/A'}`,
+        //     mensaje: {
+        //         nutricional: `${rowValues[5] ?? 'N/A'}`,
+        //         ambiental: `${rowValues[6] ?? 'N/A'}`,
+        //         mensajeEconomia: `${rowValues[7] ?? 'N/A'}`,
+        //         mensajeCulturaSociedad: `${rowValues[8] ?? 'N/A'}`,
+        //     },
+
+        //     icono: {
+        //         iconoNutricional: `${rowValues[9] ?? '4'}`,
+        //         iconoAmbiental: `${rowValues[10] ?? '4'}`,
+        //         iconoEconomia: `${rowValues[11] ?? '4'}`,
+        //         iconoCulturaSociedad: `${rowValues[12] ?? '4'}`,
+        //     },
+        //     imagen: url,
+        //     clasificacionExportable: `${rowValues[14] ?? 'N/A'}`,
+        //     opcionesPreparacion: opciones,
+        //     cantidadAlimento: {
+        //         cantidadSugerida: rowValues[16] ?? 0,
+        //         unidad: `${rowValues[17] ?? 'N/A'}`,
+        //         pesoNeto: `${rowValues[18] ?? '0'}`,
+        //     },
+        //     caloriasMacronutrientes: {
+        //         energia: `${rowValues[19] ?? '0'}`,
+        //         proteina: `${rowValues[20] ?? '0'}`,
+        //         lipidos: `${rowValues[21] ?? '0'}`,
+        //         agSaturados: `${rowValues[22] ?? '0'}`,
+        //         agMonoinsaturados: `${rowValues[23] ?? '0'}`,
+        //         adPoliinsaturados: `${rowValues[24] ?? '0'}`,
+        //         colesterol: `${rowValues[25] ?? '0'}`,
+        //         omega3: `${rowValues[26] ?? '0'}`,
+        //         omega6: `${rowValues[27] ?? '0'}`,
+        //         omega9: `${rowValues[28] ?? '0'}`,
+        //         hidratosDeCarbono: `${rowValues[29] ?? '0'}`,
+        //         fibra: `${rowValues[30] ?? '0'}`,
+        //         fibraInsoluble: `${rowValues[31] ?? '0'}`,
+        //         fibraSoluble: `${rowValues[32] ?? '0'}`,
+        //         azucar: `${rowValues[33] ?? '0'}`,
+        //         etanol: `${rowValues[34] ?? '0'}`,
+        //     },
+        //     vitaminas: {
+        //         tiamina: `${rowValues[35] ?? '0'}`,
+        //         riboflavin: `${rowValues[36] ?? '0'}`,
+        //         niacina: `${rowValues[37] ?? '0'}`,
+        //         acidoPantotenico: `${rowValues[38] ?? '0'}`,
+        //         piridoxina: `${rowValues[39] ?? '0'}`,
+        //         biotina: `${rowValues[40] ?? '0'}`,
+        //         cobalmina: `${rowValues[41] ?? '0'}`,
+        //         acidoAscorbico: `${rowValues[42] ?? '0'}`,
+        //         acidoFolico: `${rowValues[43] ?? '0'}`,
+        //         vitaminaA: `${rowValues[44] ?? '0'}`,
+        //         vitaminaD: `${rowValues[45] ?? '0'}`,
+        //         vitaminaK: `${rowValues[46] ?? '0'}`,
+        //         vitaminaE: `${rowValues[47] ?? '0'}`,
+        //     },
+        //     minerales: {
+        //         calcio: `${rowValues[48] ?? '0'}`,
+        //         fosforo: `${rowValues[49] ?? '0'}`,
+        //         hierro: `${rowValues[50] ?? '0'}`,
+        //         hierroNoHem: `${rowValues[51] ?? '0'}`,
+        //         hierroTotal: `${Number(rowValues[50] + rowValues[51]) ?? '0'}`,
+        //         magnesio: `${rowValues[52] ?? '0'}`,
+        //         sodio: `${rowValues[53] ?? '0'}`,
+        //         potasio: `${rowValues[54] ?? '0'}`,
+        //         zinc: `${rowValues[55] ?? '0'}`,
+        //         selenio: `${rowValues[56] ?? '0'}`,
+        //     },
+        //     aspectoGlucemico: {
+        //         indiceGlicemico: `${rowValues[57] ?? '0'}`,
+        //         cargaGlicemica: `${rowValues[58] ?? '0'}`,
+        //     },
+        //     aspectoMedioambiental: {
+        //         factorDeCorreccionParaHuellaHidricaYEGEI: rowValues[59] ?? 0,
+        //         tipo: `${rowValues[60] ?? 'N/A'}`,
+        //         lugar: `${rowValues[61] ?? 'N/A'}`,
+        //         huellaHidricaTotal: `${
+        //             Number(rowValues[62]) + Number(rowValues[63]) + Number(rowValues[64])
+        //         }`,
+        //         huellaHidricaVerde: `${rowValues[62] ?? '0'}`,
+        //         huellaHidricaAzul: `${rowValues[63] ?? '0'}`,
+        //         huellaHidricaGris: `${rowValues[64] ?? '0'}`,
+        //         aguaParaLavado: `${rowValues[65] ?? '0'}`,
+        //         aguaParaCoccion: `${rowValues[66] ?? '0'}`,
+        //         lugarEGEI: `${rowValues[67] ?? '0'}`,
+        //         citaEGEI: `${rowValues[68] ?? '0'}`,
+        //         huellaCarbono: `${rowValues[69] ?? '0'}`, // EGEI.
+        //         huellaEcologica: `${rowValues[70] ?? '0'}`,
+        //         usoDeSuelo: `${rowValues[71] ?? '0'}`,
+        //         energiaFosil: `${rowValues[72] ?? '0'}`,
+        //         nitrogeno: `${rowValues[73] ?? '0'}`,
+        //         fosforo: `${rowValues[74] ?? '0'}`,
+        //         puntajeEcologico: rowValues[75] ?? 0,
+        //     },
+        //     aspectoEconomico: {
+        //         precio: rowValues[76] ?? 0,
+        //         lugarDeCompra: `${rowValues[77] ?? 'N/A'}`,
+        //         lugarDeVenta: `${rowValues[78] ?? 'N/A'}`,
+        //     },
+        //     componentesBioactivos: {
+        //         fitoquimicos: `${rowValues[79] ?? '0'}`,
+        //         polifenoles: `${rowValues[80] ?? '0'}`,
+        //         antocianinas: `${rowValues[81] ?? '0'}`,
+        //         taninos: `${rowValues[82] ?? '0'}`,
+        //         isoflavonas: `${rowValues[83] ?? '0'}`,
+        //         resveratrol: `${rowValues[84] ?? '0'}`,
+        //         isotiocinatos: `${rowValues[85] ?? '0'}`,
+        //         caretenoides: `${rowValues[86] ?? '0'}`,
+        //         betacarotenos: `${rowValues[87] ?? '0'}`,
+        //         licopeno: `${rowValues[88] ?? '0'}`,
+        //         luteina: `${rowValues[89] ?? '0'}`,
+        //         alicina: `${rowValues[90] ?? '0'}`,
+        //         cafeina: `${rowValues[91] ?? '0'}`,
+        //         UFC: `${rowValues[92] ?? '0'}`,
+        //     },
+        //     aditivosAlimentarios: {
+        //         benzoatoDeSodio: `${rowValues[93] ?? '0'}`,
+        //         polisorbato: `${rowValues[94] ?? '0'}`,
+        //         azulBrillanteFCFoE133: `${rowValues[95] ?? '0'}`,
+        //         azurrubinaOE102: `${rowValues[96] ?? '0'}`,
+        //         amarilloOcasoFDFoE110: `${rowValues[97] ?? '0'}`,
+        //         tartrazinaOE102: `${rowValues[98] ?? '0'}`,
+        //         verdeSoE142: `${rowValues[99] ?? '0'}`,
+        //         negroBrillanteBNoE151: `${rowValues[100] ?? '0'}`,
+        //         sucralosa: `${rowValues[101] ?? '0'}`,
+        //         estevia: `${rowValues[102] ?? '0'}`,
+        //         sacarina: `${rowValues[103] ?? '0'}`,
+        //         aspartame: `${rowValues[104] ?? '0'}`,
+        //         acesulfameK: `${rowValues[105] ?? '0'}`,
+        //         carboxymethylcellulose: `${rowValues[106] ?? '0'}`,
+        //         dioxidoDeTitanio: `${rowValues[107] ?? '0'}`,
+        //         monolauratoDeGlicerol: `${rowValues[108] ?? '0'}`,
+        //     },
+        //     atributosAdicionales: [
+        //         {
+        //             atributoAdicional: `${rowValues[109] ?? 'N/A'}`,
+        //         },
+        //     ],
+        //     marca: `${rowValues[108] ?? ''}`,
+        // };
