@@ -43,6 +43,8 @@ const CardsComponent = () => {
     const { Option } = Select;
     const [ global, setGlobal ] = useState(false);
     const [ seleccionado, setSeleccionado ] = useState('');
+    const [ lower, setLower ] = useState('');
+    const [ uper, setUper ] = useState('');
 
     useEffect(() => {
         fetchData();
@@ -171,15 +173,17 @@ const CardsComponent = () => {
             message.error(`Error: ${error.message}`);
         }
     };
-
+   
     const onSearch = (target) => {
         console.log(target);
+        
         setList(
             initialData.filter((recordatorios) =>
-                recordatorios.titulo.includes(target)
+
+                recordatorios.titulo.toLowerCase().includes(target.toLowerCase())
             )
         );
-        console.log(target);
+        //console.log(target);
     };
 
     function onChangeCh(e) {
