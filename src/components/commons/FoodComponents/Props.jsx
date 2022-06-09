@@ -1,16 +1,8 @@
 import { Form, Input, Button } from 'antd';
 
-import { getSku } from '../../../services';
-import { generateFormDTO } from './data/dto';
 import { Rules } from '../../../utils/formRules';
 
-const Props = ({ dataSource }) => {
-    const onFinish = (values) => {
-        console.log('Success:', values);        
-    };
-
-    //console.log(itm)
-
+const Props = ({ dataSource, form, onFinish }) => {
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
@@ -18,6 +10,7 @@ const Props = ({ dataSource }) => {
     return (
         <>
             <Form
+                form={form}
                 layout='vertical'
                 name='basic'
                 onFinish={onFinish}
@@ -284,129 +277,133 @@ const Props = ({ dataSource }) => {
                 <Form.Item label='Puntaje ecológico' name='puntajeecologico'>
                     <Input />
                 </Form.Item>
-                <div className="property">
-                    <h3 id="atr-titulo">Aspecto económico
-                        <hr/>
+                <div className='property'>
+                    <h3 id='atr-titulo'>
+                        Aspecto económico
+                        <hr />
                     </h3>
                 </div>
-                <Form.Item label="Precio" name="precio">
-                    <Input /> 
-                </Form.Item>                                                                                        
-                <Form.Item label="Lugar de compra" name="lugarcompra">
-                    <Input /> 
-                </Form.Item>                                                                                        
-                <Form.Item label="Lugar de venta" name="lugarventa">
+                <Form.Item label='Precio' name='precio'>
                     <Input />
-                </Form.Item> 
-                <div className="property">
-                    <h3 id="atr-titulo">Componentes bioactivos
-                        <hr/>
+                </Form.Item>
+                <Form.Item label='Lugar de compra' name='lugarcompra'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Lugar de venta' name='lugarventa'>
+                    <Input />
+                </Form.Item>
+                <div className='property'>
+                    <h3 id='atr-titulo'>
+                        Componentes bioactivos
+                        <hr />
                     </h3>
-                </div>                
-                <Form.Item label="Fitoquímicos" name="fitoquimicos">
-                    <Input />                                                                     
-                </Form.Item>                            
-                <Form.Item label="Polifenoles" name="polifenoles">
-                    <Input />                                                                     
-                </Form.Item>                            
-                <Form.Item label="Antocianinas" name="antocianinas">
-                    <Input />                                                                     
-                </Form.Item>                            
-                <Form.Item label="Taninos" name="taninos">
-                    <Input />                                                                     
-                </Form.Item>                            
-                <Form.Item label="Isoflavonas" name="isoflavonas">
-                    <Input />                                                                     
-                </Form.Item>                            
-                <Form.Item label="Reserveratrol" name="reserveratrol">
-                    <Input />                                                                     
-                </Form.Item>                            
-                <Form.Item label="Isotiocinatos" name="isotiocinatos">
-                    <Input />                                                                     
-                </Form.Item>                            
-                <Form.Item label="Caretenoides" name="caretenoides">
-                    <Input />                                                                     
-                </Form.Item>                            
-                <Form.Item label="Betacarotenos" name="betacarotenos">
-                    <Input />                                                                     
-                </Form.Item>                            
-                <Form.Item label="Licopeno" name="licopeno">
-                    <Input />                                                                     
-                </Form.Item>                            
-                <Form.Item label="Luteína" name="luteina">
-                    <Input />                                                                     
-                </Form.Item>                            
-                <Form.Item label="Alicina" name="alicina">
-                    <Input />                                                                     
-                </Form.Item>                            
-                <Form.Item label="Cafeína" name="cafeina">
-                    <Input />                                                                     
-                </Form.Item>                            
-                <Form.Item label="UFC" name="ufc">
-                    <Input />                                                                     
-                </Form.Item>                
-                <div className="property">
-                    <h3 id="atr-titulo">Aditivos alimentarios
-                        <hr/>
+                </div>
+                <Form.Item label='Fitoquímicos' name='fitoquimicos'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Polifenoles' name='polifenoles'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Antocianinas' name='antocianinas'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Taninos' name='taninos'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Isoflavonas' name='isoflavonas'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Reserveratrol' name='reserveratrol'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Isotiocinatos' name='isotiocinatos'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Caretenoides' name='caretenoides'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Betacarotenos' name='betacarotenos'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Licopeno' name='licopeno'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Luteína' name='luteina'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Alicina' name='alicina'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='Cafeína' name='cafeina'>
+                    <Input />
+                </Form.Item>
+                <Form.Item label='UFC' name='ufc'>
+                    <Input />
+                </Form.Item>
+                <div className='property'>
+                    <h3 id='atr-titulo'>
+                        Aditivos alimentarios
+                        <hr />
                     </h3>
-                </div>                
-                <Form.Item label="Benzoato de sodio" name="benzoatodesodio">
+                </div>
+                <Form.Item label='Benzoato de sodio' name='benzoatodesodio'>
                     <Input />
                 </Form.Item>
-                <Form.Item label="Polisorbato" name="polisorbato">
+                <Form.Item label='Polisorbato' name='polisorbato'>
                     <Input />
                 </Form.Item>
-                <Form.Item label="Azul brillante FCF o E133" name="fcf">
+                <Form.Item label='Azul brillante FCF o E133' name='fcf'>
                     <Input />
                 </Form.Item>
-                <Form.Item label="Azorrubina o E102" name="azorrubina">
+                <Form.Item label='Azorrubina o E102' name='azorrubina'>
                     <Input />
                 </Form.Item>
-                <Form.Item label="Amarillo ocaso FDF o E110" name="fdf">
+                <Form.Item label='Amarillo ocaso FDF o E110' name='fdf'>
                     <Input />
                 </Form.Item>
-                <Form.Item label="Tartrazina o E102" name="tartrazina">
+                <Form.Item label='Tartrazina o E102' name='tartrazina'>
                     <Input />
                 </Form.Item>
-                <Form.Item label="Verde S o E142" name="e142">
+                <Form.Item label='Verde S o E142' name='e142'>
                     <Input />
                 </Form.Item>
-                <Form.Item label="Negro brillante BN o E151" name="bn">
+                <Form.Item label='Negro brillante BN o E151' name='bn'>
                     <Input />
                 </Form.Item>
-                <Form.Item label="Sucralosa" name="sucralosa">
+                <Form.Item label='Sucralosa' name='sucralosa'>
                     <Input />
                 </Form.Item>
-                <Form.Item label="Stevia" name="stevia">
+                <Form.Item label='Stevia' name='stevia'>
                     <Input />
                 </Form.Item>
-                <Form.Item label="Sacarina" name="sacarina">
+                <Form.Item label='Sacarina' name='sacarina'>
                     <Input />
                 </Form.Item>
-                <Form.Item label="Aspartame" name="aspartame">
+                <Form.Item label='Aspartame' name='aspartame'>
                     <Input />
                 </Form.Item>
-                <Form.Item label="Acesulfame K" name="acesulfame">
+                <Form.Item label='Acesulfame K' name='acesulfame'>
                     <Input />
                 </Form.Item>
-                <Form.Item label="Carboxymethylcellulose" name="carboxy">
+                <Form.Item label='Carboxymethylcellulose' name='carboxy'>
                     <Input />
                 </Form.Item>
-                <Form.Item label="Dióxido de titanio" name="dioxidodetitanio">
+                <Form.Item label='Dióxido de titanio' name='dioxidodetitanio'>
                     <Input />
                 </Form.Item>
-                <Form.Item label="Monolaurato de glicerol" name="glicerol">
+                <Form.Item label='Monolaurato de glicerol' name='glicerol'>
                     <Input />
                 </Form.Item>
-                <div className="property">
-                    <h3 id="atr-titulo">Marca
-                        <hr/>
+                <div className='property'>
+                    <h3 id='atr-titulo'>
+                        Marca
+                        <hr />
                     </h3>
-                </div>                
-                <Form.Item label="Marca" name="marca">
+                </div>
+                <Form.Item label='Marca' name='marca'>
                     <Input />
-                </Form.Item>                
-                
+                </Form.Item>
+
                 <Form.Item
                     wrapperCol={{
                         offset: 0,
@@ -416,7 +413,7 @@ const Props = ({ dataSource }) => {
                         Submit
                     </Button>
                 </Form.Item>
-            </Form>            
+            </Form>
         </>
     );
 };

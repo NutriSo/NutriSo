@@ -1,14 +1,15 @@
 import { useState } from 'react';
 
 import apiURL from '../../../axios/axiosConfig';
-import { message } from 'antd';
+import { message, Form } from 'antd';
 
 import IconsComponent from '../../commons/FoodComponents/IconsComponent.jsx';
 import PropertiesComponent from '../../commons/FoodComponents/PropertiesComponent';
 import Consulta from '../../commons/FoodComponents/Consulta.jsx';
 
+import { getSku } from '../../../services';
 import { isEmptyObject } from '../../../utils';
-import { generateIconsDTO } from '../../commons/FoodComponents/data/dto';
+import { generateIconsDTO, generateFormDTO } from '../../commons/FoodComponents/data/dto';
 
 import './Alimentos.scss';
 
@@ -16,8 +17,12 @@ const Alimentos = () => {
     const [data2, setData] = useState(null);
     const [showAlimento, setShowAlimento] = useState(false);
     const [ID, setId] = useState('');
+    const [form] = Form.useForm();
 
     const [isModalVisible, setIsModalVisible] = useState(false);
+
+    const iconsData = generateIconsDTO(data2);
+    const formData = generateFormDTO(data2);
 
     const handleCancel = () => {
         setIsModalVisible(false);
@@ -45,114 +50,6 @@ const Alimentos = () => {
         setIsModalVisible(true);
     };
 
-    let nombre = ''; // -----> REQUIRED
-    let SKU = ''; // -----> REQUIRED
-    let grupoAlimento = ''; // -----> REQUIRED
-    let imagen = '';
-    let grupoE = '';
-    let subGrupoE = '';
-    let clasificacionE = '';
-    let mNutri = '';
-    let mAmbiental = '';
-    let mEconomico = '';
-    let mCultuSociedad = '';
-    let sugerida = '';
-    let unidad = '';
-    let pesoNeto = '';
-    let energia = '';
-    let proteina = '';
-    let lipidos = '';
-    let saturados = '';
-    let monoinsaturados = '';
-    let polinsaturados = '';
-    let colesterol = '';
-    let omega3 = '';
-    let omega6 = '';
-    let omega9 = '';
-    let hdratoscarbono = '';
-    let fibra = '';
-    let fibrainsoluble = '';
-    let fibrasoluble = '';
-    let azucar = '';
-    let etanol = '';
-    let tiamina = '';
-    let riboflavin = '';
-    let niacina = '';
-    let acidopantotenico = '';
-    let piridoxina = '';
-    let biotina = '';
-    let cobalmina = '';
-    let acidoascorbico = '';
-    let acidofolico = '';
-    let vitaminaA = '';
-    let vitaminaD = '';
-    let vitaminaK = '';
-    let vitaminaE = '';
-    let calcio = '';
-    let fosforo1 = '';
-    let hierro = '';
-    let hierronohem = '';
-    let hierrototal = '';
-    let magnesio = '';
-    let sodio = '';
-    let potasio = '';
-    let zinc = '';
-    let selenio = '';
-    let indiceglicemico = '';
-    let cargaglicemica = '';
-    let fchh = '';
-    let tipo = '';
-    let lugar = '';
-    let hht = '';
-    let hhv = '';
-    let hha = '';
-    let hhg = '';
-    let agualavado = '';
-    let aguacoccion = '';
-    let lugaregei = '';
-    let citaegei = '';
-    let hcarbono = '';
-    let hecologica = '';
-    let energiafosil = '';
-    let usosuelo = '';
-    let nitrogeno = '';
-    let fosforo2 = '';
-    let puntajeecologico = '';
-    let precio = '';
-    let lugarcompra = '';
-    let lugarventa = '';
-    let fitoquimicos = '';
-    let polifenoles = '';
-    let antocianinas = '';
-    let taninos = '';
-    let isoflavonas = '';
-    let reserveratrol = '';
-    let isotiocinatos = '';
-    let caretenoides = '';
-    let betacarotenos = '';
-    let licopeno = '';
-    let luteina = '';
-    let alicina = '';
-    let cafeina = '';
-    let ufc = '';
-    let benzoatodesodio = '';
-    let polisorbato = '';
-    let fcf = '';
-    let azorrubina = '';
-    let fdf = '';
-    let tartrazina = '';
-    let e142 = '';
-    let bn = '';
-    let sucralosa = '';
-    let stevia = '';
-    let sacarina = '';
-    let aspartame = '';
-    let acesulfame = '';
-    let carboxy = '';
-    let dioxidodetitanio = '';
-    let glicerol = '';
-    let marca = '';
-
     const fetchData = async (alimento) => {
         try {
             const { data } = await apiURL.get('/alimentos/' + alimento.id);
@@ -165,7 +62,6 @@ const Alimentos = () => {
     };
 
     const handleNutricional = (value) => {
-        console.log('valid', isEmptyObject(data2), data2);
         if (isEmptyObject(data2)) return;
 
         setData({
@@ -201,7 +97,7 @@ const Alimentos = () => {
         });
     };
 
-    const handleCulturaSociedad = (value) => {        
+    const handleCulturaSociedad = (value) => {
         if (isEmptyObject(data2)) return;
 
         setData({
@@ -228,168 +124,150 @@ const Alimentos = () => {
         }
     };
 
-    const sendData = async () => {
+    const sendData = async (values) => {
         const data = {
-            //sku: SKU,
-            nombreAlimento: nombre,
-            grupoExportable: grupoE,
-            subGrupoExportable: subGrupoE,
-            grupoAlimento: grupoAlimento,
-            mensaje: [
-                {
-                    nutricional: mNutri,
-                    ambiental: mAmbiental,
-                    mensajeEconomia: mEconomico,
-                    mensajeCulturaSociedad: mCultuSociedad,
-                },
-            ],
+            sku: await getSku(),
+            marca: values?.marca,
+            imagen: data2?.imagen,
+            nombreAlimento: values?.pName,
+            grupoExportable: values?.pGroupE,
+            grupoAlimento: values?.pGroupAli,
+            subGrupoExportable: values?.pSubGroupE,
+            clasificacionExportable: values?.pClasE,
+            opcionesPreparacion: data2?.opcionesPreparacion,
+            mensaje: {
+                nutricional: values?.mNutri,
+                ambiental: values?.mAmbien,
+                mensajeEconomia: values?.mEcono,
+                mensajeCulturaSociedad: values?.mCult_Soci,
+            },
             icono: {
                 iconoNutricional: data2?.icono?.iconoNutricional,
                 iconoAmbiental: data2?.icono?.iconoAmbiental,
                 iconoEconomia: data2?.icono?.iconoEconomia,
                 iconoCulturaSociedad: data2?.icono?.iconoCulturaSociedad,
             },
-            imagen: imagen,
-            clasificacionExportable: clasificacionE,
-            opcionesPreparacion: data2?.opcionesPreparacion, //             ME FALTA ENVIAR ESTO
-            cantidadAlimento: [
-                {
-                    cantidadSugerida: sugerida,
-                    unidad: unidad,
-                    pesoNeto: pesoNeto.split('(')[0].trim(),
-                },
-            ],
-            caloriasMacronutrientes: [
-                {
-                    energia: energia.split('(')[0].trim(),
-                    proteina: proteina.split('(')[0].trim(),
-                    lipidos: lipidos.split('(')[0].trim(),
-                    agSaturados: saturados.split('(')[0].trim(),
-                    agMonoinsaturados: monoinsaturados.split('(')[0].trim(),
-                    adPoliinsaturados: polinsaturados.split('(')[0].trim(),
-                    colesterol: colesterol.split('(')[0].trim(),
-                    omega3: omega3.split('(')[0].trim(),
-                    omega6: omega6.split('(')[0].trim(),
-                    omega9: omega9.split('(')[0].trim(),
-                    hidratosDeCarbono: hdratoscarbono.split('(')[0].trim(),
-                    fibra: fibra.split('(')[0].trim(),
-                    fibraInsoluble: fibrainsoluble.split('(')[0].trim(),
-                    fibraSoluble: fibrasoluble.split('(')[0].trim(), //NO VIENE EN MI OBJETO LO PONDRÁ GAMA
-                    azucar: azucar.split('(')[0].trim(),
-                    etanol: etanol.split('(')[0].trim(),
-                },
-            ],
-            vitaminas: [
-                {
-                    tiamina: tiamina.split('(')[0].trim(),
-                    riboflavin: riboflavin.split('(')[0].trim(),
-                    niacina: niacina.split('(')[0].trim(),
-                    acidoPantotenico: acidopantotenico.split('(')[0].trim(),
-                    piridoxina: piridoxina.split('(')[0].trim(),
-                    biotina: biotina.split('(')[0].trim(),
-                    cobalmina: cobalmina.split('(')[0].trim(),
-                    acidoAscorbico: acidoascorbico.split('(')[0].trim(),
-                    acidoFolico: acidofolico.split('(')[0].trim(),
-                    vitaminaA: vitaminaA,
-                    vitaminaK: vitaminaK,
-                    vitaminaE: vitaminaE,
-                    vitaminaD: vitaminaD, // NO ESTABA EN ESTE OBJETO ASI QUE LO AGREGUÉ
-                },
-            ],
-            minerales: [
-                {
-                    calcio: calcio,
-                    fosforo: fosforo1,
-                    hierro: hierro,
-                    hierroNoHem: hierronohem,
-                    hierroTotal: hierrototal,
-                    magnesio: magnesio,
-                    sodio: sodio,
-                    potasio: potasio,
-                    zinc: zinc,
-                    selenio: selenio,
-                },
-            ],
-            aspectoGlucemico: [
-                {
-                    indiceGlicemico: indiceglicemico,
-                    cargaGlicemica: cargaglicemica,
-                },
-            ],
-            aspectoMedioambiental: [
-                {
-                    factorDeCorreccionParaHuellaHidricaYEGEI: fchh,
-                    tipo: tipo,
-                    lugar: lugar,
-                    huellaHidricaTotal: hht,
-                    huellaHidricaVerde: hhv,
-                    huellaHidricaAzul: hha,
-                    huellaHidricaGris: hhg,
-                    aguaParaLavado: agualavado,
-                    aguaParaCoccion: aguacoccion,
-                    lugarEGEI: lugaregei,
-                    citaEGEI: citaegei, // OLVIDE PONERLO YOP
-                    huellaCarbono: hcarbono, // EGEI.
-                    huellaEcologica: hecologica,
-                    usoDeSuelo: usosuelo,
-                    energiaFosil: energiafosil,
-                    nitrogeno: nitrogeno,
-                    fosforo: fosforo2,
-                    puntajeEcologico: puntajeecologico,
-                },
-            ],
-            aspectoEconomico: [
-                {
-                    precio: Number(precio),
-                    lugarDeCompra: lugarcompra,
-                    lugarDeVenta: lugarventa,
-                },
-            ],
-            componentesBioactivos: [
-                {
-                    fitoquimicos: fitoquimicos,
-                    polifenoles: polifenoles,
-                    antocianinas: antocianinas,
-                    taninos: taninos,
-                    isoflavonas: isoflavonas,
-                    resveratrol: reserveratrol,
-                    isotiocinatos: isotiocinatos,
-                    caretenoides: caretenoides,
-                    betacarotenos: betacarotenos,
-                    licopeno: licopeno,
-                    luteina: luteina,
-                    alicina: alicina,
-                    cafeina: cafeina,
-                    UFC: ufc,
-                },
-            ],
-            aditivosAlimentarios: [
-                {
-                    benzoatoDeSodio: benzoatodesodio,
-                    polisorbato: polisorbato,
-                    azulBrillanteFCFoE133: fcf,
-                    azurrubinaOE102: azorrubina,
-                    amarilloOcasoFDFoE110: fdf,
-                    tartrazinaOE102: tartrazina,
-                    verdeSoE142: e142,
-                    negroBrillanteBNoE151: bn,
-                    sucralosa: sucralosa,
-                    estevia: stevia,
-                    sacarina: sacarina,
-                    aspartame: aspartame,
-                    acesulfameK: acesulfame,
-                    carboxymethylcellulose: carboxy,
-                    dioxidoDeTitanio: dioxidodetitanio,
-                    monolauratoDeGlicerol: glicerol,
-                },
-            ],
-            marca: marca,
+            cantidadAlimento: {
+                cantidadSugerida: values?.sugerida,
+                unidad: values?.unidad,
+                pesoNeto: values?.pesoneto,
+            },
+            caloriasMacronutrientes: {
+                energia: values?.energia,
+                proteina: values?.proteina,
+                lipidos: values?.lipidos,
+                agSaturados: values?.saturados,
+                agMonoinsaturados: values?.monoinsaturados,
+                adPoliinsaturados: values?.polinsaturados,
+                colesterol: values?.colesterol,
+                omega3: values?.omega3,
+                omega6: values?.omega6,
+                omega9: values?.omega9,
+                hidratosDeCarbono: values?.hdratoscarbono,
+                fibra: values?.fibra,
+                fibraInsoluble: values?.fibrainsoluble,
+                fibraSoluble: values?.fibrasoluble, //NO VIENE EN MI OBJETO LO PONDRÁ GAMA
+                azucar: values?.azucar,
+                etanol: values?.etanol,
+            },
+            vitaminas: {
+                tiamina: values?.tiamina,
+                riboflavin: values?.riboflavin,
+                niacina: values?.niacina,
+                acidoPantotenico: values?.acidopantotenico,
+                piridoxina: values?.piridoxina,
+                biotina: values?.biotina,
+                cobalmina: values?.cobalmina,
+                acidoAscorbico: values?.acidoascorbico,
+                acidoFolico: values?.acidofolico,
+                vitaminaA: values?.vitaminaA,
+                vitaminaK: values?.vitaminaK,
+                vitaminaE: values?.vitaminaE,
+                vitaminaD: values?.vitaminaD,
+            },
+            minerales: {
+                calcio: values?.calcio,
+                fosforo: values?.fosforo1,
+                hierro: values?.hierro,
+                hierroNoHem: values?.hierronohem,
+                hierroTotal: values?.hierrototal,
+                magnesio: values?.magnesio,
+                sodio: values?.sodio,
+                potasio: values?.potasio,
+                zinc: values?.zinc,
+                selenio: values?.selenio,
+            },
+            aspectoGlucemico: {
+                indiceGlicemico: values?.indiceglicemico,
+                cargaGlicemica: values?.cargaglicemica,
+            },
+            aspectoMedioambiental: {
+                factorDeCorreccionParaHuellaHidricaYEGEI: values?.fchh,
+                tipo: values?.tipo,
+                lugar: values?.lugar,
+                huellaHidricaTotal: values?.hht,
+                huellaHidricaVerde: values?.hhv,
+                huellaHidricaAzul: values?.hha,
+                huellaHidricaGris: values?.hhg,
+                aguaParaLavado: values?.agualavado,
+                aguaParaCoccion: values?.aguacoccion,
+                lugarEGEI: values?.lugaregei,
+                citaEGEI: values?.citaegei, // OLVIDE PONERLO YOP
+                huellaCarbono: values?.hcarbono, // EGEI.
+                huellaEcologica: values?.hecologica,
+                usoDeSuelo: values?.usosuelo,
+                energiaFosil: values?.energiafosil,
+                nitrogeno: values?.nitrogeno,
+                fosforo: values?.fosforo2,
+                puntajeEcologico: values?.puntajeecologico,
+            },
+            aspectoEconomico: {
+                precio: Number(values?.precio || 0),
+                lugarDeCompra: values?.lugarcompra,
+                lugarDeVenta: values?.lugarventa,
+            },
+
+            componentesBioactivos: {
+                fitoquimicos: values?.fitoquimicos,
+                polifenoles: values?.polifenoles,
+                antocianinas: values?.antocianinas,
+                taninos: values?.taninos,
+                isoflavonas: values?.isoflavonas,
+                resveratrol: values?.reserveratrol,
+                isotiocinatos: values?.isotiocinatos,
+                caretenoides: values?.caretenoides,
+                betacarotenos: values?.betacarotenos,
+                licopeno: values?.licopeno,
+                luteina: values?.luteina,
+                alicina: values?.alicina,
+                cafeina: values?.cafeina,
+                UFC: values?.ufc,
+            },
+
+            aditivosAlimentarios: {
+                benzoatoDeSodio: values?.benzoatodesodio,
+                polisorbato: values?.polisorbato,
+                azulBrillanteFCFoE133: values?.fcf,
+                azurrubinaOE102: values?.azorrubina,
+                amarilloOcasoFDFoE110: values?.fdf,
+                tartrazinaOE102: values?.tartrazina,
+                verdeSoE142: values?.e142,
+                negroBrillanteBNoE151: values?.bn,
+                sucralosa: values?.sucralosa,
+                estevia: values?.stevia,
+                sacarina: values?.sacarina,
+                aspartame: values?.aspartame,
+                acesulfameK: values?.acesulfame,
+                carboxymethylcellulose: values?.carboxy,
+                dioxidoDeTitanio: values?.dioxidodetitanio,
+                monolauratoDeGlicerol: values?.glicerol,
+            },
         };
         console.log(data);
         console.log('ID AL GUARDAR: ' + ID);
-        const res = await apiURL.patch(`alimentos/${ID}`, data);
-        if (res.status === 200 || res.status === 204)
-            message.success('Alimento actualizado correctamente');
+        // const res = await apiURL.patch(`alimentos/${ID}`, data);
+        // if (res.status === 200 || res.status === 204)
+        //     message.success('Alimento actualizado correctamente');
     };
 
     const handleImage = (response) => {
@@ -397,8 +275,6 @@ const Alimentos = () => {
             return { ...prevState, imagen: response.url };
         });
     };
-
-    const iconsData = generateIconsDTO(data2);
 
     return (
         <div className='container'>
@@ -413,7 +289,9 @@ const Alimentos = () => {
             />
             <PropertiesComponent
                 borrar={borrar}
-                item={data2}
+                data={formData}
+                form={form}
+                onFinish={sendData}
                 setShowAlimento={setShowAlimento}
                 handleOk={handleOk}
                 showModal={showModal}

@@ -8,9 +8,9 @@ import Tags from './Tags';
 import { generateFormDTO } from './data/dto';
 
 const PropertiesComponent = ({
-    item,
-    getData,
-    setShowAlimento,
+    data,
+    form,
+    onFinish,
     handleOk,
     showModal,
     isModalVisible,
@@ -19,9 +19,7 @@ const PropertiesComponent = ({
 }) => {
     const [nuevaOpcion, setNuevaOpcion] = useState('');
 
-    const data = generateFormDTO(item);
-
-    const tagsData = data.filter((elem) => elem.name === 'opcionesPreparacion');
+    const tagsData = data?.filter((elem) => elem.name === 'opcionesPreparacion');
 
     return (
         <>
@@ -30,7 +28,7 @@ const PropertiesComponent = ({
                     <h1 id='title'>Propiedades</h1>
                 </div>
                 <div className='data_props'>
-                    <Props dataSource={data} />
+                    <Props dataSource={data} form={form} onFinish={onFinish} />
                 </div>
                 <div className='preparaciones'>
                     <div className='tags'>
