@@ -1,0 +1,23 @@
+.normalPadding {
+    padding: 1rem;
+}
+
+.card {
+    width: 100%;
+}
+
+.grid {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(auto-fill, minmax(18.75rem, 1fr));
+    grid-gap: 1rem;
+}
+
+.between {
+    justify-content: space-between;
+}
+
+.title {
+    font-weight: 700;
+    margin-top: 0.5rem;
+}
