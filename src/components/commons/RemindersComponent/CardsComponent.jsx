@@ -205,61 +205,56 @@ const CardsComponent = () => {
                     />
                 </Space>
                 <Row className={styles.grid}>
-                    {list.map((recordatorios) => (
-                        <Col>
-                            <Card
-                                className={styles.card}
-                                style={{ marginTop: 16 }}
-                                type='inner'
-                                title={
-                                    <Row gutter={1} className={styles.between}>
-                                        <Col span={12}>
-                                            <h4 className={styles.title}>
-                                                {capitilizeWord(recordatorios.titulo)}
-                                            </h4>
-                                        </Col>
-                                        <Col span={6}>
-                                            <Button
-                                                style={{}}
-                                                type='primary'
-                                                shape='circle'
-                                                onClick={() => showModal(recordatorios)}
-                                                icon={<EditOutlined />}
-                                            />
-                                            <Button
-                                                style={{}}
-                                                type='primary'
-                                                shape='circle'
-                                                onClick={() =>
-                                                    showDeleteConfirm(recordatorios)
-                                                }
-                                                icon={<DeleteOutlined />}
-                                            />
-                                        </Col>
-                                    </Row>
-                                }>
-                                <Row>
-                                    <Col span={4}>
+                    {list.map((recordatorio) => (
+                        <Card
+                            style={{ marginTop: 16 }}
+                            type='inner'
+                            title={
+                                <Row gutter={1} className={styles.between}>
+                                    <Col span={12}>
+                                        <h4 className={styles.title}>
+                                            {capitilizeWord(recordatorio.titulo)}
+                                        </h4>
+                                    </Col>
+                                    <Col span={6}>
                                         <Button
                                             style={{}}
                                             type='primary'
                                             shape='circle'
-                                            icon={
-                                                recordatorios.global ? (
-                                                    <GlobalOutlined />
-                                                ) : (
-                                                    <UserOutlined />
-                                                )
-                                            }
+                                            onClick={() => showModal(recordatorio)}
+                                            icon={<EditOutlined />}
+                                        />
+                                        <Button
+                                            style={{}}
+                                            type='primary'
+                                            shape='circle'
+                                            onClick={() => showDeleteConfirm(recordatorio)}
+                                            icon={<DeleteOutlined />}
                                         />
                                     </Col>
-                                    <Col span={12}>
-                                        <p>Mensaje: {recordatorios.mensaje}</p>
-                                        <p>Categoria: {recordatorios.categoria}</p>
-                                    </Col>
                                 </Row>
-                            </Card>
-                        </Col>
+                            }>
+                            <Row>
+                                <Col span={4}>
+                                    <Button
+                                        style={{}}
+                                        type='primary'
+                                        shape='circle'
+                                        icon={
+                                            recordatorio.global ? (
+                                                <GlobalOutlined />
+                                            ) : (
+                                                <UserOutlined />
+                                            )
+                                        }
+                                    />
+                                </Col>
+                                <Col span={12}>
+                                    <p>Mensaje: {recordatorio.mensaje}</p>
+                                    <p>Categoria: {recordatorio.categoria}</p>
+                                </Col>
+                            </Row>
+                        </Card>
                     ))}
                 </Row>
             </Row>
