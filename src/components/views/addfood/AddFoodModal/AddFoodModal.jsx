@@ -9,11 +9,6 @@ const AddFoodModal = () => {
         setIsModalVisible(true);
     };
 
-    const handleOk = () => {
-        setIsModalVisible(false);
-        alert('Cerrando');
-    };
-
     const handleCancel = () => {
         setIsModalVisible(false);
     };
@@ -27,7 +22,6 @@ const AddFoodModal = () => {
                 destroyOnClose
                 title='Agregar alimento'
                 visible={isModalVisible}
-                onOk={handleOk}
                 onCancel={handleCancel}
                 footer={[]}
                 width={'50%'}>
