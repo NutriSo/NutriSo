@@ -26,7 +26,12 @@ const InputTags = ({ source, onUpdateOptions, onRemoveTag }) => {
 
     return (
         <div className={classnames(styles.tagContainer)}>
-            <Input allowClear placeholder='Opciones de preparación' ref={inputRef} onPressEnter={handleAddTag} />
+            <Input
+                allowClear
+                placeholder='Escribe y presiona ENTER'
+                ref={inputRef}
+                onPressEnter={handleAddTag}
+            />
             {source?.map((option, index) => (
                 <Tag key={index} color='#439776' closable onClose={() => onRemoveTag(option)}>
                     {option}

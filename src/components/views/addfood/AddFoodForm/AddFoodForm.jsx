@@ -1,20 +1,40 @@
-import { Form, Input, Button, Select, Row, Col, Card, message } from 'antd';
+import React, { useState } from 'react';
+import { Form, Input, Button, Select, Row, Col, Card, message, InputNumber } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons';
-import { useState } from 'react';
 
 import UploadImgs from '../../../commons/UploadImgs';
 import InputTags from '../../../commons/InputTags';
 import apiURL from '../../../../axios/axiosConfig';
+import { getSku } from '../../../../services';
+import mocks from '../../../../mocks/alimentos';
+import { Rules } from '../../../../utils/formRules';
+
+import './AddFoodForm.scss';
 
 const AddFoodForm = () => {
     const { TextArea } = Input;
     const { Option } = Select;
 
     const [form] = Form.useForm();
+    const [url, setUrl] = useState('');
     const [requiredMark, setRequiredMarkType] = useState('optional');
     const [foodOptions, setFoodOptions] = useState([]);
-    const [sku, setSku] = useState('');
 
+    const afterG = '(g)';
+    const afterMG = '(mg)';
+    const afterUG = '(µg)';
+    const afterUG_RE = '(µg RE)';
+    const afterKCAL = '(kcal)';
+
+    const selectAddOnAfter = (
+        <Select defaultValue='g'>
+            <Option value='g'>{afterG}</Option>
+            <Option value='mg'>{afterMG}</Option>
+            <Option value='ug'>{afterUG}</Option>
+            <Option value='ug_re'>{afterUG_RE}</Option>
+            <Option value='kcal'>{afterKCAL}</Option>
+        </Select>
+    );
     const onRequiredTypeChange = ({ requiredMarkValue }) => {
         setRequiredMarkType(requiredMarkValue);
     };
@@ -32,117 +52,244 @@ const AddFoodForm = () => {
 
         setFoodOptions(newState);
     };
-    console.log(foodOptions);
-    const onFinish = async (values) => {
-        const sku = await submitGet();
-        console.log(sku);
-        console.log('Received values of form: ', values);
+
+    const handleUploadImg = (values) => {
+        setUrl(values?.url);
     };
 
-    const submitGet = async () => {
-        try {
-            const { data } = await apiURL.get('alimentos/obtenerUltimo/Valor');
-            return Number(data.sku + 1);
-        } catch (error) {
-            message.error(`Error: ${error.message}`);
-        }
+    const onFinish = async (values) => {
+        const sku = await getSku();
+
+        console.log('Received values of form: ', values);
+
+        // const data = {
+        //     sku: sku,
+        //     nombreAlimento: `${rowValues[1] ?? 'N/A'}`,
+        //     grupoExportable: `${rowValues[2] ?? 'N/A'}`,
+        //     subGrupoExportable: `${rowValues[3] ?? 'N/A'}`,
+        //     grupoAlimento: `${rowValues[4] ?? 'N/A'}`,
+        //     mensaje: {
+        //         nutricional: `${rowValues[5] ?? 'N/A'}`,
+        //         ambiental: `${rowValues[6] ?? 'N/A'}`,
+        //         mensajeEconomia: `${rowValues[7] ?? 'N/A'}`,
+        //         mensajeCulturaSociedad: `${rowValues[8] ?? 'N/A'}`,
+        //     },
+
+        //     icono: {
+        //         iconoNutricional: `${rowValues[9] ?? '4'}`,
+        //         iconoAmbiental: `${rowValues[10] ?? '4'}`,
+        //         iconoEconomia: `${rowValues[11] ?? '4'}`,
+        //         iconoCulturaSociedad: `${rowValues[12] ?? '4'}`,
+        //     },
+        //     imagen: url,
+        //     clasificacionExportable: `${rowValues[14] ?? 'N/A'}`,
+        //     opcionesPreparacion: opciones,
+        //     cantidadAlimento: {
+        //         cantidadSugerida: rowValues[16] ?? 0,
+        //         unidad: `${rowValues[17] ?? 'N/A'}`,
+        //         pesoNeto: `${rowValues[18] ?? '0'}`,
+        //     },
+        //     caloriasMacronutrientes: {
+        //         energia: `${rowValues[19] ?? '0'}`,
+        //         proteina: `${rowValues[20] ?? '0'}`,
+        //         lipidos: `${rowValues[21] ?? '0'}`,
+        //         agSaturados: `${rowValues[22] ?? '0'}`,
+        //         agMonoinsaturados: `${rowValues[23] ?? '0'}`,
+        //         adPoliinsaturados: `${rowValues[24] ?? '0'}`,
+        //         colesterol: `${rowValues[25] ?? '0'}`,
+        //         omega3: `${rowValues[26] ?? '0'}`,
+        //         omega6: `${rowValues[27] ?? '0'}`,
+        //         omega9: `${rowValues[28] ?? '0'}`,
+        //         hidratosDeCarbono: `${rowValues[29] ?? '0'}`,
+        //         fibra: `${rowValues[30] ?? '0'}`,
+        //         fibraInsoluble: `${rowValues[31] ?? '0'}`,
+        //         fibraSoluble: `${rowValues[32] ?? '0'}`,
+        //         azucar: `${rowValues[33] ?? '0'}`,
+        //         etanol: `${rowValues[34] ?? '0'}`,
+        //     },
+        //     vitaminas: {
+        //         tiamina: `${rowValues[35] ?? '0'}`,
+        //         riboflavin: `${rowValues[36] ?? '0'}`,
+        //         niacina: `${rowValues[37] ?? '0'}`,
+        //         acidoPantotenico: `${rowValues[38] ?? '0'}`,
+        //         piridoxina: `${rowValues[39] ?? '0'}`,
+        //         biotina: `${rowValues[40] ?? '0'}`,
+        //         cobalmina: `${rowValues[41] ?? '0'}`,
+        //         acidoAscorbico: `${rowValues[42] ?? '0'}`,
+        //         acidoFolico: `${rowValues[43] ?? '0'}`,
+        //         vitaminaA: `${rowValues[44] ?? '0'}`,
+        //         vitaminaD: `${rowValues[45] ?? '0'}`,
+        //         vitaminaK: `${rowValues[46] ?? '0'}`,
+        //         vitaminaE: `${rowValues[47] ?? '0'}`,
+        //     },
+        //     minerales: {
+        //         calcio: `${rowValues[48] ?? '0'}`,
+        //         fosforo: `${rowValues[49] ?? '0'}`,
+        //         hierro: `${rowValues[50] ?? '0'}`,
+        //         hierroNoHem: `${rowValues[51] ?? '0'}`,
+        //         hierroTotal: `${Number(rowValues[50] + rowValues[51]) ?? '0'}`,
+        //         magnesio: `${rowValues[52] ?? '0'}`,
+        //         sodio: `${rowValues[53] ?? '0'}`,
+        //         potasio: `${rowValues[54] ?? '0'}`,
+        //         zinc: `${rowValues[55] ?? '0'}`,
+        //         selenio: `${rowValues[56] ?? '0'}`,
+        //     },
+        //     aspectoGlucemico: {
+        //         indiceGlicemico: `${rowValues[57] ?? '0'}`,
+        //         cargaGlicemica: `${rowValues[58] ?? '0'}`,
+        //     },
+        //     aspectoMedioambiental: {
+        //         factorDeCorreccionParaHuellaHidricaYEGEI: rowValues[59] ?? 0,
+        //         tipo: `${rowValues[60] ?? 'N/A'}`,
+        //         lugar: `${rowValues[61] ?? 'N/A'}`,
+        //         huellaHidricaTotal: `${
+        //             Number(rowValues[62]) + Number(rowValues[63]) + Number(rowValues[64])
+        //         }`,
+        //         huellaHidricaVerde: `${rowValues[62] ?? '0'}`,
+        //         huellaHidricaAzul: `${rowValues[63] ?? '0'}`,
+        //         huellaHidricaGris: `${rowValues[64] ?? '0'}`,
+        //         aguaParaLavado: `${rowValues[65] ?? '0'}`,
+        //         aguaParaCoccion: `${rowValues[66] ?? '0'}`,
+        //         lugarEGEI: `${rowValues[67] ?? '0'}`,
+        //         citaEGEI: `${rowValues[68] ?? '0'}`,
+        //         huellaCarbono: `${rowValues[69] ?? '0'}`, // EGEI.
+        //         huellaEcologica: `${rowValues[70] ?? '0'}`,
+        //         usoDeSuelo: `${rowValues[71] ?? '0'}`,
+        //         energiaFosil: `${rowValues[72] ?? '0'}`,
+        //         nitrogeno: `${rowValues[73] ?? '0'}`,
+        //         fosforo: `${rowValues[74] ?? '0'}`,
+        //         puntajeEcologico: rowValues[75] ?? 0,
+        //     },
+        //     aspectoEconomico: {
+        //         precio: rowValues[76] ?? 0,
+        //         lugarDeCompra: `${rowValues[77] ?? 'N/A'}`,
+        //         lugarDeVenta: `${rowValues[78] ?? 'N/A'}`,
+        //     },
+        //     componentesBioactivos: {
+        //         fitoquimicos: `${rowValues[79] ?? '0'}`,
+        //         polifenoles: `${rowValues[80] ?? '0'}`,
+        //         antocianinas: `${rowValues[81] ?? '0'}`,
+        //         taninos: `${rowValues[82] ?? '0'}`,
+        //         isoflavonas: `${rowValues[83] ?? '0'}`,
+        //         resveratrol: `${rowValues[84] ?? '0'}`,
+        //         isotiocinatos: `${rowValues[85] ?? '0'}`,
+        //         caretenoides: `${rowValues[86] ?? '0'}`,
+        //         betacarotenos: `${rowValues[87] ?? '0'}`,
+        //         licopeno: `${rowValues[88] ?? '0'}`,
+        //         luteina: `${rowValues[89] ?? '0'}`,
+        //         alicina: `${rowValues[90] ?? '0'}`,
+        //         cafeina: `${rowValues[91] ?? '0'}`,
+        //         UFC: `${rowValues[92] ?? '0'}`,
+        //     },
+        //     aditivosAlimentarios: {
+        //         benzoatoDeSodio: `${rowValues[93] ?? '0'}`,
+        //         polisorbato: `${rowValues[94] ?? '0'}`,
+        //         azulBrillanteFCFoE133: `${rowValues[95] ?? '0'}`,
+        //         azurrubinaOE102: `${rowValues[96] ?? '0'}`,
+        //         amarilloOcasoFDFoE110: `${rowValues[97] ?? '0'}`,
+        //         tartrazinaOE102: `${rowValues[98] ?? '0'}`,
+        //         verdeSoE142: `${rowValues[99] ?? '0'}`,
+        //         negroBrillanteBNoE151: `${rowValues[100] ?? '0'}`,
+        //         sucralosa: `${rowValues[101] ?? '0'}`,
+        //         estevia: `${rowValues[102] ?? '0'}`,
+        //         sacarina: `${rowValues[103] ?? '0'}`,
+        //         aspartame: `${rowValues[104] ?? '0'}`,
+        //         acesulfameK: `${rowValues[105] ?? '0'}`,
+        //         carboxymethylcellulose: `${rowValues[106] ?? '0'}`,
+        //         dioxidoDeTitanio: `${rowValues[107] ?? '0'}`,
+        //         monolauratoDeGlicerol: `${rowValues[108] ?? '0'}`,
+        //     },
+        //     atributosAdicionales: [
+        //         {
+        //             atributoAdicional: `${rowValues[109] ?? 'N/A'}`,
+        //         },
+        //     ],
+        //     marca: `${rowValues[108] ?? ''}`,
+        // };
     };
 
     return (
         <Form
+            scrollToFirstError
+            className={'addFoodFormContainer'}
             form={form}
             layout='vertical'
-            initialValues={{
-                requiredMarkValue: requiredMark,
-            }}
-            onValuesChange={onRequiredTypeChange}
-            requiredMark={requiredMark}
             onFinish={onFinish}
-            text>
-            <Form.Item name={'nombre'} label={<label style={{ color: 'black' }}>Nombre</label>} required>
-                <Input placeholder='Ingrese el nombre del alimento' />
-            </Form.Item>
-            <Form.Item
-                name='image'
-                wrapperCol={{ sm: 24 }}
-                label={<label style={{ color: 'black' }}>Imagen</label>}
-                tooltip={{
-                    title: 'Seleccione una imagen del alimento',
-                    icon: <InfoCircleOutlined />,
-                }}>
-                <UploadImgs />
-            </Form.Item>
-
-            {/*ÍCONOS*/}
+            onValuesChange={onRequiredTypeChange}
+            requiredMark={false}>
+            <Col xs={12}>
+                <Form.Item
+                    hasFeedback
+                    name={'nombre'}
+                    label={<label className={'formItem'}>Nombre</label>}
+                    rules={[Rules.basicSpanish]}>
+                    <Input placeholder='Ingrese el nombre del alimento' />
+                </Form.Item>
+                <Form.Item
+                    name='image'
+                    wrapperCol={{ sm: 24 }}
+                    label={<label className={'formItem'}>Imagen</label>}
+                    tooltip={{
+                        title: 'Seleccione una imagen del alimento',
+                        icon: <InfoCircleOutlined />,
+                    }}>
+                    <UploadImgs onChange={handleUploadImg} />
+                </Form.Item>
+            </Col>
             <Card title='Íconos'>
                 <Row>
                     <Col span={12}>
                         <Form.Item
                             name={'iconoNutricional'}
-                            wrapperCol={{ sm: 24 }}
-                            label={<label style={{ color: 'black' }}>Ícono nutricional</label>}
+                            label={<label className={'formItem'}>Ícono nutricional</label>}
                             tooltip={{
                                 title: 'Seleccione el ícono nutricional',
                                 icon: <InfoCircleOutlined />,
                             }}>
-                            <Select defaultValue='1' style={{ width: 120 }}>
-                                <Option key={1} value={'1'}>
-                                    Bueno
-                                </Option>
-                                <Option key={2} value={'2'}>
-                                    Regular
-                                </Option>
-                                <Option key={3} value={'3'}>
-                                    Malo
-                                </Option>
+                            <Select defaultValue='1' className={'selectItem'}>
+                                {mocks.iconos.map((elem, index) => (
+                                    <Option key={index} value={elem.value}>
+                                        {elem.label}
+                                    </Option>
+                                ))}
                             </Select>
                         </Form.Item>
                     </Col>
-
                     <Col span={12}>
                         <Form.Item
                             name={'iconoAmbiental'}
                             wrapperCol={{ sm: 24 }}
-                            label={<label style={{ color: 'black' }}>Ícono ambiental</label>}
+                            label={<label className={'formItem'}>Ícono ambiental</label>}
                             tooltip={{
                                 title: 'Seleccione el ícono ambiental',
                                 icon: <InfoCircleOutlined />,
                             }}>
-                            <Select defaultValue='1' style={{ width: 120 }}>
-                                <Option key={1} value={'1'}>
-                                    Bueno
-                                </Option>
-                                <Option key={2} value={'2'}>
-                                    Regular
-                                </Option>
-                                <Option key={3} value={'3'}>
-                                    Malo
-                                </Option>
+                            <Select defaultValue='1' className={'selectItem'}>
+                                {mocks.iconos.map((elem, index) => (
+                                    <Option key={index} value={elem.value}>
+                                        {elem.label}
+                                    </Option>
+                                ))}
                             </Select>
                         </Form.Item>
                     </Col>
                 </Row>
-
                 <Row>
                     <Col span={12}>
                         <Form.Item
                             name={'iconoEconomia'}
                             wrapperCol={{ sm: 24 }}
-                            label={<label style={{ color: 'black' }}>Ícono economía</label>}
+                            label={<label className={'formItem'}>Ícono economía</label>}
                             tooltip={{
                                 title: 'Seleccione el ícono de economía',
                                 icon: <InfoCircleOutlined />,
                             }}>
-                            <Select defaultValue='1' style={{ width: 120 }}>
-                                <Option key={1} value={'1'}>
-                                    Bueno
-                                </Option>
-                                <Option key={2} value={'2'}>
-                                    Regular
-                                </Option>
-                                <Option key={3} value={'3'}>
-                                    Malo
-                                </Option>
+                            <Select defaultValue='1' className={'selectItem'}>
+                                {mocks.iconos.map((elem, index) => (
+                                    <Option key={index} value={elem.value}>
+                                        {elem.label}
+                                    </Option>
+                                ))}
                             </Select>
                         </Form.Item>
                     </Col>
@@ -151,21 +298,21 @@ const AddFoodForm = () => {
                         <Form.Item
                             name={'iconoCultura'}
                             wrapperCol={{ sm: 24 }}
-                            label={<label style={{ color: 'black' }}>Ícono de cultura sociedad</label>}
+                            label={
+                                <label className={'formItem'}>
+                                    Ícono de cultura sociedad
+                                </label>
+                            }
                             tooltip={{
                                 title: 'Seleccione el ícono de cultura sociedad',
                                 icon: <InfoCircleOutlined />,
                             }}>
-                            <Select defaultValue='1' style={{ width: 120 }}>
-                                <Option key={1} value={'1'}>
-                                    Bueno
-                                </Option>
-                                <Option key={2} value={'2'}>
-                                    Regular
-                                </Option>
-                                <Option key={3} value={'3'}>
-                                    Malo
-                                </Option>
+                            <Select defaultValue='1' className={'selectItem'}>
+                                {mocks.iconos.map((elem, index) => (
+                                    <Option key={index} value={elem.value}>
+                                        {elem.label}
+                                    </Option>
+                                ))}
                             </Select>
                         </Form.Item>
                     </Col>
@@ -175,134 +322,118 @@ const AddFoodForm = () => {
             <br />
             {/*CANTIDAD DE ALIMENTOS*/}
             <Card title='Cantidad de alimento'>
-                <Form.Item
-                    name={'cantidadAlimento'}
-                    label={<label style={{ color: 'black' }}>Cantidad sugerida</label>}
-                    required>
-                    <Select defaultValue='1' style={{ width: 120 }}>
-                        {Array.from({ length: 15 }).map((_, index) => (
-                            <option value={index} key={index}>
-                                {index}
-                            </option>
-                        ))}
-                    </Select>
-                </Form.Item>
                 <Row gutter={[8, 8]}>
                     <Col span={12}>
-                        <Form.Item name={'unidad'} label={<label style={{ color: 'black' }}>Unidad</label>} required>
-                            <Input placeholder='Ingrese la unidad' />
+                        <Form.Item
+                            name={'cantidadAlimento'}
+                            label={<label className={'formItem'}>Cantidad sugerida</label>}
+                            required>
+                            <InputNumber
+                                type='number'
+                                addonAfter={selectAddOnAfter}
+                                placeholder='Ingrese la unidad'
+                            />
                         </Form.Item>
                     </Col>
-
                     <Col span={12}>
-                        <Form.Item label={<label style={{ color: 'black' }}>Peso neto</label>} required>
-                            <Input placeholder='Ingrese el peso neto' />
+                        <Form.Item
+                            name={'unidad'}
+                            label={<label className={'formItem'}>Unidad</label>}
+                            required>
+                            <Select placeholder='Selecciona una unidad'>
+                                {mocks.unidadesRecomendadas.map((elem) => (
+                                    <Option key={elem.id} value={elem.value}>
+                                        {elem.label}
+                                    </Option>
+                                ))}
+                            </Select>
                         </Form.Item>
                     </Col>
+                </Row>
+                <Row>
+                    <Form.Item
+                        label={<label className={'formItem'}>Peso neto</label>}
+                        required>
+                        <InputNumber
+                            addonAfter={afterG}
+                            type='number'
+                            placeholder='Ingrese el peso neto'
+                        />
+                    </Form.Item>
                 </Row>
             </Card>
             <br />
-
-            {/*CALORÍAS MACRONUTRIENTES*/}
-            <Card title='Cantidad de alimento'>
-                <Row gutter={[8, 8]}>
-                    <Col span={12}>
-                        <Form.Item
-                            name={'cantidadEnergia'}
-                            label={<label style={{ color: 'black' }}>Energía</label>}
-                            required>
-                            <Input placeholder='Ingrese la cantidad de energía' />
-                        </Form.Item>
-                    </Col>
-
-                    <Col span={12}>
-                        <Form.Item
-                            name={'cantidadProteina'}
-                            label={<label style={{ color: 'black' }}>Proteínan</label>}
-                            required>
-                            <Input placeholder='Ingrese la cantidad de proteína' />
-                        </Form.Item>
-                    </Col>
-                </Row>
-
-                <Row gutter={[8, 8]}>
-                    <Col span={12}>
-                        <Form.Item
-                            name={'cantiadSaturadas'}
-                            label={<label style={{ color: 'black' }}>Grasas saturadas</label>}
-                            required>
-                            <Input placeholder='Ingrese la cantidad de grasas saturadas' />
-                        </Form.Item>
-                    </Col>
-
-                    <Col span={12}>
-                        <Form.Item
-                            name={'cantidadMono'}
-                            label={<label style={{ color: 'black' }}>Grasas monoinsaturados</label>}
-                            required>
-                            <Input placeholder='Ingrese la cantidad de grasas monoinsaturados' />
-                        </Form.Item>
-                    </Col>
-                </Row>
-            </Card>
-
-            <Form.Item name={'grupoExp'} label={<label style={{ color: 'black' }}>Grupo exportable</label>} required>
+            <Form.Item
+                name={'grupoExp'}
+                label={<label className={'formItem'}>Grupo exportable</label>}
+                required>
                 <Input placeholder='Ingrese el grupo exportable' />
             </Form.Item>
             <Form.Item
                 name={'subGrupoExp'}
-                label={<label style={{ color: 'black' }}>Sub grupo exportable</label>}
+                label={<label className={'formItem'}>Sub grupo exportable</label>}
                 required>
                 <Input placeholder='Ingrese el grupo sub exportable' />
             </Form.Item>
             <Form.Item
                 name={'clasificacionExp'}
-                label={<label style={{ color: 'black' }}>Clasificación exportable</label>}
+                label={<label className={'formItem'}>Clasificación exportable</label>}
                 required>
                 <Input placeholder='Ingrese la clasificación exportable' />
             </Form.Item>
             <Form.Item
                 name={'grupoAlimentos'}
-                label={<label style={{ color: 'black' }}>Grupo de alimento</label>}
+                label={<label className={'formItem'}>Grupo de alimento</label>}
                 required>
-                <Input placeholder='Ingrese el grupo de alimento al que pertenece' />
+                <Select placeholder='Selecciona un grupo'>
+                    {mocks.gruposAlimento.map((elem) => (
+                        <Option key={elem.id} value={elem.label}>
+                            {elem.label}
+                        </Option>
+                    ))}
+                </Select>
+                {/* <Input placeholder='Ingrese el grupo de alimento al que pertenece' /> */}
             </Form.Item>
             <Form.Item
                 name={'mensajeNutricional'}
-                label={<label style={{ color: 'black' }}>Mensaje nutricional </label>}
+                label={<label className={'formItem'}>Mensaje nutricional </label>}
                 required>
                 <TextArea rows={2} placeholder='Ingrese el mensaje' />
             </Form.Item>
             <Form.Item
                 name={'mensajeAmbiental'}
-                label={<label style={{ color: 'black' }}>Mensaje ambiental</label>}
+                label={<label className={'formItem'}>Mensaje ambiental</label>}
                 required>
                 <TextArea rows={2} placeholder='Ingrese el mensaje' />
             </Form.Item>
             <Form.Item
                 name={'mensajeEconomico'}
-                label={<label style={{ color: 'black' }}>Mensaje económico</label>}
+                label={<label className={'formItem'}>Mensaje económico</label>}
                 required>
                 <TextArea rows={2} placeholder='Ingrese el mensaje' />
             </Form.Item>
             <Form.Item
                 name={'mensajeCultural'}
-                label={<label style={{ color: 'black' }}>Mensaje cultural</label>}
+                label={<label className={'formItem'}>Mensaje cultural</label>}
                 required>
                 <TextArea rows={2} placeholder='Ingrese el mensaje' />
             </Form.Item>
             <Form.Item
                 name={'preparacion'}
-                label={<label style={{ color: 'black' }}>Opciones de preparación</label>}
+                label={<label className={'formItem'}>Opciones de preparación</label>}
                 required>
-                <InputTags source={foodOptions} onUpdateOptions={setFoodOptions} onRemoveTag={handleRemoveTag} />
+                <InputTags
+                    source={foodOptions}
+                    onUpdateOptions={setFoodOptions}
+                    onRemoveTag={handleRemoveTag}
+                />
             </Form.Item>
 
             <Form.Item
                 name={'calorias'}
-                label={<label style={{ color: 'black' }}>Calorías de alimentos</label>}
+                label={<label className={'formItem'}>Calorías de alimentos</label>}
                 required>
-                <Select defaultValue='1' style={{ width: 120 }}>
+                <Select defaultValue='1' className={'selectItem'}>
                     {Array.from({ length: 15 }).map((_, index) => (
                         <option value={index} key={index}>
                             {index}
@@ -310,25 +441,31 @@ const AddFoodForm = () => {
                     ))}
                 </Select>
             </Form.Item>
-
-            {/*CALORÍAS MACRONUTRIENTES*/}
             <Card title='Calorías macronutrientes'>
                 <Row gutter={[8, 8]}>
                     <Col span={12}>
                         <Form.Item
                             name={'energiamacro'}
-                            label={<label style={{ color: 'black' }}>Energía</label>}
+                            label={<label className={'formItem'}>Energía</label>}
                             required>
-                            <Input placeholder='Ingrese la cantidad de energía' />
+                            <InputNumber
+                                addonAfter={afterKCAL}
+                                type='number'
+                                placeholder='Ingrese la cantidad de energía'
+                            />
                         </Form.Item>
                     </Col>
 
                     <Col span={12}>
                         <Form.Item
                             name={'proteinamacro'}
-                            label={<label style={{ color: 'black' }}>Proteínan</label>}
+                            label={<label className={'formItem'}>Proteína</label>}
                             required>
-                            <Input placeholder='Ingrese la cantidad de proteína' />
+                            <InputNumber
+                                addonAfter={afterG}
+                                type='number'
+                                placeholder='Ingrese la cantidad de proteína'
+                            />
                         </Form.Item>
                     </Col>
                 </Row>
@@ -337,37 +474,51 @@ const AddFoodForm = () => {
                     <Col span={12}>
                         <Form.Item
                             name={'saturadasmacro'}
-                            label={<label style={{ color: 'black' }}>Grasas saturadas</label>}
+                            label={<label className={'formItem'}>AG Saturados</label>}
                             required>
-                            <Input placeholder='Ingrese la cantidad de grasas saturadas' />
+                            <InputNumber
+                                addonAfter={afterG}
+                                type='number'
+                                placeholder='Ingrese la cantidad de grasas saturadas'
+                            />
                         </Form.Item>
                     </Col>
-
                     <Col span={12}>
                         <Form.Item
                             name={'monoinsaturadosmacro'}
-                            label={<label style={{ color: 'black' }}>Grasas monoinsaturados</label>}
+                            label={<label className={'formItem'}>AG Monoinsaturados</label>}
                             required>
-                            <Input placeholder='Ingrese la cantidad de grasas monoinsaturados' />
+                            <InputNumber
+                                addonAfter={afterG}
+                                type='number'
+                                placeholder='Ingrese la cantidad de grasas monoinsaturados'
+                            />
                         </Form.Item>
                     </Col>
                 </Row>
                 <Row gutter={[8, 8]}>
                     <Col span={12}>
                         <Form.Item
-                            name={'lipidosmacro'}
-                            label={<label style={{ color: 'black' }}>Lípidos</label>}
+                            name={'adpoliinsaturadosmacro'}
+                            label={<label className={'formItem'}>AG Poliinsaturadas</label>}
                             required>
-                            <Input placeholder='Ingrese la cantidad de lipidos' />
+                            <InputNumber
+                                addonAfter={afterG}
+                                type='number'
+                                placeholder='Ingrese la cantidad de poliinsaturadas'
+                            />
                         </Form.Item>
                     </Col>
-
                     <Col span={12}>
                         <Form.Item
-                            name={'adpoliinsaturadosmacro'}
-                            label={<label style={{ color: 'black' }}>Ag Poliinsaturadas</label>}
+                            name={'lipidosmacro'}
+                            label={<label className={'formItem'}>Lípidos</label>}
                             required>
-                            <Input placeholder='Ingrese la cantidad de poliinsaturadas' />
+                            <InputNumber
+                                addonAfter={afterG}
+                                type='number'
+                                placeholder='Ingrese la cantidad de lipidos'
+                            />
                         </Form.Item>
                     </Col>
                 </Row>
@@ -375,18 +526,26 @@ const AddFoodForm = () => {
                     <Col span={12}>
                         <Form.Item
                             name={'colestrerolmacro'}
-                            label={<label style={{ color: 'black' }}>Colesterol</label>}
+                            label={<label className={'formItem'}>Colesterol</label>}
                             required>
-                            <Input placeholder='Ingrese la cantidad de colesterol' />
+                            <InputNumber
+                                addonAfter={afterMG}
+                                type='number'
+                                placeholder='Ingrese la cantidad de colesterol'
+                            />
                         </Form.Item>
                     </Col>
 
                     <Col span={12}>
                         <Form.Item
                             name={'omega3macro'}
-                            label={<label style={{ color: 'black' }}>Ag Poliinsaturadas</label>}
+                            label={<label className={'formItem'}>Omega 3</label>}
                             required>
-                            <Input placeholder='Ingrese la cantidad de omega3' />
+                            <InputNumber
+                                addonAfter={afterMG}
+                                type='number'
+                                placeholder='Ingrese la cantidad de omega3'
+                            />
                         </Form.Item>
                     </Col>
                 </Row>
@@ -394,34 +553,25 @@ const AddFoodForm = () => {
                     <Col span={12}>
                         <Form.Item
                             name={'omega6macro'}
-                            label={<label style={{ color: 'black' }}>Omega6</label>}
+                            label={<label className={'formItem'}>Omega6</label>}
                             required>
-                            <Input placeholder='Ingrese la cantidad de omega6' />
+                            <InputNumber
+                                addonAfter={afterMG}
+                                type='number'
+                                placeholder='Ingrese la cantidad de omega6'
+                            />
                         </Form.Item>
                     </Col>
-
                     <Col span={12}>
                         <Form.Item
-                            name={'adpoliinsaturados'}
-                            label={<label style={{ color: 'black' }}>Ag Poliinsaturadas</label>}
+                            name={'omega9'}
+                            label={<label className={'formItem'}>Omega9</label>}
                             required>
-                            <Input placeholder='Ingrese la cantidad de poliinsaturadas' />
-                        </Form.Item>
-                    </Col>
-                </Row>
-                <Row gutter={[8, 8]}>
-                    <Col span={12}>
-                        <Form.Item
-                            name={'lipidosmacro'}
-                            label={<label style={{ color: 'black' }}>Lípidos</label>}
-                            required>
-                            <Input placeholder='Ingrese la cantidad de lipidos' />
-                        </Form.Item>
-                    </Col>
-
-                    <Col span={12}>
-                        <Form.Item name={'omega9'} label={<label style={{ color: 'black' }}>Omega9</label>} required>
-                            <Input placeholder='Ingrese la cantidad de omega9' />
+                            <InputNumber
+                                addonAfter={afterMG}
+                                type='number'
+                                placeholder='Ingrese la cantidad de omega9'
+                            />
                         </Form.Item>
                     </Col>
                 </Row>
@@ -429,15 +579,26 @@ const AddFoodForm = () => {
                     <Col span={12}>
                         <Form.Item
                             name={'hidratosCarbonomacro'}
-                            label={<label style={{ color: 'black' }}>Hidratos de Carbono</label>}
+                            label={<label className={'formItem'}>Hidratos de Carbono</label>}
                             required>
-                            <Input placeholder='Ingrese la cantidad de hidratos de carbono' />
+                            <InputNumber
+                                addonAfter={afterG}
+                                type='number'
+                                placeholder='Ingrese la cantidad de hidratos de carbono'
+                            />
                         </Form.Item>
                     </Col>
 
                     <Col span={12}>
-                        <Form.Item name={'fibramacro'} label={<label style={{ color: 'black' }}>Fibra</label>} required>
-                            <Input placeholder='Ingrese la cantidad de fibra' />
+                        <Form.Item
+                            name={'fibramacro'}
+                            label={<label className={'formItem'}>Fibra</label>}
+                            required>
+                            <InputNumber
+                                addonAfter={afterG}
+                                type='number'
+                                placeholder='Ingrese la cantidad de fibra'
+                            />
                         </Form.Item>
                     </Col>
                 </Row>
@@ -445,18 +606,26 @@ const AddFoodForm = () => {
                     <Col span={12}>
                         <Form.Item
                             name={'fibrasolublemacro'}
-                            label={<label style={{ color: 'black' }}>Fibra soluble</label>}
+                            label={<label className={'formItem'}>Fibra soluble</label>}
                             required>
-                            <Input placeholder='Ingrese la cantidad de fibra soluble' />
+                            <InputNumber
+                                addonAfter={afterG}
+                                type='number'
+                                placeholder='Ingrese la cantidad de fibra soluble'
+                            />
                         </Form.Item>
                     </Col>
 
                     <Col span={12}>
                         <Form.Item
                             name={'fibrainsolublemacro'}
-                            label={<label style={{ color: 'black' }}>Fibra insoluble</label>}
+                            label={<label className={'formItem'}>Fibra insoluble</label>}
                             required>
-                            <Input placeholder='Ingrese la cantidad de fibra insoluble' />
+                            <InputNumber
+                                addonAfter={afterG}
+                                type='number'
+                                placeholder='Ingrese la cantidad de fibra insoluble'
+                            />
                         </Form.Item>
                     </Col>
                 </Row>
@@ -464,52 +633,83 @@ const AddFoodForm = () => {
                     <Col span={12}>
                         <Form.Item
                             name={'azucarmacro'}
-                            label={<label style={{ color: 'black' }}>Azúcar</label>}
+                            label={<label className={'formItem'}>Azúcar</label>}
                             required>
-                            <Input placeholder='Ingrese la cantidad de azúcar' />
+                            <InputNumber
+                                addonAfter={afterG}
+                                type='number'
+                                placeholder='Ingrese la cantidad de azúcar'
+                            />
                         </Form.Item>
                     </Col>
 
                     <Col span={12}>
                         <Form.Item
                             name={'etanolmacro'}
-                            label={<label style={{ color: 'black' }}>Etanol</label>}
+                            label={<label className={'formItem'}>Etanol</label>}
                             required>
-                            <Input placeholder='Ingrese la cantidad de etanol' />
+                            <InputNumber
+                                addonAfter={afterG}
+                                type='number'
+                                placeholder='Ingrese la cantidad de etanol'
+                            />
                         </Form.Item>
                     </Col>
                 </Row>
             </Card>
-
-            {/*Minerales*/}
             <Card title='Minerales'>
                 <Row gutter={[8, 8]}>
                     <Col span={12}>
-                        <Form.Item name={'calcio'} label={<label style={{ color: 'black' }}>Calcio</label>} required>
-                            <Input placeholder='Ingrese la cantidad de calcio' />
+                        <Form.Item
+                            name={'calcio'}
+                            label={<label className={'formItem'}>Calcio</label>}
+                            required>
+                            <InputNumber
+                                type='number'
+                                addonAfter={afterMG}
+                                placeholder='Ingrese la cantidad de calcio'
+                            />
                         </Form.Item>
                     </Col>
 
                     <Col span={12}>
-                        <Form.Item name={'fosforo'} label={<label style={{ color: 'black' }}>Fósforo</label>} required>
-                            <Input placeholder='Ingrese la cantidad de fosforo' />
+                        <Form.Item
+                            name={'fosforo'}
+                            label={<label className={'formItem'}>Fósforo</label>}
+                            required>
+                            <InputNumber
+                                type='number'
+                                addonAfter={afterMG}
+                                placeholder='Ingrese la cantidad de fosforo'
+                            />
                         </Form.Item>
                     </Col>
                 </Row>
 
                 <Row gutter={[8, 8]}>
                     <Col span={12}>
-                        <Form.Item name={'hierro'} label={<label style={{ color: 'black' }}>Hierro</label>} required>
-                            <Input placeholder='Ingrese la cantidad de hierro ' />
+                        <Form.Item
+                            name={'hierro'}
+                            label={<label className={'formItem'}>Hierro</label>}
+                            required>
+                            <InputNumber
+                                type='number'
+                                addonAfter={afterMG}
+                                placeholder='Ingrese la cantidad de hierro '
+                            />
                         </Form.Item>
                     </Col>
 
                     <Col span={12}>
                         <Form.Item
                             name={'hierroNoHem'}
-                            label={<label style={{ color: 'black' }}>Hierro No Hem</label>}
+                            label={<label className={'formItem'}>Hierro No Hem</label>}
                             required>
-                            <Input placeholder='Ingrese la cantidad de hierro no hem ' />
+                            <InputNumber
+                                type='number'
+                                addonAfter={afterMG}
+                                placeholder='Ingrese la cantidad de hierro no hem '
+                            />
                         </Form.Item>
                     </Col>
                 </Row>
@@ -517,80 +717,136 @@ const AddFoodForm = () => {
                     <Col span={12}>
                         <Form.Item
                             name={'hierroTotal'}
-                            label={<label style={{ color: 'black' }}>Hierro total</label>}
+                            label={<label className={'formItem'}>Hierro total</label>}
                             required>
-                            <Input placeholder='Ingrese la cantidad de hierroTotal ' />
+                            <InputNumber
+                                type='number'
+                                addonAfter={afterMG}
+                                placeholder='Ingrese la cantidad de hierroTotal '
+                            />
                         </Form.Item>
                     </Col>
 
                     <Col span={12}>
                         <Form.Item
                             name={'magnesio'}
-                            label={<label style={{ color: 'black' }}>Magnesio</label>}
+                            label={<label className={'formItem'}>Magnesio</label>}
                             required>
-                            <Input placeholder='Ingrese la cantidad de magnesio' />
+                            <InputNumber
+                                type='number'
+                                addonAfter={afterMG}
+                                placeholder='Ingrese la cantidad de magnesio'
+                            />
                         </Form.Item>
                     </Col>
                 </Row>
                 <Row gutter={[8, 8]}>
                     <Col span={12}>
-                        <Form.Item name={'sodio'} label={<label style={{ color: 'black' }}>Sodio</label>} required>
-                            <Input placeholder='Ingrese la cantidad de sodio' />
+                        <Form.Item
+                            name={'sodio'}
+                            label={<label className={'formItem'}>Sodio</label>}
+                            required>
+                            <InputNumber
+                                type='number'
+                                addonAfter={afterMG}
+                                placeholder='Ingrese la cantidad de sodio'
+                            />
                         </Form.Item>
                     </Col>
 
                     <Col span={12}>
-                        <Form.Item name={'potasio'} label={<label style={{ color: 'black' }}>Potasio</label>} required>
-                            <Input placeholder='Ingrese la cantidad de potasio' />
+                        <Form.Item
+                            name={'potasio'}
+                            label={<label className={'formItem'}>Potasio</label>}
+                            required>
+                            <InputNumber
+                                type='number'
+                                addonAfter={afterMG}
+                                placeholder='Ingrese la cantidad de potasio'
+                            />
                         </Form.Item>
                     </Col>
                 </Row>
                 <Row gutter={[8, 8]}>
                     <Col span={12}>
-                        <Form.Item name={'zinc'} label={<label style={{ color: 'black' }}>Zinc</label>} required>
-                            <Input placeholder='Ingrese la cantidad de zinc' />
+                        <Form.Item
+                            name={'zinc'}
+                            label={<label className={'formItem'}>Zinc</label>}
+                            required>
+                            <InputNumber
+                                type='number'
+                                addonAfter={afterMG}
+                                placeholder='Ingrese la cantidad de zinc'
+                            />
                         </Form.Item>
                     </Col>
 
                     <Col span={12}>
-                        <Form.Item name={'selenio'} label={<label style={{ color: 'black' }}>Selenio</label>} required>
-                            <Input placeholder='Ingrese la cantidad de selenio' />
+                        <Form.Item
+                            name={'selenio'}
+                            label={<label className={'formItem'}>Selenio</label>}
+                            required>
+                            <InputNumber
+                                type='number'
+                                addonAfter={afterMG}
+                                placeholder='Ingrese la cantidad de selenio'
+                            />
                         </Form.Item>
                     </Col>
                 </Row>
             </Card>
-
-            {/*VITAMINAS*/}
             <Card title='Vitaminas'>
                 <Row gutter={[8, 8]}>
                     <Col span={12}>
-                        <Form.Item name={'tiamina'} label={<label style={{ color: 'black' }}>Tiamina</label>} required>
-                            <Input placeholder='Ingrese la cantidad de tiamina' />
+                        <Form.Item
+                            name={'tiamina'}
+                            label={<label className={'formItem'}>Tiamina</label>}
+                            required>
+                            <InputNumber
+                                addonAfter={afterMG}
+                                type='number'
+                                placeholder='Ingrese la cantidad de tiamina'
+                            />
                         </Form.Item>
                     </Col>
 
                     <Col span={12}>
                         <Form.Item
                             name={'riboflavin'}
-                            label={<label style={{ color: 'black' }}>Riboflavin</label>}
+                            label={<label className={'formItem'}>Riboflavin</label>}
                             required>
-                            <Input placeholder='Ingrese la cantidad de riboflavin' />
+                            <InputNumber
+                                addonAfter={afterMG}
+                                type='number'
+                                placeholder='Ingrese la cantidad de riboflavin'
+                            />
                         </Form.Item>
                     </Col>
                 </Row>
                 <Row gutter={[8, 8]}>
                     <Col span={12}>
-                        <Form.Item name={'niacina'} label={<label style={{ color: 'black' }}>Niacina</label>} required>
-                            <Input placeholder='Ingrese la cantidad de niacina ' />
+                        <Form.Item
+                            name={'niacina'}
+                            label={<label className={'formItem'}>Niacina</label>}
+                            required>
+                            <InputNumber
+                                addonAfter={afterMG}
+                                type='number'
+                                placeholder='Ingrese la cantidad de niacina '
+                            />
                         </Form.Item>
                     </Col>
 
                     <Col span={12}>
                         <Form.Item
                             name={'acidoPantotenico'}
-                            label={<label style={{ color: 'black' }}>Ácido pantotenico</label>}
+                            label={<label className={'formItem'}>Ácido pantotenico</label>}
                             required>
-                            <Input placeholder='Ingrese la cantidad de ácido pantotenico' />
+                            <InputNumber
+                                addonAfter={afterMG}
+                                type='number'
+                                placeholder='Ingrese la cantidad de ácido pantotenico'
+                            />
                         </Form.Item>
                     </Col>
                 </Row>
@@ -598,15 +854,26 @@ const AddFoodForm = () => {
                     <Col span={12}>
                         <Form.Item
                             name={'piridoxina'}
-                            label={<label style={{ color: 'black' }}>Piridoxina</label>}
+                            label={<label className={'formItem'}>Piridoxina</label>}
                             required>
-                            <Input placeholder='Ingrese la cantidad de piridoxina' />
+                            <InputNumber
+                                addonAfter={afterMG}
+                                type='number'
+                                placeholder='Ingrese la cantidad de piridoxina'
+                            />
                         </Form.Item>
                     </Col>
 
                     <Col span={12}>
-                        <Form.Item name={'biotina'} label={<label style={{ color: 'black' }}>Biotina</label>} required>
-                            <Input placeholder='Ingrese la cantidad de biotina' />
+                        <Form.Item
+                            name={'biotina'}
+                            label={<label className={'formItem'}>Biotina</label>}
+                            required>
+                            <InputNumber
+                                type='number'
+                                addonAfter={afterMG}
+                                placeholder='Ingrese la cantidad de biotina'
+                            />
                         </Form.Item>
                     </Col>
                 </Row>
@@ -614,18 +881,26 @@ const AddFoodForm = () => {
                     <Col span={12}>
                         <Form.Item
                             name={'cobalmina'}
-                            label={<label style={{ color: 'black' }}>Cobalmina</label>}
+                            label={<label className={'formItem'}>Cobalmina</label>}
                             required>
-                            <Input placeholder='Ingrese la cantidad de cobalmina' />
+                            <InputNumber
+                                addonAfter={afterMG}
+                                type='number'
+                                placeholder='Ingrese la cantidad de cobalmina'
+                            />
                         </Form.Item>
                     </Col>
 
                     <Col span={12}>
                         <Form.Item
                             name={'acidoAscorbico'}
-                            label={<label style={{ color: 'black' }}>Ácido ascorbico</label>}
+                            label={<label className={'formItem'}>Ácido ascorbico</label>}
                             required>
-                            <Input placeholder='Ingrese la cantidad de ácido ascorbico' />
+                            <InputNumber
+                                addonAfter={afterMG}
+                                type='number'
+                                placeholder='Ingrese la cantidad de ácido ascorbico'
+                            />
                         </Form.Item>
                     </Col>
                 </Row>
@@ -633,18 +908,26 @@ const AddFoodForm = () => {
                     <Col span={12}>
                         <Form.Item
                             name={'acidoFolico'}
-                            label={<label style={{ color: 'black' }}>Ácido folico</label>}
+                            label={<label className={'formItem'}>Ácido folico</label>}
                             required>
-                            <Input placeholder='Ingrese la cantidad de ácido folico' />
+                            <InputNumber
+                                addonAfter={afterUG}
+                                type='number'
+                                placeholder='Ingrese la cantidad de ácido folico'
+                            />
                         </Form.Item>
                     </Col>
 
                     <Col span={12}>
                         <Form.Item
                             name={'vitaminaA'}
-                            label={<label style={{ color: 'black' }}>Vitamina A</label>}
+                            label={<label className={'formItem'}>Vitamina A</label>}
                             required>
-                            <Input placeholder='Ingrese la cantidad de vitamina A' />
+                            <InputNumber
+                                type='number'
+                                addonAfter={afterUG_RE}
+                                placeholder='Ingrese la cantidad de vitamina A'
+                            />
                         </Form.Item>
                     </Col>
                 </Row>
@@ -652,18 +935,26 @@ const AddFoodForm = () => {
                     <Col span={12}>
                         <Form.Item
                             name={'vitaminaD'}
-                            label={<label style={{ color: 'black' }}>Vitamina D</label>}
+                            label={<label className={'formItem'}>Vitamina D</label>}
                             required>
-                            <Input placeholder='Ingrese la cantidad de vitamina D' />
+                            <InputNumber
+                                type='number'
+                                addonAfter={afterUG_RE}
+                                placeholder='Ingrese la cantidad de vitamina D'
+                            />
                         </Form.Item>
                     </Col>
 
                     <Col span={12}>
                         <Form.Item
                             name={'vitaminaK'}
-                            label={<label style={{ color: 'black' }}>vitamina K</label>}
+                            label={<label className={'formItem'}>vitamina K</label>}
                             required>
-                            <Input placeholder='Ingrese la cantidad de vitamina K' />
+                            <InputNumber
+                                type='number'
+                                addonAfter={afterMG}
+                                placeholder='Ingrese la cantidad de vitamina K'
+                            />
                         </Form.Item>
                     </Col>
                 </Row>
@@ -671,21 +962,23 @@ const AddFoodForm = () => {
                     <Col span={12}>
                         <Form.Item
                             name={'vitaminaE'}
-                            label={<label style={{ color: 'black' }}>Vitamina E</label>}
+                            label={<label className={'formItem'}>Vitamina E</label>}
                             required>
-                            <Input placeholder='Ingrese la cantidad de vitamina E' />
+                            <InputNumber
+                                type='number'
+                                addonAfter={afterMG}
+                                placeholder='Ingrese la cantidad de vitamina E'
+                            />
                         </Form.Item>
                     </Col>
                 </Row>
             </Card>
-
-            {/*ASPECTO GLUCEMICO*/}
             <Card title='Aspecto glucemico'>
                 <Row gutter={[8, 8]}>
                     <Col span={12}>
                         <Form.Item
                             name={'indiceGlucemico'}
-                            label={<label style={{ color: 'black' }}>Índice glucémico</label>}
+                            label={<label className={'formItem'}>Índice glucémico</label>}
                             required>
                             <Input placeholder='Ingrese el índice glucémico' />
                         </Form.Item>
@@ -694,7 +987,7 @@ const AddFoodForm = () => {
                     <Col span={12}>
                         <Form.Item
                             name={'cargaGlucemica'}
-                            label={<label style={{ color: 'black' }}>Carga glucémica</label>}
+                            label={<label className={'formItem'}>Carga glucémica</label>}
                             required>
                             <Input placeholder='Ingrese la carga glucemica' />
                         </Form.Item>
@@ -708,7 +1001,11 @@ const AddFoodForm = () => {
                     <Col span={8}>
                         <Form.Item
                             name={'factorCoreccion'}
-                            label={<label style={{ color: 'black' }}>Factor de corrección para huella</label>}
+                            label={
+                                <label className={'formItem'}>
+                                    Factor de corrección para huella
+                                </label>
+                            }
                             required>
                             <Input
                                 type='number'
@@ -717,12 +1014,18 @@ const AddFoodForm = () => {
                         </Form.Item>
                     </Col>
                     <Col span={8}>
-                        <Form.Item name={'tipoma'} label={<label style={{ color: 'black' }}>Tipo</label>} required>
+                        <Form.Item
+                            name={'tipoma'}
+                            label={<label className={'formItem'}>Tipo</label>}
+                            required>
                             <Input placeholder='Ingrese el tipo' />
                         </Form.Item>
                     </Col>
                     <Col span={8}>
-                        <Form.Item name={'lugarma'} label={<label style={{ color: 'black' }}>Lugar</label>} required>
+                        <Form.Item
+                            name={'lugarma'}
+                            label={<label className={'formItem'}>Lugar</label>}
+                            required>
                             <Input placeholder='Ingrese el lugar' />
                         </Form.Item>
                     </Col>
@@ -732,15 +1035,18 @@ const AddFoodForm = () => {
                     <Col span={8}>
                         <Form.Item
                             name={'huellaHidricaTotal'}
-                            label={<label style={{ color: 'black' }}>Huella hídrica total</label>}
+                            label={<label className={'formItem'}>Huella hídrica total</label>}
                             required>
-                            <Input type='number' placeholder='Ingrese la huella hidrica total' />
+                            <Input
+                                type='number'
+                                placeholder='Ingrese la huella hidrica total'
+                            />
                         </Form.Item>
                     </Col>
                     <Col span={8}>
                         <Form.Item
                             name={'huellaHidricaVerde'}
-                            label={<label style={{ color: 'black' }}>HUella hidrica verde</label>}
+                            label={<label className={'formItem'}>HUella hidrica verde</label>}
                             required>
                             <Input placeholder='Ingrese la huella hidrica verde' />
                         </Form.Item>
@@ -748,7 +1054,7 @@ const AddFoodForm = () => {
                     <Col span={8}>
                         <Form.Item
                             name={'huellaHidricaAzul'}
-                            label={<label style={{ color: 'black' }}>HUella hidrica azul</label>}
+                            label={<label className={'formItem'}>HUella hidrica azul</label>}
                             required>
                             <Input placeholder='Ingrese la huella hidrica azul' />
                         </Form.Item>
@@ -758,15 +1064,18 @@ const AddFoodForm = () => {
                     <Col span={8}>
                         <Form.Item
                             name={'huellaHidricaGris'}
-                            label={<label style={{ color: 'black' }}>Huella hídrica gris</label>}
+                            label={<label className={'formItem'}>Huella hídrica gris</label>}
                             required>
-                            <Input type='number' placeholder='Ingrese la huella hidrica gris' />
+                            <Input
+                                type='number'
+                                placeholder='Ingrese la huella hidrica gris'
+                            />
                         </Form.Item>
                     </Col>
                     <Col span={8}>
                         <Form.Item
                             name={'aguaParaLavado'}
-                            label={<label style={{ color: 'black' }}>Huella hidrica verde</label>}
+                            label={<label className={'formItem'}>Huella hidrica verde</label>}
                             required>
                             <Input placeholder='Ingrese la huella hidrica verde' />
                         </Form.Item>
@@ -774,7 +1083,7 @@ const AddFoodForm = () => {
                     <Col span={8}>
                         <Form.Item
                             name={'aguaParaCoccion'}
-                            label={<label style={{ color: 'black' }}>Agua para coccion</label>}
+                            label={<label className={'formItem'}>Agua para coccion</label>}
                             required>
                             <Input placeholder='Ingrese la cantidad de agua para coccion' />
                         </Form.Item>
@@ -784,7 +1093,7 @@ const AddFoodForm = () => {
                     <Col span={8}>
                         <Form.Item
                             name={'lugarEGEI'}
-                            label={<label style={{ color: 'black' }}>Lugar EGEI</label>}
+                            label={<label className={'formItem'}>Lugar EGEI</label>}
                             required>
                             <Input type='number' placeholder='Ingrese el lugar EGEI' />
                         </Form.Item>
@@ -792,7 +1101,7 @@ const AddFoodForm = () => {
                     <Col span={8}>
                         <Form.Item
                             name={'citaEGEI'}
-                            label={<label style={{ color: 'black' }}>CIta EGEI</label>}
+                            label={<label className={'formItem'}>CIta EGEI</label>}
                             required>
                             <Input placeholder='Ingrese la cita EGEI' />
                         </Form.Item>
@@ -800,7 +1109,7 @@ const AddFoodForm = () => {
                     <Col span={8}>
                         <Form.Item
                             name={'huellaCarbono'}
-                            label={<label style={{ color: 'black' }}>Huella carbono</label>}
+                            label={<label className={'formItem'}>Huella carbono</label>}
                             required>
                             <Input placeholder='Ingrese la huella carbono' />
                         </Form.Item>
@@ -810,7 +1119,7 @@ const AddFoodForm = () => {
                     <Col span={8}>
                         <Form.Item
                             name={'huellaEcologica'}
-                            label={<label style={{ color: 'black' }}>Huela ecológica</label>}
+                            label={<label className={'formItem'}>Huela ecológica</label>}
                             required>
                             <Input type='number' placeholder='Ingrese la huella ecológica' />
                         </Form.Item>
@@ -818,7 +1127,7 @@ const AddFoodForm = () => {
                     <Col span={8}>
                         <Form.Item
                             name={'energiaFosil'}
-                            label={<label style={{ color: 'black' }}>Energía fosil</label>}
+                            label={<label className={'formItem'}>Energía fosil</label>}
                             required>
                             <Input placeholder='Ingrese la energía fósil' />
                         </Form.Item>
@@ -826,7 +1135,7 @@ const AddFoodForm = () => {
                     <Col span={8}>
                         <Form.Item
                             name={'usoSuelo'}
-                            label={<label style={{ color: 'black' }}>Nitrogeno</label>}
+                            label={<label className={'formItem'}>Nitrogeno</label>}
                             required>
                             <Input placeholder='Ingrese la cantidad de nitrógeno' />
                         </Form.Item>
@@ -834,43 +1143,65 @@ const AddFoodForm = () => {
                 </Row>
                 <Row gutter={[8, 8]}>
                     <Col span={12}>
-                        <Form.Item name={'fosforo'} label={<label style={{ color: 'black' }}>Fósforo</label>} required>
+                        <Form.Item
+                            name={'fosforo'}
+                            label={<label className={'formItem'}>Fósforo</label>}
+                            required>
                             <Input placeholder='Ingrese la cantidad de fósforo' />
                         </Form.Item>
                     </Col>
                     <Col span={12}>
                         <Form.Item
                             name={'puntajeEcologico'}
-                            label={<label style={{ color: 'black' }}>Puntaje ecológico</label>}
+                            label={<label className={'formItem'}>Puntaje ecológico</label>}
                             required>
                             <Input type='number' placeholder='Ingrese el puntaje ecológico' />
                         </Form.Item>
                     </Col>
                 </Row>
             </Card>
-
-            {/*ASPECTO ECONOMICO*/}
             <Card title='Aspecto económico'>
                 <Row gutter={[8, 8]}>
                     <Col span={8}>
-                        <Form.Item name={'precio'} label={<label style={{ color: 'black' }}>Precio</label>} required>
-                            <Input type='number' placeholder='Ingrese el precio' />
+                        <Form.Item
+                            name={'precio'}
+                            label={<label className={'formItem'}>Precio</label>}
+                            required>
+                            <InputNumber
+                                addonAfter='MXN'
+                                decimalSeparator='.'
+                                type='number'
+                                prefix='$'
+                                placeholder='Ingrese el precio'
+                            />
                         </Form.Item>
                     </Col>
                     <Col span={8}>
                         <Form.Item
                             name={'lugarCompra'}
-                            label={<label style={{ color: 'black' }}>Lugar de compra</label>}
+                            label={<label className={'formItem'}>Lugar de compra</label>}
                             required>
-                            <Input placeholder='Ingrese el lugar de compra' />
+                            <Select placeholder='Selecciona una opción'>
+                                {mocks.lugares.map((elem) => (
+                                    <Option key={elem.id} value={elem.label}>
+                                        {elem.label}
+                                    </Option>
+                                ))}
+                            </Select>
                         </Form.Item>
                     </Col>
                     <Col span={8}>
                         <Form.Item
                             name={'lugarVenta'}
-                            label={<label style={{ color: 'black' }}>Lugar de venta</label>}
+                            label={<label className={'formItem'}>Lugar de venta</label>}
                             required>
-                            <Input placeholder='Ingrese el lugar de venta' />
+                            <Select placeholder='Selecciona una opción'>
+                                {mocks.lugares.map((elem) => (
+                                    <Option key={elem.id} value={elem.label}>
+                                        {elem.label}
+                                    </Option>
+                                ))}
+                            </Select>
                         </Form.Item>
                     </Col>
                 </Row>
@@ -882,7 +1213,7 @@ const AddFoodForm = () => {
                     <Col span={12}>
                         <Form.Item
                             name={'fitoquimicos'}
-                            label={<label style={{ color: 'black' }}>Fitoquímicos</label>}
+                            label={<label className={'formItem'}>Fitoquímicos</label>}
                             required>
                             <Input placeholder='Ingrese los fitoquimicos' />
                         </Form.Item>
@@ -891,7 +1222,7 @@ const AddFoodForm = () => {
                     <Col span={12}>
                         <Form.Item
                             name={'polifenoles'}
-                            label={<label style={{ color: 'black' }}>Polifenos</label>}
+                            label={<label className={'formItem'}>Polifenos</label>}
                             required>
                             <Input placeholder='Ingrese los polifenos' />
                         </Form.Item>
@@ -901,14 +1232,17 @@ const AddFoodForm = () => {
                     <Col span={12}>
                         <Form.Item
                             name={'antocianinas'}
-                            label={<label style={{ color: 'black' }}>Antocianinas</label>}
+                            label={<label className={'formItem'}>Antocianinas</label>}
                             required>
                             <Input placeholder='Ingrese las antocianinas ' />
                         </Form.Item>
                     </Col>
 
                     <Col span={12}>
-                        <Form.Item name={'taninos'} label={<label style={{ color: 'black' }}>Taninos</label>} required>
+                        <Form.Item
+                            name={'taninos'}
+                            label={<label className={'formItem'}>Taninos</label>}
+                            required>
                             <Input placeholder='Ingrese los tianinos' />
                         </Form.Item>
                     </Col>
@@ -917,7 +1251,7 @@ const AddFoodForm = () => {
                     <Col span={12}>
                         <Form.Item
                             name={'isoflavonas'}
-                            label={<label style={{ color: 'black' }}>Isoflavonas</label>}
+                            label={<label className={'formItem'}>Isoflavonas</label>}
                             required>
                             <Input placeholder='Ingrese las insoflavonas' />
                         </Form.Item>
@@ -926,7 +1260,7 @@ const AddFoodForm = () => {
                     <Col span={12}>
                         <Form.Item
                             name={'resveraterol'}
-                            label={<label style={{ color: 'black' }}>Resveratrol</label>}
+                            label={<label className={'formItem'}>Resveratrol</label>}
                             required>
                             <Input placeholder='Ingrese la cantidad de resveratrol' />
                         </Form.Item>
@@ -936,7 +1270,7 @@ const AddFoodForm = () => {
                     <Col span={12}>
                         <Form.Item
                             name={'isotiocinatos'}
-                            label={<label style={{ color: 'black' }}>Isotiocinatos</label>}
+                            label={<label className={'formItem'}>Isotiocinatos</label>}
                             required>
                             <Input placeholder='Ingrese la cantidad de isotiocinatos' />
                         </Form.Item>
@@ -945,7 +1279,7 @@ const AddFoodForm = () => {
                     <Col span={12}>
                         <Form.Item
                             name={'caretenoides'}
-                            label={<label style={{ color: 'black' }}>Caretenoides</label>}
+                            label={<label className={'formItem'}>Caretenoides</label>}
                             required>
                             <Input placeholder='Ingrese la cantidad de caretenoides' />
                         </Form.Item>
@@ -955,7 +1289,7 @@ const AddFoodForm = () => {
                     <Col span={12}>
                         <Form.Item
                             name={'betacarotenos'}
-                            label={<label style={{ color: 'black' }}>Betacarotenos</label>}
+                            label={<label className={'formItem'}>Betacarotenos</label>}
                             required>
                             <Input placeholder='Ingrese la cantidad de betacarotenos' />
                         </Form.Item>
@@ -964,7 +1298,7 @@ const AddFoodForm = () => {
                     <Col span={12}>
                         <Form.Item
                             name={'licopeno'}
-                            label={<label style={{ color: 'black' }}>Licopeno</label>}
+                            label={<label className={'formItem'}>Licopeno</label>}
                             required>
                             <Input placeholder='Ingrese la cantidad de licopeno' />
                         </Form.Item>
@@ -972,25 +1306,37 @@ const AddFoodForm = () => {
                 </Row>
                 <Row gutter={[8, 8]}>
                     <Col span={12}>
-                        <Form.Item name={'luteina'} label={<label style={{ color: 'black' }}>Luteina</label>} required>
+                        <Form.Item
+                            name={'luteina'}
+                            label={<label className={'formItem'}>Luteina</label>}
+                            required>
                             <Input placeholder='Ingrese la cantidad de luteina' />
                         </Form.Item>
                     </Col>
 
                     <Col span={12}>
-                        <Form.Item name={'alicina'} label={<label style={{ color: 'black' }}>Alicina</label>} required>
+                        <Form.Item
+                            name={'alicina'}
+                            label={<label className={'formItem'}>Alicina</label>}
+                            required>
                             <Input placeholder='Ingrese la cantidad de Alicina' />
                         </Form.Item>
                     </Col>
                 </Row>
                 <Row gutter={[8, 8]}>
                     <Col span={12}>
-                        <Form.Item name={'cafeina'} label={<label style={{ color: 'black' }}>Cafeína</label>} required>
+                        <Form.Item
+                            name={'cafeina'}
+                            label={<label className={'formItem'}>Cafeína</label>}
+                            required>
                             <Input placeholder='Ingrese la cantidad de Cafeína' />
                         </Form.Item>
                     </Col>
                     <Col span={12}>
-                        <Form.Item name={'UFC'} label={<label style={{ color: 'black' }}>UFC</label>} required>
+                        <Form.Item
+                            name={'UFC'}
+                            label={<label className={'formItem'}>UFC</label>}
+                            required>
                             <Input placeholder='Ingrese UFC' />
                         </Form.Item>
                     </Col>
@@ -1003,7 +1349,7 @@ const AddFoodForm = () => {
                     <Col span={12}>
                         <Form.Item
                             name={'benzoatoDeSodio'}
-                            label={<label style={{ color: 'black' }}>Benzoato de sodio</label>}
+                            label={<label className={'formItem'}>Benzoato de sodio</label>}
                             required>
                             <Input placeholder='Ingrese Benzoato de sodio' />
                         </Form.Item>
@@ -1012,7 +1358,7 @@ const AddFoodForm = () => {
                     <Col span={12}>
                         <Form.Item
                             name={'polisorbato'}
-                            label={<label style={{ color: 'black' }}>Polisorbato</label>}
+                            label={<label className={'formItem'}>Polisorbato</label>}
                             required>
                             <Input placeholder='Ingrese polisorbato' />
                         </Form.Item>
@@ -1022,7 +1368,9 @@ const AddFoodForm = () => {
                     <Col span={12}>
                         <Form.Item
                             name={'azulBrillanteFCFoE133'}
-                            label={<label style={{ color: 'black' }}>Azul Brillante FCFoE133</label>}
+                            label={
+                                <label className={'formItem'}>Azul Brillante FCFoE133</label>
+                            }
                             required>
                             <Input placeholder='Ingrese azulBrillanteFCFoE133 ' />
                         </Form.Item>
@@ -1031,7 +1379,7 @@ const AddFoodForm = () => {
                     <Col span={12}>
                         <Form.Item
                             name={'azurrubinaOE102'}
-                            label={<label style={{ color: 'black' }}>AzurrubinaOE102</label>}
+                            label={<label className={'formItem'}>AzurrubinaOE102</label>}
                             required>
                             <Input placeholder='Ingrese azurrubinaOE102' />
                         </Form.Item>
@@ -1041,7 +1389,9 @@ const AddFoodForm = () => {
                     <Col span={12}>
                         <Form.Item
                             name={'amarilloOcasoFDFoE110'}
-                            label={<label style={{ color: 'black' }}>Amarillo OcasoFDFoE110</label>}
+                            label={
+                                <label className={'formItem'}>Amarillo OcasoFDFoE110</label>
+                            }
                             required>
                             <Input placeholder='Ingrese amarilloOcasoFDFoE110' />
                         </Form.Item>
@@ -1050,7 +1400,7 @@ const AddFoodForm = () => {
                     <Col span={12}>
                         <Form.Item
                             name={'tartrazinaOE102'}
-                            label={<label style={{ color: 'black' }}>Tartrazina OE102</label>}
+                            label={<label className={'formItem'}>Tartrazina OE102</label>}
                             required>
                             <Input placeholder='Ingrese tartrazinaOE102 ' />
                         </Form.Item>
@@ -1060,7 +1410,7 @@ const AddFoodForm = () => {
                     <Col span={12}>
                         <Form.Item
                             name={'verdeSoE142'}
-                            label={<label style={{ color: 'black' }}>Verde SoE142</label>}
+                            label={<label className={'formItem'}>Verde SoE142</label>}
                             required>
                             <Input placeholder='Ingrese verdeSoE142' />
                         </Form.Item>
@@ -1069,7 +1419,9 @@ const AddFoodForm = () => {
                     <Col span={12}>
                         <Form.Item
                             name={'negroBrillanteBNoE151'}
-                            label={<label style={{ color: 'black' }}>Negro Brillante BNoE151</label>}
+                            label={
+                                <label className={'formItem'}>Negro Brillante BNoE151</label>
+                            }
                             required>
                             <Input placeholder='Ingrese negroBrillanteBNoE151' />
                         </Form.Item>
@@ -1079,14 +1431,17 @@ const AddFoodForm = () => {
                     <Col span={12}>
                         <Form.Item
                             name={'sucralosa'}
-                            label={<label style={{ color: 'black' }}>sucralosa</label>}
+                            label={<label className={'formItem'}>sucralosa</label>}
                             required>
                             <Input placeholder='Ingrese sucralosa' />
                         </Form.Item>
                     </Col>
 
                     <Col span={12}>
-                        <Form.Item name={'estevia'} label={<label style={{ color: 'black' }}>Estevia</label>} required>
+                        <Form.Item
+                            name={'estevia'}
+                            label={<label className={'formItem'}>Estevia</label>}
+                            required>
                             <Input placeholder='Ingrese la cantidad de estevia' />
                         </Form.Item>
                     </Col>
@@ -1095,7 +1450,7 @@ const AddFoodForm = () => {
                     <Col span={12}>
                         <Form.Item
                             name={'sacarina'}
-                            label={<label style={{ color: 'black' }}>Sacarina</label>}
+                            label={<label className={'formItem'}>Sacarina</label>}
                             required>
                             <Input placeholder='Ingrese la cantidad de sacarina' />
                         </Form.Item>
@@ -1104,7 +1459,7 @@ const AddFoodForm = () => {
                     <Col span={12}>
                         <Form.Item
                             name={'aspartame'}
-                            label={<label style={{ color: 'black' }}>Aspartame</label>}
+                            label={<label className={'formItem'}>Aspartame</label>}
                             required>
                             <Input placeholder='Ingrese la cantidad de aspartame' />
                         </Form.Item>
@@ -1114,7 +1469,7 @@ const AddFoodForm = () => {
                     <Col span={12}>
                         <Form.Item
                             name={'acesulfameK'}
-                            label={<label style={{ color: 'black' }}>AcesulfameK</label>}
+                            label={<label className={'formItem'}>AcesulfameK</label>}
                             required>
                             <Input placeholder='Ingrese la cantidad de acesulfameK' />
                         </Form.Item>
@@ -1122,7 +1477,9 @@ const AddFoodForm = () => {
                     <Col span={12}>
                         <Form.Item
                             name={'carboxymethylcellulose'}
-                            label={<label style={{ color: 'black' }}>Carboxymethylcellulose</label>}
+                            label={
+                                <label className={'formItem'}>Carboxymethylcellulose</label>
+                            }
                             required>
                             <Input placeholder='Ingrese carboxymethylcellulose' />
                         </Form.Item>
@@ -1132,7 +1489,7 @@ const AddFoodForm = () => {
                     <Col span={12}>
                         <Form.Item
                             name={'dioxidoDeTitanio'}
-                            label={<label style={{ color: 'black' }}>Dióxido De Titanio</label>}
+                            label={<label className={'formItem'}>Dióxido De Titanio</label>}
                             required>
                             <Input placeholder='Ingrese la cantidad de dioxidoDeTitanio' />
                         </Form.Item>
@@ -1140,7 +1497,9 @@ const AddFoodForm = () => {
                     <Col span={12}>
                         <Form.Item
                             name={'monolauratoDeGlicerol'}
-                            label={<label style={{ color: 'black' }}>Monolaurato De Glicerol</label>}
+                            label={
+                                <label className={'formItem'}>Monolaurato De Glicerol</label>
+                            }
                             required>
                             <Input placeholder='Ingrese monolauratoDeGlicerol' />
                         </Form.Item>
@@ -1156,7 +1515,7 @@ const AddFoodForm = () => {
                         <Form.Item
                             name={"atributoadicional"}
                             label={
-                                <label style={{ color: 'black' }}>
+                                <label className={'formItem'}>
                                     Atributo adicional
                                 </label>
                             }
@@ -1173,7 +1532,7 @@ const AddFoodForm = () => {
                         <Form.Item
                             name={"marca"}
                             label={
-                                <label style={{ color: 'black' }}>
+                                <label className={'formItem'}>
                                     Marca
                                 </label>
                             }

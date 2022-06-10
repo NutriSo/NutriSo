@@ -1,0 +1,23 @@
+@import '../../../../styles/variables.scss';
+
+.addFoodFormContainer {
+    position: relative;
+}
+
+.formItem {
+    color: $BLACK;
+    font-weight: 500;
+    width: 100%;
+}
+
+.selectItem {
+    width: 13rem !important;
+}
+
+.normalizeWidth {
+    width: auto;
+}
+
+.ant-form-item-label > label {
+    width: auto;
+}
