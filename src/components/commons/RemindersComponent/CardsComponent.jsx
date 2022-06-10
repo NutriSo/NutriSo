@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import classNames from 'classnames';
 
 import {
     Card,
@@ -22,63 +23,53 @@ import {
 } from '@ant-design/icons';
 import moment from 'moment';
 import apiURL from '../../../axios/axiosConfig';
+import { capitilizeWord } from '../../../utils';
+
+import styles from './styles.module.scss';
 
 const CardsComponent = () => {
-    const [ isModalVisible, setIsModalVisible ] = useState(false);
-    const [ initialData, setInitialData ] = useState([]);
-    const [ list, setList ] = useState([]);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [initialData, setInitialData] = useState([]);
+    const [list, setList] = useState([]);
+    const [listUsers, setlistUsers] = useState([]);
+    const [listUsersPut, setlistUsersput] = useState([]);
+    const [arrayUsers, setArrayusers] = useState([]);
+    const [titulo, setTitulo] = useState('');
+    const [msj, setMsj] = useState('');
+    const [categoria, setCategoria] = useState('');
+    const [fecha, setFecha] = useState([]);
+    const [global, setGlobal] = useState(false);
+    const [seleccionado, setSeleccionado] = useState('');
 
-    const [ listUsers, setlistUsers ] = useState([]);
-    const [ listUsersPut, setlistUsersput ] = useState([]);
-    const [ recorUp, setRecorUp ] = useState([]);
-    const [ arrayUsers, setArrayusers ] = useState([]);
-    const [ titulo, setTitulo ] = useState('');
-    const [ msj, setMsj ] = useState('');
-    const [ categoria, setCategoria ] = useState('');
     const { RangePicker } = DatePicker;
-    const [ fecha, setFecha ] = useState([]);
     const { TextArea } = Input;
     const { confirm } = Modal;
     const { Search } = Input;
     const { Option } = Select;
-    const [ global, setGlobal ] = useState(false);
-    const [ seleccionado, setSeleccionado ] = useState('');
-    const [ lower, setLower ] = useState('');
-    const [ uper, setUper ] = useState('');
 
     useEffect(() => {
         fetchData();
-
     }, []);
     useEffect(() => {
-        seleccionado?._id &&
-            fetchData2();
-
-    }, [ seleccionado?._id ]);
-
+        seleccionado?._id && fetchData2();
+    }, [seleccionado?._id]);
 
     const showModal = async (id) => {
         setIsModalVisible(true);
-        console.log(id);
         setSeleccionado(id);
         try {
             const { data } = await apiURL.get('/informacionUsuarios');
             setlistUsers(data);
-
-
-            console.log("vacio");
         } catch (error) {
             message.error(`Error: ${error.message}`);
         }
-        console.log(seleccionado?.listUsersPut ?? listUsersPut)
     };
 
     const fetchData2 = async () => {
         try {
             const { data } = await apiURL.get(`/recordatorios/${seleccionado._id}`);
-            setGlobal(data.global)
-            setArrayusers(data.usuarios)
-            console.log("mensajito Gama", data);
+            setGlobal(data.global);
+            setArrayusers(data.usuarios);
         } catch (error) {
             message.error(`Error: ${error.message}`);
         }
@@ -90,7 +81,7 @@ const CardsComponent = () => {
         array.forEach((user) => {
             const findIndex = listUsers.findIndex((elem) => elem._id === user);
             if (findIndex !== -1) {
-                ids.push(listUsers[ findIndex ]._id);
+                ids.push(listUsers[findIndex]._id);
             }
         });
 
@@ -102,29 +93,27 @@ const CardsComponent = () => {
 
         try {
             const reminder = {
-                "usuarios": listUsersPut.length > 0 && listUsersPut || arrayUsers,
+                usuarios: (listUsersPut.length > 0 && listUsersPut) || arrayUsers,
                 //hora y fecha
-                "titulo": seleccionado?.titulo ?? titulo,
-                "mensaje": seleccionado?.mensaje ?? msj,
-                "categoria": seleccionado?.categoria ?? categoria,
-                "dias": [
+                titulo: seleccionado?.titulo ?? titulo,
+                mensaje: seleccionado?.mensaje ?? msj,
+                categoria: seleccionado?.categoria ?? categoria,
+                dias: [
                     {
-                        "day": "martes",
-                        "activo": false,
+                        day: 'martes',
+                        activo: false,
                     },
                 ],
-                "fecha": seleccionado?.fecha ?? fecha,
-                "global": seleccionado?.global ?? global
+                fecha: seleccionado?.fecha ?? fecha,
+                global: seleccionado?.global ?? global,
             };
 
             const response = await apiURL.patch(
                 `/recordatorios/${seleccionado._id}`,
                 reminder
             );
-            console.log(response);
-            //window.location.reload();
 
-            console.log('actualizado');
+            //window.location.reload();
         } catch (error) {
             message.error(`Error: ${error.message}`);
         }
@@ -144,12 +133,9 @@ const CardsComponent = () => {
             cancelText: 'No',
             onOk() {
                 const deleteRecor = async () => {
-                    console.log('OK');
                     try {
-                        const dlt = await apiURL.delete(
-                            `/recordatorios/${recordatorio._id}`
-                        );
-                        console.log(dlt);
+                        const dlt = await apiURL.delete(`/recordatorios/${recordatorio._id}`);
+
                         window.location.reload();
                     } catch (error) {
                         message.error(`Error: ${error.message}`);
@@ -168,27 +154,23 @@ const CardsComponent = () => {
             const { data } = await apiURL.get('/recordatorios');
             setInitialData(data);
             setList(data);
-            console.log(list);
         } catch (error) {
             message.error(`Error: ${error.message}`);
         }
     };
-   
-    const onSearch = (target) => {
-        console.log(target);
-        
-        setList(
-            initialData.filter((recordatorios) =>
 
-                recordatorios.titulo.toLowerCase().includes(target.toLowerCase())
-            )
-        );
-        //console.log(target);
+    const onSearch = (searchValue) => {
+        const filteredData = initialData.filter((elem) => {
+            const normalizedTitle = elem.titulo.toLowerCase().trim();
+            const normalizedSearch = searchValue.toLowerCase().trim();
+
+            return normalizedTitle.includes(normalizedSearch);
+        });
+
+        setList(filteredData);
     };
 
     function onChangeCh(e) {
-        console.log(`checked = ${e.target.checked}`);
-
         if (e.target.checked) {
             setGlobal(true);
         } else {
@@ -196,13 +178,13 @@ const CardsComponent = () => {
         }
     }
 
-    const getUserNames = array => {
+    const getUserNames = (array) => {
         const auxs = [];
 
         array.forEach((user) => {
             const findIndex = listUsers.findIndex((elem) => elem._id === user);
             if (findIndex !== -1) {
-                auxs.push(listUsers[ findIndex ].nombre);
+                auxs.push(listUsers[findIndex].nombre);
             }
         });
 
@@ -210,7 +192,7 @@ const CardsComponent = () => {
     };
 
     return (
-        <div scroll={{}}>
+        <div>
             <Row>
                 <Space direction='vertical' style={{ width: '90%' }}>
                     <Search
@@ -222,51 +204,44 @@ const CardsComponent = () => {
                         style={{ width: 1000 }}
                     />
                 </Space>
-                {list.map((recordatorios) => (
-                    <Col span={6}>
+                <Row className={styles.grid}>
+                    {list.map((recordatorio) => (
                         <Card
-                            className='card'
                             style={{ marginTop: 16 }}
                             type='inner'
                             title={
-                                <Row>
-                                    <Col span={12} style={{ padding: 5 }}>
-                                        <h4 className='plistaR'>
-                                            {recordatorios.titulo}
+                                <Row gutter={1} className={styles.between}>
+                                    <Col span={12}>
+                                        <h4 className={styles.title}>
+                                            {capitilizeWord(recordatorio.titulo)}
                                         </h4>
                                     </Col>
-                                    <Col span={4} style={{ padding: 5 }}>
+                                    <Col span={6}>
                                         <Button
                                             style={{}}
                                             type='primary'
                                             shape='circle'
-                                            onClick={() =>
-                                                showModal(recordatorios)
-                                            }
+                                            onClick={() => showModal(recordatorio)}
                                             icon={<EditOutlined />}
                                         />
-                                    </Col>
-                                    <Col span={4} style={{ padding: 5 }}>
                                         <Button
                                             style={{}}
                                             type='primary'
                                             shape='circle'
-                                            onClick={() =>
-                                                showDeleteConfirm(recordatorios)
-                                            }
+                                            onClick={() => showDeleteConfirm(recordatorio)}
                                             icon={<DeleteOutlined />}
                                         />
                                     </Col>
                                 </Row>
                             }>
                             <Row>
-                                <Col span={4} style={{ padding: 5 }}>
+                                <Col span={4}>
                                     <Button
                                         style={{}}
                                         type='primary'
                                         shape='circle'
                                         icon={
-                                            recordatorios.global ? (
+                                            recordatorio.global ? (
                                                 <GlobalOutlined />
                                             ) : (
                                                 <UserOutlined />
@@ -275,13 +250,13 @@ const CardsComponent = () => {
                                     />
                                 </Col>
                                 <Col span={12}>
-                                    <p>Mensaje: {recordatorios.mensaje}</p>
-                                    <p>Categoria: {recordatorios.categoria}</p>
+                                    <p>Mensaje: {recordatorio.mensaje}</p>
+                                    <p>Categoria: {recordatorio.categoria}</p>
                                 </Col>
                             </Row>
                         </Card>
-                    </Col>
-                ))}
+                    ))}
+                </Row>
             </Row>
 
             <Modal
@@ -307,7 +282,6 @@ const CardsComponent = () => {
                     <Col span={18} style={{ padding: 16 }}>
                         <TextArea
                             placeholder='Descripción del recordatorio'
-
                             autoSize
                             onChange={(e) => setMsj(e.target.value)}
                             defaultValue={seleccionado?.mensaje ?? msj}
@@ -327,13 +301,11 @@ const CardsComponent = () => {
                     placeholder='Seleccionar usuarios'
                     onChange={(value) => setlistUsersput(value)}
                     optionLabelProp='label'
-                    defaultValue={arrayUsers.length > 0 && getUserNames(arrayUsers) || listUsersPut}
-                    
-                >
+                    defaultValue={
+                        (arrayUsers.length > 0 && getUserNames(arrayUsers)) || listUsersPut
+                    }>
                     {listUsers.map((users) => (
-                        <Option key={users.id}>
-                            {users.nombre}
-                        </Option>
+                        <Option key={users.id}>{users.nombre}</Option>
                     ))}
                 </Select>
                 <Select
@@ -351,7 +323,12 @@ const CardsComponent = () => {
                 </Select>
                 <div className='site-calendar-demo-card'>
                     <RangePicker
-                        defaultValue={seleccionado?.fecha && [ moment(seleccionado.fecha[ 0 ]), moment(seleccionado.fecha[ seleccionado.fecha.length - 1 ]) ]}
+                        defaultValue={
+                            seleccionado?.fecha && [
+                                moment(seleccionado.fecha[0]),
+                                moment(seleccionado.fecha[seleccionado.fecha.length - 1]),
+                            ]
+                        }
                     />
                 </div>
             </Modal>

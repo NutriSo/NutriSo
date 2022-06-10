@@ -15,7 +15,8 @@ const Props = ({ dataSource, form, onFinish }) => {
                 name='basic'
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
-                fields={dataSource}>
+                fields={dataSource}
+                requiredMark={false}>
                 <Form.Item label='Nombre' name='pName' rules={[Rules.basicSpanish]}>
                     <Input />
                 </Form.Item>
