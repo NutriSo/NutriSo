@@ -1,7 +1,9 @@
 import axios from 'axios';
 
+const URL = import.meta.env.VITE_API_URL;
+
 const instance = axios.create({
-    baseURL: 'https://dietasoapiv1.herokuapp.com/api/v2',
+    baseURL: URL,
     timeout: 50000,
 });
 
