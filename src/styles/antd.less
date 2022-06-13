@@ -1,6 +1,5 @@
 @import '~antd/dist/antd.css';
-
-@primary-color: var(--primary);
+@import './variables.scss';
 
 .ant-table {
     .ant-table-thead {
@@ -17,7 +16,7 @@
 
     .table-modal .ant-table {
         margin-top: 0.5rem;
-        background-color: var(--white);
+        background-color: $WHITE;
         .ant-table-thead {
             tr.ant-table-row,
             th.ant-table-cell {
@@ -25,10 +24,10 @@
             }
         }
         .ant-table-tbody {
-            background-color: var(--white);
+            background-color: $WHITE;
             tr.ant-table-row,
             td.ant-table-cell {
-                background-color: var(--white);
+                background-color: $WHITE;
                 border: 0;
                 text-align: center;
                 &:hover {
@@ -61,7 +60,7 @@
 .ant-menu-vertical > .ant-menu-submenu > .ant-menu-submenu-title {
     position: sticky;
     top: 0;
-    background-color: #fff;
+    background-color: $WHITE;
     z-index: 10;
 }
 
@@ -125,4 +124,8 @@
 
 .ant-input {
     max-height: 2.5rem !important;
+}
+
+.ant-upload-list-picture-card .ant-upload-list-item-info::before {
+    left: 0;
 }
