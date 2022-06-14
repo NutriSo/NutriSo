@@ -102,7 +102,14 @@ export const returnJoinedArrayByKey = (key, arr) => {
     try {
         if (!Array.isArray(arr)) return '';
 
-        const aux = arr.map((item) => item[key]);
+        const aux = arr.map((item) => {
+            if (item[key] !== 'N/A') return item[key];
+            return 'No';
+        });
+
+        const hasNo = aux.includes('No');
+
+        if (hasNo) return 'No';
 
         return aux.join(',');
     } catch (error) {

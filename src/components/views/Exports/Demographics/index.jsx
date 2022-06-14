@@ -111,6 +111,10 @@ const Demographics = ({ selected = false, setLoading }) => {
 
                 const lastWeight = peso[peso.length - 1];
                 const hasActivity = !isEmptyString(actividadFisica.tipoDeActividad);
+                const normalizeMinDay =
+                    (actividadFisica?.minXdia && actividadFisica?.minXdia) || 0;
+                const normalizeRepeats =
+                    (actividadFisica?.vecesXsemana && actividadFisica?.vecesXsemana) || 0;
 
                 updatedInfo.altura = altura ?? '';
                 updatedInfo.peso = lastWeight || '';
@@ -121,8 +125,8 @@ const Demographics = ({ selected = false, setLoading }) => {
                     (actividadFisica?.intensidad &&
                         capitilizeWord(actividadFisica.intensidad)) ||
                     '';
-                updatedInfo.vecesXsemana = actividadFisica?.vecesXsemana || '';
-                updatedInfo.minXdia = actividadFisica?.minXdia || '';
+                updatedInfo.vecesXsemana = normalizeRepeats?.toLowerCase().split('veces')[0];
+                updatedInfo.minXdia = normalizeMinDay?.toLowerCase().split('o')[0];
                 setInfo2((prevState) => [...prevState, updatedInfo]);
 
                 if (index === info1.length - 1) setFlag2(true);
@@ -149,6 +153,7 @@ const Demographics = ({ selected = false, setLoading }) => {
                     !isEmptyArray(historiaClinica.antecedentesPatologicos);
                 const hasConsumption = historiaClinica?.suplementos;
 
+                // Corregir aquí el NA DE LA BD.
                 const updatedInfo = {
                     ...item,
                     padeceEnfermedad: (hasHistory && 'Sí') || 'No',
@@ -158,7 +163,7 @@ const Demographics = ({ selected = false, setLoading }) => {
                                 'suplemento',
                                 historiaClinica.suplementos
                             )) ||
-                        'N/A',
+                        'No',
                 };
 
                 setInfo3((prevState) => [...prevState, updatedInfo]);
