@@ -6,6 +6,7 @@ import { message, Form } from 'antd';
 import IconsComponent from '../../commons/FoodComponents/IconsComponent.jsx';
 import PropertiesComponent from '../../commons/FoodComponents/PropertiesComponent';
 import Consulta from '../../commons/FoodComponents/Consulta.jsx';
+import Loading from '../../commons/Loading';
 
 import { getSku } from '../../../services';
 import { isEmptyObject } from '../../../utils';
@@ -15,6 +16,7 @@ import './Alimentos.scss';
 
 const Alimentos = () => {
     const [data2, setData] = useState(null);
+    const [loading, setLoading] = useState(false);
     const [showAlimento, setShowAlimento] = useState(false);
     const [ID, setId] = useState('');
     const [form] = Form.useForm();
@@ -50,14 +52,18 @@ const Alimentos = () => {
         setIsModalVisible(true);
     };
 
-    const fetchData = async (alimento) => {
+    const fetchData = async ({ id }) => {
+        setLoading(true);
         try {
-            const { data } = await apiURL.get('/alimentos/' + alimento.id);
-            // console.log('ID AL CLICKEAR: ' + alimento.id);
-            setId(alimento.id);
+            const { data } = await apiURL.get(`/alimentos/${id}`);
+
+            setId(id);
             setData(data);
         } catch (error) {
             message.error(`Error: ${error.message}`);
+            setLoading(false);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -278,6 +284,7 @@ const Alimentos = () => {
 
     return (
         <div className='container'>
+            {loading && <Loading size={54} />}
             <Consulta onClick={(item) => fetchData(item)} />
             <IconsComponent
                 dataSource={iconsData}
