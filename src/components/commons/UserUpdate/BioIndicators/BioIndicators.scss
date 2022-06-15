@@ -1,16 +1,4 @@
-.glassbackground {
-    /* From https://css.glass */
-    background: rgba(110, 156, 213, 0.46);
-    border-radius: 16px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    border: 1px solid rgba(110, 156, 213, 0.3);
-    height: 100%;
-    align-items: center;
-}
-
-.containerCampoCor {
+.containerIndBio {
     width: 60%;
     //background-color: white;
     margin-left: 20%;
@@ -30,7 +18,7 @@
     border: 1px solid rgba(52, 202, 222, 0.3);
 }
 
-.campCor-Container {
+.indBio-Container {
     width: 90%;
     //background-color: red;
     display: flex;
@@ -40,7 +28,7 @@
     height: 100%;
 }
 
-.campoCor-Container2 {
+.indBio-Container2 {
     width: 15rem;
     //background-color: rgb(255, 0, 212);
     display: flex;
@@ -51,7 +39,7 @@
     height: 100%;
 }
 
-.campCor-Container3 {
+.indBio-Container3 {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -62,7 +50,7 @@
     //background-color: red;
 }
 
-.campCor-Container4 {
+.indBio-Container4 {
     width: 100%;
     //background-color: rgb(255, 0, 212);
     display: flex;
@@ -75,12 +63,7 @@
     margin-top: 1rem;
 }
 
-.label-campCor {
-    margin-left: 3rem;
-    font-weight: 600;
-}
-
-.input-campCor {
+.input-indBio {
     background-color: white;
     border-radius: 5px;
     border: solid 1px black;
@@ -92,7 +75,7 @@
     //align-items: left;
 }
 
-.btn-see-camCor {
+.btn-see-indBio {
     background-color: rgb(159, 245, 163);
     width: 50%;
     display: flex;
@@ -105,6 +88,3 @@
     border-radius: 10px;
     margin-top: 1.5rem;
 }
-
-
-

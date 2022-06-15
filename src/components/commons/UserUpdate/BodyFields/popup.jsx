@@ -9,7 +9,6 @@ const Popup = (props) => {
                     <span className='close-icon' onClick={props.handleClose}>
                         x
                     </span>
-                    hola
                     {props.content}
                 </div>
             </div>
