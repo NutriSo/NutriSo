@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import apiURL from '../../../axios/axiosConfig';
 
-import { DatePicker, Space, Select } from 'antd';
+import { DatePicker, Space } from 'antd';
 import moment from 'moment';
 import dayjs from 'dayjs';
 
