@@ -4,15 +4,18 @@ import { Tabs, Form, Select } from 'antd';
 
 import { capitilizeWord } from '../../../../utils';
 import { Rules } from '../../../../utils/formRules';
+import { isEmptyArray } from '../../../../utils';
 
 import './Lactation.scss'
 
 const Lactation = ({id}) =>{
+    const [info, setInfo] = useState({});
     const [form2] = Form.useForm();
     const [infoLactancia, setInfoLactancia] = useState({});
     const [LactanciaCheckExlusiva, setLactanciaExclusiva] = useState({});
+ 
+    //const globalUserId = window.location.hash.split('usuarios/')[1].trim();
 
-    
     useEffect(() => {
         getLactancia();
 
@@ -23,7 +26,7 @@ const Lactation = ({id}) =>{
 
     const getLactancia = async () => {
         try {
-            const { data, status } = await apiURL.get(`/lactancia/individual?usuario=${globalUserId}`);
+            const { data, status } = await apiURL.get(`/lactancia/individual?usuario=${id}`);
             // console.log(data);
             if (status === 200 || data.length > 0) {
                 const maternaExclusiva = data?.maternaExclusiva;
@@ -66,7 +69,7 @@ const Lactation = ({id}) =>{
 
                 if (opc === 'Lactancia materna exclusiva') {
                     const body = {
-                        usuario: globalUserId,
+                        usuario: id,
                         maternaExclusiva: [
                             LactanciaCheckExlusiva ? 'N/A' : { valor: values.opcionLactancia, fecha: new Date() },
                         ],
@@ -75,13 +78,13 @@ const Lactation = ({id}) =>{
                         ],
                     };
                     console.log('Body', body);
-                    const { data } = await apiURL.patch(`lactancia/individual?usuario=${globalUserId}`, body);
+                    const { data } = await apiURL.patch(`lactancia/individual?usuario=${id}`, body);
                     console.log(data);
                 }
 
                 if (opc === 'Lactancia artificial') {
                     const body = {
-                        usuario: globalUserId,
+                        usuario: id,
                         artificial: [
                             LactanciaCheckExlusiva ? 'N/A' : { valor: values.opcionLactancia, fecha: new Date() },
                         ],
@@ -90,26 +93,26 @@ const Lactation = ({id}) =>{
                         ],
                     };
                     console.log('Body', body);
-                    const { data } = await apiURL.patch(`lactancia/individual?usuario=${globalUserId}`, body);
+                    const { data } = await apiURL.patch(`lactancia/individual?usuario=${id}`, body);
                     console.log(data);
                 }
 
                 if (opc === 'Lactancia mixta') {
                     const body = {
-                        usuario: globalUserId,
+                        usuario: id,
                         mixta: [LactanciaCheckExlusiva ? 'N/A' : { valor: values.opcionLactancia, fecha: new Date() }],
                         tiempoLactancia: [
                             LactanciaCheckExlusiva ? 'N/A' : { valor: values.tiempoLactancia, fecha: new Date() },
                         ],
                     };
                     console.log('Body', body);
-                    const { data } = await apiURL.patch(`lactancia/individual?usuario=${globalUserId}`, body);
+                    const { data } = await apiURL.patch(`lactancia/individual?usuario=${id}`, body);
                     console.log(data);
                 }
 
                 if (opc === 'Lactancia materna complementada') {
                     const body = {
-                        usuario: globalUserId,
+                        usuario: id,
                         maternaContemplada: [
                             LactanciaCheckExlusiva ? 'N/A' : { valor: values.opcionLactancia, fecha: new Date() },
                         ],
@@ -118,13 +121,13 @@ const Lactation = ({id}) =>{
                         ],
                     };
                     console.log('Body', body);
-                    const { data } = await apiURL.patch(`lactancia/individual?usuario=${globalUserId}`, body);
+                    const { data } = await apiURL.patch(`lactancia/individual?usuario=${id}`, body);
                     console.log(data);
                 }
 
                 if (opc === 'Lactancia mixta complementada') {
                     const body = {
-                        usuario: globalUserId,
+                        usuario: id,
                         mixtaContemplada: [
                             LactanciaCheckExlusiva ? 'N/A' : { valor: values.opcionLactancia, fecha: new Date() },
                         ],
@@ -133,13 +136,13 @@ const Lactation = ({id}) =>{
                         ],
                     };
                     console.log('Body', body);
-                    const { data } = await apiURL.patch(`lactancia/individual?usuario=${globalUserId}`, body);
+                    const { data } = await apiURL.patch(`lactancia/individual?usuario=${id}`, body);
                     console.log(data);
                 }
 
                 if (opc === 'Lactancia artificial complementada') {
                     const body = {
-                        usuario: globalUserId,
+                        usuario: id,
                         artificialContemplada: [
                             LactanciaCheckExlusiva ? 'N/A' : { valor: values.opcionLactancia, fecha: new Date() },
                         ],
@@ -148,7 +151,7 @@ const Lactation = ({id}) =>{
                         ],
                     };
                     console.log('Body', body);
-                    const { data } = await apiURL.patch(`lactancia/individual?usuario=${globalUserId}`, body);
+                    const { data } = await apiURL.patch(`lactancia/individual?usuario=${id}`, body);
                     console.log(data);
                 }
                 console.log('PATCH');
@@ -158,7 +161,7 @@ const Lactation = ({id}) =>{
 
                 if (opc === 'Lactancia materna exclusiva') {
                     const body = {
-                        usuario: info.usuario,
+                        usuario: id,
                         maternaExclusiva: [
                             LactanciaCheckExlusiva ? 'N/A' : { valor: values.opcionLactancia, fecha: new Date() },
                         ],
@@ -167,13 +170,13 @@ const Lactation = ({id}) =>{
                         ],
                     };
                     console.log('Body', body);
-                    const { data } = await apiURL.post(`lactancia/individual?usuario=${info.usuario}`, body);
+                    const { data } = await apiURL.post(`lactancia/individual?usuario=${id}`, body);
                     console.log(data);
                 }
 
                 if (opc === 'Lactancia artificial') {
                     const body = {
-                        usuario: info.usuario,
+                        usuario: id,
                         artificial: [
                             LactanciaCheckExlusiva ? 'N/A' : { valor: values.opcionLactancia, fecha: new Date() },
                         ],
@@ -182,26 +185,26 @@ const Lactation = ({id}) =>{
                         ],
                     };
                     console.log('Body', body);
-                    const { data } = await apiURL.post(`lactancia/individual?usuario=${info.usuario}`, body);
+                    const { data } = await apiURL.post(`lactancia/individual?usuario=${id}`, body);
                     console.log(data);
                 }
 
                 if (opc === 'Lactancia mixta') {
                     const body = {
-                        usuario: info.usuario,
+                        usuario: id,
                         mixta: [LactanciaCheckExlusiva ? 'N/A' : { valor: values.opcionLactancia, fecha: new Date() }],
                         tiempoLactancia: [
                             LactanciaCheckExlusiva ? 'N/A' : { valor: values.tiempoLactancia, fecha: new Date() },
                         ],
                     };
                     console.log('Body', body);
-                    const { data } = await apiURL.post(`lactancia/individual?usuario=${info.usuario}`, body);
+                    const { data } = await apiURL.post(`lactancia/individual?usuario=${id}`, body);
                     console.log(data);
                 }
 
                 if (opc === 'Lactancia materna complementada') {
                     const body = {
-                        usuario: info.usuario,
+                        usuario: id,
                         maternaContemplada: [
                             LactanciaCheckExlusiva ? 'N/A' : { valor: values.opcionLactancia, fecha: new Date() },
                         ],
@@ -210,13 +213,13 @@ const Lactation = ({id}) =>{
                         ],
                     };
                     console.log('Body', body);
-                    const { data } = await apiURL.post(`lactancia/individual?usuario=${info.usuario}`, body);
+                    const { data } = await apiURL.post(`lactancia/individual?usuario=${id}`, body);
                     console.log(data);
                 }
 
                 if (opc === 'Lactancia mixta complementada') {
                     const body = {
-                        usuario: info.usuario,
+                        usuario: id,
                         mixtaContemplada: [
                             LactanciaCheckExlusiva ? 'N/A' : { valor: values.opcionLactancia, fecha: new Date() },
                         ],
@@ -225,13 +228,13 @@ const Lactation = ({id}) =>{
                         ],
                     };
                     console.log('Body', body);
-                    const { data } = await apiURL.post(`lactancia/individual?usuario=${info.usuario}`, body);
+                    const { data } = await apiURL.post(`lactancia/individual?usuario=${id}`, body);
                     console.log(data);
                 }
 
                 if (opc === 'Lactancia artificial complementada') {
                     const body = {
-                        usuario: info.usuario,
+                        usuario: id,
                         artificialContemplada: [
                             LactanciaCheckExlusiva ? 'N/A' : { valor: values.opcionLactancia, fecha: new Date() },
                         ],
@@ -240,7 +243,7 @@ const Lactation = ({id}) =>{
                         ],
                     };
                     console.log('Body', body);
-                    const { data } = await apiURL.post(`lactancia/individual?usuario=${info.usuario}`, body);
+                    const { data } = await apiURL.post(`lactancia/individual?usuario=${id}`, body);
                     console.log(data);
                 }
 

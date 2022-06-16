@@ -9,7 +9,7 @@ import './SolarExposition.scss'
 
 const SolarExposition = ({id}) =>{
     const [form3] = Form.useForm();
-
+    const [info, setInfo] = useState({});
     const [infoExpoSol, setInfoExpoSol] = useState({});
     const [ExpoSolChecBloSolar, setExpoSolCheckBloSolar] = useState({});
 
@@ -24,7 +24,7 @@ const SolarExposition = ({id}) =>{
 
     const getExpoSolar = async () => {
         try {
-            const { data, status } = await apiURL.get(`/exposicionSolar/individual?usuario=${info?.usuario}`);
+            const { data, status } = await apiURL.get(`/exposicionSolar/individual?usuario=${id}`);
 
             if (status === 200 || data.length > 0) {
                 const minutosAlSol = data[0]?.minutosAlSol.map((elem) => elem.valor);
@@ -41,7 +41,6 @@ const SolarExposition = ({id}) =>{
     };
 
     const updateExpoSol = async (values) => {
-        console.log('Aqui estoy ');
         try {
             if (infoExpoSol?.minutosAlSol) {
                 const body = {

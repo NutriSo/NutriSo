@@ -10,7 +10,7 @@ import './OverallStatus.scss'
 
 const OverallStatus = ({id}) =>{
     const [form] = Form.useForm();
-
+    const [info, setInfo] = useState({});
     const [infoEstadoGeneral, setInfoEstadoGenral] = useState({});
     const [generalCheckPYM, setGeneralCheckPYM] = useState({});
     const [generalCheckNa, setGeneralCheckNa] = useState({});
