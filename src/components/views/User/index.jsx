@@ -1,14 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import apiURL from '../../../axios/axiosConfig';
 
-import { DatePicker, Space, Select, Form, message } from 'antd';
-import Popup from './popup';
+import { DatePicker, Space, Select } from 'antd';
 import moment from 'moment';
 import dayjs from 'dayjs';
-
-import { isEmptyArray } from '../../../utils';
-
-
 
 import Weight from '../../commons/UserUpdate/Weight';
 import Circumference from '../../commons/UserUpdate/Circumference';
@@ -19,20 +14,14 @@ import SolarExposition from '../../commons/UserUpdate/SolarExposition';
 import Gastrointestinal from '../../commons/UserUpdate/Gastrointestinal';
 import Lactation from '../../commons/UserUpdate/Lactation';
 import { capitilizeWord } from '../../../utils';
-import { Rules } from '../../../utils/formRules';
 
 import './user.scss';
 
-const standardAvatar = 'https://res.cloudinary.com/dwjv6orjf/image/upload/v1618875313/standard_avatar_txfgx5.png';
+const standardAvatar =
+    'https://res.cloudinary.com/dwjv6orjf/image/upload/v1618875313/standard_avatar_txfgx5.png';
 
-const Usuarios = () => {    
+const Usuarios = () => {
     const [info, setInfo] = useState({});
-    const { Option } = Select;
-
-    const globalUserId = window.location.hash.split('usuarios/')[1].trim();
-    const isPhotoExist = info?.foto && info.foto !== '';
-    const formattedBirthday = dayjs(info.fechaDeNacimiento).format('YYYY-MM-DD');
-    //Variables
     let [name, setName] = useState('');
     let [apellidoP, setApellidoP] = useState('');
     let [apellidoM, setApellidoM] = useState('');
@@ -43,32 +32,13 @@ const Usuarios = () => {
     let [fechaNacimiento, setFechaNacimiento] = useState('');
     let [genero, setGenero] = useState('');
 
-    //Circunferencia
-
-
-    //Campos Corporales
-    
-
-    // Bioquimicos
-    
-
-    //Estado General
-    
-
-    //Exposicion Solar
-    
-
-    //Gastro intestinal
-    
-
-    //Lactancia
-    
+    const globalUserId = window.location.hash.split('usuarios/')[1].trim();
+    const isPhotoExist = info?.foto && info.foto !== '';
+    const formattedBirthday = dayjs(info.fechaDeNacimiento).format('YYYY-MM-DD');
 
     function onChange(date, dateString) {
         setFechaNacimiento(dateString);
     }
-    
-    
 
     useEffect(() => {
         fethInfo();
@@ -79,7 +49,6 @@ const Usuarios = () => {
 
     useEffect(() => {
         if (info?.usuario) {
-            
         }
     }, [info]);
 
@@ -87,7 +56,9 @@ const Usuarios = () => {
         try {
             const userId = window.location.hash.split('usuarios/')[1].trim();
 
-            const { data, status } = await apiURL.get(`/informacionUsuarios/individual?usuario=${userId}`);
+            const { data, status } = await apiURL.get(
+                `/informacionUsuarios/individual?usuario=${userId}`
+            );
 
             setInfo(data);
         } catch (error) {
@@ -96,71 +67,49 @@ const Usuarios = () => {
             console.groupEnd();
         }
     };
-   
-    // console.log(infoLactancia);
-        
-  
-
-    
-    
-    
-
-    function InflamacionInt(e) {
-        const x = e;
-        setInflaInt(x);
-    }
 
     async function GuardarCambios() {
         if (name !== '') {
-
         } else {
             name = info.nombre;
         }
 
         if (apellidoP !== '') {
-
         } else {
             apellidoP = info.apellidoPaterno;
         }
 
         if (apellidoM !== '') {
-            
         } else {
             apellidoM = info.apellidoMaterno;
         }
 
         if (celular !== '') {
-            
         } else {
             celular = info.celular;
         }
 
         if (ciudadResidencia !== '') {
-            
         } else {
             ciudadResidencia = info.ciudadDeResidencia;
         }
 
         if (tiempoResidando !== '') {
-            
         } else {
             tiempoResidando = info.tiempoViviendoAhi;
         }
 
         if (estadoDeNacomiento !== '') {
-            
         } else {
             estadoDeNacomiento = info.estadoDeNacimiento;
         }
 
         if (fechaNacimiento !== '') {
-            
         } else {
             fechaNacimiento = info.fechaDeNacimiento;
         }
 
         if (genero !== '') {
-            
         } else {
             genero = info.genero;
         }
@@ -180,7 +129,10 @@ const Usuarios = () => {
                 genero: genero,
             };
 
-            const res = await apiURL.patch(`/informacionUsuarios/individual?usuario=${userId}`, body);
+            const res = await apiURL.patch(
+                `/informacionUsuarios/individual?usuario=${userId}`,
+                body
+            );
             console.log(res);
         } catch (error) {
             console.groupCollapsed('Error en la funcion fetchInfo');
@@ -191,10 +143,6 @@ const Usuarios = () => {
         fethInfo();
     }
 
-    async function GuardarGastroInt() {}
-
-    async function guardarLactancia() {}
-
     return (
         <>
             <div className='glassbackground'>
@@ -202,7 +150,11 @@ const Usuarios = () => {
                     <div className='basicInfo-Title'>Configuración de perfil</div>
 
                     <div className='profile-imgBasic'>
-                        <img src={isPhotoExist ? info.foto : standardAvatar} className='photo' alt='userImage' />
+                        <img
+                            src={isPhotoExist ? info.foto : standardAvatar}
+                            className='photo'
+                            alt='userImage'
+                        />
                     </div>
 
                     <div className='basicInfo-Name-Container'>
@@ -222,7 +174,9 @@ const Usuarios = () => {
                                 placeholder={info.apellidoPaterno || ''}
                                 type='text'
                                 name='apellidoPaterno'
-                                onChange={(event) => setApellidoP(event.target.value)}></input>
+                                onChange={(event) =>
+                                    setApellidoP(event.target.value)
+                                }></input>
                         </div>
                         <div className='basicInfo-Name-Container2'>
                             <label className='id-name'>Apellido Materno:</label>
@@ -231,7 +185,9 @@ const Usuarios = () => {
                                 placeholder={info.apellidoMaterno || ''}
                                 type='text'
                                 name='apellidoMaterno'
-                                onChange={(event) => setApellidoM(event.target.value)}></input>
+                                onChange={(event) =>
+                                    setApellidoM(event.target.value)
+                                }></input>
                         </div>
                     </div>
                     <div className='basicInfo-homeCel-Container'>
@@ -251,7 +207,9 @@ const Usuarios = () => {
                                 placeholder={info.ciudadDeResidencia || ''}
                                 type='text'
                                 name='ciudad'
-                                onChange={(event) => setCiudadResidencia(event.target.value)}></input>
+                                onChange={(event) =>
+                                    setCiudadResidencia(event.target.value)
+                                }></input>
                         </div>
                         <div className='basicInfo-homeCel-Container2'>
                             <label className='id-name'>Tiempo Residando:</label>
@@ -260,7 +218,9 @@ const Usuarios = () => {
                                 placeholder={capitilizeWord(info.tiempoViviendoAhi || '')}
                                 type='text'
                                 name='residando'
-                                onChange={(event) => setTiempoResidando(event.target.value)}></input>
+                                onChange={(event) =>
+                                    setTiempoResidando(event.target.value)
+                                }></input>
                         </div>
                     </div>
                     <div className='basicInfo-birthPlaceGender-Container'>
@@ -271,12 +231,15 @@ const Usuarios = () => {
                                 placeholder={capitilizeWord(info.estadoDeNacimiento || '')}
                                 type='text'
                                 name='estadoDN'
-                                onChange={(event) => setEstadoDeNacimiento(event.target.value)}></input>
+                                onChange={(event) =>
+                                    setEstadoDeNacimiento(event.target.value)
+                                }></input>
                         </div>
                         <div className='basicInfo-birthPlaceGender-Container2'>
                             <label className='id-name'>Fecha de Nacimiento:</label>
                             <Space direction='vertical'>
-                                {formattedBirthday !== dayjs(new Date()).format('YYYY-MM-DD') && (
+                                {formattedBirthday !==
+                                    dayjs(new Date()).format('YYYY-MM-DD') && (
                                     <DatePicker
                                         defaultValue={moment(formattedBirthday, 'YYYY-MM-DD')}
                                         placeholder={formattedBirthday}
@@ -297,16 +260,18 @@ const Usuarios = () => {
                     </div>
                     <div className='basicInfo-Save-Container'>
                         <div className='basicInfo-Save-Container2'>
-                            <button className='btn-Save-basicInfo' onClick={() => GuardarCambios()}>
+                            <button
+                                className='btn-Save-basicInfo'
+                                onClick={() => GuardarCambios()}>
                                 Save
                             </button>
                         </div>
                     </div>
                 </div>
                 <Weight id={globalUserId} />
-                <Circumference id={globalUserId} /> 
-                <BodyFields id={globalUserId} /> 
-                <BioIndicators id={globalUserId} /> 
+                <Circumference id={globalUserId} />
+                <BodyFields id={globalUserId} />
+                <BioIndicators id={globalUserId} />
                 <OverallStatus id={globalUserId} />
                 <SolarExposition id={globalUserId} />
                 <Gastrointestinal id={globalUserId} />
