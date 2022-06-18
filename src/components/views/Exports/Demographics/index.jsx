@@ -283,8 +283,10 @@ const Demographics = ({ selected = false, setLoading }) => {
 
                 if (index === info4.length - 1) {
                     setFlag5(true);
-                    setFileReady(true);
-                    setLoading(false);
+                    setTimeout(() => {
+                        setFileReady(true);
+                        setLoading(false);
+                    }, 1000);
                 }
             });
         } catch (error) {

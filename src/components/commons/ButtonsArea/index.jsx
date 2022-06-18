@@ -7,7 +7,6 @@ import { Button } from 'antd';
 const ButtonsArea = ({ xlsxData, fileReady }) => {
     useEffect(() => {
         if (fileReady) {
-            //console.log(xlsxData);
             console.log('ready');
             excelDataSource();
         }
