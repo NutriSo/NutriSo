@@ -158,3 +158,9 @@ export const getCurrentAge = (fecha) => {
         console.log('Error al calcular la edad', error);
     }
 };
+
+export const getUserHash = () => {
+    const id = window.location.hash.split('usuarios/')[1].trim();
+
+    return id;
+};

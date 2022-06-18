@@ -6,9 +6,9 @@ import { capitilizeWord } from '../../../../utils';
 import { Rules } from '../../../../utils/formRules';
 import { isEmptyArray } from '../../../../utils';
 
-import './Gastrointestinal.scss'
+import './Gastrointestinal.scss';
 
-const Gastrointestinal = ({id}) =>{
+const Gastrointestinal = ({ id }) => {
     const [form] = Form.useForm();
     const [info, setInfo] = useState({});
     const [infoGastroIn, setInfoGastroIn] = useState({});
@@ -17,18 +17,17 @@ const Gastrointestinal = ({id}) =>{
     const [GasInCheckEstre, setGasInCheckEstre] = useState({});
     const [GasInCheckReflu, setGasInCheckReflu] = useState({});
 
-    
     useEffect(() => {
         getGastroIn();
 
-        return () => {
-            
-        };
+        return () => {};
     }, [id]);
 
     const getGastroIn = async () => {
         try {
-            const { data, status } = await apiURL.get(`/gastroIntestinales/individual?usuario=${id}`);
+            const { data, status } = await apiURL.get(
+                `/gastroIntestinales/individual?usuario=${id}`
+            );
             console.log(data);
             if (status === 200 || data.length > 0) {
                 const inflamacionAbdominal = data?.inflamacionAbdominal;
@@ -41,7 +40,6 @@ const Gastrointestinal = ({id}) =>{
                     diarrea,
                     estreñimiento,
                     reflujo,
-
                 });
             }
         } catch (error) {
@@ -51,33 +49,35 @@ const Gastrointestinal = ({id}) =>{
         }
     };
 
-    
     const updateGastroIn = async (values) => {
-        console.log("hello")
+        console.log('hello');
         const infAbd = !isEmptyArray(infoGastroIn?.inflamacionAbdominal);
         const diar = !isEmptyArray(infoGastroIn?.diarrea);
         const estre = !isEmptyArray(infoGastroIn?.estreñimiento);
         const refl = !isEmptyArray(infoGastroIn?.reflujo);
 
-        const userId = window.location.hash.split('usuarios/')[1].trim();
         try {
             if (infAbd || diar || estre || refl) {
-                
-                
                 const body = {
                     usuario: id,
                     inflamacionAbdominal: [
                         GasInCheckInfAbd ? 'No' : { valor: values.infAbd, fecha: new Date() },
                     ],
                     frecuencia: [
-                        GasInCheckInfAbd ? 'N/A' : { valor: values.fInflaAbd, fecha: new Date() },
+                        GasInCheckInfAbd
+                            ? 'N/A'
+                            : { valor: values.fInflaAbd, fecha: new Date() },
                     ],
 
                     diarrea: [
-                        GasInCheckDiarrea ? 'No' : { valor: values.diarrea, fecha: new Date() },
+                        GasInCheckDiarrea
+                            ? 'No'
+                            : { valor: values.diarrea, fecha: new Date() },
                     ],
                     frecuencia2: [
-                        GasInCheckDiarrea ? 'N/A' : { valor: values.fDiarrea, fecha: new Date() },
+                        GasInCheckDiarrea
+                            ? 'N/A'
+                            : { valor: values.fDiarrea, fecha: new Date() },
                     ],
 
                     estreñimiento: [
@@ -96,27 +96,34 @@ const Gastrointestinal = ({id}) =>{
                     ],
                 };
                 console.log('Body', body);
-                const { data } = await apiURL.patch(`gastroIntestinales/individual?usuario=${id}`, body);
+                const { data } = await apiURL.patch(
+                    `gastroIntestinales/individual?usuario=${id}`,
+                    body
+                );
                 console.log(data);
-                
+
                 console.log('PATCH');
             } else {
-                
-                
                 const body = {
                     usuario: info.usuario,
                     inflamacionAbdominal: [
                         GasInCheckInfAbd ? 'No' : { valor: values.infAbd, fecha: new Date() },
                     ],
                     frecuencia: [
-                        GasInCheckInfAbd ? 'N/A' : { valor: values.fInflaAbd, fecha: new Date() },
+                        GasInCheckInfAbd
+                            ? 'N/A'
+                            : { valor: values.fInflaAbd, fecha: new Date() },
                     ],
 
                     diarrea: [
-                        GasInCheckDiarrea ? 'No' : { valor: values.diarrea, fecha: new Date() },
+                        GasInCheckDiarrea
+                            ? 'No'
+                            : { valor: values.diarrea, fecha: new Date() },
                     ],
                     frecuencia2: [
-                        GasInCheckDiarrea ? 'N/A' : { valor: values.fDiarrea, fecha: new Date() },
+                        GasInCheckDiarrea
+                            ? 'N/A'
+                            : { valor: values.fDiarrea, fecha: new Date() },
                     ],
 
                     estreñimiento: [
@@ -135,7 +142,10 @@ const Gastrointestinal = ({id}) =>{
                     ],
                 };
                 console.log('Body', body);
-                const { data } = await apiURL.post(`gastroIntestinales/individual?usuario=${id}`, body);
+                const { data } = await apiURL.post(
+                    `gastroIntestinales/individual?usuario=${id}`,
+                    body
+                );
                 console.log(data);
 
                 console.log('POST');
@@ -160,11 +170,11 @@ const Gastrointestinal = ({id}) =>{
                             /*rules={[Rules.basicSpanish]}*/
                         >
                             <Select
-                                onChange={(value) => setGasInCheckInfAbd(value === 'No' ? true : false)}
+                                onChange={(value) =>
+                                    setGasInCheckInfAbd(value === 'No' ? true : false)
+                                }
                                 defaultValue={'No'}>
-                                <Option value={'Si'}>
-                                    Si
-                                </Option>
+                                <Option value={'Si'}>Si</Option>
                                 <Option value={'No'}>No</Option>
                             </Select>
                         </Form.Item>
@@ -192,11 +202,11 @@ const Gastrointestinal = ({id}) =>{
                             /*rules={[Rules.basicSpanish]}*/
                         >
                             <Select
-                                onChange={(value) => setGasInCheckDiarrea(value === 'No' ? true : false)}
+                                onChange={(value) =>
+                                    setGasInCheckDiarrea(value === 'No' ? true : false)
+                                }
                                 defaultValue={'No'}>
-                                <Option value={'Si'}>
-                                    Si
-                                </Option>
+                                <Option value={'Si'}>Si</Option>
                                 <Option value={'No'}>No</Option>
                             </Select>
                         </Form.Item>
@@ -224,11 +234,11 @@ const Gastrointestinal = ({id}) =>{
                             /*rules={[Rules.basicSpanish]}*/
                         >
                             <Select
-                                onChange={(value) => setGasInCheckEstre(value === 'No' ? true : false)}
+                                onChange={(value) =>
+                                    setGasInCheckEstre(value === 'No' ? true : false)
+                                }
                                 defaultValue={'No'}>
-                                <Option value={'Si'}>
-                                    Si
-                                </Option>
+                                <Option value={'Si'}>Si</Option>
                                 <Option value={'No'}>No</Option>
                             </Select>
                         </Form.Item>
@@ -256,11 +266,11 @@ const Gastrointestinal = ({id}) =>{
                             /*rules={[Rules.basicSpanish]}*/
                         >
                             <Select
-                                onChange={(value) => setGasInCheckReflu(value === 'No' ? true : false)}
+                                onChange={(value) =>
+                                    setGasInCheckReflu(value === 'No' ? true : false)
+                                }
                                 defaultValue={'No'}>
-                                <Option value={'Si'}>
-                                    Si
-                                </Option>
+                                <Option value={'Si'}>Si</Option>
                                 <Option value={'No'}>No</Option>
                             </Select>
                         </Form.Item>
@@ -293,8 +303,6 @@ const Gastrointestinal = ({id}) =>{
             </Form>
         </div>
     );
-
 };
 
 export default Gastrointestinal;
-

@@ -13,7 +13,7 @@ import OverallStatus from '../../commons/UserUpdate/OverallStatus';
 import SolarExposition from '../../commons/UserUpdate/SolarExposition';
 import Gastrointestinal from '../../commons/UserUpdate/Gastrointestinal';
 import Lactation from '../../commons/UserUpdate/Lactation';
-import { capitilizeWord } from '../../../utils';
+import { capitilizeWord, isInvalidElem, isEmptyString, getUserHash } from '../../../utils';
 
 import './user.scss';
 
@@ -32,8 +32,8 @@ const Usuarios = () => {
     let [fechaNacimiento, setFechaNacimiento] = useState('');
     let [genero, setGenero] = useState('');
 
-    const globalUserId = window.location.hash.split('usuarios/')[1].trim();
-    const isPhotoExist = info?.foto && info.foto !== '';
+    const globalUserId = getUserHash();
+    const isPhotoExist = !isInvalidElem(info?.foto) && !isEmptyString(info?.foto);
     const formattedBirthday = dayjs(info.fechaDeNacimiento).format('YYYY-MM-DD');
 
     function onChange(date, dateString) {
@@ -54,10 +54,8 @@ const Usuarios = () => {
 
     const fethInfo = async () => {
         try {
-            const userId = window.location.hash.split('usuarios/')[1].trim();
-
             const { data, status } = await apiURL.get(
-                `/informacionUsuarios/individual?usuario=${userId}`
+                `/informacionUsuarios/individual?usuario=${globalUserId}`
             );
 
             setInfo(data);
@@ -115,8 +113,6 @@ const Usuarios = () => {
         }
 
         try {
-            const userId = window.location.hash.split('usuarios/')[1].trim();
-
             const body = {
                 nombre: name,
                 apellidoPaterno: apellidoP,
@@ -130,7 +126,7 @@ const Usuarios = () => {
             };
 
             const res = await apiURL.patch(
-                `/informacionUsuarios/individual?usuario=${userId}`,
+                `/informacionUsuarios/individual?usuario=${globalUserId}`,
                 body
             );
             console.log(res);
