@@ -28,6 +28,7 @@ import {
     removeEmptyValues,
     getRowValues,
     unifyArrays,
+    getFoodRow,
 } from '../utils';
 import { KG } from '../constants';
 import { isEmptyObject, removeDuplicatedByKey, waitFor } from '../../../../utils';
@@ -47,7 +48,7 @@ const Groups = ({ selected = false, setLoading }) => {
     ]);
     const [foodReady, setFoodReady] = useState(false);
     const [usersData, setUsersData] = useState([]);
-    const [exportData, setExportData] = useState([]);
+    const [exportData, setExportData] = useState(null);
     const [fileReady, setFileReady] = useState(false);
     const [groupState, setGroupsState] = useState([]);
 
@@ -76,7 +77,7 @@ const Groups = ({ selected = false, setLoading }) => {
 
     const handleCancel = () => {
         setFileReady(false);
-        setExportData([]);
+        setExportData(null);
         setLoading(false);
     };
 
@@ -97,7 +98,14 @@ const Groups = ({ selected = false, setLoading }) => {
                 const { usuario, horario, alimentos, id } = elem;
 
                 const foodArrayInfo = await Promise.all(
-                    alimentos.map(async (el) => await getFoodData(el.id))
+                    alimentos.map(async (el) => {
+                        const res = await getFoodData(el.id);
+
+                        return {
+                            ...res,
+                            cantidad: el.cantidad,
+                        };
+                    })
                 );
                 const date = dayjs(horario).format('DD/MM/YYYY');
 
@@ -169,9 +177,13 @@ const Groups = ({ selected = false, setLoading }) => {
     const createExportData = () => {
         console.log('Armando los datos de exportación...');
         try {
-            const result = getRowValues(usersData);
+            const rows = getRowValues(usersData);
+            const exportedData = getFoodRow(rows);
 
-            console.log({ result });
+            setExportData(exportedData);
+            setTimeout(() => {
+                onFileReady();
+            }, 1000);
         } catch (error) {
             handleCancel();
             message.error('Ocurrió un error al armar los datos para exportar');

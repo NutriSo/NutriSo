@@ -504,13 +504,13 @@ export const getRowValues = (data) => {
     const limpio = data.map((elem) => {
         const { fechaRegistro, idParticipante, idRegistro, ...rest } = elem;
 
-        const ola = removeEmptyValues(rest);
+        const normalizedValues = removeEmptyValues(rest);
 
         return {
             fechaRegistro,
             idRegistro,
             idParticipante,
-            ...ola,
+            ...normalizedValues,
         };
     });
 
@@ -526,12 +526,13 @@ export const getRowValues = (data) => {
 
         ids.push(idRegistro);
 
-        const { values } = rest[0];
+        const { values, id } = rest[0];
 
         const newValue = {
             idRegistro,
             fechaRegistro,
             idParticipante,
+            id,
             values,
         };
 
@@ -552,6 +553,216 @@ export const removeEmptyValues = (data) => {
         if (isEmptyArray(values)) return;
 
         result.push(elem);
+    });
+
+    return result;
+};
+
+export const getFoodRow = (data) => {
+    const result = [];
+    data.forEach((row) => {
+        const { idParticipante, idRegistro, fechaRegistro, ...rest } = row;
+
+        const { values, id } = rest;
+
+        const newRow = {
+            idParticipante,
+            idRegistro,
+            fechaRegistro,
+            grupoExcel: id,
+        };
+
+        values.forEach((food) => {
+            const { cantidad } = food;
+            const {
+                energiaKcal,
+                proteina,
+                lipidos,
+                agSaturados,
+                agMonoinsaturados,
+                agPoliinsaturados,
+                colesterol,
+                omega3,
+                omega6,
+                omega9,
+                hidratosDeCarbono,
+                fibra,
+                fibraInsoluble,
+                azucar,
+                etanol,
+                tiamina,
+                riboflavina,
+                niacina,
+                acidoPantotenico,
+                piridoxina,
+                biotina,
+                cobalamina,
+                acidoAscorbico,
+                acidoFolico,
+                vitaminaA,
+                vitaminaD,
+                vitaminaK,
+                vitaminaE,
+                calcio,
+                fosforo,
+                hierro,
+                hierroNoHem,
+                hierroTotal,
+                magnesio,
+                sodio,
+                potasio,
+                zinc,
+                selenio,
+                indiceGlicemico,
+                cargaGlicemica,
+                factorDeCorreccionParaHuellaHidricaYEGEI,
+                tipo,
+                lugar,
+                huellaHidricaTotal,
+                huellaHidricaVerde,
+                huellaHidricaAzul,
+                huellaHidricaGris,
+                aguaParaLavado,
+                aguaParaCoccion,
+                lugarEGEI,
+                citaEGEI,
+                huellaDeCarbono,
+                huellaEcologica,
+                usoDeSuelo,
+                energiaFosil,
+                nitrogeno,
+                fosforoAmbiental,
+                puntajeEcologico,
+                precio,
+                lugarDeCompra,
+                lugarDeVenta,
+                fitoquimicos,
+                polifenoles,
+                antocianinas,
+                taninos,
+                isoflavonas,
+                resveratrol,
+                isotiocianatos,
+                carotenoides,
+                betacarotenos,
+                licopeno,
+                luteina,
+                alicina,
+                cafeina,
+                ufc,
+                benzoatoDeSodio,
+                polisorbato,
+                azulBrillanteFCFoE133,
+                azurrubinaOE102,
+                amarilloOcasoFDFoE110,
+                tartrazinaOE102,
+                verdeSoE142,
+                negroBrillanteBNoE151,
+                sucralosa,
+                estevia,
+                sacarina,
+                aspartame,
+                acesulfameK,
+                carboxymethylcellulose,
+                dioxidoDeTitanio,
+                monolauratoDeGlicerol,
+            } = normalizeDataByGroupDTO(food, Number(cantidad));
+
+            newRow.energiaKcal = energiaKcal;
+            newRow.proteina = proteina;
+            newRow.lipidos = lipidos;
+            newRow.agSaturados = agSaturados;
+            newRow.agMonoinsaturados = agMonoinsaturados;
+            newRow.agPoliinsaturados = agPoliinsaturados;
+            newRow.colesterol = colesterol;
+            newRow.omega3 = omega3;
+            newRow.omega6 = omega6;
+            newRow.omega9 = omega9;
+            newRow.hidratosDeCarbono = hidratosDeCarbono;
+            newRow.fibra = fibra;
+            newRow.fibraInsoluble = fibraInsoluble;
+            newRow.azucar = azucar;
+            newRow.etanol = etanol;
+            newRow.tiamina = tiamina;
+            newRow.riboflavina = riboflavina;
+            newRow.niacina = niacina;
+            newRow.acidoPantotenico = acidoPantotenico;
+            newRow.piridoxina = piridoxina;
+            newRow.biotina = biotina;
+            newRow.cobalamina = cobalamina;
+            newRow.acidoAscorbico = acidoAscorbico;
+            newRow.acidoFolico = acidoFolico;
+            newRow.vitaminaA = vitaminaA;
+            newRow.vitaminaD = vitaminaD;
+            newRow.vitaminaK = vitaminaK;
+            newRow.vitaminaE = vitaminaE;
+            newRow.calcio = calcio;
+            newRow.fosforo = fosforo;
+            newRow.hierro = hierro;
+            newRow.hierroNoHem = hierroNoHem;
+            newRow.hierroTotal = hierroTotal;
+            newRow.magnesio = magnesio;
+            newRow.sodio = sodio;
+            newRow.potasio = potasio;
+            newRow.zinc = zinc;
+            newRow.selenio = selenio;
+            newRow.indiceGlicemico = indiceGlicemico;
+            newRow.cargaGlicemica = cargaGlicemica;
+            newRow.factorDeCorreccionParaHuellaHidricaYEGEI =
+                factorDeCorreccionParaHuellaHidricaYEGEI;
+            newRow.tipo = tipo;
+            newRow.lugar = lugar;
+            newRow.huellaHidricaTotal = huellaHidricaTotal;
+            newRow.huellaHidricaVerde = huellaHidricaVerde;
+            newRow.huellaHidricaAzul = huellaHidricaAzul;
+            newRow.huellaHidricaGris = huellaHidricaGris;
+            newRow.aguaParaLavado = aguaParaLavado;
+            newRow.aguaParaCoccion = aguaParaCoccion;
+            newRow.lugarEGEI = lugarEGEI;
+            newRow.citaEGEI = citaEGEI;
+            newRow.huellaDeCarbono = huellaDeCarbono;
+            newRow.huellaEcologica = huellaEcologica;
+            newRow.usoDeSuelo = usoDeSuelo;
+            newRow.energiaFosil = energiaFosil;
+            newRow.nitrogeno = nitrogeno;
+            newRow.fosforoAmbiental = fosforoAmbiental;
+            newRow.puntajeEcologico = puntajeEcologico;
+            newRow.precio = precio;
+            newRow.lugarDeCompra = lugarDeCompra;
+            newRow.lugarDeVenta = lugarDeVenta;
+            newRow.fitoquimicos = fitoquimicos;
+            newRow.polifenoles = polifenoles;
+            newRow.antocianinas = antocianinas;
+            newRow.taninos = taninos;
+            newRow.isoflavonas = isoflavonas;
+            newRow.resveratrol = resveratrol;
+            newRow.isotiocianatos = isotiocianatos;
+            newRow.carotenoides = carotenoides;
+            newRow.betacarotenos = betacarotenos;
+            newRow.licopeno = licopeno;
+            newRow.luteina = luteina;
+            newRow.alicina = alicina;
+            newRow.cafeina = cafeina;
+            newRow.ufc = ufc;
+            newRow.benzoatoDeSodio = benzoatoDeSodio;
+            newRow.polisorbato = polisorbato;
+            newRow.azulBrillanteFCFoE133 = azulBrillanteFCFoE133;
+            newRow.azurrubinaOE102 = azurrubinaOE102;
+            newRow.amarilloOcasoFDFoE110 = amarilloOcasoFDFoE110;
+            newRow.tartrazinaOE102 = tartrazinaOE102;
+            newRow.verdeSoE142 = verdeSoE142;
+            newRow.negroBrillanteBNoE151 = negroBrillanteBNoE151;
+            newRow.sucralosa = sucralosa;
+            newRow.estevia = estevia;
+            newRow.sacarina = sacarina;
+            newRow.aspartame = aspartame;
+            newRow.acesulfameK = acesulfameK;
+            newRow.carboxymethylcellulose = carboxymethylcellulose;
+            newRow.dioxidoDeTitanio = dioxidoDeTitanio;
+            newRow.monolauratoDeGlicerol = monolauratoDeGlicerol;
+        });
+
+        result.push(newRow);
     });
 
     return result;
