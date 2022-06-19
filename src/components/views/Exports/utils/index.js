@@ -31,16 +31,110 @@ export const getArrayByGroups = (groups) => {
 export const normalizeArrayToExport = ({ state, group, food }) => {
     if (isInvalidElem(state) || isInvalidElem(group) || isInvalidElem(food)) return [];
 
-    const groupIndex = state.findIndex(({ id }) => id === group);
+    const auxState = state;
+    const groupIndex = auxState.findIndex(({ id }) => id === group);
 
     if (groupIndex === -1) return;
 
-    const currentState = state[groupIndex];
+    const currentState = auxState[groupIndex];
     currentState.values = [...currentState.values, food];
 
-    state[groupIndex] = currentState;
+    auxState[groupIndex] = currentState;
 
-    return state;
+    return auxState;
+};
+
+export const unifyArrays = (state) => {
+    if (isInvalidElem(state)) return [];
+
+    let result = [];
+
+    const newArray0 = state[0].map((item) => ({
+        ...item,
+        values: [...item.values, ...state[1].find(({ id }) => item.id === id).values],
+    }));
+
+    const newArray1 = newArray0.map((item) => ({
+        ...item,
+        values: [...item.values, ...state[2].find(({ id }) => item.id === id).values],
+    }));
+
+    const newArray2 = newArray1.map((item) => ({
+        ...item,
+        values: [...item.values, ...state[3].find(({ id }) => item.id === id).values],
+    }));
+
+    const newArray3 = newArray2.map((item) => ({
+        ...item,
+        values: [...item.values, ...state[4].find(({ id }) => item.id === id).values],
+    }));
+
+    const newArray4 = newArray3.map((item) => ({
+        ...item,
+        values: [...item.values, ...state[5].find(({ id }) => item.id === id).values],
+    }));
+
+    const newArray5 = newArray4.map((item) => ({
+        ...item,
+        values: [...item.values, ...state[6].find(({ id }) => item.id === id).values],
+    }));
+
+    const newArray6 = newArray5.map((item) => ({
+        ...item,
+        values: [...item.values, ...state[7].find(({ id }) => item.id === id).values],
+    }));
+
+    const newArray7 = newArray6.map((item) => ({
+        ...item,
+        values: [...item.values, ...state[8].find(({ id }) => item.id === id).values],
+    }));
+
+    const newArray8 = newArray7.map((item) => ({
+        ...item,
+        values: [...item.values, ...state[9].find(({ id }) => item.id === id).values],
+    }));
+
+    const newArray9 = newArray8.map((item) => ({
+        ...item,
+        values: [...item.values, ...state[10].find(({ id }) => item.id === id).values],
+    }));
+
+    const newArray10 = newArray9.map((item) => ({
+        ...item,
+        values: [...item.values, ...state[11].find(({ id }) => item.id === id).values],
+    }));
+
+    const newArray11 = newArray10.map((item) => ({
+        ...item,
+        values: [...item.values, ...state[12].find(({ id }) => item.id === id).values],
+    }));
+
+    const newArray12 = newArray11.map((item) => ({
+        ...item,
+        values: [...item.values, ...state[13].find(({ id }) => item.id === id).values],
+    }));
+
+    const newArray13 = newArray12.map((item) => ({
+        ...item,
+        values: [...item.values, ...state[14].find(({ id }) => item.id === id).values],
+    }));
+
+    const newArray14 = newArray13.map((item) => ({
+        ...item,
+        values: [...item.values, ...state[15].find(({ id }) => item.id === id).values],
+    }));
+
+    const newArray15 = newArray14.map((item) => ({
+        ...item,
+        values: [...item.values, ...state[16].find(({ id }) => item.id === id).values],
+    }));
+
+    const newArray16 = newArray15.map((item) => ({
+        ...item,
+        values: [...item.values, ...state[17].find(({ id }) => item.id === id).values],
+    }));
+
+    return newArray16;
 };
 
 export const getCharacteristicColumns = () => {
@@ -402,4 +496,71 @@ export const getPropSum = (firstProp, secondProp) => {
     if (isNaN(secondValue)) return 0;
 
     return firstValue + secondValue;
+};
+
+export const getRowValues = (data) => {
+    if (isInvalidElem(data)) return [];
+
+    const trashData = [];
+    const founded = [];
+    const finalResult = [];
+    const aux = [];
+
+    data.forEach((reg, index) => {
+        const { fechaRegistro, idParticipante, idRegistro, ...rest } = reg;
+
+        const result = removeEmptyValues(rest)?.flat(1);
+
+        aux.push({
+            fechaRegistro,
+            idParticipante,
+            idRegistro,
+            ...result,
+        });
+        trashData.push(result);
+    });
+
+    const auxData = trashData.flat(1);
+
+    auxData.forEach((elem) => {
+        const { id, value } = elem;
+
+        if (founded.length === 0) {
+            founded.push(id);
+            finalResult.push(elem);
+            return;
+        }
+
+        if (!founded.includes(id)) {
+            founded.push(id);
+            finalResult.push(elem);
+            return;
+        }
+
+        const index = finalResult.findIndex((item) => item.id === id);
+
+        const prevValue = finalResult[index].values;
+
+        finalResult[index].values = [...prevValue, value];
+        founded.push(id);
+    });
+
+    return finalResult;
+};
+
+export const removeEmptyValues = (data) => {
+    if (isInvalidElem(data)) return {};
+    console.log({ data });
+    const result = [];
+    const normalizedData = Object.values(data);
+
+    normalizedData.forEach((elem) => {
+        const { values } = elem;
+
+        if (isEmptyArray(values)) return;
+
+        result.push(elem);
+    });
+
+    return result;
 };
