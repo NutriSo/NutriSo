@@ -501,62 +501,54 @@ export const getPropSum = (firstProp, secondProp) => {
 export const getRowValues = (data) => {
     if (isInvalidElem(data)) return [];
 
-    const trashData = [];
-    const founded = [];
-    const finalResult = [];
-    const aux = [];
+    const limpio = data.map((elem) => {
+        const { fechaRegistro, idParticipante, idRegistro, ...rest } = elem;
 
-    data.forEach((reg, index) => {
-        const { fechaRegistro, idParticipante, idRegistro, ...rest } = reg;
+        const ola = removeEmptyValues(rest);
 
-        const result = removeEmptyValues(rest)?.flat(1);
+        return {
+            fechaRegistro,
+            idRegistro,
+            idParticipante,
+            ...ola,
+        };
+    });
 
-        aux.push({
+    const ids = [];
+    const result = [];
+
+    limpio.map((elem) => {
+        const { fechaRegistro, idRegistro, idParticipante, ...rest } = elem;
+
+        const isDuplicated = ids.includes(idRegistro);
+
+        if (isDuplicated) return;
+
+        ids.push(idRegistro);
+
+        const { values } = rest[0];
+
+        const newValue = {
+            idRegistro,
             fechaRegistro,
             idParticipante,
-            idRegistro,
-            ...result,
-        });
-        trashData.push(result);
+            values,
+        };
+
+        result.push(newValue);
     });
 
-    const auxData = trashData.flat(1);
-
-    auxData.forEach((elem) => {
-        const { id, value } = elem;
-
-        if (founded.length === 0) {
-            founded.push(id);
-            finalResult.push(elem);
-            return;
-        }
-
-        if (!founded.includes(id)) {
-            founded.push(id);
-            finalResult.push(elem);
-            return;
-        }
-
-        const index = finalResult.findIndex((item) => item.id === id);
-
-        const prevValue = finalResult[index].values;
-
-        finalResult[index].values = [...prevValue, value];
-        founded.push(id);
-    });
-
-    return finalResult;
+    return result;
 };
 
 export const removeEmptyValues = (data) => {
     if (isInvalidElem(data)) return {};
-    console.log({ data });
+
     const result = [];
     const normalizedData = Object.values(data);
 
     normalizedData.forEach((elem) => {
         const { values } = elem;
-
         if (isEmptyArray(values)) return;
 
         result.push(elem);

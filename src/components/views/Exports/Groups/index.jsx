@@ -168,38 +168,10 @@ const Groups = ({ selected = false, setLoading }) => {
 
     const createExportData = () => {
         console.log('Armando los datos de exportación...');
-        const hola = usersData.map((item) => {
-            const { fechaRegistro, idParticipante, idRegistro, ...rest } = item;
-            const help = Object.assign(rest);
-
-            const newData = {
-                idRegistro,
-                fechaRegistro,
-                idParticipante,
-            };
-            console.log('1: ', typeof rest, '2: ', typeof help, '3: ', help);
-            return '';
-        });
-
-        // const rows = getRowValues(usersData);
-        // const foodState = unifyArrays(groupState);
-        // const onlyWithValues = removeEmptyValues(usersData);
-        // console.log({ onlyWithValues, foodState, rows });
         try {
-            onlyWithValues.forEach((reg, index) => {
-                // console.log('->', correctObject);
-                // reg.forEach((elem, index) => {
-                //     console.log({ elem });
-                // });
-                //const { id: grupo, values: alimentosPorGrupo } = reg;
-                // let results = {};
-                // alimentosPorGrupo.forEach((food) => {
-                //     const quantity = Number(food.cantidad ?? 1);
-                //     const newState = normalizeDataByGroupDTO(food, quantity);
-                //     results = normalizeSumByGroupDTO(results, newState);
-                // });
-                // if (!isEmptyObject(results)) setExportData([...exportData, results]);
-            });
+            const result = getRowValues(usersData);
+
+            console.log({ result });
         } catch (error) {
             handleCancel();
             message.error('Ocurrió un error al armar los datos para exportar');
