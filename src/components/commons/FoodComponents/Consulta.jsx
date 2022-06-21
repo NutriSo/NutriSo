@@ -15,7 +15,9 @@ import styles from './Consulta.module.scss';
 
 const Consulta = ({ onClick }) => {
     const [data, setData] = useState([]);
+    const [allData, setAllData] = useState([]);
     const [page, setPage] = useState(1);
+    const [isSearching, setIsSearching] = useState(false);
     const [loadingFile, setLoadingFile] = useState(false);
     const [exportedData, setExportedData] = useState([]);
     const [fileReady, setFileReady] = useState(false);
@@ -25,7 +27,7 @@ const Consulta = ({ onClick }) => {
     const scrollRef = useRef();
 
     const fetchItems = useCallback(async () => {
-        if (isLoading || page > 17) {
+        if (isLoading || page > 17 || isSearching) {
             return;
         }
         setIsLoading(true);
@@ -48,13 +50,15 @@ const Consulta = ({ onClick }) => {
         }
     }, [isLoading]);
 
-    const hasMoreItems = page < 17;
+    const hasMoreItems = page < 17 || isSearching;
 
     useEffect(() => {
         fetchData();
+        fetchAllData();
         return () => {
             setPage(1);
             setData([]);
+            setAllData([]);
             setFilterData([]);
             setLoadingFile(false);
         };
@@ -79,10 +83,21 @@ const Consulta = ({ onClick }) => {
         }
     };
 
+    const fetchAllData = async () => {
+        try {
+            const { data } = await apiURL.get('/alimentos/all');
+            setAllData(data);
+        } catch (error) {
+            message.error(`Error: ${error.message}`);
+        }
+    };
+
     const onSearch = ({ target }) => {
-        setFilterData(
-            data.filter((alimento) => alimento.nombreAlimento.includes(target.value))
+        setIsSearching(true);
+        const filteredData = alldata.filter((alimento) =>
+            alimento.nombreAlimento.includes(target.value)
         );
+        setFilterData(filterData);
     };
 
     const getExportData = async () => {
