@@ -510,36 +510,59 @@ export const getRowValues = (data) => {
             fechaRegistro,
             idRegistro,
             idParticipante,
-            ...normalizedValues,
+            ...normalizedValues[0],
         };
     });
 
-    const ids = [];
-    const result = [];
+    const userIDs = [];
+    const resultByUsers = [];
+    limpio.forEach((elem) => {
+        const { idParticipante, values, ...rest } = elem;
 
-    limpio.map((elem) => {
-        const { fechaRegistro, idRegistro, idParticipante, ...rest } = elem;
+        if (userIDs.includes(idParticipante)) {
+            const index = resultByUsers.findIndex((item) => {
+                return item.idParticipante === idParticipante;
+            });
 
-        const isDuplicated = ids.includes(idRegistro);
+            const prevData = resultByUsers[index];
 
-        if (isDuplicated) return;
+            prevData.values.push(values[0]);
 
-        ids.push(idRegistro);
+            return;
+        }
 
-        const { values, id } = rest[0];
-
-        const newValue = {
-            idRegistro,
-            fechaRegistro,
-            idParticipante,
-            id,
-            values,
-        };
-
-        result.push(newValue);
+        resultByUsers.push(elem);
+        userIDs.push(idParticipante);
     });
 
-    return result;
+    return resultByUsers;
+
+    // const ids = [];
+    // const result = [];
+
+    // limpio.map((elem) => {
+    //     const { fechaRegistro, idRegistro, idParticipante, ...rest } = elem;
+
+    //     const isDuplicated = ids.includes(idParticipante);
+
+    //     if (isDuplicated) return;
+
+    //     ids.push(idRegistro);
+
+    //     const { values, id } = rest;
+
+    //     const newValue = {
+    //         idRegistro,
+    //         fechaRegistro,
+    //         idParticipante,
+    //         id,
+    //         values,
+    //     };
+
+    //     result.push(newValue);
+    // });
+
+    // return result;
 };
 
 export const removeEmptyValues = (data) => {

@@ -93,6 +93,7 @@ const Groups = ({ selected = false, setLoading }) => {
             }
 
             const usersAux = [];
+            const groupsAux = [];
 
             data.map(async (elem, dataIndex) => {
                 const { usuario, horario, alimentos, id } = elem;
@@ -133,6 +134,7 @@ const Groups = ({ selected = false, setLoading }) => {
                         ...newState,
                     };
                     usersAux.push(auxSuper);
+                    groupsAux.push(newState);
                     setGroupsState((s) => [...s, newState]);
                 });
                 // if (dataIndex === data.length - 1) {
@@ -179,11 +181,11 @@ const Groups = ({ selected = false, setLoading }) => {
         try {
             const rows = getRowValues(usersData);
             const exportedData = getFoodRow(rows);
-
-            setExportData(exportedData);
-            setTimeout(() => {
-                onFileReady();
-            }, 1000);
+            console.log({ rows });
+            // setExportData(exportedData);
+            // setTimeout(() => {
+            //     onFileReady();
+            // }, 1000);
         } catch (error) {
             handleCancel();
             message.error('Ocurrió un error al armar los datos para exportar');
