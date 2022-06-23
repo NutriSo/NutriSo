@@ -7,7 +7,7 @@ import Circunferencia from '../../Charts/Circunferencia';
 
 import './Circumference.scss';
 
-const Circumference = ({id}) =>{
+const Circumference = ({ id }) => {
     const [infoCircunferencia, setInfoCircunferencia] = useState({});
     const [circunferenciaDates, setCircunferenciaDates] = useState({
         cintura: '',
@@ -16,7 +16,7 @@ const Circumference = ({id}) =>{
     const [cinturaEntry, setCinturaEn] = useState(-1);
     const [caderaEntry, setCaderaEn] = useState(-1);
 
-    
+
     useEffect(() => {
         getCircunferencias();
 
@@ -111,102 +111,97 @@ const Circumference = ({id}) =>{
 
 
     return (
-        <div className='containerCircunferencia'>
-                    <div className='basicInfo-Title'>Circunferencia</div>
-                    <div className='circunferencia-Container3'>
+        <>
+            <div className='basicContainer'> {/**containerCircunferencia, basicInfo-Title */}
+                <div className='containData'>
+                    <h2>Circunferencia</h2>
+                    <div className='basicInfo-Container-Slide'> {/** No se le aplica el Slide porque es un canvas puedo quitar el Slide de aqui */}
                         {infoCircunferencia?.cintura?.length > 0 && (
                             <Circunferencia data={infoCircunferencia} dates={circunferenciaDates.cadera} />
                         )}
                     </div>
-                    {/*Fin de grafica----------------------------------------------------------------*/}
-                    <div>
-                        <div className='circunferencia-Container'>
-                            <div className='campoCor-Container2'>
-                                <input
-                                    type='button'
-                                    value='Agregar'
-                                    onClick={togglePopup}
-                                    className='btn-see-circunferencia'
-                                />
-                                {isOpen && (
-                                    <Popup
-                                        content={
-                                            <>
-                                                <b>Agregando un nuevo valor</b>
-                                                <div>
-                                                    <div className='circunferencia-Container'>
-                                                        <div className='circunferencia-Container4'>
-                                                            <label className='label-circunferencia'>Cintura:</label>
-                                                            <input
-                                                                className='input-circunferencia'
-                                                                type='number'
-                                                                name='numero'
-                                                                min={0}
-                                                                placeholder={''}
-                                                                onChange={(event) =>
-                                                                    setCinturaEn(event.target.value)
-                                                                }></input>
-                                                        </div>
-                                                        <div className='circunferencia-Container4'>
-                                                            <label className='label-circunferencia'>Cadera:</label>
-                                                            <input
-                                                                className='input-circunferencia'
-                                                                type='number'
-                                                                name='numero'
-                                                                min={0}
-                                                                placeholder={''}
-                                                                onChange={(event) =>
-                                                                    setCaderaEn(event.target.value)
-                                                                }></input>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <button
-                                                    className='btn-see-circunferencia'
-                                                    onClick={updateCinturas}
-                                                    value='Add'>
-                                                    Agregar
-                                                </button>
-                                            </>
-                                        }
-                                        handleClose={togglePopup}
-                                    />
-                                )}
-                            </div>
-                        </div>
-                    </div>
+                </div>            
+            </div>
 
-                    {/*PopUpError----------------------------------------------------------------*/}
-                    <div>
-                        <div className='campCor-Container'>
-                            <div className='campoCor-Container2'>
-                                <p></p>
-                                {isOpenError && (
-                                    <Popup
-                                        content={
-                                            <>
-                                                <b>Error</b>
-                                                <div>
-                                                    <div className='campoCor-Container'>
-                                                        <div className='campCor-Container4'>
-                                                            <label className='label-campCor'>
-                                                                Porfavor ingrese todos los campos para guardar
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <button className='btn-see-camCor' onClick={closeError} value='Add'>
-                                                    Okay
-                                                </button>
-                                            </>
-                                        }
-                                        handleClose={togglePopupError}
-                                    />
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            {/*PopUpAgregarCircunferencia----------------------------------------------------------------*/}
+            <div className='basicContainer'>
+                <input
+                    type='button'
+                    value='Agregar'
+                    onClick={togglePopup}
+                    className='btn-see-circunferencia'
+                />
+                {isOpen && (
+                    <Popup
+                        content={
+                            <>
+                                <strong><p>Agregando un nuevo valor</p></strong>
+                                <div className='basicInfo-Container'>
+                                    <div className='entradas'>
+                                        <div className="labels">
+                                            <label className='label-circunferencia'>Cintura:</label>
+                                        </div>
+                                        <div className="inputs">
+                                            <input
+                                                className='lb-name'
+                                                type='number'
+                                                name='numero'
+                                                min={0}
+                                                placeholder={''}
+                                                onChange={(event) =>
+                                                    setCinturaEn(event.target.value)
+                                                }></input>
+                                        </div>
+                                    </div>
+                                    <div className="entradas">
+                                        <div className="labels">
+                                            <label className='label-circunferencia'>Cadera:</label>
+                                        </div>
+                                        <div className="inputs">
+                                            <input
+                                                className='lb-name'
+                                                type='number'
+                                                name='numero'
+                                                min={0}
+                                                placeholder={''}
+                                                onChange={(event) =>
+                                                    setCaderaEn(event.target.value)
+                                                }></input>
+                                        </div>
+                                    </div>
+                                </div>                                
+                                
+                                <br />
+                                <button
+                                    className='btn-see-circunferencia'
+                                    onClick={updateCinturas}
+                                    value='Add'>
+                                    Agregar
+                                </button>
+                            </>
+                        }
+                        handleClose={togglePopup}
+                    />
+                )}
+            </div>
+
+            {/*PopUpError----------------------------------------------------------------*/}
+            {isOpenError && (
+                <Popup
+                    content={
+                        <>
+                            <strong><p>Error</p></strong>
+                            <center><p>Porfavor ingrese todos los campos para guardar</p></center>
+
+                            <button className='btn-see-circunferencia' onClick={closeError} value='Add'>
+                                Okay
+                            </button>
+                        </>
+                    }
+                    handleClose={togglePopupError}
+                />
+            )}            
+        </>
     );
 
 };

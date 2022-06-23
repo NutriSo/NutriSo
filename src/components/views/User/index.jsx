@@ -141,138 +141,177 @@ const Usuarios = () => {
 
     return (
         <>
-            <div className='glassbackground'>
-                <div className='containerBasicInfo'>
-                    <div className='basicInfo-Title'>Configuración de perfil</div>
-
+            <div className='basicContainer'>
+                <div className="containData">
                     <div className='profile-imgBasic'>
                         <img
                             src={isPhotoExist ? info.foto : standardAvatar}
                             className='photo'
                             alt='userImage'
                         />
+                        <h2>Configuración de perfil</h2>
                     </div>
 
-                    <div className='basicInfo-Name-Container'>
-                        <div className='basicInfo-Name-Container2'>
-                            <label className='id-name'>Nombre:</label>
-                            <input
-                                className='lb-name'
-                                placeholder={info.nombre || ''}
-                                type='text'
-                                name='nombre'
-                                onChange={(event) => setName(event.target.value)}></input>
+                    <div className='basicInfo-Container'>
+                        <div className="entradas">
+                            <div className="labels">
+                                <label className='id-name'>Nombre:</label>
+                            </div>
+                            <div className="inputs">
+                                <input
+                                    className='lb-name'
+                                    placeholder={info.nombre || ''}
+                                    type='text'
+                                    name='nombre'
+                                    onChange={(event) => setName(event.target.value)}></input>
+                            </div>
                         </div>
-                        <div className='basicInfo-Name-Container2'>
-                            <label className='id-name'>Apellido Paterno:</label>
-                            <input
-                                className='lb-name'
-                                placeholder={info.apellidoPaterno || ''}
-                                type='text'
-                                name='apellidoPaterno'
-                                onChange={(event) =>
-                                    setApellidoP(event.target.value)
-                                }></input>
+
+                        <div className="entradas">
+                            <div className="labels">
+                                <label className='id-name'>Apellido Paterno:</label>
+                            </div>
+                            <div className="inputs">
+                                <input
+                                    className='lb-name'
+                                    placeholder={info.apellidoPaterno || ''}
+                                    type='text'
+                                    name='apellidoPaterno'
+                                    onChange={(event) =>
+                                        setApellidoP(event.target.value)
+                                    }></input>
+                            </div>
                         </div>
-                        <div className='basicInfo-Name-Container2'>
-                            <label className='id-name'>Apellido Materno:</label>
-                            <input
-                                className='lb-name'
-                                placeholder={info.apellidoMaterno || ''}
-                                type='text'
-                                name='apellidoMaterno'
-                                onChange={(event) =>
-                                    setApellidoM(event.target.value)
-                                }></input>
-                        </div>
-                    </div>
-                    <div className='basicInfo-homeCel-Container'>
-                        <div className='basicInfo-homeCel-Container2'>
-                            <label className='id-name'>Celular:</label>
-                            <input
-                                className='lb-name'
-                                placeholder={info.celular || ''}
-                                type='number'
-                                name='celular'
-                                onChange={(event) => setCelular(event.target.value)}></input>
-                        </div>
-                        <div className='basicInfo-homeCel-Container2'>
-                            <label className='id-name'>Ciudad de residencia:</label>
-                            <input
-                                className='lb-name'
-                                placeholder={info.ciudadDeResidencia || ''}
-                                type='text'
-                                name='ciudad'
-                                onChange={(event) =>
-                                    setCiudadResidencia(event.target.value)
-                                }></input>
-                        </div>
-                        <div className='basicInfo-homeCel-Container2'>
-                            <label className='id-name'>Tiempo Residando:</label>
-                            <input
-                                className='lb-name'
-                                placeholder={capitilizeWord(info.tiempoViviendoAhi || '')}
-                                type='text'
-                                name='residando'
-                                onChange={(event) =>
-                                    setTiempoResidando(event.target.value)
-                                }></input>
+
+                        <div className="entradas">
+                            <div className="labels">
+                                <label className='id-name'>Apellido Materno:</label>
+                            </div>
+                            <div className="inputs">
+                                <input
+                                    className='lb-name'
+                                    placeholder={info.apellidoMaterno || ''}
+                                    type='text'
+                                    name='apellidoMaterno'
+                                    onChange={(event) =>
+                                        setApellidoM(event.target.value)
+                                    }></input>
+                            </div>
                         </div>
                     </div>
-                    <div className='basicInfo-birthPlaceGender-Container'>
-                        <div className='basicInfo-birthPlaceGender-Container2'>
-                            <label className='id-name'>Estado de Nacimiento:</label>
-                            <input
-                                className='lb-name'
-                                placeholder={capitilizeWord(info.estadoDeNacimiento || '')}
-                                type='text'
-                                name='estadoDN'
-                                onChange={(event) =>
-                                    setEstadoDeNacimiento(event.target.value)
-                                }></input>
+
+                    <div className='basicInfo-Container'>
+                        <div className="entradas">
+                            <div className='labels'>
+                                <label className='id-name'>Celular:</label>
+                            </div>
+                            <div className="inputs">
+                                <input
+                                    className='lb-name'
+                                    placeholder={info.celular || ''}
+                                    type='number'
+                                    name='celular'
+                                    onChange={(event) => setCelular(event.target.value)}></input>
+                            </div>
                         </div>
-                        <div className='basicInfo-birthPlaceGender-Container2'>
-                            <label className='id-name'>Fecha de Nacimiento:</label>
-                            <Space direction='vertical'>
-                                {formattedBirthday !==
-                                    dayjs(new Date()).format('YYYY-MM-DD') && (
-                                    <DatePicker
-                                        defaultValue={moment(formattedBirthday, 'YYYY-MM-DD')}
-                                        placeholder={formattedBirthday}
-                                        onChange={onChange}
-                                    />
-                                )}
-                            </Space>
+                        <div className="entradas">
+                            <div className='labels'>
+                                <label className='id-name'>Ciudad de residencia:</label>
+                            </div>
+                            <div className="inputs">
+                                <input
+                                    className='lb-name'
+                                    placeholder={info.ciudadDeResidencia || ''}
+                                    type='text'
+                                    name='ciudad'
+                                    onChange={(event) =>
+                                        setCiudadResidencia(event.target.value)
+                                    }></input>
+                            </div>
                         </div>
-                        <div className='basicInfo-birthPlaceGender-Container2'>
-                            <label className='id-name'>Genero:</label>
-                            <input
-                                className='lb-name'
-                                placeholder={capitilizeWord(info.genero || '')}
-                                type='text'
-                                name='genero'
-                                onChange={(event) => setGenero(event.target.value)}></input>
+                        <div className="entradas">
+                            <div className='labels'>
+                                <label className='id-name'>Tiempo Residando:</label>
+                            </div>
+                            <div className="inputs">
+                                <input
+                                    className='lb-name'
+                                    placeholder={capitilizeWord(info.tiempoViviendoAhi || '')}
+                                    type='text'
+                                    name='residando'
+                                    onChange={(event) =>
+                                        setTiempoResidando(event.target.value)
+                                    }></input>
+                            </div>
                         </div>
                     </div>
-                    <div className='basicInfo-Save-Container'>
-                        <div className='basicInfo-Save-Container2'>
-                            <button
-                                className='btn-Save-basicInfo'
-                                onClick={() => GuardarCambios()}>
-                                Save
-                            </button>
+
+                    <div className='basicInfo-Container'>
+                        <div className="entradas">
+                            <div className='labels'>
+                                <label className='id-name'>Estado de Nacimiento:</label>
+                            </div>
+                            <div className="inputs">
+                                <input
+                                    className='lb-name'
+                                    placeholder={capitilizeWord(info.estadoDeNacimiento || '')}
+                                    type='text'
+                                    name='estadoDN'
+                                    onChange={(event) =>
+                                        setEstadoDeNacimiento(event.target.value)
+                                    }></input>
+                            </div>
                         </div>
+
+                        <div className='entradas'>
+                            <div className="labels">
+                                <label className='id-name'>Fecha de Nacimiento:</label>
+                            </div>
+                            <div className="inputs">
+                                <Space direction='vertical'>
+                                    {formattedBirthday !==
+                                        dayjs(new Date()).format('YYYY-MM-DD') && (
+                                            <DatePicker
+                                                defaultValue={moment(formattedBirthday, 'YYYY-MM-DD')}
+                                                placeholder={formattedBirthday}
+                                                onChange={onChange}
+                                            />
+                                        )}
+                                </Space>
+                            </div>
+                        </div>
+                        <div className='entradas'>
+                            <div className="labels">
+                                <label className='id-name'>Genero:</label>
+                            </div>
+                            <div className="inputs">
+                                <input
+                                    className='lb-name'
+                                    placeholder={capitilizeWord(info.genero || '')}
+                                    type='text'
+                                    name='genero'
+                                    onChange={(event) => setGenero(event.target.value)}></input>
+                            </div>
+                        </div>
+                    </div>
+                    <div className='basicInfo-Save'>
+                        <button
+                            className='btn-Save-basicInfo'
+                            onClick={() => GuardarCambios()}>
+                            Save
+                        </button>
                     </div>
                 </div>
-                <Weight id={globalUserId} />
-                <Circumference id={globalUserId} />
-                <BodyFields id={globalUserId} />
-                <BioIndicators id={globalUserId} />
-                <OverallStatus id={globalUserId} />
-                <SolarExposition id={globalUserId} />
-                <Gastrointestinal id={globalUserId} />
-                <Lactation id={globalUserId} />
             </div>
+
+            <Weight id={globalUserId} />
+            <Circumference id={globalUserId} />
+            <BodyFields id={globalUserId} />
+            <BioIndicators id={globalUserId} />
+            <OverallStatus id={globalUserId} />
+            <SolarExposition id={globalUserId} />
+            <Gastrointestinal id={globalUserId} />
+            <Lactation id={globalUserId} />
         </>
     );
 };

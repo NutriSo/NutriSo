@@ -1,16 +1,5 @@
-.glassbackground {
-    /* From https://css.glass */
-    background: rgba(110, 156, 213, 0.46);
-    border-radius: 16px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    border: 1px solid rgba(110, 156, 213, 0.3);
-    height: 100%;
-    align-items: center;
-}
 
-.containerBasicInfo {
+/*.containerBasicInfo {
     width: 60%;
     //background-color: white;
     margin-left: 20%;
@@ -21,14 +10,14 @@
     align-items: center;
     border-radius: 10px;
     border: solid 2px black;
-    /* From https://css.glass */
+    /* From https://css.glass 
     background: rgba(81, 118, 139, 0.2);
     border-radius: 16px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
     border: 1px solid rgba(52, 202, 222, 0.3);
-}
+}*/
 
 .basicInfo-Title {
     width: 90%;
@@ -64,7 +53,8 @@
     font-weight: 800;
     font-size: x-large;
 }
-.profile-imgBasic {
+
+/*.profile-imgBasic {
     position: relative;
     width: 98px;
     height: 98px;
@@ -78,6 +68,7 @@
     //Shadow
     box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.3);
 }
+*/
 
 .photo {
     width: 94px;
@@ -85,7 +76,7 @@
     border-radius: 64px;
 }
 
-.basicInfo-Name-Container {
+/*.basicInfo-Name-Container {
     width: 90%;
     //background-color: red;
     display: flex;
@@ -93,7 +84,7 @@
     justify-content: space-around;
     align-items: center;
     height: 15%;
-}
+}*/
 
 .basicInfo-Name-Container2 {
     width: 80%;
@@ -149,10 +140,10 @@
     height: 100%;
 }
 
-.id-name {
+/*.id-name {
     margin-left: 0px;
     font-weight: 600;
-}
+}*/
 
 .lb-name {
     background-color: white;
@@ -231,7 +222,7 @@
     height: 50%;
 }
 
-.btn-Save-basicInfo {
+/*.btn-Save-basicInfo {
     background-color: rgb(159, 245, 163);
     width: 70vh;
     display: flex;
@@ -243,6 +234,7 @@
     font-size: larger;
     border-radius: 10px;
 }
+*/@at-root
 .btn-Save-basicInfo2 {
     background-color: rgb(159, 245, 163);
     width: 70vh;
@@ -379,7 +371,7 @@
     /*background-color: purple;*/
 }
 
-.btn-see-circunferencia {
+/*.btn-see-circunferencia {
     background-color: rgb(159, 245, 163);
     width: 50%;
     display: flex;
@@ -391,7 +383,7 @@
     font-size: larger;
     border-radius: 10px;
     margin-top: 1.5rem;
-}
+}*/
 
 //Campo Corporales
 .containerCampoCor {
