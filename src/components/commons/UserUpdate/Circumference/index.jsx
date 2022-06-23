@@ -135,7 +135,7 @@ const Circumference = ({ id }) => {
                     <Popup
                         content={
                             <>
-                                <strong><p>Agregando un nuevo valor</p></strong>
+                                <strong><p id='popTitle'>Agregando un nuevo valor</p></strong>
                                 <div className='basicInfo-Container'>
                                     <div className='entradas'>
                                         <div className="labels">
@@ -194,7 +194,7 @@ const Circumference = ({ id }) => {
                             <center><p>Porfavor ingrese todos los campos para guardar</p></center>
 
                             <button className='btn-see-circunferencia' onClick={closeError} value='Add'>
-                                Okay
+                                Ok
                             </button>
                         </>
                     }

@@ -294,11 +294,12 @@ const Usuarios = () => {
                             </div>
                         </div>
                     </div>
+                    <br />
                     <div className='basicInfo-Save'>
                         <button
-                            className='btn-Save-basicInfo'
+                            className='btn-see-circunferencia'
                             onClick={() => GuardarCambios()}>
-                            Save
+                            Guardar
                         </button>
                     </div>
                 </div>

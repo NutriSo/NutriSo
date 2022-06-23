@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import apiURL from '../../../../axios/axiosConfig';
-import { Tabs, Form, Select} from 'antd';
+import { Tabs, Form, Select } from 'antd';
 
 
 import { capitilizeWord } from '../../../../utils';
@@ -8,7 +8,7 @@ import { Rules } from '../../../../utils/formRules';
 
 import './OverallStatus.scss'
 
-const OverallStatus = ({id}) =>{
+const OverallStatus = ({ id }) => {
     const [form] = Form.useForm();
     const [info, setInfo] = useState({});
     const [infoEstadoGeneral, setInfoEstadoGenral] = useState({});
@@ -21,16 +21,16 @@ const OverallStatus = ({id}) =>{
     const [generalCheckBoca2, setGeneralCheckBoca2] = useState({});
     const [generalCheckBoca3, setGeneralCheckBoca3] = useState({});
     const [generalCheckBoca4, setGeneralCheckBoca4] = useState({});
-    
+
     useEffect(() => {
         getEstadoGeneral();
 
         return () => {
-            
+
         };
     }, [id]);
 
-    
+
 
     const getEstadoGeneral = async () => {
         try {
@@ -204,132 +204,126 @@ const OverallStatus = ({id}) =>{
 
 
     return (
-        <div className='containerEstadoGen'>
-            <div className='basicInfo-Title3'>Estado general</div>
-            <Form form={form} requiredMark={false} onFinish={updateEstadoGeneral}>
-                <div className='basicInfo-Name-Container3'>
-                    <div className='basicInfo-Name-Container4'>
-                        <label className='id-estadoGen'>Mucho cansancio:</label>
-                        <Form.Item
-                            name='muchoCansancio'
-                            className='lb-EstadoGenSelect'
-                            rules={[Rules.basicSpanish]}>
-                            <Select name='mCancancio' defaultValue={''}>
-                                <Option value={'Si'}>Si</Option>
-                                <Option value={'No'}>No</Option>
-                            </Select>
-                        </Form.Item>
-                    </div>
-                    <div className='basicInfo-Name-Container4'>
-                        <label className='id-estadoGen'>Mareos:</label>
-                        <Form.Item name='mareos' className='lb-EstadoGenSelect' rules={[Rules.basicSpanish]}>
-                            <Select defaultValue={''}>
-                                <Option value={'Si'}>Si</Option>
-                                <Option value={'No'}>No</Option>
-                            </Select>
-                        </Form.Item>
-                    </div>
-                </div>
-                <div className='basicInfo-Name-Container3'>
-                    <div className='basicInfo-Name-Container4'>
-                        <label className='id-estadoGen'>Mucha sed:</label>
-                        <Form.Item name='muchaSed' className='lb-EstadoGenSelect' rules={[Rules.basicSpanish]}>
-                            <Select defaultValue={''}>
-                                <Option value={'Si'}>Si</Option>
-                                <Option value={'No'}>No</Option>
-                            </Select>
-                        </Form.Item>
-                    </div>
-                    <div className='basicInfo-Name-Container4'>
-                        <label className='id-estadoGen'>Muchas ganas de orinar:</label>
-                        <Form.Item
-                            name='muchasGanasDeOrinar'
-                            className='lb-EstadoGenSelect'
-                            rules={[Rules.basicSpanish]}>
-                            <Select defaultValue={''}>
-                                <Option value={'Si'}>Si</Option>
-                                <Option value={'No'}>No</Option>
-                            </Select>
-                        </Form.Item>
-                    </div>
-                </div>
-                <div className='basicInfo-Name-Container3'>
-                    <div className='basicInfo-Name-Container4'>
-                        <label className='id-estadoGen'>Mucha Hambre:</label>
-                        <Form.Item name='muchaHambre' className='lb-EstadoGenSelect' rules={[Rules.basicSpanish]}>
-                            <Select defaultValue={''}>
-                                <Option value={'Si'}>Si</Option>
-                                <Option value={'No'}>No</Option>
-                            </Select>
-                        </Form.Item>
-                    </div>
-                </div>
+        <div className='basicContainer'> {/**containerEstadoGen */}
+            <div className='containData'>
+                <h2>Estado general</h2>
+                <Form form={form} requiredMark={false} onFinish={updateEstadoGeneral}>
 
-                <div className='basicInfo-Title2'>Pies y manos</div>
+                    <Form.Item
+                        label='Mucho cansancio'
+                        name='muchoCansancio'
+                        className='lb-EstadoGenSelect'
+                        rules={[Rules.basicSpanish]}>
+                        <Select name='mCancancio' defaultValue={''}>
+                            <Option value={'Si'}>Si</Option>
+                            <Option value={'No'}>No</Option>
+                        </Select>
+                    </Form.Item>
 
-                <div className='basicInfo-Name-Container3'>
-                    <div className='basicInfo-Name-Container4'>
-                        <label className='id-estadoGen'>¿Se hinchan sus pies o manos?</label>
-                        <Form.Item
-                            name='seHinchan'
-                            className='lb-EstadoGenSelect'
-                            /*
-                            rules={[
-                                Rules.basicSpanish,
-                            ]}*/
-                        >
-                            <Select
-                                onChange={(value) => setGeneralCheckPYM(value === 'No' ? true : false)}
-                                defaultValue={'No'}>
-                                <Option value={'Si'}>Si</Option>
-                                <Option value={'No'}>No</Option>
-                            </Select>
-                        </Form.Item>
+                    <Form.Item
+                        name='mareos'
+                        className='lb-EstadoGenSelect'
+                        label='Mareos'
+                        rules={[Rules.basicSpanish]}>
+                        <Select defaultValue={''}>
+                            <Option value={'Si'}>Si</Option>
+                            <Option value={'No'}>No</Option>
+                        </Select>
+                    </Form.Item>
+
+                    <Form.Item
+                        name='muchaSed'
+                        label='Mucha sed'
+                        className='lb-EstadoGenSelect'
+                        rules={[Rules.basicSpanish]}>
+                        <Select defaultValue={''}>
+                            <Option value={'Si'}>Si</Option>
+                            <Option value={'No'}>No</Option>
+                        </Select>
+                    </Form.Item>
+
+                    <Form.Item
+                        name='muchasGanasDeOrinar'
+                        label='Muchas ganas de orinar'
+                        className='lb-EstadoGenSelect'
+                        rules={[Rules.basicSpanish]}>
+                        <Select defaultValue={''}>
+                            <Option value={'Si'}>Si</Option>
+                            <Option value={'No'}>No</Option>
+                        </Select>
+                    </Form.Item>
+
+                    <Form.Item
+                        name='muchaHambre'
+                        label='Mucha hambre'
+                        className='lb-EstadoGenSelect'
+                        rules={[Rules.basicSpanish]}>
+                        <Select defaultValue={''}>
+                            <Option value={'Si'}>Si</Option>
+                            <Option value={'No'}>No</Option>
+                        </Select>
+                    </Form.Item>
+
+                    <h2> Pies y manos </h2>
+                    <Form.Item
+                        label='¿Se hinchan sus pies o manos?'
+                        name='seHinchan'
+                        className='lb-EstadoGenSelect'
+                    /*
+                    rules={[
+                        Rules.basicSpanish,
+                    ]}*/
+                    >
+                        <Select
+                            onChange={(value) => setGeneralCheckPYM(value === 'No' ? true : false)}
+                            defaultValue={'No'}>
+                            <Option value={'Si'}>Si</Option>
+                            <Option value={'No'}>No</Option>
+                        </Select>
+                    </Form.Item>
+
+                    <Form.Item
+                        label='¿A qué hora del día ocurre?'
+                        name='aQuehora'
+                        className='lb-EstadoGenSelect'
+                    /*
+                    rules={[
+                        Rules.basicSpanish,
+                    ]}*/
+                    >
+                        <Select disabled={generalCheckPYM} defaultValue={''}>
+                            <Option value={'Al despertar'}>Al despertar</Option>
+                            <Option value={'Durante el día'}>Durante el día</Option>
+                            <Option value={'En la noche'}>En la noche</Option>
+                        </Select>
+                    </Form.Item>
+
+                    <Form.Item
+                        name='frecuencia'
+                        label='¿Con que frecuencia ocurre?'
+                        className='lb-EstadoGenSelect'
+                    /*
+                    rules={[
+                        Rules.basicSpanish,
+                    ]}*/
+                    >
+                        <Select disabled={generalCheckPYM} defaultValue={''}>
+                            <Option value={'Al despertar'}>Todos los días</Option>
+                            <Option value={'Durante el día'}>1 a 3 veces a la semana</Option>
+                            <Option value={'En la noche'}>1 o 2 veces al mes</Option>
+                        </Select>
+                    </Form.Item>
+
+                    <div className="labels">
+                        <p>¿Cuántas horas pasa sentado al día?</p>
                     </div>
-                    <div className='basicInfo-Name-Container4'>
-                        <label className='id-estadoGen'>¿A qúe hora del día ocurre?</label>
-                        <Form.Item
-                            name='aQuehora'
-                            className='lb-EstadoGenSelect'
-                            /*
-                            rules={[
-                                Rules.basicSpanish,
-                            ]}*/
-                        >
-                            <Select disabled={generalCheckPYM} defaultValue={''}>
-                                <Option value={'Al despertar'}>Al despertar</Option>
-                                <Option value={'Durante el día'}>Durante el día</Option>
-                                <Option value={'En la noche'}>En la noche</Option>
-                            </Select>
-                        </Form.Item>
-                    </div>
-                </div>
-                <div className='basicInfo-Name-Container3'>
-                    <div className='basicInfo-Name-Container4'>
-                        <label className='id-estadoGen'>¿Con que frecuencia ocurre?</label>
-                        <Form.Item
-                            name='frecuencia'
-                            className='lb-EstadoGenSelect'
-                            /*
-                            rules={[
-                                Rules.basicSpanish,
-                            ]}*/
-                        >
-                            <Select disabled={generalCheckPYM} defaultValue={''}>
-                                <Option value={'Al despertar'}>Todos los días</Option>
-                                <Option value={'Durante el día'}>1 a 3 veces a la semana</Option>
-                                <Option value={'En la noche'}>1 o 2 veces al mes</Option>
-                            </Select>
-                        </Form.Item>
-                    </div>
-                    <div className='basicInfo-Name-Container4'>
-                        <label className='id-estadoGen'>¿Cuántas horas pasa sentado al día? </label>
+                    <div className="inputs">
                         <Form.Item
                             name='horasSentado'
-                            /*
-                            rules={[
-                                Rules.basicSpanish,
-                            ]}*/
+                        /*
+                        rules={[
+                            Rules.basicSpanish,
+                        ]}*/
                         >
                             <input
                                 disabled={generalCheckPYM}
@@ -340,16 +334,17 @@ const OverallStatus = ({id}) =>{
                             />
                         </Form.Item>
                     </div>
-                </div>
-                <div className='basicInfo-Name-Container3'>
-                    <div className='basicInfo-Name-Container4'>
-                        <label className='id-estadoGen'>¿Cuántas horas pasa parado al día? </label>
+
+                    <div className="labels">
+                        <label htmlFor="">¿Cuántas horas pasa parado al día?</label>
+                    </div>
+                    <div className="inputs">
                         <Form.Item
                             name='horasParado'
-                            /*
-                            rules={[
-                                Rules.basicSpanish,
-                            ]}*/
+                        /*
+                        rules={[
+                            Rules.basicSpanish,
+                        ]}*/
                         >
                             {/*<input disabled = {generalCheckPYM} className='lb-EstadoGen2'></input>*/}
                             <input
@@ -361,364 +356,312 @@ const OverallStatus = ({id}) =>{
                             />
                         </Form.Item>
                     </div>
-                </div>
-                <div className='basicInfo-Title2'>Nariz</div>
 
-                <div className='basicInfo-Name-Container3'>
-                    <div className='basicInfo-Name-Container4'>
-                        <label className='id-estadoGen'>Sangrado de nariz:</label>
-                        <Form.Item
-                            name='sangradoDe'
-                            className='lb-EstadoGenSelect'
-                            /*
-                            rules={[
-                                Rules.basicSpanish,
-                            ]}*/
-                        >
-                            <Select
-                                onChange={(value) => setGeneralCheckNa(value === 'No' ? true : false)}
-                                defaultValue={'No'}>
-                                <Option value={'Si'}>Si</Option>
-                                <Option value={'No'}>No</Option>
-                            </Select>
-                        </Form.Item>
-                    </div>
-                    <div className='basicInfo-Name-Container4'>
-                        <label className='id-estadoGen'>¿Con qué frecuencia ocurre? </label>
-                        <Form.Item
-                            name='frecuenciaDe'
-                            className='lb-EstadoGenSelect'
-                            /*
-                            rules={[
-                                Rules.basicSpanish,
-                            ]}*/
-                        >
-                            <Select disabled={generalCheckNa} defaultValue={''}>
-                                <Option value={'Casi todos los días'}>Casi todos los días</Option>
-                                <Option value={'1 a 2 veces a la semana'}>1 a 2 veces a la semana</Option>
-                                <Option value={'1 o 2 veces al mes'}>1 o 2 veces al mes</Option>
-                            </Select>
-                        </Form.Item>
-                    </div>
-                </div>
+                    <h2>Nariz</h2>
+                    <Form.Item
+                        name='sangradoDe'
+                        className='lb-EstadoGenSelect'
+                        label='Sangrado de nariz'
+                    /*
+                    rules={[
+                        Rules.basicSpanish,
+                    ]}*/
+                    >
+                        <Select
+                            onChange={(value) => setGeneralCheckNa(value === 'No' ? true : false)}
+                            defaultValue={'No'}>
+                            <Option value={'Si'}>Si</Option>
+                            <Option value={'No'}>No</Option>
+                        </Select>
+                    </Form.Item>
 
-                <div className='basicInfo-Title2'>Piel</div>
+                    <Form.Item
+                        name='frecuenciaDe'
+                        label='¿Con qué frecuencia ocurre?'
+                        className='lb-EstadoGenSelect'
+                    /*
+                    rules={[
+                        Rules.basicSpanish,
+                    ]}*/
+                    >
+                        <Select disabled={generalCheckNa} defaultValue={''}>
+                            <Option value={'Casi todos los días'}>Casi todos los días</Option>
+                            <Option value={'1 a 2 veces a la semana'}>1 a 2 veces a la semana</Option>
+                            <Option value={'1 o 2 veces al mes'}>1 o 2 veces al mes</Option>
+                        </Select>
+                    </Form.Item>
 
-                <div className='basicInfo-Name-Container3'>
-                    <div className='basicInfo-Name-Container4'>
-                        <label className='id-estadoGen'>Manchas rojas en su piel o moretes sin motivo:</label>
-                        <Form.Item
-                            name='manchasRojasMoretes'
-                            className='lb-EstadoGenSelect'
-                            /*
-                            rules={[
-                                Rules.basicSpanish,
-                            ]}*/
-                        >
-                            <Select
-                                onChange={(value) => setGeneralCheckPi(value === 'No' ? true : false)}
-                                defaultValue={'No'}>
-                                <Option value={'Si'}>Si</Option>
-                                <Option value={'No'}>No</Option>
-                            </Select>
-                        </Form.Item>
-                    </div>
-                    <div className='basicInfo-Name-Container4'>
-                        <label className='id-estadoGen'>¿Con qué frecuencia ocurre? </label>
-                        <Form.Item
-                            name='frecuenciaDeEllo'
-                            className='lb-EstadoGenSelect'
-                            /*
-                            rules={[
-                                Rules.basicSpanish,
-                            ]}*/
-                        >
-                            <Select disabled={generalCheckPi} defaultValue={''}>
-                                <Option value={'Casi todos los días'}>Casi todos los días</Option>
-                                <Option value={'1 a 2 veces a la semana'}>1 a 2 veces a la semana</Option>
-                                <Option value={'1 o 2 veces al mes'}>1 o 2 veces al mes</Option>
-                            </Select>
-                        </Form.Item>
-                    </div>
-                </div>
+                    <h2>Piel</h2>
+                    <Form.Item
+                        name='manchasRojasMoretes'
+                        className='lb-EstadoGenSelect'
+                        label='Manchas rojas en su piel o moretes sin motivo'
+                    /*
+                    rules={[
+                        Rules.basicSpanish,
+                    ]}*/
+                    >
+                        <Select
+                            onChange={(value) => setGeneralCheckPi(value === 'No' ? true : false)}
+                            defaultValue={'No'}>
+                            <Option value={'Si'}>Si</Option>
+                            <Option value={'No'}>No</Option>
+                        </Select>
+                    </Form.Item>
 
-                <div className='basicInfo-Title2'>Uñas</div>
+                    <Form.Item
+                        name='frecuenciaDeEllo'
+                        label='¿Con qué frecuencia ocurre?'
+                        className='lb-EstadoGenSelect'
+                    /*
+                    rules={[
+                        Rules.basicSpanish,
+                    ]}*/
+                    >
+                        <Select disabled={generalCheckPi} defaultValue={''}>
+                            <Option value={'Casi todos los días'}>Casi todos los días</Option>
+                            <Option value={'1 a 2 veces a la semana'}>1 a 2 veces a la semana</Option>
+                            <Option value={'1 o 2 veces al mes'}>1 o 2 veces al mes</Option>
+                        </Select>
+                    </Form.Item>
 
-                <div className='basicInfo-Name-Container3'>
-                    <div className='basicInfo-Name-Container4'>
-                        <label className='id-estadoGen'>Uñas quebradizas:</label>
-                        <Form.Item
-                            name='quebradizas'
-                            className='lb-EstadoGenSelect'
-                            /*
-                            rules={[
-                                Rules.basicSpanish,
-                            ]}*/
-                        >
-                            <Select
-                                onChange={(value) => setGeneralCheckNails(value === 'No' ? true : false)}
-                                defaultValue={'No'}>
-                                <Option value={'Si'}>Si</Option>
-                                <Option value={'No'}>No</Option>
-                            </Select>
-                        </Form.Item>
-                    </div>
-                    <div className='basicInfo-Name-Container4'>
-                        <label className='id-estadoGen'>
-                            ¿Ha realizado algún tratamiento estético en sus uñas recientemente?
-                        </label>
-                        <Form.Item
-                            name='frecuencia2'
-                            className='lb-EstadoGenSelect'
-                            /*
-                            rules={[
-                                Rules.basicSpanish,
-                            ]}*/
-                        >
-                            <Select disabled={generalCheckNails} defaultValue={''}>
-                                <Option value={'Si'}>Si</Option>
-                                <Option value={'No'}>No</Option>
-                            </Select>
-                        </Form.Item>
-                    </div>
-                </div>
+                    <h2>Uñas</h2>
+                    <Form.Item
+                        name='quebradizas'
+                        label='Uñas quebradizas'
+                        className='lb-EstadoGenSelect'
+                    /*
+                    rules={[
+                        Rules.basicSpanish,
+                    ]}*/
+                    >
+                        <Select
+                            onChange={(value) => setGeneralCheckNails(value === 'No' ? true : false)}
+                            defaultValue={'No'}>
+                            <Option value={'Si'}>Si</Option>
+                            <Option value={'No'}>No</Option>
+                        </Select>
+                    </Form.Item>
 
-                <div className='basicInfo-Title2'>Cabello</div>
+                    <Form.Item
+                        name='frecuencia2'
+                        label='¿Ha realizado algún tratamiento estético en sus uñas recientemente?'
+                        className='lb-EstadoGenSelect'
+                    /*
+                    rules={[
+                        Rules.basicSpanish,
+                    ]}*/
+                    >
+                        <Select disabled={generalCheckNails} defaultValue={''}>
+                            <Option value={'Si'}>Si</Option>
+                            <Option value={'No'}>No</Option>
+                        </Select>
+                    </Form.Item>
 
-                <div className='basicInfo-Name-Container3'>
-                    <div className='basicInfo-Name-Container4'>
-                        <label className='id-estadoGen'>Caída de cabello:</label>
-                        <Form.Item
-                            name='caidaDeCabello'
-                            className='lb-EstadoGenSelect'
-                            /*
-                            rules={[
-                                Rules.basicSpanish,
-                            ]}*/
-                        >
-                            <Select
-                                onChange={(value) => setGeneralCheckCabello(value === 'No' ? true : false)}
-                                defaultValue={'No'}>
-                                <Option value={'Si'}>Si</Option>
-                                <Option value={'No'}>No</Option>
-                            </Select>
-                        </Form.Item>
-                    </div>
-                    <div className='basicInfo-Name-Container4'>
-                        <label className='id-estadoGen'>Cabello quebradizo</label>
-                        <Form.Item
-                            name='cabelloQuebradizo'
-                            className='lb-EstadoGenSelect'
-                            /*
-                            rules={[
-                                Rules.basicSpanish,
-                            ]}*/
-                        >
-                            <Select disabled={generalCheckCabello} defaultValue={''}>
-                                <Option value={'Si'}>Si</Option>
-                                <Option value={'No'}>No</Option>
-                            </Select>
-                        </Form.Item>
-                    </div>
-                </div>
-                <div className='basicInfo-Name-Container3'>
-                    <div className='basicInfo-Name-Container4'>
-                        <label className='id-estadoGen'>
-                            ¿Tiene su cabello teñido o bajo algún tratamiento estético?
-                        </label>
-                        <Form.Item
-                            name='cabelloTenidoOTratamiento'
-                            className='lb-EstadoGenSelect'
-                            /*
-                            rules={[
-                                Rules.basicSpanish,
-                            ]}*/
-                        >
-                            <Select disabled={generalCheckCabello} defaultValue={''}>
-                                <Option value={'Si'}>Si</Option>
-                                <Option value={'No'}>No</Option>
-                            </Select>
-                        </Form.Item>
-                    </div>
-                </div>
-                <div className='basicInfo-Title2'>Boca</div>
 
-                <div className='basicInfo-Name-Container3'>
-                    <div className='basicInfo-Name-Container4'>
-                        <label className='id-estadoGen'>Cortaduras en las comisuras de su boca:</label>
-                        <Form.Item
-                            name='cortadurasEnComisuras'
-                            className='lb-EstadoGenSelect'
-                            /*
-                            rules={[
-                                Rules.basicSpanish,
-                            ]}*/
-                        >
-                            <Select
-                                onChange={(value) => setGeneralCheckBoca1(value === 'No' ? true : false)}
-                                defaultValue={'No'}>
-                                <Option value={'Si'}>Si</Option>
-                                <Option value={'No'}>No</Option>
-                            </Select>
-                        </Form.Item>
-                    </div>
-                    <div className='basicInfo-Name-Container4'>
-                        <label className='id-estadoGen'>¿Con qué frecuencia ocurre?</label>
-                        <Form.Item
-                            name='frecuencia3'
-                            className='lb-EstadoGenSelect'
-                            /*
-                            rules={[
-                                Rules.basicSpanish,
-                            ]}*/
-                        >
-                            <Select disabled={generalCheckBoca1} defaultValue={''}>
-                                <Option value={'Casi todos los días'}>Casi todos los días</Option>
-                                <Option value={'1 a 3 veces a la semana'}>1 a 3 veces a la semana</Option>
-                                <Option value={'1 o 2 veces al mes'}>1 o 2 veces al mes</Option>
-                            </Select>
-                        </Form.Item>
-                    </div>
-                </div>
-                <div className='basicInfo-Name-Container3'>
-                    <div className='basicInfo-Name-Container4'>
-                        <label className='id-estadoGen'>Inflamación en lengua:</label>
-                        <Form.Item
-                            name='inflamacionDeLengua'
-                            className='lb-EstadoGenSelect'
-                            /*
-                            rules={[
-                                Rules.basicSpanish,
-                            ]}*/
-                        >
-                            <Select
-                                onChange={(value) => setGeneralCheckBoca2(value === 'No' ? true : false)}
-                                defaultValue={'No'}>
-                                <Option value={'Si'}>Si</Option>
-                                <Option value={'No'}>No</Option>
-                            </Select>
-                        </Form.Item>
-                    </div>
-                    <div className='basicInfo-Name-Container4'>
-                        <label className='id-estadoGen'>¿Con qué frecuencia ocurre?</label>
-                        <Form.Item
-                            name='frecuenciaDe2'
-                            className='lb-EstadoGenSelect'
-                            /*
-                            rules={[
-                                Rules.basicSpanish,
-                            ]}*/
-                        >
-                            <Select disabled={generalCheckBoca2} defaultValue={''}>
-                                <Option value={'Casi todos los días'}>Casi todos los días</Option>
-                                <Option value={'1 a 3 veces a la semana'}>1 a 3 veces a la semana</Option>
-                                <Option value={'1 o 2 veces al mes'}>1 o 2 veces al mes</Option>
-                            </Select>
-                        </Form.Item>
-                    </div>
-                </div>
-                <div className='basicInfo-Name-Container3'>
-                    <div className='basicInfo-Name-Container4'>
-                        <label className='id-estadoGen'>Inflamación de encías :</label>
-                        <Form.Item
-                            name='inflamacionEncias'
-                            className='lb-EstadoGenSelect'
-                            /*
-                            rules={[
-                                Rules.basicSpanish,
-                            ]}*/
-                        >
-                            <Select
-                                onChange={(value) => setGeneralCheckBoca3(value === 'No' ? true : false)}
-                                defaultValue={'No'}>
-                                <Option value={'Si'}>Si</Option>
-                                <Option value={'No'}>No</Option>
-                            </Select>
-                        </Form.Item>
-                    </div>
-                    <div className='basicInfo-Name-Container4'>
-                        <label className='id-estadoGen'>¿Con qué frecuencia ocurre?</label>
-                        <Form.Item
-                            name='frecuenciaDeIE'
-                            className='lb-EstadoGenSelect'
-                            /*
-                            rules={[
-                                Rules.basicSpanish,
-                            ]}*/
-                        >
-                            <Select disabled={generalCheckBoca3} defaultValue={''}>
-                                <Option value={'Casi todos los días'}>Casi todos los días</Option>
-                                <Option value={'1 a 3 veces a la semana'}>1 a 3 veces a la semana</Option>
-                                <Option value={'1 o 2 veces al mes'}>1 o 2 veces al mes</Option>
-                            </Select>
-                        </Form.Item>
-                    </div>
-                </div>
-                <div className='basicInfo-Name-Container3'>
-                    <div className='basicInfo-Name-Container4'>
-                        <label className='id-estadoGen'>Sangrado de encías:</label>
-                        <Form.Item
-                            name='sangradoEncias'
-                            className='lb-EstadoGenSelect'
-                            /*
-                            rules={[
-                                Rules.basicSpanish,
-                            ]}*/
-                        >
-                            <Select
-                                onChange={(value) => setGeneralCheckBoca4(value === 'No' ? true : false)}
-                                defaultValue={'No'}>
-                                <Option value={'Si'}>Si</Option>
-                                <Option value={'No'}>No</Option>
-                            </Select>
-                        </Form.Item>
-                    </div>
-                    <div className='basicInfo-Name-Container4'>
-                        <label className='id-estadoGen'>¿Con qué frecuencia ocurre?</label>
-                        <Form.Item
-                            name='frecuenciaDeSE'
-                            className='lb-EstadoGenSelect'
-                            /*
-                            rules={[
-                                Rules.basicSpanish,
-                            ]}*/
-                        >
-                            <Select disabled={generalCheckBoca4} defaultValue={''}>
-                                <Option value={'Casi todos los días'}>Casi todos los días</Option>
-                                <Option value={'1 a 3 veces a la semana'}>1 a 3 veces a la semana</Option>
-                                <Option value={'1 o 2 veces al mes'}>1 o 2 veces al mes</Option>
-                            </Select>
-                        </Form.Item>
-                    </div>
-                </div>
-                <div className='basicInfo-Title2'>Nacimiento</div>
+                    <h2>Cabello</h2>
+                    <Form.Item
+                        name='caidaDeCabello'
+                        label='Caída de cabello'
+                        className='lb-EstadoGenSelect'
+                    /*
+                    rules={[
+                        Rules.basicSpanish,
+                    ]}*/
+                    >
+                        <Select
+                            onChange={(value) => setGeneralCheckCabello(value === 'No' ? true : false)}
+                            defaultValue={'No'}>
+                            <Option value={'Si'}>Si</Option>
+                            <Option value={'No'}>No</Option>
+                        </Select>
+                    </Form.Item>
 
-                <div className='basicInfo-Name-Container3'>
-                    <div className='basicInfo-Name-Container4'>
-                        <label className='id-estadoGen'>Naciste por:</label>
-                        <Form.Item
-                            name='tipoDeNacimiento'
-                            className='lb-EstadoGenSelect'
-                            rules={[Rules.basicSpanish]}>
-                            <Select defaultValue={''}>
-                                <Option value={'Parto vaginal'}>Parto vaginal</Option>
-                                <Option value={'Cesárea'}>Cesárea</Option>
-                            </Select>
-                        </Form.Item>
-                    </div>
-                </div>
-                <div className='basicInfo-Save-ContainerGen'>
-                    <div className='basicInfo-Save-ContainerGen2'>
+                    <Form.Item
+                        label='Cabello quebradizo'
+                        name='cabelloQuebradizo'
+                        className='lb-EstadoGenSelect'
+                    /*
+                    rules={[
+                        Rules.basicSpanish,
+                    ]}*/
+                    >
+                        <Select disabled={generalCheckCabello} defaultValue={''}>
+                            <Option value={'Si'}>Si</Option>
+                            <Option value={'No'}>No</Option>
+                        </Select>
+                    </Form.Item>
+
+                    <Form.Item
+                        label='¿Tiene su cabello teñido o bajo algún tratamiento estético?'
+                        name='cabelloTenidoOTratamiento'
+                        className='lb-EstadoGenSelect'
+                    /*
+                    rules={[
+                        Rules.basicSpanish,
+                    ]}*/
+                    >
+                        <Select disabled={generalCheckCabello} defaultValue={''}>
+                            <Option value={'Si'}>Si</Option>
+                            <Option value={'No'}>No</Option>
+                        </Select>
+                    </Form.Item>
+
+                    <h2>Boca</h2>
+                    <Form.Item
+                        name='cortadurasEnComisuras'
+                        label='Cortaduras en las comisuras de su boca'
+                        className='lb-EstadoGenSelect'
+                    /*
+                    rules={[
+                        Rules.basicSpanish,
+                    ]}*/
+                    >
+                        <Select
+                            onChange={(value) => setGeneralCheckBoca1(value === 'No' ? true : false)}
+                            defaultValue={'No'}>
+                            <Option value={'Si'}>Si</Option>
+                            <Option value={'No'}>No</Option>
+                        </Select>
+                    </Form.Item>
+
+                    <Form.Item
+                        name='frecuencia3'
+                        label='¿Con qué frecuencia ocurre?'
+                        className='lb-EstadoGenSelect'
+                    /*
+                    rules={[
+                        Rules.basicSpanish,
+                    ]}*/
+                    >
+                        <Select disabled={generalCheckBoca1} defaultValue={''}>
+                            <Option value={'Casi todos los días'}>Casi todos los días</Option>
+                            <Option value={'1 a 3 veces a la semana'}>1 a 3 veces a la semana</Option>
+                            <Option value={'1 o 2 veces al mes'}>1 o 2 veces al mes</Option>
+                        </Select>
+                    </Form.Item>
+
+                    <Form.Item
+                        name='inflamacionDeLengua'
+                        label='Inflamación en lengua'
+                        className='lb-EstadoGenSelect'
+                    /*
+                    rules={[
+                        Rules.basicSpanish,
+                    ]}*/
+                    >
+                        <Select
+                            onChange={(value) => setGeneralCheckBoca2(value === 'No' ? true : false)}
+                            defaultValue={'No'}>
+                            <Option value={'Si'}>Si</Option>
+                            <Option value={'No'}>No</Option>
+                        </Select>
+                    </Form.Item>
+
+                    <Form.Item
+                        name='frecuenciaDe2'
+                        label='¿Con qué frecuencia ocurre?'
+                        className='lb-EstadoGenSelect'
+                    /*
+                    rules={[
+                        Rules.basicSpanish,
+                    ]}*/
+                    >
+                        <Select disabled={generalCheckBoca2} defaultValue={''}>
+                            <Option value={'Casi todos los días'}>Casi todos los días</Option>
+                            <Option value={'1 a 3 veces a la semana'}>1 a 3 veces a la semana</Option>
+                            <Option value={'1 o 2 veces al mes'}>1 o 2 veces al mes</Option>
+                        </Select>
+                    </Form.Item>
+
+
+                    <Form.Item
+                        name='inflamacionEncias'
+                        label='Inflamación de encías'
+                        className='lb-EstadoGenSelect'
+                    /*
+                    rules={[
+                        Rules.basicSpanish,
+                    ]}*/
+                    >
+                        <Select
+                            onChange={(value) => setGeneralCheckBoca3(value === 'No' ? true : false)}
+                            defaultValue={'No'}>
+                            <Option value={'Si'}>Si</Option>
+                            <Option value={'No'}>No</Option>
+                        </Select>
+                    </Form.Item>
+
+                    <Form.Item
+                        name='frecuenciaDeIE'
+                        label='¿Con qué frecuencia ocurre?'
+                        className='lb-EstadoGenSelect'
+                    /*
+                    rules={[
+                        Rules.basicSpanish,
+                    ]}*/
+                    >
+                        <Select disabled={generalCheckBoca3} defaultValue={''}>
+                            <Option value={'Casi todos los días'}>Casi todos los días</Option>
+                            <Option value={'1 a 3 veces a la semana'}>1 a 3 veces a la semana</Option>
+                            <Option value={'1 o 2 veces al mes'}>1 o 2 veces al mes</Option>
+                        </Select>
+                    </Form.Item>
+
+                    <Form.Item
+                        name='sangradoEncias'
+                        label='Sangrado de encías'
+                        className='lb-EstadoGenSelect'
+                    /*
+                    rules={[
+                        Rules.basicSpanish,
+                    ]}*/
+                    >
+                        <Select
+                            onChange={(value) => setGeneralCheckBoca4(value === 'No' ? true : false)}
+                            defaultValue={'No'}>
+                            <Option value={'Si'}>Si</Option>
+                            <Option value={'No'}>No</Option>
+                        </Select>
+                    </Form.Item>
+                    <Form.Item
+                        name='frecuenciaDeSE'
+                        label='¿Con qué frecuencia ocurre?'
+                        className='lb-EstadoGenSelect'
+                    /*
+                    rules={[
+                        Rules.basicSpanish,
+                    ]}*/
+                    >
+                        <Select disabled={generalCheckBoca4} defaultValue={''}>
+                            <Option value={'Casi todos los días'}>Casi todos los días</Option>
+                            <Option value={'1 a 3 veces a la semana'}>1 a 3 veces a la semana</Option>
+                            <Option value={'1 o 2 veces al mes'}>1 o 2 veces al mes</Option>
+                        </Select>
+                    </Form.Item>
+
+                    <h2>Nacimiento</h2>
+                    <Form.Item
+                        name='tipoDeNacimiento'
+                        label='Naciste por'
+                        className='lb-EstadoGenSelect'
+                        rules={[Rules.basicSpanish]}>
+                        <Select defaultValue={''}>
+                            <Option value={'Parto vaginal'}>Parto vaginal</Option>
+                            <Option value={'Cesárea'}>Cesárea</Option>
+                        </Select>
+                    </Form.Item>
+                    <div className="basicContainer">
                         <button
-                            className='btn-Save-basicInfoGen2'
+                            className='btn-see-circunferencia'
                             htmlType='submit'
                             /*onClick={() => updateEstadoGeneral()}*/
                             value='Add'>
-                            Save
+                            Guardar
                         </button>
                     </div>
-                </div>
-            </Form>
+                </Form>
+            </div>
         </div>
     );
 

@@ -5,9 +5,9 @@ import Popup from './Popup';
 
 import CampoCor from '../../Charts/CampoCor';
 
-import'./BodyFields.scss';
+import './BodyFields.scss';
 
-const BodyFields = ({id}) =>{
+const BodyFields = ({ id }) => {
     const [infoCampoCor, setInfoCampCor] = useState({});
     const [infoCorDates, setInfoCorDates] = useState({});
     let [grasaEntry, setGrasaEn] = useState(-1);
@@ -159,165 +159,181 @@ const BodyFields = ({id}) =>{
     };
 
     return (
-        <div className='containerCampoCor'>
-            <div className='basicInfo-Title'>Campos Corporales</div>
-            {/*Grafica-----------------------------------------------------------------------*/}
-            <div className='campCor-Container3'>
-                <div>
-                    {infoCampoCor?.grasas && Array.isArray(infoCampoCor.grasas) && (
-                        <CampoCor data={infoCampoCor} dates={infoCorDates} />
-                    )}
-                </div>
-            </div>
-            {/*Fin de grafica----------------------------------------------------------------*/}
-            <div>
-                <div className='campCor-Container'>
-                    <div className='campoCor-Container2'>
-                        <input
-                            type='button'
-                            value='Agregar'
-                            onClick={togglePopupCampCor}
-                            className='btn-see-camCor'
-                        />
-                        <p></p>
-                        {isOpenCampCor && (
-                            <Popup
-                                content={
-                                    <>
-                                        <b>Agregando un nuevo valor</b>
-                                        <div> 
-                                            <div className='campCor-Container4'>
-                                                <label className='label-campCor'>
-                                                    Porcentaje de grasa:
-                                                </label>
-                                                <input
-                                                    className='input-campCor'
-                                                    type='number'
-                                                    name='numero'
-                                                    min={0}
-                                                    placeholder={''}
-                                                    onChange={(event) =>
-                                                        setGrasaEn(event.target.value)
-                                                    }></input>
-                                            </div>
-                                            <div className='campCor-Container4'>
-                                                <label className='label-campCor'>Porcentaje de masa:</label>
-                                                <input
-                                                    className='input-campCor'
-                                                    type='number'
-                                                    name='numero'
-                                                    min={0}
-                                                    placeholder={''}
-                                                    onChange={(event) =>
-                                                        setMasaEn(event.target.value)
-                                                    }></input>
-                                            </div>
-                                            <div className='campCor-Container4'>
-                                                <label className='label-campCor'>Porcentaje de agua:</label>
-                                                <input
-                                                    className='input-campCor'
-                                                    type='number'
-                                                    name='numero'
-                                                    min={0}
-                                                    placeholder={''}
-                                                    onChange={(event) =>
-                                                        setAguaEn(event.target.value)
-                                                    }></input>
-                                            </div>
-                                            <div className='campCor-Container4'>
-                                                <label className='label-campCor'>Densidad osea:</label>
-                                                <input
-                                                    className='input-campCor'
-                                                    type='number'
-                                                    name='numero'
-                                                    min={0}
-                                                    placeholder={''}
-                                                    onChange={(event) =>
-                                                        setOseaEn(event.target.value)
-                                                    }></input>
-                                            </div>
-                                            <div className='campCor-Container4'>
-                                                <label className='label-campCor'>Grasa visceral:</label>
-                                                <input
-                                                    className='input-campCor'
-                                                    type='number'
-                                                    name='numero'
-                                                    min={0}
-                                                    placeholder={''}
-                                                    onChange={(event) =>
-                                                        setVisceralEn(event.target.value)
-                                                    }></input>
-                                            </div>
-                                            <div className='campCor-Container4'>
-                                                <label className='label-campCor'>Tasa metabolica:</label>
-                                                <input
-                                                    className='input-campCor'
-                                                    type='number'
-                                                    name='numero'
-                                                    min={0}
-                                                    placeholder={''}
-                                                    onChange={(event) =>
-                                                        setTMetabolicaEn(event.target.value)
-                                                    }></input>
-                                            </div>
-                                            <div className='campCor-Container4'>
-                                                <label className='label-campCor'>Edad metabolica:</label>
-                                                <input
-                                                    className='input-campCor'
-                                                    type='number'
-                                                    name='numero'
-                                                    min={0}
-                                                    placeholder={''}
-                                                    onChange={(event) =>
-                                                        setEMetabolicaEn(event.target.value)
-                                                    }></input>
-                                            </div>
-                                        </div>
-                                        <button className='btn-see-camCor' onClick={updateCampCor} value='Add'>
-                                            Agregar
-                                        </button>
-                                    </>
-                                }
-                                handleClose={togglePopupCampCor}
-                            />
+        <>
+            <div className='basicContainer'> {/**containerCampoCor, basicInfo-Title, campCor-Container3 */}
+                <div className='containData'>
+                    <h2>Campos Corporales</h2>
+                    {/*Grafica-----------------------------------------------------------------------*/}
+                    <div className='basicInfo-Container-Slide'>
+                        {infoCampoCor?.grasas && Array.isArray(infoCampoCor.grasas) && (
+                            <CampoCor data={infoCampoCor} dates={infoCorDates} />
                         )}
                     </div>
                 </div>
             </div>
-            {/*Error Campos Corporales----------------------------------------------------------------*/}
-            <div>
-                <div className='campCor-Container'>
-                    <div className='campoCor-Container2'>
-                        <p></p>
-                        {isOpenErrorCampCor && (
-                            <Popup
-                                content={
-                                    <>
-                                        <b>Error</b>
-                                        <div>
-                                            <div className='campoCor-Container'>
-                                                <div className='campCor-Container4'>
-                                                    <label className='label-campCor'>
-                                                        Porfavor ingrese todos los campos para guardar
-                                                    </label>
-                                                </div>
-                                            </div>
+
+            <div className='basicContainer'>
+                <input
+                    type='button'
+                    value='Agregar'
+                    onClick={togglePopupCampCor}
+                    className='btn-see-circunferencia'
+                />
+                <p></p>
+                {isOpenCampCor && (
+                    <Popup
+                        content={
+                            <>
+                                <strong><p id='popTitle'>Agregando un nuevo valor</p></strong>
+                                <div className='basicInfo-Container'>
+                                    <div className='entradas'>
+                                        <div className="labels">
+                                            <label className='label-campCor'>Porcentaje de grasa:</label>
                                         </div>
-                                        <button
-                                            className='btn-see-camCor'
-                                            onClick={closeErrorCampCor}
-                                            value='Add'>
-                                            Okay
-                                        </button>
-                                    </>
-                                }
-                                handleClose={togglePopupErrorCampCor}
-                            />
-                        )}
-                    </div>
-                </div>
+                                        <div className="inputs">
+                                            <input
+                                                className='input-campCor'
+                                                type='number'
+                                                name='numero'
+                                                min={0}
+                                                placeholder={''}
+                                                onChange={(event) =>
+                                                    setGrasaEn(event.target.value)
+                                                }></input>
+                                        </div>
+                                    </div>
+                                    <div className='entradas'>
+                                        <div className="labels">
+                                            <label className='label-campCor'>Porcentaje de masa:</label>
+                                        </div>
+                                        <div className="inputs">
+                                            <input
+                                                className='input-campCor'
+                                                type='number'
+                                                name='numero'
+                                                min={0}
+                                                placeholder={''}
+                                                onChange={(event) =>
+                                                    setMasaEn(event.target.value)
+                                                }></input>
+                                        </div>
+                                    </div>
+                                    <div className='entradas'>
+                                        <div className="labels">
+                                            <label className='label-campCor'>Porcentaje de agua:</label>
+                                        </div>
+                                        <div className="inputs">
+                                            <input
+                                                className='input-campCor'
+                                                type='number'
+                                                name='numero'
+                                                min={0}
+                                                placeholder={''}
+                                                onChange={(event) =>
+                                                    setAguaEn(event.target.value)
+                                                }></input>
+                                        </div>
+                                    </div>
+                                </div>
+                                {/**PARTICION DE CAMPOS */}
+                                <div className="basicInfo-Container">
+                                    <div className='entradas'>
+                                        <div className="labels">
+                                            <label className='label-campCor'>Densidad osea:</label>
+                                        </div>
+                                        <div className="inputs">
+                                            <input
+                                                className='input-campCor'
+                                                type='number'
+                                                name='numero'
+                                                min={0}
+                                                placeholder={''}
+                                                onChange={(event) =>
+                                                    setOseaEn(event.target.value)
+                                                }></input>
+                                        </div>
+                                    </div>
+                                    <div className='entradas'>
+                                        <div className="labels">
+                                            <label className='label-campCor'>Grasa visceral:</label>
+                                        </div>
+                                        <div className="inputs">
+                                            <input
+                                                className='input-campCor'
+                                                type='number'
+                                                name='numero'
+                                                min={0}
+                                                placeholder={''}
+                                                onChange={(event) =>
+                                                    setVisceralEn(event.target.value)
+                                                }></input>
+                                        </div>
+                                    </div>
+                                    <div className='entradas'>
+                                        <div className="labels">
+                                            <label className='label-campCor'>Tasa metabolica:</label>
+                                        </div>
+                                        <div className="inputs">
+                                            <input
+                                                className='input-campCor'
+                                                type='number'
+                                                name='numero'
+                                                min={0}
+                                                placeholder={''}
+                                                onChange={(event) =>
+                                                    setTMetabolicaEn(event.target.value)
+                                                }></input>
+                                        </div>
+                                    </div>
+                                </div>
+                                {/**NUEVA PARTICION 1 SOLO */}
+                                <div className="basicInfo-Container">
+                                    <div className='entradas'>
+                                        <div className="labels">
+                                            <label className='label-campCor'>Edad metabolica:</label>
+                                        </div>
+                                        <div className="inputs">
+                                            <input
+                                                className='input-campCor'
+                                                type='number'
+                                                name='numero'
+                                                min={0}
+                                                placeholder={''}
+                                                onChange={(event) =>
+                                                    setEMetabolicaEn(event.target.value)
+                                                }></input>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <button className='btn-see-circunferencia' onClick={updateCampCor} value='Add'>
+                                    Agregar
+                                </button>
+                            </>
+                        }
+                        handleClose={togglePopupCampCor}
+                    />
+                )}
             </div>
-        </div>
+
+            {isOpenErrorCampCor && (
+                <Popup
+                    content={
+                        <>
+                            <strong><p>Error</p></strong>
+                            <center><p>Porfavor ingrese todos los campos para guardar</p></center>
+                            <button
+                                className='btn-see-circunferencia'
+                                onClick={closeErrorCampCor}
+                                value='Add'>
+                                Ok
+                            </button>
+                        </>
+                    }
+                    handleClose={togglePopupErrorCampCor}
+                />
+            )}
+        </>
     );
 
 };

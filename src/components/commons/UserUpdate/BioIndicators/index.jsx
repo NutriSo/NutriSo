@@ -10,7 +10,7 @@ import { Rules } from '../../../../utils/formRules';
 
 import './BioIndicators.scss'
 
-const BioIndicators = ({id}) =>{
+const BioIndicators = ({ id }) => {
     const [form] = Form.useForm();
     const [infoBioquimicos, setInfoBioquimicos] = useState({});
     const [infoBioquimicosDates, setBioquimicosDates] = useState({});
@@ -62,7 +62,7 @@ const BioIndicators = ({id}) =>{
             console.groupEnd();
         }
     };
-    
+
     const updateIndicadoresBio = async (values) => {
         try {
             const body = {
@@ -113,164 +113,158 @@ const BioIndicators = ({id}) =>{
     };
 
     return (
-        <div className='containerIndBio'>
-            <div className='basicInfo-Title'>Indicadores Bioquimicos</div>
-            {/*Grafica-----------------------------------------------------------------------*/}
-            <div className='cindBio-Container3 '>
-                <div>
-                    {infoBioquimicos?.glucosaAyuno?.length > 0 && (
-                        <IndicadoresBio data={infoBioquimicos} dates={infoBioquimicosDates} />
-                    )}
-                </div>
-            </div>
-            {/*Fin de grafica----------------------------------------------------------------*/}
-            <div>
-                <div className='indBio-Container'>
-                    <div className='indBio-Container2'>
-                        <input
-                            type='button'
-                            value='Agregar'
-                            onClick={togglePopupIndicadoresBio}
-                            className='btn-see-indBio '
-                        />
-                        <p></p>
-                        {isOpenIndicadoresBio && (
-                            <Popup
-                                content={
-                                    <Form form={form} requiredMark={false} onFinish={updateIndicadoresBio}>
-                                        <center><b>Agregando un nuevo valor</b></center>
-                                        <div>
-                                            <div className='indBio-Container4'>
-                                                <Form.Item
-                                                    label='Glucosa en el ayuno'
-                                                    name='glucosaAyuno'
-                                                    rules={[Rules.minOne]}>
-                                                    <input
-                                                        className='input-indBio'
-                                                        type='number'
-                                                        name='numero'
-                                                        min={0}
-                                                        placeholder=''
-                                                    />
-                                                </Form.Item>
-                                            </div>
-                                            <div className='indBio-Container4'>
-                                                <Form.Item
-                                                    label='Glucosa después'
-                                                    name='glucosaDespues'
-                                                    rules={[Rules.minOne]}>
-                                                    <input
-                                                        className='input-indBio'
-                                                        type='number'
-                                                        name='numero'
-                                                        min={0}
-                                                        placeholder=''
-                                                    />
-                                                </Form.Item>
-                                                <Form.Item
-                                                    label='Minutos después'
-                                                    name='minutos'
-                                                    rules={[Rules.minZero]}>
-                                                    <input
-                                                        className='input-indBio'
-                                                        type='number'
-                                                        name='numero'
-                                                        min={0}
-                                                        placeholder=''
-                                                    />
-                                                </Form.Item>
-                                            </div>
-                                            <div className='indBio-Container4'>
-                                                <Form.Item
-                                                    label='Trigliceridos'
-                                                    name='trigliceridos'
-                                                    rules={[Rules.minOne]}>
-                                                    <input
-                                                        className='input-indBio'
-                                                        type='number'
-                                                        name='numero'
-                                                        min={0}
-                                                        placeholder=''
-                                                    />
-                                                </Form.Item>
-                                            </div>
-                                            <div className='indBio-Container4'>
-                                                <Form.Item
-                                                    label='Colesterol total'
-                                                    name='colesterolTotal'
-                                                    rules={[Rules.minOne]}>
-                                                    <input
-                                                        className='input-indBio'
-                                                        type='number'
-                                                        name='numero'
-                                                        min={0}
-                                                        placeholder=''
-                                                    />
-                                                </Form.Item>
-                                            </div>
-                                            <div className='indBio-Container4'>
-                                                <Form.Item
-                                                    label='Colesterol LDL'
-                                                    name='colesterolLDL'
-                                                    rules={[Rules.minOne]}>
-                                                    <input
-                                                        className='input-indBio'
-                                                        type='number'
-                                                        name='numero'
-                                                        min={0}
-                                                        placeholder=''
-                                                    />
-                                                </Form.Item>
-                                            </div>
-                                            <div className='indBio-Container4'>
-                                                <Form.Item
-                                                    label='Colesterol HDL'
-                                                    name='colesterolHDL'
-                                                    rules={[Rules.minOne]}>
-                                                    <input
-                                                        className='input-indBio'
-                                                        type='number'
-                                                        name='numero'
-                                                        min={0}
-                                                        placeholder=''
-                                                    />
-                                                </Form.Item>
-                                            </div>
-                                            <div className='indBio-Container4'>
-                                                <Form.Item
-                                                    label='Microbiota intestital'
-                                                    name='microbiotaIntestinal'
-                                                    rules={[Rules.minOne]}>
-                                                    <input
-                                                        className='input-indBio'
-                                                        type='number'
-                                                        name='numero'
-                                                        min={0}
-                                                        placeholder=''
-                                                    />
-                                                </Form.Item>
-                                            </div>
-                                        </div>
-                                        <center>
-                                            <button
-                                                htmlType='submit'
-                                                className='btn-see-indBio'
-                                                /* onClick={
-                                                    updateIndicadoresBio
-                                                } */
-                                                value='Add'>
-                                                Agregar
-                                            </button>
-                                        </center>
-                                    </Form>
-                                }
-                                handleClose={togglePopupIndicadoresBio}
-                            />
+        <>
+            <div className='basicContainer'> {/*containerIndBio,  */}
+                <div className='containData'>
+                    <h2>Indicadores Bioquimicos</h2>
+                    {/*Grafica-----------------------------------------------------------------------*/}
+                    <div className='basicInfo-Container-Slide'>
+                        {infoBioquimicos?.glucosaAyuno?.length > 0 && (
+                            <IndicadoresBio data={infoBioquimicos} dates={infoBioquimicosDates} />
                         )}
                     </div>
                 </div>
             </div>
-        </div>
+
+            {/*Fin de grafica----------------------------------------------------------------*/}
+            <div className='basicContainer'>
+                <input
+                    type='button'
+                    value='Agregar'
+                    onClick={togglePopupIndicadoresBio}
+                    className='btn-see-circunferencia'
+                />
+                <p></p>
+                {isOpenIndicadoresBio && (
+                    <Popup
+                        content={
+                            <>
+                                <strong><p id='popTitle'>Agregando un nuevo valor</p></strong>
+                                <Form form={form} requiredMark={false} onFinish={updateIndicadoresBio}>
+                                    <Form.Item
+                                        label='Glucosa en el ayuno'
+                                        name='glucosaAyuno'
+                                        className='id-name'                                        
+                                        rules={[Rules.minOne]}>
+                                        <input
+                                            className='lb-name'
+                                            type='number'
+                                            name='numero'
+                                            min={0}
+                                            placeholder=''
+                                        />
+                                    </Form.Item>
+                                    <Form.Item
+                                        label='Glucosa después'
+                                        name='glucosaDespues'
+                                        className='id-name'
+                                        rules={[Rules.minOne]}>
+                                        <input
+                                            className='lb-name'
+                                            type='number'
+                                            name='numero'
+                                            min={0}
+                                            placeholder=''
+                                        />
+                                    </Form.Item>
+                                    <Form.Item
+                                        label='Minutos después'
+                                        name='minutos'
+                                        className='id-name'
+                                        rules={[Rules.minZero]}>
+                                        <input
+                                            className='lb-name'
+                                            type='number'
+                                            name='numero'
+                                            min={0}
+                                            placeholder=''
+                                        />
+                                    </Form.Item>
+                                    <Form.Item
+                                        label='Trigliceridos'
+                                        name='trigliceridos'
+                                        className='id-name'
+                                        rules={[Rules.minOne]}>
+                                        <input
+                                            className='lb-name'
+                                            type='number'
+                                            name='numero'
+                                            min={0}
+                                            placeholder=''
+                                        />
+                                    </Form.Item>
+                                    <Form.Item
+                                        label='Colesterol total'
+                                        name='colesterolTotal'
+                                        className='id-name'
+                                        rules={[Rules.minOne]}>
+                                        <input
+                                            className='lb-name'
+                                            type='number'
+                                            name='numero'
+                                            min={0}
+                                            placeholder=''
+                                        />
+                                    </Form.Item>
+                                    <Form.Item
+                                        label='Colesterol LDL'
+                                        name='colesterolLDL'
+                                        className='id-name'
+                                        rules={[Rules.minOne]}>
+                                        <input
+                                            className='lb-name'
+                                            type='number'
+                                            name='numero'
+                                            min={0}
+                                            placeholder=''
+                                        />
+                                    </Form.Item>
+                                    <Form.Item
+                                        label='Colesterol HDL'
+                                        name='colesterolHDL'
+                                        className='id-name'
+                                        rules={[Rules.minOne]}>
+                                        <input
+                                            className='lb-name'
+                                            type='number'
+                                            name='numero'
+                                            min={0}
+                                            placeholder=''
+                                        />
+                                    </Form.Item>
+                                    <Form.Item
+                                        label='Microbiota intestital'
+                                        name='microbiotaIntestinal'
+                                        className='id-name'
+                                        rules={[Rules.minOne]}>
+                                        <input
+                                            className='lb-name'
+                                            type='number'
+                                            name='numero'
+                                            min={0}
+                                            placeholder=''
+                                        />
+                                    </Form.Item>
+
+                                    <center>
+                                        <button
+                                            htmlType='submit'
+                                            className='btn-see-circunferencia'
+                                            /* onClick={
+                                                updateIndicadoresBio
+                                            } */
+                                            value='Add'>
+                                            Agregar
+                                        </button>
+                                    </center>
+                                </Form>
+                            </>
+                        }
+                        handleClose={togglePopupIndicadoresBio}
+                    />
+                )}
+            </div>
+        </>
     );
 
 };
