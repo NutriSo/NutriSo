@@ -1,33 +1,33 @@
 .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
-    color: #000000;    
+    color: #000000;
 }
 
-.basicContainer{
-    background-color: rgba(102, 51, 153, 0);   
+.basicContainer {
+    background-color: rgba(102, 51, 153, 0);
     //border: 1px solid black;
-    display: flex; 
+    display: flex;
     padding: 20px;
     align-items: flex-start;
     height: fit-content;
-    justify-content: center;    
+    justify-content: center;
 }
 
-.containData{
+.containData {
     padding: 20px;
-    width: 60%;     
-    //overflow-x: scroll;  
-    
+    width: 60%;
+    //overflow-x: scroll;
+
     background: rgba(255, 255, 255, 0.25);
-    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
     //backdrop-filter: blur( 4px );
     //-webkit-backdrop-filter: blur( 4px );
     border-radius: 10px;
-    border: 1px solid rgba( 255, 255, 255, 0.18 );
+    border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 .ant-form-item {
     background-color: rgba(255, 0, 0, 0);
-    width: 100%;    
+    width: 100%;
 }
 
 .ant-form {
@@ -35,29 +35,29 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    
 }
 
-.entradas{
+.entradas {
     display: flex;
     flex-grow: 1;
-    flex-direction: column;    
+    flex-direction: column;
 }
 
 .basicInfo-Container {
     display: flex;
     background-color: rgba(251, 251, 26, 0);
-    flex-wrap: wrap;    
+    flex-wrap: wrap;
     margin-top: 20px;
-    column-gap: 10px;    
+    column-gap: 10px;
 }
 
-#popTitle{
+#popTitle {
     text-align: center;
     font-size: 1.5rem;
 }
 
-.basicInfo-Container-Slide {//ESTE ES EL QUE LE MOSTRARÉ A GAMA    
+.basicInfo-Container-Slide {
+    //ESTE ES EL QUE LE MOSTRARÉ A GAMA
     /*
     display: flex;
     background-color: rgba(251, 251, 26, 0);
@@ -65,19 +65,19 @@
     margin-top: 20px;
     column-gap: 10px;
     overflow-x: scroll;
-    */    
+    */
 }
 
 .basicInfo-Save {
     width: 100%;
-    margin-top: 20px;    
-    background-color: rgba(102, 51, 153, 0);    
+    margin-top: 20px;
+    background-color: rgba(102, 51, 153, 0);
     display: flex;
     justify-content: center;
 }
 
-.btn-Save-basicInfo {    
-    background-color: #26bdb5;                         
+.btn-Save-basicInfo {
+    background-color: #26bdb5;
     width: 70%;
     height: 30px;
     border-radius: 10px;
@@ -86,12 +86,12 @@
     color: rgb(0, 0, 0);
 }
 
-.profile-imgBasic {    
-    width: 100%;    
-    border-radius: 64px;    
-    display: flex;  
+.profile-imgBasic {
+    width: 100%;
+    border-radius: 64px;
+    display: flex;
     align-items: center;
-    flex-wrap: wrap;            
+    flex-wrap: wrap;
     background: #26bdb5;
     padding: 5px;
 
@@ -99,34 +99,32 @@
     box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.3);
 }
 
-.profile-imgBasic h2{
+.profile-imgBasic h2 {
     background-color: rgba(255, 0, 0, 0);
     display: flex;
     font-size: 2rem;
     text-align: center;
-    flex-grow: 1;    
+    flex-grow: 1;
     justify-content: center;
-    word-wrap: break-word;     
-    align-items: center;       
+    word-wrap: break-word;
+    align-items: center;
 }
 
 .photo {
     width: 94px;
     height: 94px;
-    border-radius: 64px;    
+    border-radius: 64px;
 }
 
-.id-name {        
-    font-weight: 600;    
-    font-size: 1rem;   
+.id-name {
+    font-weight: 600;
+    font-size: 1rem;
 }
-
-
 
 .lb-name {
     background-color: rgba(238, 255, 0, 0);
     height: fit-content;
-    width: 100%;    
+    width: 100%;
 }
 
 .lb-name::placeholder {
@@ -134,29 +132,15 @@
     font-weight: 700;
 }
 
-@media screen and (max-width:900px){
-    .profile-imgBasic{
-        justify-content: center;        
-    }   
-    
-    .containData{
+@media screen and (max-width: 900px) {
+    .profile-imgBasic {
+        justify-content: center;
+    }
+
+    .containData {
         width: 100%;
     }
-    
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 #space {
     border: none;
@@ -211,21 +195,6 @@
 }
 */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .btn-Save-basicInfo3 {
     background-color: rgb(159, 245, 163);
     width: 70vh;
@@ -239,8 +208,6 @@
     border-radius: 10px;
     margin-left: 5rem;
 }
-
-
 
 #select-pro {
     display: flex;
@@ -335,6 +302,7 @@
     height: 100vh;
     top: 0;
     left: 0;
+    z-index: 1;
 }
 
 .box {
@@ -370,7 +338,6 @@
     font-size: 20px;
 }
 
-
 .btnLactancia-Save-Container {
     width: 90%;
     //background-color: rgb(217, 255, 0);
@@ -386,7 +353,6 @@ input {
     border-radius: none;
     outline: none;
 }
-
 
 /*
 .basicInfo-Name-Container2 {//change

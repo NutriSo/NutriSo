@@ -1,27 +1,5 @@
-
-/*.containerBasicInfo {
-    width: 60%;
-    //background-color: white;
-    margin-left: 20%;
-    margin-top: 5%;
-    height: 90vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-radius: 10px;
-    border: solid 2px black;
-    /* From https://css.glass 
-    background: rgba(81, 118, 139, 0.2);
-    border-radius: 16px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    border: 1px solid rgba(52, 202, 222, 0.3);
-}*/
-
 .basicInfo-Title {
     width: 90%;
-    //background-color: RED;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -33,7 +11,6 @@
 
 .basicInfo-Title2 {
     width: 90%;
-    //background-color: RED;
     display: flex;
     justify-content: center;
     height: 5%;
@@ -44,7 +21,6 @@
 
 .basicInfo-Title3 {
     width: 90%;
-    //background-color: RED;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -54,41 +30,14 @@
     font-size: x-large;
 }
 
-/*.profile-imgBasic {
-    position: relative;
-    width: 98px;
-    height: 98px;
-    border-radius: 64px;
-    margin-right: 60%;
-
-    //Colorful border
-    background: #26bdb5;
-    padding: 2px;
-
-    //Shadow
-    box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.3);
-}
-*/
-
 .photo {
     width: 94px;
     height: 94px;
     border-radius: 64px;
 }
 
-/*.basicInfo-Name-Container {
-    width: 90%;
-    //background-color: red;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    height: 15%;
-}*/
-
 .basicInfo-Name-Container2 {
     width: 80%;
-    //background-color: rgb(255, 0, 212);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -99,7 +48,6 @@
 
 .basicInfo-Name-Container3 {
     width: 40rem;
-    //background-color: red;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -110,7 +58,6 @@
 
 .basicInfo-Name-Container4 {
     width: 100%;
-    //background-color: rgb(255, 0, 212);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -121,7 +68,6 @@
 
 .basicInfo-Name-Container5 {
     width: 100%;
-    //background-color: red;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -131,7 +77,6 @@
 
 .basicInfo-Name-Container6 {
     width: 100%;
-    //background-color: rgb(255, 0, 212);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -139,11 +84,6 @@
     font-size: larger;
     height: 100%;
 }
-
-/*.id-name {
-    margin-left: 0px;
-    font-weight: 600;
-}*/
 
 .lb-name {
     background-color: white;
@@ -155,11 +95,8 @@
     text-align: center;
 }
 
-//You may be able to delete this
-
 .basicInfo-homeCel-Container {
     width: 90%;
-    //background-color: blue;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -169,7 +106,6 @@
 
 .basicInfo-homeCel-Container2 {
     width: 60%;
-    //background-color: rgb(57, 221, 194);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -180,7 +116,6 @@
 
 .basicInfo-birthPlaceGender-Container {
     width: 90%;
-    //background-color: orange;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -190,7 +125,6 @@
 
 .basicInfo-birthPlaceGender-Container2 {
     width: 60%;
-    //background-color: rgb(207, 17, 99);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -199,11 +133,8 @@
     height: 100%;
 }
 
-//Dont delete this XD
-
 .basicInfo-Save-Container {
     width: 90%;
-    //background-color: rgb(217, 255, 0);
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -213,7 +144,6 @@
 
 .basicInfo-Save-Container2 {
     width: 60%;
-    //background-color: rgb(207, 17, 99);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -222,20 +152,7 @@
     height: 50%;
 }
 
-/*.btn-Save-basicInfo {
-    background-color: rgb(159, 245, 163);
-    width: 70vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    font-weight: 600;
-    margin-right: 0vh;
-    font-size: larger;
-    border-radius: 10px;
-}
-*/@at-root
-.btn-Save-basicInfo2 {
+@at-root .btn-Save-basicInfo2 {
     background-color: rgb(159, 245, 163);
     width: 70vh;
     display: flex;
@@ -266,7 +183,6 @@
 //Circunferencia
 .containerCircunferencia {
     width: 60%;
-    //background-color: white;
     margin-left: 20%;
     margin-top: 5%;
     height: 100vh;
@@ -275,7 +191,6 @@
     align-items: center;
     border-radius: 10px;
     border: solid 2px black;
-    /* From https://css.glass */
     background: rgba(81, 118, 139, 0.2);
     border-radius: 16px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -286,7 +201,6 @@
 
 .circunferencia-Container {
     width: 90%;
-    //background-color: red;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -296,7 +210,6 @@
 
 .circunferencia-ContainerGrafica {
     width: 60%;
-    //background-color: rgb(255, 0, 212);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -307,7 +220,6 @@
 
 .circunferencia-Container2 {
     width: 60%;
-    //background-color: rgb(255, 0, 212);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -322,14 +234,11 @@
     align-items: center;
     width: 50rem;
     height: 50rem;
-    //margin-right: 23rem;
     margin-left: 3rem;
-    //background-color: red;
 }
 
 .circunferencia-Container4 {
     width: 60%;
-    //background-color: rgb(255, 0, 212);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -359,36 +268,16 @@
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    /*background-color: purple;*/
     margin-top: -1.5%;
-    //width: 20%;
 }
 
 .select-pro2 {
-    //width: 100%;
     font-weight: 600;
     font-size: larger;
-    /*background-color: purple;*/
 }
 
-/*.btn-see-circunferencia {
-    background-color: rgb(159, 245, 163);
-    width: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    font-weight: 600;
-    //margin-left:25vh;
-    font-size: larger;
-    border-radius: 10px;
-    margin-top: 1.5rem;
-}*/
-
-//Campo Corporales
 .containerCampoCor {
     width: 60%;
-    //background-color: white;
     margin-left: 20%;
     margin-top: 5%;
     height: 100vh;
@@ -397,7 +286,6 @@
     align-items: center;
     border-radius: 10px;
     border: solid 2px black;
-    /* From https://css.glass */
     background: rgba(81, 118, 139, 0.2);
     border-radius: 16px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -408,7 +296,6 @@
 
 .campCor-Container {
     width: 90%;
-    //background-color: red;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -418,7 +305,6 @@
 
 .campoCor-Container2 {
     width: 15rem;
-    //background-color: rgb(255, 0, 212);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -433,13 +319,11 @@
     align-items: center;
     width: 50rem;
     height: 50rem;
-    //margin-right: 23rem;
     margin-left: 3rem;
-    //background-color: red;
 }
+
 .campCor-Container4 {
     width: 100%;
-    //background-color: rgb(255, 0, 212);
     display: flex;
     flex-direction: row;
     justify-content: right;
@@ -464,7 +348,6 @@
     margin-top: 0px;
     margin-right: 0vh;
     text-align: center;
-    //align-items: left;
 }
 
 .label-campCor2 {
@@ -521,7 +404,6 @@
 
 .estadoGen-Container {
     width: 90%;
-    //background-color: red;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -531,7 +413,6 @@
 
 .estadoGen-Container2 {
     width: 15rem;
-    //background-color: rgb(255, 0, 212);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -609,6 +490,7 @@
     height: 100vh;
     top: 0;
     left: 0;
+    z-index: 1;
 }
 
 .box {
