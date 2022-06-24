@@ -50,7 +50,7 @@ const Consulta = ({ onClick }) => {
         }
     }, [isLoading]);
 
-    const hasMoreItems = page < 17 || isSearching;
+    const hasMoreItems = page < 17 || !isSearching;
 
     useEffect(() => {
         fetchData();
@@ -91,13 +91,21 @@ const Consulta = ({ onClick }) => {
             message.error(`Error: ${error.message}`);
         }
     };
+    //console.log("im all the data"+allData);
 
     const onSearch = ({ target }) => {
+        var inputValue = document.getElementById("search_valor").value;
+        console.log("Buscar: "+inputValue);
         setIsSearching(true);
-        const filteredData = alldata.filter((alimento) =>
-            alimento.nombreAlimento.includes(target.value)
+        const filteredData = allData.filter((alimento) =>
+            alimento.nombreAlimento.includes(inputValue)
         );
-        setFilterData(filterData);
+        if(filteredData.length > 0){
+            setFilterData(filteredData);
+        }else{
+            setFilterData(data);
+        }
+        
     };
 
     const getExportData = async () => {
@@ -301,9 +309,9 @@ const Consulta = ({ onClick }) => {
                 <div className='search'>
                     <input
                         id='search_valor'
-                        onChange={onSearch}
                         placeholder='Busqueda rápida'
                     />
+                    <Button className='searchButton' onClick={onSearch}>Buscar</Button>
                 </div>
                 <div className='grid_container' ref={scrollRef}>
                     <InfiniteScroll
