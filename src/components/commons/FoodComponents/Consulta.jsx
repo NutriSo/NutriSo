@@ -23,7 +23,7 @@ const Consulta = ({ onClick }) => {
     const [fileReady, setFileReady] = useState(false);
     const [filterData, setFilterData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-
+    console.log({ allData, data });
     const scrollRef = useRef();
 
     const fetchItems = useCallback(async () => {
@@ -94,10 +94,10 @@ const Consulta = ({ onClick }) => {
 
     const onSearch = ({ target }) => {
         setIsSearching(true);
-        const filteredData = alldata.filter((alimento) =>
+        const filteredData = allData.filter((alimento) =>
             alimento.nombreAlimento.includes(target.value)
         );
-        setFilterData(filterData);
+        setFilterData(filteredData);
     };
 
     const getExportData = async () => {
