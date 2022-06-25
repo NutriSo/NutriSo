@@ -95,64 +95,107 @@ const Groups = ({ selected = false, setLoading }) => {
             const usersAux = [];
             const groupsAux = [];
 
-            data.map(async (elem, dataIndex) => {
+            const res = data.map(async (elem, dataIndex) => {
                 const { usuario, horario, alimentos, id } = elem;
 
-                const foodArrayInfo = await Promise.all(
-                    alimentos.map(async (el) => {
-                        const res = await getFoodData(el.id);
+                const aux = alimentos.map(async (el) => {
+                    const res = await getFoodData(el.id);
 
-                        return {
-                            ...res,
-                            cantidad: el.cantidad,
-                        };
-                    })
-                );
+                    return {
+                        ...res,
+                        idRegistro: id,
+                        usuario,
+                        horario,
+                        cantidad: el.cantidad,
+                    };
+                });
+
+                return await Promise.all(aux);
+            });
+
+            const alimentos = await Promise.all(res);
+            const foodArrayInfo = [...alimentos.flat(2)];
+
+            foodArrayInfo.forEach((food) => {
+                const { usuario, horario, idRegistro, grupoExportable } = food;
+
+                const isPartOfGroup = groups[keys.grupoExportable].includes(grupoExportable);
+
+                if (!isPartOfGroup) return;
+
                 const date = dayjs(horario).format('DD/MM/YYYY');
 
                 const newData = {
+                    idRegistro,
                     idParticipante: usuario,
-                    idRegistro: id,
                     fechaRegistro: date,
                 };
 
-                foodArrayInfo.forEach((food) => {
-                    const { grupoExportable } = food;
-
-                    const isPartOfGroup =
-                        groups[keys.grupoExportable].includes(grupoExportable);
-
-                    if (!isPartOfGroup) return;
-
-                    const newState = normalizeArrayToExport({
-                        state: getArrayByGroups(groups[keys.grupoExportable]),
-                        group: grupoExportable,
-                        food,
-                    });
-                    const auxSuper = {
-                        ...newData,
-                        ...newState,
-                    };
-                    usersAux.push(auxSuper);
-                    groupsAux.push(newState);
-                    setGroupsState((s) => [...s, newState]);
+                const newState = normalizeArrayToExport({
+                    state: getArrayByGroups(groups[keys.grupoExportable]),
+                    group: grupoExportable,
+                    food,
                 });
-                // if (dataIndex === data.length - 1) {
-                //     setTimeout(() => {
-                //         setFoodReady(true);
-                //     }, 2000);
-                // }
-                // if (dataIndex === data.length - 1) {
-                //     setTimeout(() => {
-                //         onFileReady();
-                //     }, 1000);
-                // }
+                const auxSuper = {
+                    ...newData,
+                    ...newState,
+                };
+                usersAux.push(auxSuper);
+                groupsAux.push(newState);
             });
 
-            setTimeout(() => {
-                setUsersData(usersAux);
-                setFoodReady(true);
-            }, 2000);
+            console.log({ usersAux, groupsAux });
+
+            setUsersData(usersAux);
+            setFoodReady(true);
+            // data.map(async (elem, dataIndex) => {
+            //     const { usuario, horario, alimentos, id } = elem;
+
+            //     const foodArrayInfo = await Promise.all(
+            //         alimentos.map(async (el) => {
+            //             const res = await getFoodData(el.id);
+
+            //             return {
+            //                 ...res,
+            //                 cantidad: el.cantidad,
+            //             };
+            //         })
+            //     );
+            //     const date = dayjs(horario).format('DD/MM/YYYY');
+
+            //     const newData = {
+            //         idParticipante: usuario,
+            //         idRegistro: id,
+            //         fechaRegistro: date,
+            //     };
+
+            //     foodArrayInfo.forEach((food) => {
+            //         const { grupoExportable } = food;
+
+            //         const isPartOfGroup =
+            //             groups[keys.grupoExportable].includes(grupoExportable);
+
+            //         if (!isPartOfGroup) return;
+
+            //         const newState = normalizeArrayToExport({
+            //             state: getArrayByGroups(groups[keys.grupoExportable]),
+            //             group: grupoExportable,
+            //             food,
+            //         });
+            //         const auxSuper = {
+            //             ...newData,
+            //             ...newState,
+            //         };
+            //         usersAux.push(auxSuper);
+            //         groupsAux.push(newState);
+            //         setGroupsState((s) => [...s, newState]);
+            //     });
+            // });
+
+            // setTimeout(() => {
+            //     setUsersData(usersAux);
+            //     setFoodReady(true);
+            // }, 2000);
         } catch (error) {
             handleCancel();
             message.error('Error al obtener los datos');
@@ -179,9 +222,23 @@ const Groups = ({ selected = false, setLoading }) => {
     const createExportData = () => {
         console.log('Armando los datos de exportación...');
         try {
-            const rows = getRowValues(usersData);
+            const holas = usersData.map((i) => {
+                const { fechaRegistro, idParticipante, idRegistro, ...rest } = i;
+
+                const olas = removeEmptyValues(rest);
+
+                return {
+                    fechaRegistro,
+                    idRegistro,
+                    idParticipante,
+                    ...olas[0],
+                };
+            });
+
+            const rows = getRowValues(holas);
+
             const exportedData = getFoodRow(rows);
-            console.log({ rows });
+            console.log({ rows, usersData, exportedData, groupState });
             // setExportData(exportedData);
             // setTimeout(() => {
             //     onFileReady();
