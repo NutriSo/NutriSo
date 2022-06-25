@@ -28,7 +28,7 @@ const BodyFields = ({id}) =>{
         getinfoCampCor();
 
         return () => {
-            setCircunferenciaDates({});
+            setInfoCorDates({});
         };
     }, [id]);
 
@@ -63,6 +63,12 @@ const BodyFields = ({id}) =>{
             console.error(error);
             console.groupEnd();
         }
+    };
+
+    //popup Window Error Circunferencia
+    const [isOpenErrorCampCor, setIsOpenErrorCampCor] = useState(false);
+    const togglePopupErrorCampCor = () => {
+        setIsOpenErrorCampCor(!isOpenErrorCampCor);
     };
 
     const updateCampCor = async () => {
@@ -179,94 +185,92 @@ const BodyFields = ({id}) =>{
                                 content={
                                     <>
                                         <b>Agregando un nuevo valor</b>
-                                        <div>
-                                            <div className='campoCor-Container'>
-                                                <div className='campCor-Container4'>
-                                                    <label className='label-campCor'>
-                                                        Porcentaje de grasa:
-                                                    </label>
-                                                    <input
-                                                        className='input-campCor'
-                                                        type='number'
-                                                        name='numero'
-                                                        min={0}
-                                                        placeholder={''}
-                                                        onChange={(event) =>
-                                                            setGrasaEn(event.target.value)
-                                                        }></input>
-                                                </div>
-                                                <div className='campCor-Container4'>
-                                                    <label className='label-campCor'>Porcentaje de masa:</label>
-                                                    <input
-                                                        className='input-campCor'
-                                                        type='number'
-                                                        name='numero'
-                                                        min={0}
-                                                        placeholder={''}
-                                                        onChange={(event) =>
-                                                            setMasaEn(event.target.value)
-                                                        }></input>
-                                                </div>
-                                                <div className='campCor-Container4'>
-                                                    <label className='label-campCor'>Porcentaje de agua:</label>
-                                                    <input
-                                                        className='input-campCor'
-                                                        type='number'
-                                                        name='numero'
-                                                        min={0}
-                                                        placeholder={''}
-                                                        onChange={(event) =>
-                                                            setAguaEn(event.target.value)
-                                                        }></input>
-                                                </div>
-                                                <div className='campCor-Container4'>
-                                                    <label className='label-campCor'>Densidad osea:</label>
-                                                    <input
-                                                        className='input-campCor'
-                                                        type='number'
-                                                        name='numero'
-                                                        min={0}
-                                                        placeholder={''}
-                                                        onChange={(event) =>
-                                                            setOseaEn(event.target.value)
-                                                        }></input>
-                                                </div>
-                                                <div className='campCor-Container4'>
-                                                    <label className='label-campCor'>Grasa visceral:</label>
-                                                    <input
-                                                        className='input-campCor'
-                                                        type='number'
-                                                        name='numero'
-                                                        min={0}
-                                                        placeholder={''}
-                                                        onChange={(event) =>
-                                                            setVisceralEn(event.target.value)
-                                                        }></input>
-                                                </div>
-                                                <div className='campCor-Container4'>
-                                                    <label className='label-campCor'>Tasa metabolica:</label>
-                                                    <input
-                                                        className='input-campCor'
-                                                        type='number'
-                                                        name='numero'
-                                                        min={0}
-                                                        placeholder={''}
-                                                        onChange={(event) =>
-                                                            setTMetabolicaEn(event.target.value)
-                                                        }></input>
-                                                </div>
-                                                <div className='campCor-Container4'>
-                                                    <label className='label-campCor'>Edad metabolica:</label>
-                                                    <input
-                                                        className='input-campCor'
-                                                        type='number'
-                                                        name='numero'
-                                                        min={0}
-                                                        placeholder={''}
-                                                        onChange={(event) =>
-                                                            setEMetabolicaEn(event.target.value)
-                                                        }></input>
-                                                </div>
+                                        <div> 
+                                            <div className='campCor-Container4'>
+                                                <label className='label-campCor'>
+                                                    Porcentaje de grasa:
+                                                </label>
+                                                <input
+                                                    className='input-campCor'
+                                                    type='number'
+                                                    name='numero'
+                                                    min={0}
+                                                    placeholder={''}
+                                                    onChange={(event) =>
+                                                        setGrasaEn(event.target.value)
+                                                    }></input>
+                                            </div>
+                                            <div className='campCor-Container4'>
+                                                <label className='label-campCor'>Porcentaje de masa:</label>
+                                                <input
+                                                    className='input-campCor'
+                                                    type='number'
+                                                    name='numero'
+                                                    min={0}
+                                                    placeholder={''}
+                                                    onChange={(event) =>
+                                                        setMasaEn(event.target.value)
+                                                    }></input>
+                                            </div>
+                                            <div className='campCor-Container4'>
+                                                <label className='label-campCor'>Porcentaje de agua:</label>
+                                                <input
+                                                    className='input-campCor'
+                                                    type='number'
+                                                    name='numero'
+                                                    min={0}
+                                                    placeholder={''}
+                                                    onChange={(event) =>
+                                                        setAguaEn(event.target.value)
+                                                    }></input>
+                                            </div>
+                                            <div className='campCor-Container4'>
+                                                <label className='label-campCor'>Densidad osea:</label>
+                                                <input
+                                                    className='input-campCor'
+                                                    type='number'
+                                                    name='numero'
+                                                    min={0}
+                                                    placeholder={''}
+                                                    onChange={(event) =>
+                                                        setOseaEn(event.target.value)
+                                                    }></input>
+                                            </div>
+                                            <div className='campCor-Container4'>
+                                                <label className='label-campCor'>Grasa visceral:</label>
+                                                <input
+                                                    className='input-campCor'
+                                                    type='number'
+                                                    name='numero'
+                                                    min={0}
+                                                    placeholder={''}
+                                                    onChange={(event) =>
+                                                        setVisceralEn(event.target.value)
+                                                    }></input>
+                                            </div>
+                                            <div className='campCor-Container4'>
+                                                <label className='label-campCor'>Tasa metabolica:</label>
+                                                <input
+                                                    className='input-campCor'
+                                                    type='number'
+                                                    name='numero'
+                                                    min={0}
+                                                    placeholder={''}
+                                                    onChange={(event) =>
+                                                        setTMetabolicaEn(event.target.value)
+                                                    }></input>
+                                            </div>
+                                            <div className='campCor-Container4'>
+                                                <label className='label-campCor'>Edad metabolica:</label>
+                                                <input
+                                                    className='input-campCor'
+                                                    type='number'
+                                                    name='numero'
+                                                    min={0}
+                                                    placeholder={''}
+                                                    onChange={(event) =>
+                                                        setEMetabolicaEn(event.target.value)
+                                                    }></input>
                                             </div>
                                         </div>
                                         <button className='btn-see-camCor' onClick={updateCampCor} value='Add'>

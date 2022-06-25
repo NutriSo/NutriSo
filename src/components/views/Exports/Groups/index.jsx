@@ -17,12 +17,40 @@ import {
     aditivosAlimentarios,
     extraColumns,
 } from './data';
+import groups from '../data/excelGroups';
+import keys from '../data/excelKeys';
+import {
+    getArrayByGroups,
+    normalizeArrayToExport,
+    getCharacteristicColumns,
+    normalizeDataByGroupDTO,
+    normalizeSumByGroupDTO,
+    removeEmptyValues,
+    getRowValues,
+    unifyArrays,
+    getFoodRow,
+} from '../utils';
 import { KG } from '../constants';
+import { isEmptyObject, removeDuplicatedByKey, waitFor } from '../../../../utils';
 
 const Groups = ({ selected = false, setLoading }) => {
-    const [columns, setColumns] = useState([...baseColumns, ...extraColumns]);
-    const [exportData, setExportData] = useState([]);
+    const [columns, setColumns] = useState([
+        ...baseColumns,
+        ...extraColumns,
+        ...caloriasMacronutrientes,
+        ...vitaminas,
+        ...minerales,
+        ...aspectoGlucemico,
+        ...aspectosMedioambientales,
+        ...aspectosEconomicos,
+        ...componentesBioactivos,
+        ...aditivosAlimentarios,
+    ]);
+    const [foodReady, setFoodReady] = useState(false);
+    const [usersData, setUsersData] = useState([]);
+    const [exportData, setExportData] = useState(null);
     const [fileReady, setFileReady] = useState(false);
+    const [groupState, setGroupsState] = useState([]);
 
     useEffect(() => {
         selected && getExportData();
@@ -32,70 +60,101 @@ const Groups = ({ selected = false, setLoading }) => {
         };
     }, [selected]);
 
+    useEffect(() => {
+        foodReady && createExportData();
+    }, [foodReady]);
+
+    useEffect(() => {
+        return () => {
+            setLoading(false);
+        };
+    }, []);
+
+    const onFileReady = () => {
+        setFileReady(true);
+        setLoading(false);
+    };
+
+    const handleCancel = () => {
+        setFileReady(false);
+        setExportData(null);
+        setLoading(false);
+    };
+
     const getExportData = async () => {
         console.log('Obteniendo datos de exportación...');
         try {
             const { data } = await apiURL.get('registroDietetico');
 
-            const exportedData = [];
-
             if (data?.length <= 0) {
                 message.error('No hay datos para exportar');
-                setFileReady(false);
+                handleCancel();
                 return;
             }
 
+            const usersAux = [];
+            const groupsAux = [];
+
             data.map(async (elem, dataIndex) => {
+                const { usuario, horario, alimentos, id } = elem;
+
                 const foodArrayInfo = await Promise.all(
-                    elem.alimentos.map(async ({ id }) => await getFoodData(id))
+                    alimentos.map(async (el) => {
+                        const res = await getFoodData(el.id);
+
+                        return {
+                            ...res,
+                            cantidad: el.cantidad,
+                        };
+                    })
                 );
+                const date = dayjs(horario).format('DD/MM/YYYY');
 
-                const date = dayjs(elem.horario).format('DD/MM/YYYY');
+                const newData = {
+                    idParticipante: usuario,
+                    idRegistro: id,
+                    fechaRegistro: date,
+                };
 
-                foodArrayInfo.forEach((food, foodIndex) => {
-                    const indexFood = elem.alimentos.findIndex((item) => item.id === food.id);
+                foodArrayInfo.forEach((food) => {
+                    const { grupoExportable } = food;
 
-                    const correctFood = elem.alimentos[indexFood];
+                    const isPartOfGroup =
+                        groups[keys.grupoExportable].includes(grupoExportable);
 
-                    const quantity = Number(correctFood.cantidad ?? 1);
-                    const factor = Number(
-                        food.aspectoMedioambiental.factorDeCorreccionParaHuellaHidricaYEGEI
-                    );
-                    const washing = Number(food.aspectoMedioambiental.aguaParaLavado);
-                    const cooking = Number(food.aspectoMedioambiental.aguaParaCoccion);
-                    const consumption = Number(food.cantidadAlimento.pesoNeto * quantity);
+                    if (!isPartOfGroup) return;
 
-                    const washingValue = (consumption * washing) / KG;
-                    const cookingValue = (consumption * cooking) / KG;
-
-                    const newData = {
-                        idParticipante: elem.usuario,
-                        idRegistro: elem.id,
-                        fechaRegistro: date,
+                    const newState = normalizeArrayToExport({
+                        state: getArrayByGroups(groups[keys.grupoExportable]),
+                        group: grupoExportable,
+                        food,
+                    });
+                    const auxSuper = {
+                        ...newData,
+                        ...newState,
                     };
-                    setColumns((s) => [
-                        ...s,
-                        ...caloriasMacronutrientes,
-                        ...vitaminas,
-                        ...minerales,
-                        ...aspectoGlucemico,
-                        ...aspectosMedioambientales,
-                        ...aspectosEconomicos,
-                        ...componentesBioactivos,
-                        ...aditivosAlimentarios,
-                        ...extraColumns,
-                    ]);
-                    setExportData([...exportedData, newData]);
-                    exportedData.push(newData);
+                    usersAux.push(auxSuper);
+                    groupsAux.push(newState);
+                    setGroupsState((s) => [...s, newState]);
                 });
-
-                if (dataIndex === data.length - 1) {
-                    // setFileReady(true);
-                    setLoading(false);
-                }
+                // if (dataIndex === data.length - 1) {
+                //     setTimeout(() => {
+                //         setFoodReady(true);
+                //     }, 2000);
+                // }
+                // if (dataIndex === data.length - 1) {
+                //     setTimeout(() => {
+                //         onFileReady();
+                //     }, 1000);
+                // }
             });
+
+            setTimeout(() => {
+                setUsersData(usersAux);
+                setFoodReady(true);
+            }, 2000);
         } catch (error) {
-            setFileReady(false);
+            handleCancel();
             message.error('Error al obtener los datos');
             console.groupCollapsed('[Exports] getExportData');
             console.error(error);
@@ -109,13 +168,33 @@ const Groups = ({ selected = false, setLoading }) => {
 
             return data;
         } catch (error) {
+            handleCancel();
             message.error('Error al obtener los datos de alimentos');
             console.groupCollapsed('[Exports] getFoodData');
             console.error(error);
             console.groupEnd();
         }
     };
-    console.log(columns);
+
+    const createExportData = () => {
+        console.log('Armando los datos de exportación...');
+        try {
+            const rows = getRowValues(usersData);
+            const exportedData = getFoodRow(rows);
+            console.log({ rows });
+            // setExportData(exportedData);
+            // setTimeout(() => {
+            //     onFileReady();
+            // }, 1000);
+        } catch (error) {
+            handleCancel();
+            message.error('Ocurrió un error al armar los datos para exportar');
+            console.groupCollapsed('[Exports] createExportData');
+            console.error(error);
+            console.groupEnd();
+        }
+    };
+
     return (
         <ButtonsArea
             fileReady={fileReady}

@@ -20,6 +20,12 @@ const DietReg = ({ selected = false, setLoading }) => {
         };
     }, [selected]);
 
+    const handleCancel = () => {
+        setFileReady(false);
+        setExportData([]);
+        setLoading(false);
+    };
+
     const getExportData = async () => {
         console.log('Obteniendo datos de exportación...');
         try {
@@ -257,12 +263,14 @@ const DietReg = ({ selected = false, setLoading }) => {
                     });
 
                     if (dataIndex === data.length - 1) {
-                        setFileReady(true);
-                        setLoading(false);
+                        setTimeout(() => {
+                            setFileReady(true);
+                            setLoading(false);
+                        }, 1000);
                     }
                 });
         } catch (error) {
-            setFileReady(false);
+            handleCancel();
             message.error('Error al obtener los datos');
             console.groupCollapsed('[Exports] getExportData');
             console.error(error);
@@ -276,6 +284,7 @@ const DietReg = ({ selected = false, setLoading }) => {
 
             return data;
         } catch (error) {
+            handleCancel();
             message.error('Error al obtener los datos de alimentos');
             console.groupCollapsed('[Exports] getFoodData');
             console.error(error);
@@ -291,13 +300,14 @@ const DietReg = ({ selected = false, setLoading }) => {
 
             return data;
         } catch (error) {
+            handleCancel();
             message.error('Error al obtener los datos del usuario');
             console.groupCollapsed('[Exports] getUserData');
             console.error(error);
             console.groupEnd();
         }
     };
-
+    console.log({ exportData });
     return (
         <ButtonsArea
             fileReady={fileReady}

@@ -158,3 +158,26 @@ export const getCurrentAge = (fecha) => {
         console.log('Error al calcular la edad', error);
     }
 };
+
+export const getUserHash = () => {
+    const id = window.location.hash.split('usuarios/')[1].trim();
+
+    return id;
+};
+
+export const removeDuplicatedByKey = (arr, key) => {
+    if (isEmptyArray(arr)) return [];
+
+    const aux = [];
+    const result = [];
+
+    arr.forEach((elem) => {
+        if (aux.includes(elem[key])) {
+            return;
+        }
+        aux.push(elem[key]);
+        result.push(elem);
+    });
+
+    return result;
+};
