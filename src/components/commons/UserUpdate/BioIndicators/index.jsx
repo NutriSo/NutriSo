@@ -133,9 +133,10 @@ const BioIndicators = ({ id }) => {
                     value='Agregar'
                     onClick={togglePopupIndicadoresBio}
                     className='btn-see-circunferencia'
-                />
-                <p></p>
-                {isOpenIndicadoresBio && (
+                />                               
+            </div>
+            
+            {isOpenIndicadoresBio && (                    
                     <Popup
                         content={
                             <>
@@ -263,7 +264,6 @@ const BioIndicators = ({ id }) => {
                         handleClose={togglePopupIndicadoresBio}
                     />
                 )}
-            </div>
         </>
     );
 

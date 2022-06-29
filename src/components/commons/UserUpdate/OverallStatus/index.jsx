@@ -336,7 +336,7 @@ const OverallStatus = ({ id }) => {
                     </div>
 
                     <div className="labels">
-                        <label htmlFor="">¿Cuántas horas pasa parado al día?</label>
+                        <p>¿Cuántas horas pasa parado al día?</p>
                     </div>
                     <div className="inputs">
                         <Form.Item
