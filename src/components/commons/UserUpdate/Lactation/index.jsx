@@ -343,64 +343,62 @@ const Lactation = ({ id }) => {
             <div className='containData'>
                 <h2>Lactancia</h2>
                 <Form form={form2} requiredMark={false} onFinish={updateLactancia}>
-                    
-                            
-                            <Form.Item
-                                name='opcionLactancia'
-                                label='Tipo de lactancia'
-                                className='lb-lactanciaSelect'
-                            /*rules={[Rules.basicSpanish]}*/
-                            >
-                                <Select
-                                    onChange={(value) =>
-                                        setLactanciaExclusiva(value === '' ? true : false)
-                                    }
-                                    defaultValue={''}>
-                                    <Option value={'Lactancia materna exclusiva'}>
-                                        Lactancia materna exclusiva
-                                    </Option>
-                                    <Option value={'Lactancia artificial'}>
-                                        Lactancia artificial
-                                    </Option>
-                                    <Option value={'Lactancia mixta'}>Lactancia mixta</Option>
-                                    <Option value={'Lactancia materna complementada'}>
-                                        Lactancia materna complementada
-                                    </Option>
-                                    <Option value={'Lactancia mixta complementada'}>
-                                        Lactancia mixta complementada
-                                    </Option>
-                                    <Option value={'Lactancia artificial complementada'}>
-                                        Lactancia artificial complementada
-                                    </Option>
-                                </Select>
-                            </Form.Item>
-                                                                               
-                            <p>¿Por cuánto tiempo?</p>
-                            <Form.Item
-                                name='tiempoLactancia'                                                                
-                                rules={[Rules.basicSpanish]}
-                                required='true'>
-                                {/*<input disabled = {generalCheckPYM} className='lb-lactancia2'></input>*/}
-                                <input
-                                    disabled={LactanciaCheckExlusiva}
-                                    type='text'
-                                    name='tLactancia'
-                                    className='lb-lactancia2'
-                                    placeholder=''
-                                />
-                            </Form.Item>
-                        
-                    <div className='basicInfo-Save-ContainerLac'>
-                        <div className='basicInfo-Save-ContainerLac2 '>
-                            <button
-                                className='btn-Save-basicInfoLac3'
-                                htmlType='submit'
-                                /*onClick={() => updateEstadoGeneral()}*/
-                                value='Add'>
-                                Save
-                            </button>
-                        </div>
-                    </div>
+
+
+                    <Form.Item
+                        name='opcionLactancia'
+                        label='Tipo de lactancia'
+                        className='lb-lactanciaSelect'
+                    /*rules={[Rules.basicSpanish]}*/
+                    >
+                        <Select
+                            onChange={(value) =>
+                                setLactanciaExclusiva(value === '' ? true : false)
+                            }
+                            defaultValue={''}>
+                            <Option value={'Lactancia materna exclusiva'}>
+                                Lactancia materna exclusiva
+                            </Option>
+                            <Option value={'Lactancia artificial'}>
+                                Lactancia artificial
+                            </Option>
+                            <Option value={'Lactancia mixta'}>Lactancia mixta</Option>
+                            <Option value={'Lactancia materna complementada'}>
+                                Lactancia materna complementada
+                            </Option>
+                            <Option value={'Lactancia mixta complementada'}>
+                                Lactancia mixta complementada
+                            </Option>
+                            <Option value={'Lactancia artificial complementada'}>
+                                Lactancia artificial complementada
+                            </Option>
+                        </Select>
+                    </Form.Item>
+
+                    <p>¿Por cuánto tiempo?</p>
+                    <Form.Item
+                        name='tiempoLactancia'
+                        rules={[Rules.basicSpanish]}
+                        required='true'>
+                        {/*<input disabled = {generalCheckPYM} className='lb-lactancia2'></input>*/}
+                        <input
+                            disabled={LactanciaCheckExlusiva}
+                            type='text'
+                            name='tLactancia'
+                            className='lb-lactancia2'
+                            placeholder=''
+                        />
+                    </Form.Item>
+
+                    <center>
+                        <button
+                            className='btn-see-circunferencia'
+                            htmlType='submit'
+                            /*onClick={() => updateEstadoGeneral()}*/
+                            value='Add'>
+                            Save
+                        </button>
+                    </center>
                 </Form>
             </div>
         </div>
