@@ -148,54 +148,6 @@ const Groups = ({ selected = false, setLoading }) => {
 
             setUsersData(usersAux);
             setFoodReady(true);
-            // data.map(async (elem, dataIndex) => {
-            //     const { usuario, horario, alimentos, id } = elem;
-
-            //     const foodArrayInfo = await Promise.all(
-            //         alimentos.map(async (el) => {
-            //             const res = await getFoodData(el.id);
-
-            //             return {
-            //                 ...res,
-            //                 cantidad: el.cantidad,
-            //             };
-            //         })
-            //     );
-            //     const date = dayjs(horario).format('DD/MM/YYYY');
-
-            //     const newData = {
-            //         idParticipante: usuario,
-            //         idRegistro: id,
-            //         fechaRegistro: date,
-            //     };
-
-            //     foodArrayInfo.forEach((food) => {
-            //         const { grupoExportable } = food;
-
-            //         const isPartOfGroup =
-            //             groups[keys.grupoExportable].includes(grupoExportable);
-
-            //         if (!isPartOfGroup) return;
-
-            //         const newState = normalizeArrayToExport({
-            //             state: getArrayByGroups(groups[keys.grupoExportable]),
-            //             group: grupoExportable,
-            //             food,
-            //         });
-            //         const auxSuper = {
-            //             ...newData,
-            //             ...newState,
-            //         };
-            //         usersAux.push(auxSuper);
-            //         groupsAux.push(newState);
-            //         setGroupsState((s) => [...s, newState]);
-            //     });
-            // });
-
-            // setTimeout(() => {
-            //     setUsersData(usersAux);
-            //     setFoodReady(true);
-            // }, 2000);
         } catch (error) {
             handleCancel();
             message.error('Error al obtener los datos');
@@ -222,23 +174,10 @@ const Groups = ({ selected = false, setLoading }) => {
     const createExportData = () => {
         console.log('Armando los datos de exportación...');
         try {
-            const holas = usersData.map((i) => {
-                const { fechaRegistro, idParticipante, idRegistro, ...rest } = i;
+            const rows = getRowValues(usersData);
 
-                const olas = removeEmptyValues(rest);
-
-                return {
-                    fechaRegistro,
-                    idRegistro,
-                    idParticipante,
-                    ...olas[0],
-                };
-            });
-
-            const rows = getRowValues(holas);
-
-            const exportedData = getFoodRow(rows);
-            console.log({ rows, usersData, exportedData, groupState });
+            // const exportedData = getFoodRow(rows);
+            // console.log({ rows, usersData, exportedData, groupState});
             // setExportData(exportedData);
             // setTimeout(() => {
             //     onFileReady();

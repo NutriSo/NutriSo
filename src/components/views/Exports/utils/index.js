@@ -514,55 +514,46 @@ export const getRowValues = (data) => {
         };
     });
 
-    const userIDs = [];
-    const resultByUsers = [];
-    limpio.forEach((elem) => {
-        const { idParticipante, values, ...rest } = elem;
+    return groupByRegId(limpio);
+};
 
-        if (userIDs.includes(idParticipante)) {
-            const index = resultByUsers.findIndex((item) => {
-                return item.idParticipante === idParticipante;
+export const groupByRegId = (data) => {
+    if (isInvalidElem(data) || isEmptyArray(data)) return;
+
+    const idsMapped = [];
+    const result = [];
+
+    data.forEach((elem) => {
+        const { fechaRegistro, id, idParticipante, idRegistro, values } = elem;
+
+        if (idsMapped.includes(idRegistro)) {
+            const index = result.findIndex((item) => item.idRegistro === idRegistro);
+
+            if (index === -1) return;
+            console.log({ result, index });
+            result[index].values.push({
+                grupo: id,
+                values,
             });
 
-            const prevData = resultByUsers[index];
-
-            prevData.values.push(values[0]);
-
             return;
+        } else {
+            idsMapped.push(idRegistro);
+            result.push({
+                fechaRegistro,
+                idRegistro,
+                idParticipante,
+                values: [
+                    {
+                        grupo: id,
+                        values,
+                    },
+                ],
+            });
         }
-
-        resultByUsers.push(elem);
-        userIDs.push(idParticipante);
     });
 
-    return resultByUsers;
-
-    // const ids = [];
-    // const result = [];
-
-    // limpio.map((elem) => {
-    //     const { fechaRegistro, idRegistro, idParticipante, ...rest } = elem;
-
-    //     const isDuplicated = ids.includes(idParticipante);
-
-    //     if (isDuplicated) return;
-
-    //     ids.push(idRegistro);
-
-    //     const { values, id } = rest;
-
-    //     const newValue = {
-    //         idRegistro,
-    //         fechaRegistro,
-    //         idParticipante,
-    //         id,
-    //         values,
-    //     };
-
-    //     result.push(newValue);
-    // });
-
-    // return result;
+    return result;
 };
 
 export const removeEmptyValues = (data) => {
