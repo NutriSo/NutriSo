@@ -19,19 +19,7 @@ import {
 } from './data';
 import groups from '../data/excelGroups';
 import keys from '../data/excelKeys';
-import {
-    getArrayByGroups,
-    normalizeArrayToExport,
-    getCharacteristicColumns,
-    normalizeDataByGroupDTO,
-    normalizeSumByGroupDTO,
-    removeEmptyValues,
-    getRowValues,
-    unifyArrays,
-    getFoodRow,
-} from '../utils';
-import { KG } from '../constants';
-import { isEmptyObject, removeDuplicatedByKey, waitFor } from '../../../../utils';
+import { getArrayByGroups, normalizeArrayToExport, getRowValues, getFoodRow } from '../utils';
 
 const Groups = ({ selected = false, setLoading }) => {
     const [columns, setColumns] = useState([
@@ -144,8 +132,6 @@ const Groups = ({ selected = false, setLoading }) => {
                 groupsAux.push(newState);
             });
 
-            console.log({ usersAux, groupsAux });
-
             setUsersData(usersAux);
             setFoodReady(true);
         } catch (error) {
@@ -176,8 +162,8 @@ const Groups = ({ selected = false, setLoading }) => {
         try {
             const rows = getRowValues(usersData);
 
-            // const exportedData = getFoodRow(rows);
-            // console.log({ rows, usersData, exportedData, groupState});
+            const exportedData = getFoodRow(rows);
+            console.log({ rows, exportedData });
             // setExportData(exportedData);
             // setTimeout(() => {
             //     onFileReady();

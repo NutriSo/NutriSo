@@ -44,99 +44,6 @@ export const normalizeArrayToExport = ({ state, group, food }) => {
     return auxState;
 };
 
-export const unifyArrays = (state) => {
-    if (isInvalidElem(state)) return [];
-
-    let result = [];
-
-    const newArray0 = state[0].map((item) => ({
-        ...item,
-        values: [...item.values, ...state[1].find(({ id }) => item.id === id).values],
-    }));
-
-    const newArray1 = newArray0.map((item) => ({
-        ...item,
-        values: [...item.values, ...state[2].find(({ id }) => item.id === id).values],
-    }));
-
-    const newArray2 = newArray1.map((item) => ({
-        ...item,
-        values: [...item.values, ...state[3].find(({ id }) => item.id === id).values],
-    }));
-
-    const newArray3 = newArray2.map((item) => ({
-        ...item,
-        values: [...item.values, ...state[4].find(({ id }) => item.id === id).values],
-    }));
-
-    const newArray4 = newArray3.map((item) => ({
-        ...item,
-        values: [...item.values, ...state[5].find(({ id }) => item.id === id).values],
-    }));
-
-    const newArray5 = newArray4.map((item) => ({
-        ...item,
-        values: [...item.values, ...state[6].find(({ id }) => item.id === id).values],
-    }));
-
-    const newArray6 = newArray5.map((item) => ({
-        ...item,
-        values: [...item.values, ...state[7].find(({ id }) => item.id === id).values],
-    }));
-
-    const newArray7 = newArray6.map((item) => ({
-        ...item,
-        values: [...item.values, ...state[8].find(({ id }) => item.id === id).values],
-    }));
-
-    const newArray8 = newArray7.map((item) => ({
-        ...item,
-        values: [...item.values, ...state[9].find(({ id }) => item.id === id).values],
-    }));
-
-    const newArray9 = newArray8.map((item) => ({
-        ...item,
-        values: [...item.values, ...state[10].find(({ id }) => item.id === id).values],
-    }));
-
-    const newArray10 = newArray9.map((item) => ({
-        ...item,
-        values: [...item.values, ...state[11].find(({ id }) => item.id === id).values],
-    }));
-
-    const newArray11 = newArray10.map((item) => ({
-        ...item,
-        values: [...item.values, ...state[12].find(({ id }) => item.id === id).values],
-    }));
-
-    const newArray12 = newArray11.map((item) => ({
-        ...item,
-        values: [...item.values, ...state[13].find(({ id }) => item.id === id).values],
-    }));
-
-    const newArray13 = newArray12.map((item) => ({
-        ...item,
-        values: [...item.values, ...state[14].find(({ id }) => item.id === id).values],
-    }));
-
-    const newArray14 = newArray13.map((item) => ({
-        ...item,
-        values: [...item.values, ...state[15].find(({ id }) => item.id === id).values],
-    }));
-
-    const newArray15 = newArray14.map((item) => ({
-        ...item,
-        values: [...item.values, ...state[16].find(({ id }) => item.id === id).values],
-    }));
-
-    const newArray16 = newArray15.map((item) => ({
-        ...item,
-        values: [...item.values, ...state[17].find(({ id }) => item.id === id).values],
-    }));
-
-    return newArray16;
-};
-
 export const getCharacteristicColumns = () => {
     return {
         ...caloriasMacronutrientes,
@@ -530,7 +437,7 @@ export const groupByRegId = (data) => {
             const index = result.findIndex((item) => item.idRegistro === idRegistro);
 
             if (index === -1) return;
-            console.log({ result, index });
+
             result[index].values.push({
                 grupo: id,
                 values,
@@ -572,212 +479,248 @@ export const removeEmptyValues = (data) => {
     return result;
 };
 
+export const unifyArrays = (data) => {
+    const groupsMapped = [];
+    const result = [];
+
+    data.forEach((food) => {
+        const { grupo, values } = food;
+
+        if (groupsMapped.includes(grupo)) {
+            const groupIndex = result.findIndex((item) => item.grupo === grupo);
+
+            if (groupIndex === -1) return;
+
+            result[groupIndex].values = [...result[groupIndex].values, ...values];
+        } else {
+            groupsMapped.push(grupo);
+            result.push(food);
+        }
+    });
+
+    return result;
+};
+
 export const getFoodRow = (data) => {
     const result = [];
     data.forEach((row) => {
         const { idParticipante, idRegistro, fechaRegistro, ...rest } = row;
 
-        const { values, id } = rest;
+        const { values } = rest;
 
         const newRow = {
             idParticipante,
             idRegistro,
             fechaRegistro,
-            grupoExcel: id,
         };
 
-        values.forEach((food) => {
-            const { cantidad } = food;
-            const {
-                energiaKcal,
-                proteina,
-                lipidos,
-                agSaturados,
-                agMonoinsaturados,
-                agPoliinsaturados,
-                colesterol,
-                omega3,
-                omega6,
-                omega9,
-                hidratosDeCarbono,
-                fibra,
-                fibraInsoluble,
-                azucar,
-                etanol,
-                tiamina,
-                riboflavina,
-                niacina,
-                acidoPantotenico,
-                piridoxina,
-                biotina,
-                cobalamina,
-                acidoAscorbico,
-                acidoFolico,
-                vitaminaA,
-                vitaminaD,
-                vitaminaK,
-                vitaminaE,
-                calcio,
-                fosforo,
-                hierro,
-                hierroNoHem,
-                hierroTotal,
-                magnesio,
-                sodio,
-                potasio,
-                zinc,
-                selenio,
-                indiceGlicemico,
-                cargaGlicemica,
-                factorDeCorreccionParaHuellaHidricaYEGEI,
-                tipo,
-                lugar,
-                huellaHidricaTotal,
-                huellaHidricaVerde,
-                huellaHidricaAzul,
-                huellaHidricaGris,
-                aguaParaLavado,
-                aguaParaCoccion,
-                lugarEGEI,
-                citaEGEI,
-                huellaDeCarbono,
-                huellaEcologica,
-                usoDeSuelo,
-                energiaFosil,
-                nitrogeno,
-                fosforoAmbiental,
-                puntajeEcologico,
-                precio,
-                lugarDeCompra,
-                lugarDeVenta,
-                fitoquimicos,
-                polifenoles,
-                antocianinas,
-                taninos,
-                isoflavonas,
-                resveratrol,
-                isotiocianatos,
-                carotenoides,
-                betacarotenos,
-                licopeno,
-                luteina,
-                alicina,
-                cafeina,
-                ufc,
-                benzoatoDeSodio,
-                polisorbato,
-                azulBrillanteFCFoE133,
-                azurrubinaOE102,
-                amarilloOcasoFDFoE110,
-                tartrazinaOE102,
-                verdeSoE142,
-                negroBrillanteBNoE151,
-                sucralosa,
-                estevia,
-                sacarina,
-                aspartame,
-                acesulfameK,
-                carboxymethylcellulose,
-                dioxidoDeTitanio,
-                monolauratoDeGlicerol,
-            } = normalizeDataByGroupDTO(food, Number(cantidad));
+        const dataToMap = unifyArrays(values);
 
-            newRow.energiaKcal = energiaKcal;
-            newRow.proteina = proteina;
-            newRow.lipidos = lipidos;
-            newRow.agSaturados = agSaturados;
-            newRow.agMonoinsaturados = agMonoinsaturados;
-            newRow.agPoliinsaturados = agPoliinsaturados;
-            newRow.colesterol = colesterol;
-            newRow.omega3 = omega3;
-            newRow.omega6 = omega6;
-            newRow.omega9 = omega9;
-            newRow.hidratosDeCarbono = hidratosDeCarbono;
-            newRow.fibra = fibra;
-            newRow.fibraInsoluble = fibraInsoluble;
-            newRow.azucar = azucar;
-            newRow.etanol = etanol;
-            newRow.tiamina = tiamina;
-            newRow.riboflavina = riboflavina;
-            newRow.niacina = niacina;
-            newRow.acidoPantotenico = acidoPantotenico;
-            newRow.piridoxina = piridoxina;
-            newRow.biotina = biotina;
-            newRow.cobalamina = cobalamina;
-            newRow.acidoAscorbico = acidoAscorbico;
-            newRow.acidoFolico = acidoFolico;
-            newRow.vitaminaA = vitaminaA;
-            newRow.vitaminaD = vitaminaD;
-            newRow.vitaminaK = vitaminaK;
-            newRow.vitaminaE = vitaminaE;
-            newRow.calcio = calcio;
-            newRow.fosforo = fosforo;
-            newRow.hierro = hierro;
-            newRow.hierroNoHem = hierroNoHem;
-            newRow.hierroTotal = hierroTotal;
-            newRow.magnesio = magnesio;
-            newRow.sodio = sodio;
-            newRow.potasio = potasio;
-            newRow.zinc = zinc;
-            newRow.selenio = selenio;
-            newRow.indiceGlicemico = indiceGlicemico;
-            newRow.cargaGlicemica = cargaGlicemica;
-            newRow.factorDeCorreccionParaHuellaHidricaYEGEI =
-                factorDeCorreccionParaHuellaHidricaYEGEI;
-            newRow.tipo = tipo;
-            newRow.lugar = lugar;
-            newRow.huellaHidricaTotal = huellaHidricaTotal;
-            newRow.huellaHidricaVerde = huellaHidricaVerde;
-            newRow.huellaHidricaAzul = huellaHidricaAzul;
-            newRow.huellaHidricaGris = huellaHidricaGris;
-            newRow.aguaParaLavado = aguaParaLavado;
-            newRow.aguaParaCoccion = aguaParaCoccion;
-            newRow.lugarEGEI = lugarEGEI;
-            newRow.citaEGEI = citaEGEI;
-            newRow.huellaDeCarbono = huellaDeCarbono;
-            newRow.huellaEcologica = huellaEcologica;
-            newRow.usoDeSuelo = usoDeSuelo;
-            newRow.energiaFosil = energiaFosil;
-            newRow.nitrogeno = nitrogeno;
-            newRow.fosforoAmbiental = fosforoAmbiental;
-            newRow.puntajeEcologico = puntajeEcologico;
-            newRow.precio = precio;
-            newRow.lugarDeCompra = lugarDeCompra;
-            newRow.lugarDeVenta = lugarDeVenta;
-            newRow.fitoquimicos = fitoquimicos;
-            newRow.polifenoles = polifenoles;
-            newRow.antocianinas = antocianinas;
-            newRow.taninos = taninos;
-            newRow.isoflavonas = isoflavonas;
-            newRow.resveratrol = resveratrol;
-            newRow.isotiocianatos = isotiocianatos;
-            newRow.carotenoides = carotenoides;
-            newRow.betacarotenos = betacarotenos;
-            newRow.licopeno = licopeno;
-            newRow.luteina = luteina;
-            newRow.alicina = alicina;
-            newRow.cafeina = cafeina;
-            newRow.ufc = ufc;
-            newRow.benzoatoDeSodio = benzoatoDeSodio;
-            newRow.polisorbato = polisorbato;
-            newRow.azulBrillanteFCFoE133 = azulBrillanteFCFoE133;
-            newRow.azurrubinaOE102 = azurrubinaOE102;
-            newRow.amarilloOcasoFDFoE110 = amarilloOcasoFDFoE110;
-            newRow.tartrazinaOE102 = tartrazinaOE102;
-            newRow.verdeSoE142 = verdeSoE142;
-            newRow.negroBrillanteBNoE151 = negroBrillanteBNoE151;
-            newRow.sucralosa = sucralosa;
-            newRow.estevia = estevia;
-            newRow.sacarina = sacarina;
-            newRow.aspartame = aspartame;
-            newRow.acesulfameK = acesulfameK;
-            newRow.carboxymethylcellulose = carboxymethylcellulose;
-            newRow.dioxidoDeTitanio = dioxidoDeTitanio;
-            newRow.monolauratoDeGlicerol = monolauratoDeGlicerol;
+        dataToMap.forEach((group, index) => {
+            const { grupo, values: alimentos } = group;
+
+            newRow[`grupoExcel${index}`] = grupo;
+
+            alimentos.forEach((food) => {
+                const { cantidad } = food;
+
+                const {
+                    energiaKcal,
+                    proteina,
+                    lipidos,
+                    agSaturados,
+                    agMonoinsaturados,
+                    agPoliinsaturados,
+                    colesterol,
+                    omega3,
+                    omega6,
+                    omega9,
+                    hidratosDeCarbono,
+                    fibra,
+                    fibraInsoluble,
+                    azucar,
+                    etanol,
+                    tiamina,
+                    riboflavina,
+                    niacina,
+                    acidoPantotenico,
+                    piridoxina,
+                    biotina,
+                    cobalamina,
+                    acidoAscorbico,
+                    acidoFolico,
+                    vitaminaA,
+                    vitaminaD,
+                    vitaminaK,
+                    vitaminaE,
+                    calcio,
+                    fosforo,
+                    hierro,
+                    hierroNoHem,
+                    hierroTotal,
+                    magnesio,
+                    sodio,
+                    potasio,
+                    zinc,
+                    selenio,
+                    indiceGlicemico,
+                    cargaGlicemica,
+                    factorDeCorreccionParaHuellaHidricaYEGEI,
+                    tipo,
+                    lugar,
+                    huellaHidricaTotal,
+                    huellaHidricaVerde,
+                    huellaHidricaAzul,
+                    huellaHidricaGris,
+                    aguaParaLavado,
+                    aguaParaCoccion,
+                    lugarEGEI,
+                    citaEGEI,
+                    huellaDeCarbono,
+                    huellaEcologica,
+                    usoDeSuelo,
+                    energiaFosil,
+                    nitrogeno,
+                    fosforoAmbiental,
+                    puntajeEcologico,
+                    precio,
+                    lugarDeCompra,
+                    lugarDeVenta,
+                    fitoquimicos,
+                    polifenoles,
+                    antocianinas,
+                    taninos,
+                    isoflavonas,
+                    resveratrol,
+                    isotiocianatos,
+                    carotenoides,
+                    betacarotenos,
+                    licopeno,
+                    luteina,
+                    alicina,
+                    cafeina,
+                    ufc,
+                    benzoatoDeSodio,
+                    polisorbato,
+                    azulBrillanteFCFoE133,
+                    azurrubinaOE102,
+                    amarilloOcasoFDFoE110,
+                    tartrazinaOE102,
+                    verdeSoE142,
+                    negroBrillanteBNoE151,
+                    sucralosa,
+                    estevia,
+                    sacarina,
+                    aspartame,
+                    acesulfameK,
+                    carboxymethylcellulose,
+                    dioxidoDeTitanio,
+                    monolauratoDeGlicerol,
+                } = normalizeDataByGroupDTO(food, Number(cantidad));
+
+                newRow[`energiaKcal${index}`] = energiaKcal;
+                newRow[`proteina${index}`] = proteina;
+                newRow[`lipidos${index}`] = lipidos;
+                newRow[`agSaturados${index}`] = agSaturados;
+                newRow[`agMonoinsaturados${index}`] = agMonoinsaturados;
+                newRow[`agPoliinsaturados${index}`] = agPoliinsaturados;
+                newRow[`colesterol${index}`] = colesterol;
+                newRow[`omega3${index}`] = omega3;
+                newRow[`omega6${index}`] = omega6;
+                newRow[`omega9${index}`] = omega9;
+                newRow[`hidratosDeCarbono${index}`] = hidratosDeCarbono;
+                newRow[`fibra${index}`] = fibra;
+                newRow[`fibraInsoluble${index}`] = fibraInsoluble;
+                newRow[`azucar${index}`] = azucar;
+                newRow[`etanol${index}`] = etanol;
+                newRow[`tiamina${index}`] = tiamina;
+                newRow[`riboflavina${index}`] = riboflavina;
+                newRow[`niacina${index}`] = niacina;
+                newRow[`acidoPantotenico${index}`] = acidoPantotenico;
+                newRow[`piridoxina${index}`] = piridoxina;
+                newRow[`biotina${index}`] = biotina;
+                newRow[`cobalamina${index}`] = cobalamina;
+                newRow[`acidoAscorbico${index}`] = acidoAscorbico;
+                newRow[`acidoFolico${index}`] = acidoFolico;
+                newRow[`vitaminaA${index}`] = vitaminaA;
+                newRow[`vitaminaD${index}`] = vitaminaD;
+                newRow[`vitaminaK${index}`] = vitaminaK;
+                newRow[`vitaminaE${index}`] = vitaminaE;
+                newRow[`calcio${index}`] = calcio;
+                newRow[`fosforo${index}`] = fosforo;
+                newRow[`hierro${index}`] = hierro;
+                newRow[`hierroNoHem${index}`] = hierroNoHem;
+                newRow[`hierroTotal${index}`] = hierroTotal;
+                newRow[`magnesio${index}`] = magnesio;
+                newRow[`sodio${index}`] = sodio;
+                newRow[`potasio${index}`] = potasio;
+                newRow[`zinc${index}`] = zinc;
+                newRow[`selenio${index}`] = selenio;
+                newRow[`indiceGlicemico${index}`] = indiceGlicemico;
+                newRow[`cargaGlicemica${index}`] = cargaGlicemica;
+                newRow[`factorDeCorreccionParaHuellaHidricaYEGEI${index}`] =
+                    factorDeCorreccionParaHuellaHidricaYEGEI;
+                newRow[`tipo${index}`] = tipo;
+                newRow[`lugar${index}`] = lugar;
+                newRow[`huellaHidricaTotal${index}`] = huellaHidricaTotal;
+                newRow[`huellaHidricaVerde${index}`] = huellaHidricaVerde;
+                newRow[`huellaHidricaAzul${index}`] = huellaHidricaAzul;
+                newRow[`huellaHidricaGris${index}`] = huellaHidricaGris;
+                newRow[`aguaParaLavado${index}`] = aguaParaLavado;
+                newRow[`aguaParaCoccion${index}`] = aguaParaCoccion;
+                newRow[`lugarEGEI${index}`] = lugarEGEI;
+                newRow[`citaEGEI${index}`] = citaEGEI;
+                newRow[`huellaDeCarbono${index}`] = huellaDeCarbono;
+                newRow[`huellaEcologica${index}`] = huellaEcologica;
+                newRow[`usoDeSuelo${index}`] = usoDeSuelo;
+                newRow[`energiaFosil${index}`] = energiaFosil;
+                newRow[`nitrogeno${index}`] = nitrogeno;
+                newRow[`fosforoAmbiental${index}`] = fosforoAmbiental;
+                newRow[`puntajeEcologico${index}`] = puntajeEcologico;
+                newRow[`precio${index}`] = precio;
+                newRow[`lugarDeCompra${index}`] = lugarDeCompra;
+                newRow[`lugarDeVenta${index}`] = lugarDeVenta;
+                newRow[`fitoquimicos${index}`] = fitoquimicos;
+                newRow[`polifenoles${index}`] = polifenoles;
+                newRow[`antocianinas${index}`] = antocianinas;
+                newRow[`taninos${index}`] = taninos;
+                newRow[`isoflavonas${index}`] = isoflavonas;
+                newRow[`sucralosa${index}`] = sucralosa;
+                newRow[`resveratrol${index}`] = resveratrol;
+                newRow[`isotiocianatos${index}`] = isotiocianatos;
+                newRow[`carotenoides${index}`] = carotenoides;
+                newRow[`betacarotenos${index}`] = betacarotenos;
+                newRow[`licopeno${index}`] = licopeno;
+                newRow[`luteina${index}`] = luteina;
+                newRow[`alicina${index}`] = alicina;
+                newRow[`cafeina${index}`] = cafeina;
+                newRow[`ufc${index}`] = ufc;
+                newRow[`benzoatoDeSodio${index}`] = benzoatoDeSodio;
+                newRow[`polisorbato${index}`] = polisorbato;
+                newRow[`azulBrillanteFCFoE133${index}`] = azulBrillanteFCFoE133;
+                newRow[`azurrubinaOE102${index}`] = azurrubinaOE102;
+                newRow[`amarilloOcasoFDFoE110${index}`] = amarilloOcasoFDFoE110;
+                newRow[`tartrazinaOE102${index}`] = tartrazinaOE102;
+                newRow[`verdeSoE142${index}`] = verdeSoE142;
+                newRow[`negroBrillanteBNoE151${index}`] = negroBrillanteBNoE151;
+                newRow[`estevia${index}`] = estevia;
+                newRow[`sacarina${index}`] = sacarina;
+                newRow[`aspartame${index}`] = aspartame;
+                newRow[`acesulfameK${index}`] = acesulfameK;
+                newRow[`carboxymethylcellulose${index}`] = carboxymethylcellulose;
+                newRow[`dioxidoDeTitanio${index}`] = dioxidoDeTitanio;
+                newRow[`monolauratoDeGlicerol${index}`] = monolauratoDeGlicerol;
+
+                result.push(newRow);
+            });
         });
-
-        result.push(newRow);
     });
 
     return result;
+};
+
+export const generateCsvRows = (data) => {
+    if (isInvalidElem(data)) return [];
+
+    const columns = [];
 };
