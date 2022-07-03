@@ -19,7 +19,13 @@ import {
 } from './data';
 import groups from '../data/excelGroups';
 import keys from '../data/excelKeys';
-import { getArrayByGroups, normalizeArrayToExport, getRowValues, getFoodRow } from '../utils';
+import {
+    getArrayByGroups,
+    normalizeArrayToExport,
+    getRowValues,
+    getDetailsByGroups,
+    generateCsvRows,
+} from '../utils';
 
 const Groups = ({ selected = false, setLoading }) => {
     const [columns, setColumns] = useState([
@@ -162,8 +168,9 @@ const Groups = ({ selected = false, setLoading }) => {
         try {
             const rows = getRowValues(usersData);
 
-            const exportedData = getFoodRow(rows);
-            console.log({ rows, exportedData });
+            const exportedData = getDetailsByGroups(rows);
+            const hola = generateCsvRows(exportedData);
+            console.log({ hola });
             // setExportData(exportedData);
             // setTimeout(() => {
             //     onFileReady();
