@@ -168,9 +168,24 @@ const Groups = ({ selected = false, setLoading }) => {
         try {
             const rows = getRowValues(usersData);
 
-            const exportedData = getDetailsByGroups(rows);
-            const hola = generateCsvRows(exportedData);
-            console.log({ hola });
+            const unified = rows.map((elem) => {
+                const { values, ...rest } = elem;
+
+                const newValues = values.reduce((group, value) => {
+                    const { grupo } = value;
+
+                    group[grupo] = group[grupo] ?? [];
+                    group[grupo].push(value);
+
+                    return group;
+                }, {});
+
+                return { ...rest, values: newValues };
+            });
+            console.log({ rows, unified });
+            //const exportedData = getDetailsByGroups(rows);
+            // const hola = generateCsvRows(exportedData);
+            //  console.log({ hola, usersData, rows, testeando });
             // setExportData(exportedData);
             // setTimeout(() => {
             //     onFileReady();
