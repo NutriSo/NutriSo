@@ -20,7 +20,7 @@ const Gastrointestinal = ({ id }) => {
     useEffect(() => {
         getGastroIn();
 
-        return () => {};
+        return () => { };
     }, [id]);
 
     const getGastroIn = async () => {
@@ -158,149 +158,136 @@ const Gastrointestinal = ({ id }) => {
     };
 
     return (
-        <div className='containerGastroIn'>
-            <div className='basicInfo-TitleGasIn'>Gastrointestinal</div>
-            <Form form={form} requiredMark={false} onFinish={updateGastroIn}>
-                <div className='basicInfo-Name-ContainerGasIn '>
-                    <div className='basicInfo-Name-ContainerGasIn2'>
-                        <label className='id-gastroIn'>Inflamacion abdominal:</label>
-                        <Form.Item
-                            name='inflaAbd'
-                            className='lb-gastroInSelect'
-                            /*rules={[Rules.basicSpanish]}*/
-                        >
-                            <Select
-                                onChange={(value) =>
-                                    setGasInCheckInfAbd(value === 'No' ? true : false)
-                                }
-                                defaultValue={'No'}>
-                                <Option value={'Si'}>Si</Option>
-                                <Option value={'No'}>No</Option>
-                            </Select>
-                        </Form.Item>
-                    </div>
-                    <div className='basicInfo-Name-ContainerGasIn2'>
-                        <label className='id-gastroIn'>Frecuencia </label>
-                        <Form.Item name='fInflaAbd'>
-                            {/*<input disabled = {generalCheckPYM} className='lb-gastroIn2'></input>*/}
-                            <input
-                                disabled={GasInCheckInfAbd}
-                                type='text'
-                                name='fInflaAbd2'
-                                className='lb-gastroIn2'
-                                placeholder=''
-                            />
-                        </Form.Item>
-                    </div>
-                </div>
-                <div className='basicInfo-Name-ContainerGasIn '>
-                    <div className='basicInfo-Name-ContainerGasIn2'>
-                        <label className='id-gastroIn'>Diarrea:</label>
-                        <Form.Item
-                            name='diarrea'
-                            className='lb-gastroInSelect'
-                            /*rules={[Rules.basicSpanish]}*/
-                        >
-                            <Select
-                                onChange={(value) =>
-                                    setGasInCheckDiarrea(value === 'No' ? true : false)
-                                }
-                                defaultValue={'No'}>
-                                <Option value={'Si'}>Si</Option>
-                                <Option value={'No'}>No</Option>
-                            </Select>
-                        </Form.Item>
-                    </div>
-                    <div className='basicInfo-Name-ContainerGasIn2'>
-                        <label className='id-gastroIn'>Frecuencia </label>
-                        <Form.Item name='fDiarrea'>
-                            {/*<input disabled = {generalCheckPYM} className='lb-gastroIn2'></input>*/}
-                            <input
-                                disabled={GasInCheckDiarrea}
-                                type='text'
-                                name='fDiarrea2'
-                                className='lb-gastroIn2'
-                                placeholder=''
-                            />
-                        </Form.Item>
-                    </div>
-                </div>
-                <div className='basicInfo-Name-ContainerGasIn '>
-                    <div className='basicInfo-Name-ContainerGasIn2'>
-                        <label className='id-gastroIn'>Estreñimiento:</label>
-                        <Form.Item
-                            name='estre'
-                            className='lb-gastroInSelect'
-                            /*rules={[Rules.basicSpanish]}*/
-                        >
-                            <Select
-                                onChange={(value) =>
-                                    setGasInCheckEstre(value === 'No' ? true : false)
-                                }
-                                defaultValue={'No'}>
-                                <Option value={'Si'}>Si</Option>
-                                <Option value={'No'}>No</Option>
-                            </Select>
-                        </Form.Item>
-                    </div>
-                    <div className='basicInfo-Name-ContainerGasIn2'>
-                        <label className='id-gastroIn'>Frecuencia </label>
-                        <Form.Item name='fEstre'>
-                            {/*<input disabled = {generalCheckPYM} className='lb-gastroIn2'></input>*/}
-                            <input
-                                disabled={GasInCheckEstre}
-                                type='text'
-                                name='fEstre2'
-                                className='lb-gastroIn2'
-                                placeholder=''
-                            />
-                        </Form.Item>
-                    </div>
-                </div>
-                <div className='basicInfo-Name-ContainerGasIn '>
-                    <div className='basicInfo-Name-ContainerGasIn2'>
-                        <label className='id-gastroIn'>Reflujo:</label>
-                        <Form.Item
-                            name='reflu'
-                            className='lb-gastroInSelect'
-                            /*rules={[Rules.basicSpanish]}*/
-                        >
-                            <Select
-                                onChange={(value) =>
-                                    setGasInCheckReflu(value === 'No' ? true : false)
-                                }
-                                defaultValue={'No'}>
-                                <Option value={'Si'}>Si</Option>
-                                <Option value={'No'}>No</Option>
-                            </Select>
-                        </Form.Item>
-                    </div>
-                    <div className='basicInfo-Name-ContainerGasIn2'>
-                        <label className='id-gastroIn'>Frecuencia </label>
-                        <Form.Item name='fReflu'>
-                            {/*<input disabled = {generalCheckPYM} className='lb-gastroIn2'></input>*/}
-                            <input
-                                disabled={GasInCheckReflu}
-                                type='text'
-                                name='fReflu2'
-                                className='lb-gastroIn2'
-                                placeholder=''
-                            />
-                        </Form.Item>
-                    </div>
-                </div>
-                <div className='basicInfo-Save-ContainerGasIn'>
-                    <div className='basicInfo-Save-ContainerGasIn2'>
-                        <button
-                            className='btn-Save-basicInfoGasIn3'
-                            htmlType='submit'
-                            /*onClick={() => updateEstadoGeneral()}*/
-                            value='Add'>
-                            Save
-                        </button>
-                    </div>
-                </div>
-            </Form>
+        <div className='basicContainer'>
+            <div className='containData'>
+                <h2>Gastrointestinal</h2>
+                <Form form={form} requiredMark={false} onFinish={updateGastroIn}>
+
+                    <Form.Item
+                        name='inflaAbd'
+                        label='Inflamacion abdominal'
+                        className='lb-gastroInSelect'
+                    /*rules={[Rules.basicSpanish]}*/
+                    >
+                        <Select
+                            onChange={(value) =>
+                                setGasInCheckInfAbd(value === 'No' ? true : false)
+                            }
+                            defaultValue={'No'}>
+                            <Option value={'Si'}>Si</Option>
+                            <Option value={'No'}>No</Option>
+                        </Select>
+                    </Form.Item>
+
+                    <p>Frecuencia:</p>
+                    <Form.Item
+                        name='fInflaAbd'>
+                        {/*<input disabled = {generalCheckPYM} className='lb-gastroIn2'></input>*/}
+                        <input
+                            disabled={GasInCheckInfAbd}
+                            type='text'
+                            name='fInflaAbd2'
+                            className='lb-gastroIn2'
+                            placeholder=''
+                        />
+                    </Form.Item>
+
+                    <Form.Item
+                        name='diarrea'
+                        label='Diarrea'
+                        className='lb-gastroInSelect'
+                    /*rules={[Rules.basicSpanish]}*/
+                    >
+                        <Select
+                            onChange={(value) =>
+                                setGasInCheckDiarrea(value === 'No' ? true : false)
+                            }
+                            defaultValue={'No'}>
+                            <Option value={'Si'}>Si</Option>
+                            <Option value={'No'}>No</Option>
+                        </Select>
+                    </Form.Item>
+
+                    <p>Frecuencia:</p>
+                    <Form.Item name='fDiarrea'>
+                        {/*<input disabled = {generalCheckPYM} className='lb-gastroIn2'></input>*/}
+                        <input
+                            disabled={GasInCheckDiarrea}
+                            type='text'
+                            name='fDiarrea2'
+                            className='lb-gastroIn2'
+                            placeholder=''
+                        />
+                    </Form.Item>
+
+
+                    <Form.Item
+                        name='estre'
+                        label='Estreñimiento'
+                        className='lb-gastroInSelect'
+                    /*rules={[Rules.basicSpanish]}*/
+                    >
+                        <Select
+                            onChange={(value) =>
+                                setGasInCheckEstre(value === 'No' ? true : false)
+                            }
+                            defaultValue={'No'}>
+                            <Option value={'Si'}>Si</Option>
+                            <Option value={'No'}>No</Option>
+                        </Select>
+                    </Form.Item>
+
+                    <p>Frecuencia </p>
+                    <Form.Item name='fEstre'>
+                        {/*<input disabled = {generalCheckPYM} className='lb-gastroIn2'></input>*/}
+                        <input
+                            disabled={GasInCheckEstre}
+                            type='text'
+                            name='fEstre2'
+                            className='lb-gastroIn2'
+                            placeholder=''
+                        />
+                    </Form.Item>
+
+                    <Form.Item
+                        name='reflu'
+                        label='Reflujo'
+                        className='lb-gastroInSelect'
+                    /*rules={[Rules.basicSpanish]}*/
+                    >
+                        <Select
+                            onChange={(value) =>
+                                setGasInCheckReflu(value === 'No' ? true : false)
+                            }
+                            defaultValue={'No'}>
+                            <Option value={'Si'}>Si</Option>
+                            <Option value={'No'}>No</Option>
+                        </Select>
+                    </Form.Item>
+
+                    <p>Frecuencia </p>
+                    <Form.Item name='fReflu'>
+                        {/*<input disabled = {generalCheckPYM} className='lb-gastroIn2'></input>*/}
+                        <input
+                            disabled={GasInCheckReflu}
+                            type='text'
+                            name='fReflu2'
+                            className='lb-gastroIn2'
+                            placeholder=''
+                        />
+                    </Form.Item>
+
+                    <center>
+                            <button
+                                className='btn-see-circunferencia'
+                                htmlType='submit'
+                                /*onClick={() => updateEstadoGeneral()}*/
+                                value='Add'>
+                                Guardar
+                            </button>
+                       </center>
+                </Form>
+            </div>
         </div>
     );
 };

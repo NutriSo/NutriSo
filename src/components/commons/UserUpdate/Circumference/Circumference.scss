@@ -1,14 +1,4 @@
-.glassbackground {
-    /* From https://css.glass */
-    background: rgba(110, 156, 213, 0.46);
-    border-radius: 16px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    border: 1px solid rgba(110, 156, 213, 0.3);
-    height: 100%;
-    align-items: center;
-}
+
 
 //Circunferencia
 .containerCircunferencia {
@@ -66,7 +56,7 @@
 
 .campoCor-Container2 {
     width: 15rem;
-    //background-color: rgb(255, 0, 212);
+    background-color: rgba(255, 0, 212, 0);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -104,15 +94,17 @@
 }
 
 .btn-see-circunferencia {
-    background-color: rgb(159, 245, 163);
-    width: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    font-weight: 600;
-    //margin-left:25vh;
-    font-size: larger;
-    border-radius: 10px;
-    margin-top: 1.5rem;
+    background-color: #26bdb500;
+    border: solid 1px #26bdb5;
+    width: fit-content;                
+    height: fit-content;
+    padding: 5px 30px 5px 30px;    
+    font-weight: 700;        
+    border-radius: 10px;    
+    color: #26bdb5;
+}
+
+.btn-see-circunferencia:hover {
+    background-color: #26bdb5;                   
+    color: #ffffff;
 }

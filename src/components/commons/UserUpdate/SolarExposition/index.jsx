@@ -7,18 +7,18 @@ import { Rules } from '../../../../utils/formRules';
 
 import './SolarExposition.scss'
 
-const SolarExposition = ({id}) =>{
+const SolarExposition = ({ id }) => {
     const [form3] = Form.useForm();
     const [info, setInfo] = useState({});
     const [infoExpoSol, setInfoExpoSol] = useState({});
     const [ExpoSolChecBloSolar, setExpoSolCheckBloSolar] = useState({});
 
-    
+
     useEffect(() => {
         getExpoSolar();
 
         return () => {
-            
+
         };
     }, [id]);
 
@@ -84,95 +84,85 @@ const SolarExposition = ({id}) =>{
 
 
     return (
-        <div className='containerExpoSolar'>
-            <div className='basicInfo-TitleExpoSol'>Expocición Solar</div>
-            <Form form={form3} requiredMark={false} onFinish={updateExpoSol}>
-                <div className='basicInfo-Name-ContainerES'>
-                    <div className='basicInfo-Name-ContainerES2'>
-                        <label className='id-expoSol'>¿Cuántos minutos te expones al sol al día</label>
-                        <Form.Item
-                            name='minutosAlSol'
-                            className='lb-expoSolSelect'
-                            rules={[Rules.basicSpanish]}>
-                            <Select name='mMinSol' defaultValue={''}>
-                                <Option value={'Menos de 5 minutos'}>Menos de 5 minutos</Option>
-                                <Option value={'5 a 10 minutos'}>5 a 10 minutos</Option>
-                                <Option value={'10 a 15 minutos'}>10 a 15 minutos</Option>
-                                <Option value={'15 a 20 minutos'}>15 a 20 minutos</Option>
-                                <Option value={'20 a 30 minutos'}>20 a 30 minutos</Option>
-                                <Option value={'30 minutos a 1 hora'}>30 minutos a 1 hora</Option>
-                                <Option value={'Más de 1 hora'}>Más de 1 hora</Option>
-                            </Select>
-                        </Form.Item>
-                    </div>
-                    <div className='basicInfo-Name-ContainerES2'>
-                        <label className='id-expoSol'>
-                            ¿Cubres tu piel con ropa de manga larga, pantalón, gorra o sombrero?
-                        </label>
-                        <Form.Item
-                            name='cubresTuPiel'
-                            className='lb-expoSolSelect'
-                            rules={[Rules.basicSpanish]}>
-                            <Select defaultValue={''}>
-                                <Option value={'Siempre'}>Siempre</Option>
-                                <Option value={'A veces'}>A veces</Option>
-                                <Option value={'Nunca'}>Nunca</Option>
-                            </Select>
-                        </Form.Item>
-                    </div>
-                </div>
+        <div className='basicContainer'>
+            <div className='containData'>
+                <h2>Expocición Solar</h2>
+                <Form form={form3} requiredMark={false} onFinish={updateExpoSol}>
 
-                <div className='basicInfo-Name-ContainerES'>
-                    <div className='basicInfo-Name-ContainerES2'>
-                        <label className='id-expoSol'>¿Utilizas bloqueador solar?</label>
-                        <Form.Item
-                            name='bloqueadorSolar'
-                            className='lb-expoSolSelect'
-                            /*rules={[Rules.basicSpanish]}*/
-                        >
-                            <Select
-                                onChange={(value) => setExpoSolCheckBloSolar(value === 'No' ? true : false)}
-                                defaultValue={'No'}>
-                                <Option value={'Si'}>Si</Option>
-                                <Option value={'No'}>No</Option>
-                            </Select>
-                        </Form.Item>
-                    </div>
-                    <div className='basicInfo-Name-ContainerES2'>
-                        <label className='id-expoSol'>¿Cuántos días a la semana?</label>
-                        <Form.Item
-                            name='diasXsemana'
-                            className='lb-expoSolSelect'
-                            /*
-                            rules={[
-                                Rules.basicSpanish,
-                            ]}*/
-                        >
-                            <Select disabled={ExpoSolChecBloSolar} defaultValue={''}>
-                                <Option value={'1'}>1</Option>
-                                <Option value={'2'}>2</Option>
-                                <Option value={'3'}>3</Option>
-                                <Option value={'4'}>4</Option>
-                                <Option value={'5'}>5</Option>
-                                <Option value={'6'}>6</Option>
-                                <Option value={'7'}>7</Option>
-                            </Select>
-                        </Form.Item>
-                    </div>
-                </div>
+                    <Form.Item
+                        name='minutosAlSol'
+                        label='¿Cuántos minutos te expones al sol al día?'
+                        className='lb-expoSolSelect'
+                        rules={[Rules.basicSpanish]}>
+                        <Select name='mMinSol' defaultValue={''}>
+                            <Option value={'Menos de 5 minutos'}>Menos de 5 minutos</Option>
+                            <Option value={'5 a 10 minutos'}>5 a 10 minutos</Option>
+                            <Option value={'10 a 15 minutos'}>10 a 15 minutos</Option>
+                            <Option value={'15 a 20 minutos'}>15 a 20 minutos</Option>
+                            <Option value={'20 a 30 minutos'}>20 a 30 minutos</Option>
+                            <Option value={'30 minutos a 1 hora'}>30 minutos a 1 hora</Option>
+                            <Option value={'Más de 1 hora'}>Más de 1 hora</Option>
+                        </Select>
+                    </Form.Item>
 
-                <div className='basicInfo-Save-Container'>
-                    <div className='basicInfo-Save-Container2'>
+                    <Form.Item
+                        name='cubresTuPiel'
+                        label='¿Cubres tu piel con ropa de manga larga, pantalón, gorra o sombrero?'
+                        className='lb-expoSolSelect'
+                        rules={[Rules.basicSpanish]}>
+                        <Select defaultValue={''}>
+                            <Option value={'Siempre'}>Siempre</Option>
+                            <Option value={'A veces'}>A veces</Option>
+                            <Option value={'Nunca'}>Nunca</Option>
+                        </Select>
+                    </Form.Item>
+
+                    <Form.Item
+                        name='bloqueadorSolar'
+                        label='¿Utilizas bloqueador solar?'
+                        className='lb-expoSolSelect'
+                    /*rules={[Rules.basicSpanish]}*/
+                    >
+                        <Select
+                            onChange={(value) => setExpoSolCheckBloSolar(value === 'No' ? true : false)}
+                            defaultValue={'No'}>
+                            <Option value={'Si'}>Si</Option>
+                            <Option value={'No'}>No</Option>
+                        </Select>
+                    </Form.Item>
+
+                    <Form.Item
+                        label='¿Cuántos días a la semana?'
+                        name='diasXsemana'
+                        className='lb-expoSolSelect'
+                    /*
+                    rules={[
+                        Rules.basicSpanish,
+                    ]}*/
+                    >
+                        <Select disabled={ExpoSolChecBloSolar} defaultValue={''}>
+                            <Option value={'1'}>1</Option>
+                            <Option value={'2'}>2</Option>
+                            <Option value={'3'}>3</Option>
+                            <Option value={'4'}>4</Option>
+                            <Option value={'5'}>5</Option>
+                            <Option value={'6'}>6</Option>
+                            <Option value={'7'}>7</Option>
+                        </Select>
+                    </Form.Item>
+
+
+                    <center>
                         <button
-                            className='btn-Save-basicInfo3'
+                            className='btn-see-circunferencia'
                             htmlType='submit'
                             /*onClick={() => updateEstadoGeneral()}*/
                             value='Add'>
-                            Save
+                            Guardar
                         </button>
-                    </div>
-                </div>
-            </Form>
+                    </center>
+                </Form>
+            </div>
         </div>
     );
 
