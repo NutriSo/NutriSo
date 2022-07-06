@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { Switch, message, Input, Button, Form } from 'antd';
 
 import UploadImg from '../../commons/UploadImgs';
 import apiURL from '../../../axios/axiosConfig';
-
-import { Switch, message, Input, Button, Form } from 'antd';
+import Slider from '../../commons/Slider';
+import settings from './settings';
 
 import './Administracion.scss';
 
@@ -217,9 +218,7 @@ const Administracion = () => {
 
             if (nivel !== lvl) return null;
 
-            return url.map((url, index) => (
-                <UploadImg key={index} id='imagenNivel' url={url} disabled />
-            ));
+            return url.map((url, index) => <UploadImg key={index} url={url} disabled />);
         });
 
         const nornalizedImages = images.filter((elem) => elem !== null);
@@ -321,7 +320,9 @@ const Administracion = () => {
                 <div className='levels'>
                     <label id='titleLvl'>Lvl 5</label>
                     <div className='lvl'>
-                        <div className='imagenes'>{mapImagenes('5')}</div>
+                        <div className='imagenes'>
+                            <Slider config={settings.level0}>{mapImagenes('5')}</Slider>
+                        </div>
                     </div>
                     <label id='titleLvl'>Lvl 4</label>
                     <div className='lvl'>

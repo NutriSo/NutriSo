@@ -6,6 +6,8 @@ import { Redirect } from 'react-router-dom';
 import './styles/App.scss';
 import 'antd/dist/antd.css';
 import './styles/antd.less';
+import '~slick-carousel/slick/slick.css';
+import '~slick-carousel/slick/slick-theme.css';
 
 require('dotenv').config();
 

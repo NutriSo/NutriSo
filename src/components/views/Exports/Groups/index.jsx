@@ -22,12 +22,10 @@ import keys from '../data/excelKeys';
 import {
     getArrayByGroups,
     normalizeArrayToExport,
-    getCharacteristicColumns,
-    normalizeDataByGroupDTO,
-    normalizeSumByGroupDTO,
+    getRowValues,
+    getDetailsByGroups,
+    generateCsvRows,
 } from '../utils';
-import { KG } from '../constants';
-import { isEmptyObject } from '../../../../utils';
 
 const Groups = ({ selected = false, setLoading }) => {
     const [columns, setColumns] = useState([
@@ -44,11 +42,9 @@ const Groups = ({ selected = false, setLoading }) => {
     ]);
     const [foodReady, setFoodReady] = useState(false);
     const [usersData, setUsersData] = useState([]);
-    const [exportData, setExportData] = useState([]);
+    const [exportData, setExportData] = useState(null);
     const [fileReady, setFileReady] = useState(false);
-    const [groupState, setGroupsState] = useState(
-        getArrayByGroups(groups[keys.grupoExportable])
-    );
+    const [groupState, setGroupsState] = useState([]);
 
     useEffect(() => {
         selected && getExportData();
@@ -75,7 +71,7 @@ const Groups = ({ selected = false, setLoading }) => {
 
     const handleCancel = () => {
         setFileReady(false);
-        setExportData([]);
+        setExportData(null);
         setLoading(false);
     };
 
@@ -84,65 +80,66 @@ const Groups = ({ selected = false, setLoading }) => {
         try {
             const { data } = await apiURL.get('registroDietetico');
 
-            const exportedData = [];
             if (data?.length <= 0) {
                 message.error('No hay datos para exportar');
-                setFileReady(false);
+                handleCancel();
                 return;
             }
 
-            data.map(async (elem, dataIndex) => {
-                const foodArrayInfo = await Promise.all(
-                    elem.alimentos.map(async ({ id }) => await getFoodData(id))
-                );
+            const usersAux = [];
+            const groupsAux = [];
 
-                const date = dayjs(elem.horario).format('DD/MM/YYYY');
+            const res = data.map(async (elem, dataIndex) => {
+                const { usuario, horario, alimentos, id } = elem;
 
-                foodArrayInfo.forEach((food, foodIndex) => {
-                    const indexFood = elem.alimentos.findIndex((item) => item.id === food.id);
+                const aux = alimentos.map(async (el) => {
+                    const res = await getFoodData(el.id);
 
-                    const correctFood = elem.alimentos[indexFood];
-
-                    const quantity = Number(correctFood.cantidad ?? 1);
-                    const factor = Number(
-                        food.aspectoMedioambiental.factorDeCorreccionParaHuellaHidricaYEGEI
-                    );
-                    const washing = Number(food.aspectoMedioambiental.aguaParaLavado);
-                    const cooking = Number(food.aspectoMedioambiental.aguaParaCoccion);
-                    const consumption = Number(food.cantidadAlimento.pesoNeto * quantity);
-
-                    const newData = {
-                        idParticipante: elem.usuario,
-                        idRegistro: elem.id,
-                        fechaRegistro: date,
+                    return {
+                        ...res,
+                        idRegistro: id,
+                        usuario,
+                        horario,
+                        cantidad: el.cantidad,
                     };
-
-                    const isPartOfGroup = groups[keys.grupoExportable].includes(
-                        food.grupoExportable
-                    );
-
-                    if (isPartOfGroup) {
-                        const newState = normalizeArrayToExport({
-                            state: groupState,
-                            group: food.grupoExportable,
-                            food,
-                        });
-                        setGroupsState(newState);
-                    }
-                    setUsersData([...exportedData, newData]);
-                    exportedData.push(newData);
                 });
-                if (dataIndex === data.length - 1) {
-                    setTimeout(() => {
-                        setFoodReady(true);
-                    }, 1000);
-                }
-                // if (dataIndex === data.length - 1) {
-                //     setTimeout(() => {
-                //         onFileReady();
-                //     }, 1000);
-                // }
+
+                return await Promise.all(aux);
             });
+
+            const alimentos = await Promise.all(res);
+            const foodArrayInfo = [...alimentos.flat(2)];
+
+            foodArrayInfo.forEach((food) => {
+                const { usuario, horario, idRegistro, grupoExportable } = food;
+
+                const isPartOfGroup = groups[keys.grupoExportable].includes(grupoExportable);
+
+                if (!isPartOfGroup) return;
+
+                const date = dayjs(horario).format('DD/MM/YYYY');
+
+                const newData = {
+                    idRegistro,
+                    idParticipante: usuario,
+                    fechaRegistro: date,
+                };
+
+                const newState = normalizeArrayToExport({
+                    state: getArrayByGroups(groups[keys.grupoExportable]),
+                    group: grupoExportable,
+                    food,
+                });
+                const auxSuper = {
+                    ...newData,
+                    ...newState,
+                };
+                usersAux.push(auxSuper);
+                groupsAux.push(newState);
+            });
+
+            setUsersData(usersAux);
+            setFoodReady(true);
         } catch (error) {
             handleCancel();
             message.error('Error al obtener los datos');
@@ -169,19 +166,30 @@ const Groups = ({ selected = false, setLoading }) => {
     const createExportData = () => {
         console.log('Armando los datos de exportación...');
         try {
-            groupState.forEach((elem, index) => {
-                const { id: grupo, values: alimentosPorGrupo } = elem;
+            const rows = getRowValues(usersData);
 
-                let results = {};
+            const unified = rows.map((elem) => {
+                const { values, ...rest } = elem;
 
-                alimentosPorGrupo.forEach((food) => {
-                    const quantity = Number(food.cantidad ?? 1);
-                    const newState = normalizeDataByGroupDTO(food, quantity);
-                    results = normalizeSumByGroupDTO(results, newState);
-                });
+                const newValues = values.reduce((group, value) => {
+                    const { grupo } = value;
 
-                if (!isEmptyObject(results)) setExportData([...exportData, results]);
+                    group[grupo] = group[grupo] ?? [];
+                    group[grupo].push(value);
+
+                    return group;
+                }, {});
+
+                return { ...rest, values: newValues };
             });
+            console.log({ rows, unified });
+            //const exportedData = getDetailsByGroups(rows);
+            // const hola = generateCsvRows(exportedData);
+            //  console.log({ hola, usersData, rows, testeando });
+            // setExportData(exportedData);
+            // setTimeout(() => {
+            //     onFileReady();
+            // }, 1000);
         } catch (error) {
             handleCancel();
             message.error('Ocurrió un error al armar los datos para exportar');
@@ -190,7 +198,7 @@ const Groups = ({ selected = false, setLoading }) => {
             console.groupEnd();
         }
     };
-    console.log({ exportData, usersData });
+
     return (
         <ButtonsArea
             fileReady={fileReady}
