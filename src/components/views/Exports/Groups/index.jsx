@@ -48,6 +48,7 @@ const Groups = ({ selected = false, setLoading }) => {
 
     useEffect(() => {
         selected && getExportData();
+        selected && getData2();
         return () => {
             setExportData(null);
             setFileReady(false);
@@ -73,6 +74,15 @@ const Groups = ({ selected = false, setLoading }) => {
         setFileReady(false);
         setExportData(null);
         setLoading(false);
+    };
+
+    const getData2 = async () => {
+        try {
+            const { data } = await apiURL.get('registroDietetico/exports');
+            console.log(data);
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     const getExportData = async () => {
