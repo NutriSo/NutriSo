@@ -41,19 +41,21 @@ const Weight = ({ id }) => {
     };
 
     return (
-        <div className='containerCircunferencia'>
-            <div className='basicInfo-Title'>Peso</div>
-            <div className='circunferencia-Container3'>
-                <Tabs defaultActiveKey='peso'>
-                    <TabPane tab='Peso' key='peso'>
-                        {dates?.peso?.length > 0 && <PesoEstatura data={weightData} dates={dates.peso} />}
-                    </TabPane>
-                    <TabPane tab='Altura' key='altura'>
-                        {dates?.estatura?.length > 0 && (
-                            <PesoEstatura data={weightData} dates={dates.estatura} option={2} />
-                        )}
-                    </TabPane>
-                </Tabs>
+        <div className='basicContainer'>{/*containerCircunferencia,   basicInfo-Title, circunferencia-Container3*/}
+            <div className='containData'>
+                <h2>Peso</h2>
+                <div className='basicInfo-Container-Slide'>
+                    <Tabs defaultActiveKey='peso'>
+                        <TabPane tab='Peso' key='peso'>
+                            {dates?.peso?.length > 0 && <PesoEstatura data={weightData} dates={dates.peso} />}
+                        </TabPane>
+                        <TabPane tab='Altura' key='altura'>
+                            {dates?.estatura?.length > 0 && (
+                                <PesoEstatura data={weightData} dates={dates.estatura} option={2} />
+                            )}
+                        </TabPane>
+                    </Tabs>
+                </div>
             </div>
         </div>
     );
