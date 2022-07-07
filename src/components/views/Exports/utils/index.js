@@ -767,3 +767,7 @@ export const generateCsvRows = (data) => {
 // Por cada registro crear una fila.
 // Por cada fila, agregar las columnas necesarias dependiendo de la cantidad
 // de alimentos que tenga en el array.
+
+export const finalRows = (data) => {
+    if (isInvalidElem(data)) return {};
+};

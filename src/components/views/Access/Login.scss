@@ -4,13 +4,22 @@ $white: #ffffff;
 .loginContainer {
     min-width: 100vw;
     min-height: 100vh;
-    background: linear-gradient(to bottom, rgb(105, 105, 150), rgb(120, 248, 255), rgb(220, 255, 255));
+    background: linear-gradient(
+        to bottom,
+        rgb(105, 105, 150),
+        rgb(120, 248, 255),
+        rgb(220, 255, 255)
+    );
     display: flex;
     flex-direction: column !important;
     justify-content: center;
     align-items: center;
     color: $white;
     padding: 20px;
+
+    .ant-form {
+        width: unset;
+    }
 
     .form {
         width: 35vw;

@@ -25,6 +25,7 @@ import {
     getRowValues,
     getDetailsByGroups,
     generateCsvRows,
+    finalRows,
 } from '../utils';
 
 const Groups = ({ selected = false, setLoading }) => {
@@ -192,7 +193,9 @@ const Groups = ({ selected = false, setLoading }) => {
 
                 return { ...rest, values: newValues };
             });
-            console.log({ rows, unified });
+
+            const final = finalRows(rows);
+
             //const exportedData = getDetailsByGroups(rows);
             // const hola = generateCsvRows(exportedData);
             //  console.log({ hola, usersData, rows, testeando });
