@@ -16,6 +16,7 @@ import {
     componentesBioactivos,
     aditivosAlimentarios,
     extraColumns,
+    groupColumns,
 } from './data';
 import groups from '../data/excelGroups';
 import keys from '../data/excelKeys';
@@ -23,8 +24,6 @@ import {
     getArrayByGroups,
     normalizeArrayToExport,
     getRowValues,
-    getDetailsByGroups,
-    generateCsvRows,
     finalRows,
     unifyGroups,
 } from '../utils';
@@ -32,6 +31,7 @@ import {
 const Groups = ({ selected = false, setLoading }) => {
     const [columns, setColumns] = useState([
         ...baseColumns,
+        ...groupColumns,
         ...extraColumns,
         ...caloriasMacronutrientes,
         ...vitaminas,
@@ -46,7 +46,6 @@ const Groups = ({ selected = false, setLoading }) => {
     const [usersData, setUsersData] = useState([]);
     const [exportData, setExportData] = useState(null);
     const [fileReady, setFileReady] = useState(false);
-    const [groupState, setGroupsState] = useState([]);
 
     useEffect(() => {
         selected && getExportData();
@@ -178,18 +177,14 @@ const Groups = ({ selected = false, setLoading }) => {
         console.log('Armando los datos de exportación...');
         try {
             const rows = getRowValues(usersData);
-
             const unified = unifyGroups(rows);
 
-            // const final = finalRows(unified);
-            console.log({ rows, unified });
-            //const exportedData = getDetailsByGroups(rows);
-            // const hola = generateCsvRows(exportedData);
-            //  console.log({ hola, usersData, rows, testeando });
-            // setExportData(exportedData);
-            // setTimeout(() => {
-            //     onFileReady();
-            // }, 1000);
+            const final = finalRows(unified);
+
+            setExportData(final);
+            setTimeout(() => {
+                onFileReady();
+            }, 1000);
         } catch (error) {
             handleCancel();
             message.error('Ocurrió un error al armar los datos para exportar');

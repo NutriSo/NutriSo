@@ -597,3 +597,12 @@ export const extraColumns = [
         width: 30,
     },
 ];
+
+export const groupColumns = [
+    {
+        title: 'Grupo alimento',
+        dataIndex: 'grupoAlimento',
+        key: 'grupoAlimento',
+        width: 50,
+    },
+];
