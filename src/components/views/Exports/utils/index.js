@@ -437,7 +437,7 @@ export const finalRows = (data) => {
             const { grupo, values } = group;
 
             objToPush.grupoAlimento = grupo;
-            console.log({ grupo, objToPush });
+
             let finalRow = {};
 
             values.forEach((food) => {
@@ -445,10 +445,9 @@ export const finalRows = (data) => {
             });
 
             objToPush = { ...objToPush, ...finalRow };
-            console.log({ objToPush });
-        });
 
-        rows.push(objToPush);
+            rows.push(objToPush);
+        });
     });
 
     return rows;
