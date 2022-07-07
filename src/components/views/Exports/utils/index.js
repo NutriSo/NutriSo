@@ -768,6 +768,43 @@ export const generateCsvRows = (data) => {
 // Por cada fila, agregar las columnas necesarias dependiendo de la cantidad
 // de alimentos que tenga en el array.
 
+export const unifyGroups = (data) => {
+    const result = data.map((elem) => {
+        const { values, ...rest } = elem;
+
+        const newValues = [];
+        const gruopsMapped = [];
+
+        values.forEach((el) => {
+            const { grupo, ...rest } = el;
+
+            if (gruopsMapped.includes(grupo)) {
+                const index = gruopsMapped.findIndex((e) => e === grupo);
+
+                newValues[index].values.push(...rest.values);
+                return;
+            }
+
+            gruopsMapped.push(grupo);
+            newValues.push(el);
+        });
+
+        return { ...rest, values: newValues };
+    });
+
+    return result;
+};
+
 export const finalRows = (data) => {
     if (isInvalidElem(data)) return {};
+
+    const rows = [];
+
+    data.forEach((elem) => {
+        const { idParticipante, idRegistro, fechaRegistro, values } = elem;
+        console.log({ values });
+        values.forEach((food) => {
+            console.log({ food });
+        });
+    });
 };

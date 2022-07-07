@@ -26,6 +26,7 @@ import {
     getDetailsByGroups,
     generateCsvRows,
     finalRows,
+    unifyGroups,
 } from '../utils';
 
 const Groups = ({ selected = false, setLoading }) => {
@@ -49,7 +50,6 @@ const Groups = ({ selected = false, setLoading }) => {
 
     useEffect(() => {
         selected && getExportData();
-        selected && getData2();
         return () => {
             setExportData(null);
             setFileReady(false);
@@ -80,7 +80,7 @@ const Groups = ({ selected = false, setLoading }) => {
     const getData2 = async () => {
         try {
             const { data } = await apiURL.get('registroDietetico/exports');
-            console.log(data);
+            // console.log(data);
         } catch (error) {
             console.log(error);
         }
@@ -179,23 +179,10 @@ const Groups = ({ selected = false, setLoading }) => {
         try {
             const rows = getRowValues(usersData);
 
-            const unified = rows.map((elem) => {
-                const { values, ...rest } = elem;
+            const unified = unifyGroups(rows);
 
-                const newValues = values.reduce((group, value) => {
-                    const { grupo } = value;
-
-                    group[grupo] = group[grupo] ?? [];
-                    group[grupo].push(value);
-
-                    return group;
-                }, {});
-
-                return { ...rest, values: newValues };
-            });
-
-            const final = finalRows(rows);
-
+            // const final = finalRows(unified);
+            console.log({ rows, unified });
             //const exportedData = getDetailsByGroups(rows);
             // const hola = generateCsvRows(exportedData);
             //  console.log({ hola, usersData, rows, testeando });
