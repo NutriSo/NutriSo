@@ -81,7 +81,6 @@ const Groups = ({ selected = false, setLoading }) => {
         try {
             const foods = [];
             const usersAux = [];
-            const groupsAux = [];
 
             const { data } = await apiURL.get('registroDietetico/exports');
 
@@ -124,12 +123,13 @@ const Groups = ({ selected = false, setLoading }) => {
                     group: grupoExportable,
                     food,
                 });
+
                 const auxSuper = {
                     ...newData,
                     ...newState,
                 };
+
                 usersAux.push(auxSuper);
-                groupsAux.push(newState);
             });
 
             setUsersData(usersAux);
