@@ -17,14 +17,14 @@ import {
     aditivosAlimentarios,
     extraColumns,
     groupColumns,
-} from './data';
+} from '../data';
 import groups from '../data/excelGroups';
 import keys from '../data/excelKeys';
 import {
     getArrayByGroups,
     normalizeArrayToExport,
     getRowValues,
-    finalRows,
+    generateCsvRows,
     unifyGroups,
 } from '../utils';
 
@@ -76,51 +76,35 @@ const Groups = ({ selected = false, setLoading }) => {
         setLoading(false);
     };
 
-    const getData2 = async () => {
-        try {
-            const { data } = await apiURL.get('registroDietetico/exports');
-            // console.log(data);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
     const getExportData = async () => {
         console.log('Obteniendo datos de exportación...');
         try {
-            const { data } = await apiURL.get('registroDietetico');
+            const foods = [];
+            const usersAux = [];
+            const groupsAux = [];
+
+            const { data } = await apiURL.get('registroDietetico/exports');
 
             if (data?.length <= 0) {
                 message.error('No hay datos para exportar');
                 handleCancel();
                 return;
             }
+            data.forEach((elem) => {
+                const { alimentos, horario, id, usuario } = elem;
 
-            const usersAux = [];
-            const groupsAux = [];
-
-            const res = data.map(async (elem, dataIndex) => {
-                const { usuario, horario, alimentos, id } = elem;
-
-                const aux = alimentos.map(async (el) => {
-                    const res = await getFoodData(el.id);
-
-                    return {
-                        ...res,
+                alimentos.forEach((food) =>
+                    foods.push({
+                        ...food.id,
+                        cantidad: food.cantidad,
+                        horario,
                         idRegistro: id,
                         usuario,
-                        horario,
-                        cantidad: el.cantidad,
-                    };
-                });
-
-                return await Promise.all(aux);
+                    })
+                );
             });
 
-            const alimentos = await Promise.all(res);
-            const foodArrayInfo = [...alimentos.flat(2)];
-
-            foodArrayInfo.forEach((food) => {
+            foods.forEach((food) => {
                 const { usuario, horario, idRegistro, grupoExportable } = food;
 
                 const isPartOfGroup = groups[keys.grupoExportable].includes(grupoExportable);
@@ -159,27 +143,12 @@ const Groups = ({ selected = false, setLoading }) => {
         }
     };
 
-    const getFoodData = async (id) => {
-        try {
-            const { data } = await apiURL.get(`alimentos/${id}`);
-
-            return data;
-        } catch (error) {
-            handleCancel();
-            message.error('Error al obtener los datos de alimentos');
-            console.groupCollapsed('[Exports] getFoodData');
-            console.error(error);
-            console.groupEnd();
-        }
-    };
-
     const createExportData = () => {
         console.log('Armando los datos de exportación...');
         try {
             const rows = getRowValues(usersData);
             const unified = unifyGroups(rows);
-
-            const final = finalRows(unified);
+            const final = generateCsvRows(unified);
 
             setExportData(final);
             setTimeout(() => {

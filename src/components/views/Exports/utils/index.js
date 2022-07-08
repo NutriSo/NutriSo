@@ -419,7 +419,7 @@ export const unifyGroups = (data) => {
     return result;
 };
 
-export const finalRows = (data) => {
+export const generateCsvRows = (data) => {
     if (isInvalidElem(data)) return {};
 
     const rows = [];
