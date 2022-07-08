@@ -33,7 +33,7 @@ const Exports = () => {
             setLoading(false);
         };
     }, []);
-    console.log({ selected });
+
     return (
         <>
             {loading && <Loading size={50} />}

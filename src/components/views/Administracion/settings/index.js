@@ -1,5 +1,5 @@
 const settings = {
-    level0: {
+    default: {
         dots: true,
         arrows: true,
         infinite: true,
