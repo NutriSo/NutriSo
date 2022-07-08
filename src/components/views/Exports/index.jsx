@@ -22,12 +22,18 @@ const Exports = () => {
     };
 
     useEffect(() => {
+        if (!loading) {
+            setSelected(initialState);
+        }
+    }, [loading]);
+
+    useEffect(() => {
         return () => {
             setSelected(initialState);
             setLoading(false);
         };
     }, []);
-
+    console.log({ selected });
     return (
         <>
             {loading && <Loading size={50} />}
