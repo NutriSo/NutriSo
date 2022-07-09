@@ -7,6 +7,7 @@ import Demographics from './Demographics';
 import Groups from './Groups';
 import SubGroup from './SubGroup';
 import UltraProcessed from './UltraProcessed';
+import AppropriateSubGroup from './AppropriateSubGroup';
 import Loading from '../../commons/Loading';
 
 import { getIsSelected } from './utils';
@@ -57,6 +58,12 @@ const Exports = () => {
                         )}
                         {getIsSelected(selected, 5, index) && (
                             <UltraProcessed selected={selected[5]} setLoading={setLoading} />
+                        )}
+                        {getIsSelected(selected, 6, index) && (
+                            <AppropriateSubGroup
+                                selected={selected[6]}
+                                setLoading={setLoading}
+                            />
                         )}
                         {selected[index + 1] === false && (
                             <Button onClick={() => handleClick(index + 1)}>

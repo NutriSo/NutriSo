@@ -29,7 +29,7 @@ import {
 } from '../utils';
 import { isEmptyArray } from '../../../../utils';
 
-const SubGroup = ({ selected = false, setLoading }) => {
+const AppropriateSubGroup = ({ selected = false, setLoading }) => {
     const [columns, setColumns] = useState([
         ...baseColumns,
         ...groupColumns,
@@ -105,10 +105,10 @@ const SubGroup = ({ selected = false, setLoading }) => {
             });
 
             foods.forEach((food) => {
-                const { usuario, horario, idRegistro, subGrupoExportable } = food;
+                const { usuario, horario, idRegistro, subGrupoAdecuada } = food;
 
                 const isPartOfGroup =
-                    groups[keys.subGrupoExportable].includes(subGrupoExportable);
+                    groups[keys.subGrupoAdecuada].includes(subGrupoAdecuada);
 
                 if (!isPartOfGroup) return;
 
@@ -121,8 +121,8 @@ const SubGroup = ({ selected = false, setLoading }) => {
                 };
 
                 const newState = normalizeArrayToExport({
-                    state: getArrayByGroups(groups[keys.subGrupoExportable]),
-                    group: subGrupoExportable,
+                    state: getArrayByGroups(groups[keys.subGrupoAdecuada]),
+                    group: subGrupoAdecuada,
                     food,
                 });
 
@@ -157,7 +157,7 @@ const SubGroup = ({ selected = false, setLoading }) => {
                 return;
             }
 
-            const csvRowsPreview = generateCsvRows(unified, 2);
+            const csvRowsPreview = generateCsvRows(unified, 4);
 
             setExportData(csvRowsPreview);
             setTimeout(() => {
@@ -178,10 +178,10 @@ const SubGroup = ({ selected = false, setLoading }) => {
             xlsxData={{
                 columns: columns,
                 data: exportData,
-                fileName: `Sub-Grupos ${dayjs(new Date()).format('DD-MM-YYYY')}`,
+                fileName: `Sub-Grupo Adecuada ${dayjs(new Date()).format('DD-MM-YYYY')}`,
             }}
         />
     );
 };
 
-export default SubGroup;
+export default AppropriateSubGroup;

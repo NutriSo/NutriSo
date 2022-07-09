@@ -27,6 +27,7 @@ import {
     generateCsvRows,
     unifyGroups,
 } from '../utils';
+import { isEmptyArray } from '../../../../utils';
 
 const UltraProcessed = ({ selected = false, setLoading }) => {
     const [columns, setColumns] = useState([
@@ -149,6 +150,13 @@ const UltraProcessed = ({ selected = false, setLoading }) => {
         try {
             const rows = getRowValues(usersData);
             const unified = unifyGroups(rows);
+
+            if (isEmptyArray(unified)) {
+                message.info('No hay datos para exportar');
+                handleCancel();
+                return;
+            }
+
             const csvRowsPreview = generateCsvRows(unified, 3);
 
             setExportData(csvRowsPreview);
