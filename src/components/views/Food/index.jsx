@@ -101,9 +101,7 @@ const Food = () => {
                     fosforo: `${rowValues[49] ?? '0'}`,
                     hierro: `${rowValues[50] ?? '0'}`,
                     hierroNoHem: `${rowValues[51] ?? '0'}`,
-                    hierroTotal: `${
-                        Number(rowValues[50] + rowValues[51]) ?? '0'
-                    }`,
+                    hierroTotal: `${Number(rowValues[50] + rowValues[51]) ?? '0'}`,
                     magnesio: `${rowValues[52] ?? '0'}`,
                     sodio: `${rowValues[53] ?? '0'}`,
                     potasio: `${rowValues[54] ?? '0'}`,
@@ -115,14 +113,11 @@ const Food = () => {
                     cargaGlicemica: `${rowValues[58] ?? '0'}`,
                 },
                 aspectoMedioambiental: {
-                    factorDeCorreccionParaHuellaHidricaYEGEI:
-                        rowValues[59] ?? 0,
+                    factorDeCorreccionParaHuellaHidricaYEGEI: rowValues[59] ?? 0,
                     tipo: `${rowValues[60] ?? 'N/A'}`,
                     lugar: `${rowValues[61] ?? 'N/A'}`,
                     huellaHidricaTotal: `${
-                        Number(rowValues[62]) +
-                        Number(rowValues[63]) +
-                        Number(rowValues[64])
+                        Number(rowValues[62]) + Number(rowValues[63]) + Number(rowValues[64])
                     }`,
                     huellaHidricaVerde: `${rowValues[62] ?? '0'}`,
                     huellaHidricaAzul: `${rowValues[63] ?? '0'}`,
@@ -183,7 +178,9 @@ const Food = () => {
                         atributoAdicional: `${rowValues[109] ?? 'N/A'}`,
                     },
                 ],
-                marca: `${rowValues[108] ?? ''}`,
+                marca: '',
+                subGrupoAdecuada: `${rowValues[109] ?? ''}`,
+                nivelPiramide: `${rowValues[110] ?? ''}`,
             };
 
             postFoods(data, index);
@@ -204,9 +201,7 @@ const Food = () => {
                 console.log(`[${index}] STATUS: ${response.status}`);
                 currentIndex = index > currentIndex ? index : currentIndex;
                 setPercent(
-                    currentIndex === 0
-                        ? 100
-                        : Math.ceil((currentIndex / foods.length) * 100)
+                    currentIndex === 0 ? 100 : Math.ceil((currentIndex / foods.length) * 100)
                 );
             }
         } catch (error) {
@@ -223,31 +218,26 @@ const Food = () => {
                 console.log(`[${index}] STATUS: ${response.status}`);
                 currentIndex = index > currentIndex ? index : currentIndex;
                 setPercent(
-                    currentIndex === 0
-                        ? 100
-                        : Math.ceil((currentIndex / foods.length) * 100)
+                    currentIndex === 0 ? 100 : Math.ceil((currentIndex / foods.length) * 100)
                 );
             }
         } catch (error) {
-            return message.error(
-                `Error al importar el alimento - ${error.message}`
-            );
+            return message.error(`Error al importar el alimento - ${error.message}`);
         }
     };
 
     return (
         <div className='foodContainer'>
             <ImportData onSuccess={onSuccess} className='item' />
-            {percent === 100 ? (
+            {percent === 100 && (
                 <Progress
                     type='circle'
                     percent={percent}
                     format={() => '¡Éxito!'}
                     className='item'
                 />
-            ) : (
-                <Progress type='circle' percent={percent} className='item' />
             )}
+            {percent !== 100 && <Progress type='circle' percent={percent} className='item' />}
         </div>
     );
 };
