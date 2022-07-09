@@ -148,9 +148,9 @@ const Groups = ({ selected = false, setLoading }) => {
         try {
             const rows = getRowValues(usersData);
             const unified = unifyGroups(rows);
-            const final = generateCsvRows(unified);
+            const csvRowsPreview = generateCsvRows(unified);
 
-            setExportData(final);
+            setExportData(csvRowsPreview);
             setTimeout(() => {
                 onFileReady();
             }, 1000);
