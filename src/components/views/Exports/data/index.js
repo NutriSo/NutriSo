@@ -2,10 +2,11 @@ export const opciones = [
     { id: 1, titulo: 'Registro dietéticos' },
     { id: 2, titulo: 'Datos demográficos' },
     { id: 3, titulo: 'Grupos' },
-    { id: 4, titulo: 'Subgrupo adecuada' },
-    { id: 5, titulo: 'Subgrupo ultra-procesadas' },
-    { id: 6, titulo: 'Subgrupos SMAE' },
-    { id: 7, titulo: 'Economía de fichas' },
+    { id: 4, titulo: 'Subgrupo' },
+    { id: 5, titulo: 'Ultra-procesados' },
+    { id: 6, titulo: 'Subgrupo adecuada' },
+    { id: 7, titulo: 'Subgrupos SMAE' },
+    { id: 8, titulo: 'Economía de fichas' },
 ];
 
 export const initialState = Object.freeze({
