@@ -29,7 +29,7 @@ import {
 } from '../utils';
 import { isEmptyArray } from '../../../../utils';
 
-const Groups = ({ selected = false, setLoading }) => {
+const UltraProcessed = ({ selected = false, setLoading }) => {
     const [columns, setColumns] = useState([
         ...baseColumns,
         ...groupColumns,
@@ -105,9 +105,10 @@ const Groups = ({ selected = false, setLoading }) => {
             });
 
             foods.forEach((food) => {
-                const { usuario, horario, idRegistro, grupoExportable } = food;
+                const { usuario, horario, idRegistro, clasificacionExportable } = food;
 
-                const isPartOfGroup = groups[keys.grupoExportable].includes(grupoExportable);
+                const isPartOfGroup =
+                    groups[keys.ultraProcesados].includes(clasificacionExportable);
 
                 if (!isPartOfGroup) return;
 
@@ -120,8 +121,8 @@ const Groups = ({ selected = false, setLoading }) => {
                 };
 
                 const newState = normalizeArrayToExport({
-                    state: getArrayByGroups(groups[keys.grupoExportable]),
-                    group: grupoExportable,
+                    state: getArrayByGroups(groups[keys.ultraProcesados]),
+                    group: clasificacionExportable,
                     food,
                 });
 
@@ -156,7 +157,7 @@ const Groups = ({ selected = false, setLoading }) => {
                 return;
             }
 
-            const csvRowsPreview = generateCsvRows(unified);
+            const csvRowsPreview = generateCsvRows(unified, 3);
 
             setExportData(csvRowsPreview);
             setTimeout(() => {
@@ -177,10 +178,10 @@ const Groups = ({ selected = false, setLoading }) => {
             xlsxData={{
                 columns: columns,
                 data: exportData,
-                fileName: `Grupos ${dayjs(new Date()).format('DD-MM-YYYY')}`,
+                fileName: `Ultra-Procesados ${dayjs(new Date()).format('DD-MM-YYYY')}`,
             }}
         />
     );
 };
 
-export default Groups;
+export default UltraProcessed;
