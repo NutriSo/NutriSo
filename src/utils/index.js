@@ -164,3 +164,20 @@ export const getUserHash = () => {
 
     return id;
 };
+
+export const removeDuplicatedByKey = (arr, key) => {
+    if (isEmptyArray(arr)) return [];
+
+    const aux = [];
+    const result = [];
+
+    arr.forEach((elem) => {
+        if (aux.includes(elem[key])) {
+            return;
+        }
+        aux.push(elem[key]);
+        result.push(elem);
+    });
+
+    return result;
+};

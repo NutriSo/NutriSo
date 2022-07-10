@@ -31,16 +31,17 @@ export const getArrayByGroups = (groups) => {
 export const normalizeArrayToExport = ({ state, group, food }) => {
     if (isInvalidElem(state) || isInvalidElem(group) || isInvalidElem(food)) return [];
 
-    const groupIndex = state.findIndex(({ id }) => id === group);
+    const auxState = state;
+    const groupIndex = auxState.findIndex(({ id }) => id === group);
 
     if (groupIndex === -1) return;
 
-    const currentState = state[groupIndex];
+    const currentState = auxState[groupIndex];
     currentState.values = [...currentState.values, food];
 
-    state[groupIndex] = currentState;
+    auxState[groupIndex] = currentState;
 
-    return state;
+    return auxState;
 };
 
 export const getCharacteristicColumns = () => {
@@ -403,3 +404,366 @@ export const getPropSum = (firstProp, secondProp) => {
 
     return firstValue + secondValue;
 };
+
+export const getRowValues = (data) => {
+    if (isInvalidElem(data)) return [];
+
+    const limpio = data.map((elem) => {
+        const { fechaRegistro, idParticipante, idRegistro, ...rest } = elem;
+
+        const normalizedValues = removeEmptyValues(rest);
+
+        return {
+            fechaRegistro,
+            idRegistro,
+            idParticipante,
+            ...normalizedValues[0],
+        };
+    });
+
+    return groupByRegId(limpio);
+};
+
+export const groupByRegId = (data) => {
+    if (isInvalidElem(data) || isEmptyArray(data)) return;
+
+    const idsMapped = [];
+    const result = [];
+
+    data.forEach((elem) => {
+        const { fechaRegistro, id, idParticipante, idRegistro, values } = elem;
+
+        if (idsMapped.includes(idRegistro)) {
+            const index = result.findIndex((item) => item.idRegistro === idRegistro);
+
+            if (index === -1) return;
+
+            result[index].values.push({
+                grupo: id,
+                values,
+            });
+
+            return;
+        } else {
+            idsMapped.push(idRegistro);
+            result.push({
+                fechaRegistro,
+                idRegistro,
+                idParticipante,
+                values: [
+                    {
+                        grupo: id,
+                        values,
+                    },
+                ],
+            });
+        }
+    });
+
+    return result;
+};
+
+export const removeEmptyValues = (data) => {
+    if (isInvalidElem(data)) return {};
+
+    const result = [];
+    const normalizedData = Object.values(data);
+
+    normalizedData.forEach((elem) => {
+        const { values } = elem;
+        if (isEmptyArray(values)) return;
+
+        result.push(elem);
+    });
+
+    return result;
+};
+
+export const unifyArrays = (data) => {
+    const groupsMapped = [];
+    const result = [];
+
+    data.forEach((food) => {
+        const { grupo, values } = food;
+
+        if (groupsMapped.includes(grupo)) {
+            const groupIndex = result.findIndex((item) => item.grupo === grupo);
+
+            if (groupIndex === -1) return;
+
+            result[groupIndex].values = [...result[groupIndex].values, ...values];
+        } else {
+            groupsMapped.push(grupo);
+            result.push(food);
+        }
+    });
+
+    return result;
+};
+
+export const getDetailsByGroups = (data) => {
+    const result = [];
+    data.forEach((row) => {
+        const { idParticipante, idRegistro, fechaRegistro, ...rest } = row;
+
+        const { values } = rest;
+
+        const newRow = {
+            idParticipante,
+            idRegistro,
+            fechaRegistro,
+        };
+
+        const dataToMap = unifyArrays(values);
+
+        dataToMap.forEach((group, index) => {
+            const { grupo, values: alimentos } = group;
+
+            newRow[`grupoExcel_${index}`] = grupo;
+
+            alimentos.forEach((food) => {
+                const { cantidad } = food;
+
+                const {
+                    energiaKcal,
+                    proteina,
+                    lipidos,
+                    agSaturados,
+                    agMonoinsaturados,
+                    agPoliinsaturados,
+                    colesterol,
+                    omega3,
+                    omega6,
+                    omega9,
+                    hidratosDeCarbono,
+                    fibra,
+                    fibraInsoluble,
+                    azucar,
+                    etanol,
+                    tiamina,
+                    riboflavina,
+                    niacina,
+                    acidoPantotenico,
+                    piridoxina,
+                    biotina,
+                    cobalamina,
+                    acidoAscorbico,
+                    acidoFolico,
+                    vitaminaA,
+                    vitaminaD,
+                    vitaminaK,
+                    vitaminaE,
+                    calcio,
+                    fosforo,
+                    hierro,
+                    hierroNoHem,
+                    hierroTotal,
+                    magnesio,
+                    sodio,
+                    potasio,
+                    zinc,
+                    selenio,
+                    indiceGlicemico,
+                    cargaGlicemica,
+                    factorDeCorreccionParaHuellaHidricaYEGEI,
+                    tipo,
+                    lugar,
+                    huellaHidricaTotal,
+                    huellaHidricaVerde,
+                    huellaHidricaAzul,
+                    huellaHidricaGris,
+                    aguaParaLavado,
+                    aguaParaCoccion,
+                    lugarEGEI,
+                    citaEGEI,
+                    huellaDeCarbono,
+                    huellaEcologica,
+                    usoDeSuelo,
+                    energiaFosil,
+                    nitrogeno,
+                    fosforoAmbiental,
+                    puntajeEcologico,
+                    precio,
+                    lugarDeCompra,
+                    lugarDeVenta,
+                    fitoquimicos,
+                    polifenoles,
+                    antocianinas,
+                    taninos,
+                    isoflavonas,
+                    resveratrol,
+                    isotiocianatos,
+                    carotenoides,
+                    betacarotenos,
+                    licopeno,
+                    luteina,
+                    alicina,
+                    cafeina,
+                    ufc,
+                    benzoatoDeSodio,
+                    polisorbato,
+                    azulBrillanteFCFoE133,
+                    azurrubinaOE102,
+                    amarilloOcasoFDFoE110,
+                    tartrazinaOE102,
+                    verdeSoE142,
+                    negroBrillanteBNoE151,
+                    sucralosa,
+                    estevia,
+                    sacarina,
+                    aspartame,
+                    acesulfameK,
+                    carboxymethylcellulose,
+                    dioxidoDeTitanio,
+                    monolauratoDeGlicerol,
+                } = normalizeDataByGroupDTO(food, Number(cantidad));
+
+                newRow[`energiaKcal_${index}`] = energiaKcal;
+                newRow[`proteina_${index}`] = proteina;
+                newRow[`lipidos_${index}`] = lipidos;
+                newRow[`agSaturados_${index}`] = agSaturados;
+                newRow[`agMonoinsaturados_${index}`] = agMonoinsaturados;
+                newRow[`agPoliinsaturados_${index}`] = agPoliinsaturados;
+                newRow[`colesterol_${index}`] = colesterol;
+                newRow[`omega3_${index}`] = omega3;
+                newRow[`omega6_${index}`] = omega6;
+                newRow[`omega9_${index}`] = omega9;
+                newRow[`hidratosDeCarbono_${index}`] = hidratosDeCarbono;
+                newRow[`fibra_${index}`] = fibra;
+                newRow[`fibraInsoluble_${index}`] = fibraInsoluble;
+                newRow[`azucar_${index}`] = azucar;
+                newRow[`etanol_${index}`] = etanol;
+                newRow[`tiamina_${index}`] = tiamina;
+                newRow[`riboflavina_${index}`] = riboflavina;
+                newRow[`niacina_${index}`] = niacina;
+                newRow[`acidoPantotenico_${index}`] = acidoPantotenico;
+                newRow[`piridoxina_${index}`] = piridoxina;
+                newRow[`biotina_${index}`] = biotina;
+                newRow[`cobalamina_${index}`] = cobalamina;
+                newRow[`acidoAscorbico_${index}`] = acidoAscorbico;
+                newRow[`acidoFolico_${index}`] = acidoFolico;
+                newRow[`vitaminaA_${index}`] = vitaminaA;
+                newRow[`vitaminaD_${index}`] = vitaminaD;
+                newRow[`vitaminaK_${index}`] = vitaminaK;
+                newRow[`vitaminaE_${index}`] = vitaminaE;
+                newRow[`calcio_${index}`] = calcio;
+                newRow[`fosforo_${index}`] = fosforo;
+                newRow[`hierro_${index}`] = hierro;
+                newRow[`hierroNoHem_${index}`] = hierroNoHem;
+                newRow[`hierroTotal_${index}`] = hierroTotal;
+                newRow[`magnesio_${index}`] = magnesio;
+                newRow[`sodio_${index}`] = sodio;
+                newRow[`potasio_${index}`] = potasio;
+                newRow[`zinc_${index}`] = zinc;
+                newRow[`selenio_${index}`] = selenio;
+                newRow[`indiceGlicemico_${index}`] = indiceGlicemico;
+                newRow[`cargaGlicemica_${index}`] = cargaGlicemica;
+                newRow[`factorDeCorreccionParaHuellaHidricaYEGEI_${index}`] =
+                    factorDeCorreccionParaHuellaHidricaYEGEI;
+                newRow[`tipo_${index}`] = tipo;
+                newRow[`lugar_${index}`] = lugar;
+                newRow[`huellaHidricaTotal_${index}`] = huellaHidricaTotal;
+                newRow[`huellaHidricaVerde_${index}`] = huellaHidricaVerde;
+                newRow[`huellaHidricaAzul_${index}`] = huellaHidricaAzul;
+                newRow[`huellaHidricaGris_${index}`] = huellaHidricaGris;
+                newRow[`aguaParaLavado_${index}`] = aguaParaLavado;
+                newRow[`aguaParaCoccion_${index}`] = aguaParaCoccion;
+                newRow[`lugarEGEI_${index}`] = lugarEGEI;
+                newRow[`citaEGEI_${index}`] = citaEGEI;
+                newRow[`huellaDeCarbono_${index}`] = huellaDeCarbono;
+                newRow[`huellaEcologica_${index}`] = huellaEcologica;
+                newRow[`usoDeSuelo_${index}`] = usoDeSuelo;
+                newRow[`energiaFosil_${index}`] = energiaFosil;
+                newRow[`nitrogeno_${index}`] = nitrogeno;
+                newRow[`fosforoAmbiental_${index}`] = fosforoAmbiental;
+                newRow[`puntajeEcologico_${index}`] = puntajeEcologico;
+                newRow[`precio_${index}`] = precio;
+                newRow[`lugarDeCompra_${index}`] = lugarDeCompra;
+                newRow[`lugarDeVenta_${index}`] = lugarDeVenta;
+                newRow[`fitoquimicos_${index}`] = fitoquimicos;
+                newRow[`polifenoles_${index}`] = polifenoles;
+                newRow[`antocianinas_${index}`] = antocianinas;
+                newRow[`taninos_${index}`] = taninos;
+                newRow[`isoflavonas_${index}`] = isoflavonas;
+                newRow[`sucralosa_${index}`] = sucralosa;
+                newRow[`resveratrol_${index}`] = resveratrol;
+                newRow[`isotiocianatos_${index}`] = isotiocianatos;
+                newRow[`carotenoides_${index}`] = carotenoides;
+                newRow[`betacarotenos_${index}`] = betacarotenos;
+                newRow[`licopeno_${index}`] = licopeno;
+                newRow[`luteina_${index}`] = luteina;
+                newRow[`alicina_${index}`] = alicina;
+                newRow[`cafeina_${index}`] = cafeina;
+                newRow[`ufc_${index}`] = ufc;
+                newRow[`benzoatoDeSodio_${index}`] = benzoatoDeSodio;
+                newRow[`polisorbato_${index}`] = polisorbato;
+                newRow[`azulBrillanteFCFoE133_${index}`] = azulBrillanteFCFoE133;
+                newRow[`azurrubinaOE102_${index}`] = azurrubinaOE102;
+                newRow[`amarilloOcasoFDFoE110_${index}`] = amarilloOcasoFDFoE110;
+                newRow[`tartrazinaOE102_${index}`] = tartrazinaOE102;
+                newRow[`verdeSoE142_${index}`] = verdeSoE142;
+                newRow[`negroBrillanteBNoE151_${index}`] = negroBrillanteBNoE151;
+                newRow[`estevia_${index}`] = estevia;
+                newRow[`sacarina_${index}`] = sacarina;
+                newRow[`aspartame_${index}`] = aspartame;
+                newRow[`acesulfameK_${index}`] = acesulfameK;
+                newRow[`carboxymethylcellulose_${index}`] = carboxymethylcellulose;
+                newRow[`dioxidoDeTitanio_${index}`] = dioxidoDeTitanio;
+                newRow[`monolauratoDeGlicerol_${index}`] = monolauratoDeGlicerol;
+
+                result.push(newRow);
+            });
+        });
+    });
+
+    return result;
+};
+
+export const generateCsvRows = (data) => {
+    const foodsByGroup = [];
+
+    data.forEach((row) => {
+        const { idParticipante, idRegistro, fechaRegistro, ...rest } = row;
+
+        const grupoExcelValues = Object.keys(rest).filter((value) => {
+            const text = 'grupoExcel_';
+
+            if (value.includes(text)) {
+                const number = Number(value.split(text)[1]);
+                return number;
+            }
+        });
+
+        foodsByGroup.push(grupoExcelValues);
+
+        if (grupoExcelValues.length > 0) {
+            return;
+        }
+    });
+
+    const result = [];
+    const foodDetails = [];
+
+    data.forEach((elem, index) => {
+        const aux = foodsByGroup[index];
+        const size = aux.length;
+
+        const { idParticipante, idRegistro, fechaRegistro, ...rest } = elem;
+
+        // const groups = new Array(size).fill([]);
+
+        // for (let i = 0; i < size; i++) {
+        //     Object.entries(rest).forEach(([key, value]) => {
+        //         const splitted = Number(key.split('_')[1]);
+        //         if (splitted === i) {
+        //             groups[i].push({ [key]: value });
+        //         } else return;
+        //     });
+        // }
+        // console.log('después', { groups, index });
+    });
+};
+
+// Por cada registro crear una fila.
+// Por cada fila, agregar las columnas necesarias dependiendo de la cantidad
+// de alimentos que tenga en el array.
