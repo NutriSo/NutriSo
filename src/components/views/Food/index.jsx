@@ -15,7 +15,6 @@ const Food = () => {
     let currentIndex = 0;
 
     useEffect(() => {
-        // eslint-disable-next-line no-unused-expressions
         fileData.length > 0 && hadleRequest();
 
         return () => {
@@ -205,9 +204,7 @@ const Food = () => {
                 );
             }
         } catch (error) {
-            return message.error(
-                `Error al importar el alimento - ${error.message} [actualización]`
-            );
+            return message.error(`Error al importar el alimento - ${error.message}`);
         }
     };
 
@@ -222,7 +219,9 @@ const Food = () => {
                 );
             }
         } catch (error) {
-            return message.error(`Error al importar el alimento - ${error.message}`);
+            return message.error(
+                `Error al importar el alimento - ${error.message}  [actualización]`
+            );
         }
     };
 
