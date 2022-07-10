@@ -208,61 +208,65 @@ const OverallStatus = ({ id }) => {
             <div className='containData'>
                 <h2>Estado general</h2>
                 <Form form={form} requiredMark={false} onFinish={updateEstadoGeneral}>
+                    {/* <div className='fila'> */}
+                        <Form.Item
+                            label='Mucho cansancio'
+                            name='muchoCansancio'
+                            className='lb-EstadoGenSelect'
+                            rules={[Rules.basicSpanish]}>
+                            <Select name='mCancancio' defaultValue={''}>
+                                <Option value={'Si'}>Si</Option>
+                                <Option value={'No'}>No</Option>
+                            </Select>
+                        </Form.Item>
 
-                    <Form.Item
-                        label='Mucho cansancio'
-                        name='muchoCansancio'
-                        className='lb-EstadoGenSelect'
-                        rules={[Rules.basicSpanish]}>
-                        <Select name='mCancancio' defaultValue={''}>
-                            <Option value={'Si'}>Si</Option>
-                            <Option value={'No'}>No</Option>
-                        </Select>
-                    </Form.Item>
+                        <Form.Item
+                            name='mareos'
+                            className='lb-EstadoGenSelect'
+                            label='Mareos'
+                            rules={[Rules.basicSpanish]}>
+                            <Select defaultValue={''}>
+                                <Option value={'Si'}>Si</Option>
+                                <Option value={'No'}>No</Option>
+                            </Select>
+                        </Form.Item>
 
-                    <Form.Item
-                        name='mareos'
-                        className='lb-EstadoGenSelect'
-                        label='Mareos'
-                        rules={[Rules.basicSpanish]}>
-                        <Select defaultValue={''}>
-                            <Option value={'Si'}>Si</Option>
-                            <Option value={'No'}>No</Option>
-                        </Select>
-                    </Form.Item>
+                        <Form.Item
+                            name='muchaSed'
+                            label='Mucha sed'
+                            className='lb-EstadoGenSelect'
+                            rules={[Rules.basicSpanish]}>
+                            <Select defaultValue={''}>
+                                <Option value={'Si'}>Si</Option>
+                                <Option value={'No'}>No</Option>
+                            </Select>
+                        </Form.Item>
 
-                    <Form.Item
-                        name='muchaSed'
-                        label='Mucha sed'
-                        className='lb-EstadoGenSelect'
-                        rules={[Rules.basicSpanish]}>
-                        <Select defaultValue={''}>
-                            <Option value={'Si'}>Si</Option>
-                            <Option value={'No'}>No</Option>
-                        </Select>
-                    </Form.Item>
+                        <Form.Item
+                            name='muchasGanasDeOrinar'
+                            label='Muchas ganas de orinar'
+                            className='lb-EstadoGenSelect'
+                            rules={[Rules.basicSpanish]}>
+                            <Select defaultValue={''}>
+                                <Option value={'Si'}>Si</Option>
+                                <Option value={'No'}>No</Option>
+                            </Select>
+                        </Form.Item>
 
-                    <Form.Item
-                        name='muchasGanasDeOrinar'
-                        label='Muchas ganas de orinar'
-                        className='lb-EstadoGenSelect'
-                        rules={[Rules.basicSpanish]}>
-                        <Select defaultValue={''}>
-                            <Option value={'Si'}>Si</Option>
-                            <Option value={'No'}>No</Option>
-                        </Select>
-                    </Form.Item>
+                        <Form.Item
+                            name='muchaHambre'
+                            label='Mucha hambre'
+                            className='lb-EstadoGenSelect'
+                            rules={[Rules.basicSpanish]}>
+                            <Select defaultValue={''}>
+                                <Option value={'Si'}>Si</Option>
+                                <Option value={'No'}>No</Option>
+                            </Select>
+                        </Form.Item>
+                    {/* </div> */}
 
-                    <Form.Item
-                        name='muchaHambre'
-                        label='Mucha hambre'
-                        className='lb-EstadoGenSelect'
-                        rules={[Rules.basicSpanish]}>
-                        <Select defaultValue={''}>
-                            <Option value={'Si'}>Si</Option>
-                            <Option value={'No'}>No</Option>
-                        </Select>
-                    </Form.Item>
+
+
 
                     <h2> Pies y manos </h2>
                     <Form.Item

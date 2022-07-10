@@ -396,7 +396,7 @@ const Lactation = ({ id }) => {
                             htmlType='submit'
                             /*onClick={() => updateEstadoGeneral()}*/
                             value='Add'>
-                            Save
+                            Guardar
                         </button>
                     </center>
                 </Form>

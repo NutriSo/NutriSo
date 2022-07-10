@@ -57,6 +57,13 @@
     font-weight: 600;
 }
 
+.fila{
+    display: flex;
+    background-color: rgba(255, 0, 0, 0);    
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
 .lb-EstadoGenSelect {
     //background-color: white;
     border-radius: 5px;
