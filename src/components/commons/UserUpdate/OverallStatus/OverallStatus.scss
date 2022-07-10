@@ -64,14 +64,21 @@
     justify-content: space-evenly;
 }
 
+.ant-form-item-control-input-content{
+    width: 13vw;
+}
+
+
+
 .lb-EstadoGenSelect {
     //background-color: white;
     border-radius: 5px;
-    border: solid 1px black;
-    width: 90%;
-    height: auto;
-    margin-top: 0px;
-    text-align: center;
+    border: solid 1px black;   
+    width: fit-content; 
+    // width: 0%;
+    // height: auto;
+    // margin-top: 0px;
+    // text-align: center;
 }
 
 .lb-EstadoGen2 {//change

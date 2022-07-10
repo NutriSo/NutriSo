@@ -214,7 +214,7 @@ const OverallStatus = ({ id }) => {
                             name='muchoCansancio'
                             className='lb-EstadoGenSelect'
                             rules={[Rules.basicSpanish]}>
-                            <Select name='mCancancio' defaultValue={''}>
+                            <Select name='mCancancio' defaultValue={''} className='rCorta'>
                                 <Option value={'Si'}>Si</Option>
                                 <Option value={'No'}>No</Option>
                             </Select>
