@@ -1,23 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Col, Input, Row, Button, Modal, Select } from 'antd';
-// import { addAuthorizationAction } from '../../../redux/actions/authorizationAction';
-import apiURL from '../../../axios/axiosConfig';
 import {
     PlusOutlined,
     ExclamationCircleOutlined,
     DeleteOutlined,
     EditOutlined,
-    GlobalOutlined,
-    UserOutlined,
 } from '@ant-design/icons';
+
+import apiURL from '../../../axios/axiosConfig';
 
 import './Metas.scss';
 
 const Metas = () => {
     const [objetivo, setObjetivo] = useState('');
     const [descripcion, setDescripcion] = useState('');
-    const [categoriaDeSostenibilidad, setCategoriaDeSostenibilidad] =
-        useState('');
+    const [categoriaDeSostenibilidad, setCategoriaDeSostenibilidad] = useState('');
     const [metas, setMetas] = useState([]);
     //MODAL
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -55,7 +52,7 @@ const Metas = () => {
     }
     const postMetas = async () => {
         const meta = { objetivo, descripcion, categoriaDeSostenibilidad };
-
+        window.location.reload();
         console.log(meta);
         try {
             const response = await apiURL.post('/Metas', meta);
@@ -77,13 +74,15 @@ const Metas = () => {
     const deleteMetas = async (meta) => {
         try {
             const response = await apiURL.delete(`/Metas?id=${meta._id}`);
+
+            window.location.reload();
         } catch (error) {
             console.error(error);
         }
     };
 
     function showDeleteConfirm(meta) {
-        console.log(meta);
+        console.log({ meta });
         confirm({
             title: '¿Estás seguro de que quieres eliminar?',
             icon: <ExclamationCircleOutlined />,
@@ -93,7 +92,7 @@ const Metas = () => {
             cancelText: 'No',
             onOk() {
                 deleteMetas(meta);
-                window.location.reload();
+                // window.location.reload();
             },
             onCancel() {
                 // console.log('Cancel');
@@ -111,9 +110,7 @@ const Metas = () => {
         setIdMeta(meta._id);
         console.log(objetivo);
         console.log(categoriaDeSostenibilidad);
-        // document.getElementById('objMeta').value=meta.objetivo;
-        // document.getElementById('descMeta').value=meta.descripcion;
-        // document.getElementById('categoriaMeta').value=meta.categoriaDeSostenibilidad;
+
         setIsModalActVisible(true);
     };
 
@@ -127,16 +124,11 @@ const Metas = () => {
     };
     const handleCancel = () => {
         setIsModalVisible(false);
-        window.location.reload();
     };
     const handleCancelAct = () => {
         setIsModalActVisible(false);
-        window.location.reload();
     };
 
-    // function handleChange(value) {
-    //     console.log(`selected ${value}`);
-    // }
     return (
         <div className='main-M'>
             <Row>
@@ -168,9 +160,7 @@ const Metas = () => {
                                                 type='primary'
                                                 shape='circle'
                                                 icon={<EditOutlined />}
-                                                onClick={() =>
-                                                    showModalAct(meta)
-                                                }
+                                                onClick={() => showModalAct(meta)}
                                             />
                                         </Col>
                                         <Col>
@@ -179,16 +169,12 @@ const Metas = () => {
                                                 type='primary'
                                                 shape='circle'
                                                 icon={<DeleteOutlined />}
-                                                onClick={() =>
-                                                    showDeleteConfirm(meta)
-                                                }
+                                                onClick={() => showDeleteConfirm(meta)}
                                             />
                                         </Col>
                                     </Row>
                                 }>
-                                <div className='sc_metas_desc'>
-                                    {`${meta.descripcion}`}
-                                </div>
+                                <div className='sc_metas_desc'>{`${meta.descripcion}`}</div>
                                 <div className='sc_metas_cat'>
                                     {`${meta.categoriaDeSostenibilidad}`}
                                 </div>
