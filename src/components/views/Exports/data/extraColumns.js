@@ -249,3 +249,19 @@ export const extraColumns32 = [
         width: 30,
     },
 ];
+export const extraColumns33 = [
+    {
+        title: 'Gramos de alimentos',
+        dataIndex: 'gramosDeAlimentos33',
+        key: 'gramosDeAlimentos33',
+        width: 30,
+    },
+];
+export const extraColumns34 = [
+    {
+        title: 'Gramos de alimentos',
+        dataIndex: 'gramosDeAlimentos34',
+        key: 'gramosDeAlimentos34',
+        width: 30,
+    },
+];
