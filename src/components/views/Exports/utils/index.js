@@ -1406,8 +1406,51 @@ export const generateCsvRows = (data, type) => {
     return rows;
 };
 
-export const generateFinalCsvRows = (data, repeats) => {
-    console.log({ data, repeats });
+export const generateFinalCsvRows = (data) => {
+    const rows = [];
+    const uniqueIds = new Set([...data.map((elem) => elem.idRegistro)]);
+
+    uniqueIds.forEach((id) => {
+        const filteredRows = data.filter((elem) => elem.idRegistro === id);
+
+        rows.push(filteredRows);
+    });
+
+    const tempRows = [];
+
+    rows.forEach((row) => {
+        row.forEach(({ idParticipante, idRegistro, fechaRegistro, ...rest }, index) => {
+            const newRest = {};
+
+            Object.keys(rest).forEach((key) => {
+                newRest[key] = rest[key];
+                newRest[`${key}${index}`] = rest[key];
+
+                delete rest[key];
+            });
+
+            tempRows.push({
+                idParticipante,
+                idRegistro,
+                fechaRegistro,
+                ...newRest,
+            });
+        });
+    });
+
+    const finalRows = [];
+    console.log({ tempRows });
+
+    let id = '';
+
+    tempRows.forEach((row) => {
+        const { idRegistro } = row;
+
+        if (id !== idRegistro) {
+            id = idRegistro;
+            return;
+        }
+    });
 };
 
 export const getMaxGroupByReg = (arreglo, callback) => {

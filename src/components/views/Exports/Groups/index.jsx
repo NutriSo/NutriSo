@@ -179,12 +179,12 @@ const Groups = ({ selected = false, setLoading }) => {
                 );
             }
 
-            const cvsRows = generateFinalCsvRows(csvRowsPreview, maxGroup);
+            const cvsRows = generateFinalCsvRows(csvRowsPreview);
 
-            setExportData(csvRowsPreview);
-            setTimeout(() => {
-                onFileReady();
-            }, 1000);
+            // setExportData(csvRowsPreview);
+            // setTimeout(() => {
+            //     onFileReady();
+            // }, 1000);
         } catch (error) {
             handleCancel();
             message.error('Ocurrió un error al armar los datos para exportar');
@@ -193,7 +193,7 @@ const Groups = ({ selected = false, setLoading }) => {
             console.groupEnd();
         }
     };
-    console.log({ columns });
+
     return (
         <ButtonsArea
             fileReady={fileReady}
