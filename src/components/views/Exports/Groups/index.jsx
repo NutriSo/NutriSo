@@ -26,6 +26,8 @@ import {
     getRowValues,
     generateCsvRows,
     unifyGroups,
+    getMaxGroupByReg,
+    generateFinalCsvRows,
 } from '../utils';
 import { isEmptyArray } from '../../../../utils';
 
@@ -158,10 +160,32 @@ const Groups = ({ selected = false, setLoading }) => {
 
             const csvRowsPreview = generateCsvRows(unified);
 
-            setExportData(csvRowsPreview);
-            setTimeout(() => {
-                onFileReady();
-            }, 1000);
+            const newColumns = columns;
+
+            let maxGroup = 0;
+            getMaxGroupByReg(csvRowsPreview, (res) => (maxGroup = res));
+
+            for (let i = 0; i < maxGroup; i++) {
+                newColumns.push(
+                    ...groupColumns,
+                    ...extraColumns,
+                    ...caloriasMacronutrientes,
+                    ...vitaminas,
+                    ...minerales,
+                    ...aspectoGlucemico,
+                    ...aspectosMedioambientales,
+                    ...aspectosEconomicos,
+                    ...componentesBioactivos,
+                    ...aditivosAlimentarios
+                );
+            }
+
+            const cvsRows = generateFinalCsvRows(csvRowsPreview, maxGroup);
+
+            // setExportData(csvRowsPreview);
+            // setTimeout(() => {
+            //     onFileReady();
+            // }, 1000);
         } catch (error) {
             handleCancel();
             message.error('Ocurrió un error al armar los datos para exportar');

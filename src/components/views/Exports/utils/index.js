@@ -1,6 +1,6 @@
 import { isEmptyArray, isEmptyObject, isInvalidElem } from '../../../../utils';
 import { KG } from '../constants';
-
+// 34.
 export const getIsSelected = (state, number, index) => {
     return state[number] === true && index === number;
 };
@@ -1404,4 +1404,28 @@ export const generateCsvRows = (data, type) => {
     });
 
     return rows;
+};
+
+export const generateFinalCsvRows = (data, repeats) => {
+    console.log({ data, repeats });
+};
+
+export const getMaxGroupByReg = (arreglo, callback) => {
+    let variable = 0;
+    let contador = 0;
+    let cuenta = 0;
+    arreglo.map((p) => {
+        cuenta = 0;
+
+        arreglo.map((x) => {
+            if (p.idRegistro === x.idRegistro) {
+                cuenta++;
+            }
+        });
+        if (cuenta > contador) {
+            contador = cuenta;
+            variable = p;
+        }
+    });
+    callback(contador);
 };
