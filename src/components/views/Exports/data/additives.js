@@ -1,3 +1,101 @@
+export const aditivosAlimentarios0 = [
+    {
+        title: 'Benzoato de sodio',
+        dataIndex: 'benzoatoDeSodio',
+        key: 'benzoatoDeSodio',
+        width: 30,
+    },
+    {
+        title: 'Polisorbato',
+        dataIndex: 'polisorbato',
+        key: 'polisorbato',
+        width: 30,
+    },
+    {
+        title: 'Azul brillante FCF o E 133',
+        dataIndex: 'azulBrillanteFCFoE133',
+        key: 'azulBrillanteFCFoE133',
+        width: 30,
+    },
+    {
+        title: 'Azorrubina o E 122',
+        dataIndex: 'azurrubinaOE102',
+        key: 'azurrubinaOE102',
+        width: 30,
+    },
+    {
+        title: 'Amarillo ocaso FDF o E 110',
+        dataIndex: 'amarilloOcasoFDFoE110',
+        key: 'amarilloOcasoFDFoE110',
+        width: 30,
+    },
+    {
+        title: 'Tartrazina o E 102',
+        dataIndex: 'tartrazinaOE102',
+        key: 'tartrazinaOE102',
+        width: 30,
+    },
+    {
+        title: 'Verde S o E 142',
+        dataIndex: 'verdeSoE142',
+        key: 'verdeSoE142',
+        width: 30,
+    },
+    {
+        title: 'Negro brillante BN o E 151',
+        dataIndex: 'negroBrillanteBNoE151',
+        key: 'negroBrillanteBNoE151',
+        width: 30,
+    },
+    {
+        title: 'Sucralosa',
+        dataIndex: 'sucralosa',
+        key: 'sucralosa',
+        width: 30,
+    },
+    {
+        title: 'Estevia',
+        dataIndex: 'estevia',
+        key: 'estevia',
+        width: 30,
+    },
+    {
+        title: 'Sacarina',
+        dataIndex: 'sacarina',
+        key: 'sacarina',
+        width: 30,
+    },
+    {
+        title: 'Aspartame',
+        dataIndex: 'aspartame',
+        key: 'aspartame',
+        width: 30,
+    },
+    {
+        title: 'Acesulfame k',
+        dataIndex: 'acesulfameK',
+        key: 'acesulfameK',
+        width: 30,
+    },
+    {
+        title: 'Carboxymethylcellulose',
+        dataIndex: 'carboxymethylcellulose',
+        key: 'carboxymethylcellulose',
+        width: 30,
+    },
+    {
+        title: 'Dióxido de titanio',
+        dataIndex: 'dioxidoDeTitanio',
+        key: 'dioxidoDeTitanio',
+        width: 30,
+    },
+    {
+        title: 'Monolaurato de glicerol',
+        dataIndex: 'monolauratoDeGlicerol',
+        key: 'monolauratoDeGlicerol',
+        width: 30,
+    },
+];
 export const aditivosAlimentarios1 = [
     {
         title: 'Benzoato de sodio',

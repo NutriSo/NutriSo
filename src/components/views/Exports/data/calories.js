@@ -1,3 +1,95 @@
+export const caloriasMacronutrientes0 = [
+    {
+        title: 'Energía (Kcal)',
+        dataIndex: 'energiaKcal',
+        key: 'energiaKcal',
+        width: 30,
+    },
+    {
+        title: 'Proteína (g)',
+        dataIndex: 'proteina',
+        key: 'proteina',
+        width: 30,
+    },
+    {
+        title: 'Lipidos (g)',
+        dataIndex: 'lipidos',
+        key: 'lipidos',
+        width: 30,
+    },
+    {
+        title: 'AG Saturados (g)',
+        dataIndex: 'agSaturados',
+        key: 'agSaturados',
+        width: 30,
+    },
+    {
+        title: 'AG Monoinsaturados (g)',
+        dataIndex: 'agMonoinsaturados',
+        key: 'agMonoinsaturados',
+        width: 30,
+    },
+    {
+        title: 'AG Poliinsaturados (g)',
+        dataIndex: 'agPoliinsaturados',
+        key: 'agPoliinsaturados',
+        width: 30,
+    },
+    {
+        title: 'Colesterol (mg)',
+        dataIndex: 'colesterol',
+        key: 'colesterol',
+        width: 30,
+    },
+    {
+        title: 'Omega 3 (mg)',
+        dataIndex: 'omega3',
+        key: 'omega3',
+        width: 30,
+    },
+    {
+        title: 'Omega 6 (mg)',
+        dataIndex: 'omega6',
+        key: 'omega6',
+        width: 30,
+    },
+    {
+        title: 'Omega 9 (mg)',
+        dataIndex: 'omega9',
+        key: 'omega9',
+        width: 30,
+    },
+    {
+        title: 'Hidratos de carbono',
+        dataIndex: 'hidratosDeCarbono',
+        key: 'hidratosDeCarbono',
+        width: 30,
+    },
+    {
+        title: 'Fibra (g)',
+        dataIndex: 'fibra',
+        key: 'fibra',
+        width: 30,
+    },
+    {
+        title: 'Fibra insoluble (g)',
+        dataIndex: 'fibraInsoluble',
+        key: 'fibraInsoluble',
+        width: 30,
+    },
+    {
+        title: 'Azúcar (g)',
+        dataIndex: 'azucar',
+        key: 'azucar',
+        width: 30,
+    },
+    {
+        title: 'Etanol (g)',
+        dataIndex: 'etanol',
+        key: 'etanol',
+        width: 30,
+    },
+];
 export const caloriasMacronutrientes1 = [
     {
         title: 'Energía (Kcal)',

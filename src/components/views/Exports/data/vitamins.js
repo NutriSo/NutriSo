@@ -1,3 +1,83 @@
+export const vitaminas0 = [
+    {
+        title: 'Tiamina (mg)',
+        dataIndex: 'tiamina',
+        key: 'tiamina',
+        width: 30,
+    },
+    {
+        title: 'Riboflavina (mg)',
+        dataIndex: 'riboflavina',
+        key: 'riboflavina',
+        width: 30,
+    },
+    {
+        title: 'Niacina (mg)',
+        dataIndex: 'niacina',
+        key: 'niacina',
+        width: 30,
+    },
+    {
+        title: 'Ácido pantoténico (mg)',
+        dataIndex: 'acidoPantotenico',
+        key: 'acidoPantotenico',
+        width: 30,
+    },
+    {
+        title: 'Piridoxina (mg)',
+        dataIndex: 'piridoxina',
+        key: 'piridoxina',
+        width: 30,
+    },
+    {
+        title: 'Biotina (mg)',
+        dataIndex: 'biotina',
+        key: 'biotina',
+        width: 30,
+    },
+    {
+        title: 'Cobalamina (mg)',
+        dataIndex: 'cobalamina',
+        key: 'cobalamina',
+        width: 30,
+    },
+    {
+        title: 'Ácido ascórbico (mg)',
+        dataIndex: 'acidoAscorbico',
+        key: 'acidoAscorbico',
+        width: 30,
+    },
+    {
+        title: 'Ácido fólico (µg)',
+        dataIndex: 'acidoFolico',
+        key: 'acidoFolico',
+        width: 30,
+    },
+    {
+        title: 'Vitamina A (µg RE)',
+        dataIndex: 'vitaminaA',
+        key: 'vitaminaA',
+        width: 30,
+    },
+    {
+        title: 'Vitamina D (µg RE)',
+        dataIndex: 'vitaminaD',
+        key: 'vitaminaD',
+        width: 30,
+    },
+    {
+        title: 'Vitamina K (µg)',
+        dataIndex: 'vitaminaK',
+        key: 'vitaminaK',
+        width: 30,
+    },
+    {
+        title: 'Vitamina E (µg)',
+        dataIndex: 'vitaminaE',
+        key: 'vitaminaE',
+        width: 30,
+    },
+];
 export const vitaminas1 = [
     {
         title: 'Tiamina (mg)',

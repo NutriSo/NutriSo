@@ -1,3 +1,11 @@
+export const extraColumns0 = [
+    {
+        title: 'Gramos de alimentos',
+        dataIndex: 'gramosDeAlimentos',
+        key: 'gramosDeAlimentos',
+        width: 30,
+    },
+];
 export const extraColumns1 = [
     {
         title: 'Gramos de alimentos',
@@ -6,7 +14,6 @@ export const extraColumns1 = [
         width: 30,
     },
 ];
-
 export const extraColumns2 = [
     {
         title: 'Gramos de alimentos',
@@ -15,7 +22,14 @@ export const extraColumns2 = [
         width: 30,
     },
 ];
-
+export const extraColumns3 = [
+    {
+        title: 'Gramos de alimentos',
+        dataIndex: 'gramosDeAlimentos3',
+        key: 'gramosDeAlimentos3',
+        width: 30,
+    },
+];
 export const extraColumns4 = [
     {
         title: 'Gramos de alimentos',
@@ -24,7 +38,6 @@ export const extraColumns4 = [
         width: 30,
     },
 ];
-
 export const extraColumns5 = [
     {
         title: 'Gramos de alimentos',

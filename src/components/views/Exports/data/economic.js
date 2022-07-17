@@ -1,3 +1,23 @@
+export const aspectosEconomicos0 = [
+    {
+        title: 'Precio',
+        dataIndex: 'precio',
+        key: 'precio',
+        width: 30,
+    },
+    {
+        title: 'Lugar de compra',
+        dataIndex: 'lugarDeCompra',
+        key: 'lugarDeCompra',
+        width: 30,
+    },
+    {
+        title: 'Lugar de venta',
+        dataIndex: 'lugarDeVenta',
+        key: 'lugarDeVenta',
+        width: 30,
+    },
+];
 export const aspectosEconomicos1 = [
     {
         title: 'Precio',

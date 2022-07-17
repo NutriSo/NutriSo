@@ -1,3 +1,11 @@
+export const groupColumns0 = [
+    {
+        title: 'Grupo alimento',
+        dataIndex: 'grupoAlimento',
+        key: 'grupoAlimento',
+        width: 50,
+    },
+];
 export const groupColumns1 = [
     {
         title: 'Grupo alimento',

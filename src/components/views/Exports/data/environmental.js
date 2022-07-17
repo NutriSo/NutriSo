@@ -1,3 +1,113 @@
+export const aspectosMedioambientales0 = [
+    {
+        title: 'Factor de corrección para Huella Hídrica y EGEI',
+        dataIndex: 'factorDeCorreccionParaHuellaHidricaYEGEI',
+        key: 'factorDeCorreccionParaHuellaHidricaYEGEI',
+        width: 30,
+    },
+    {
+        title: 'Tipo',
+        dataIndex: 'tipo',
+        key: 'tipo',
+        width: 30,
+    },
+    {
+        title: 'Lugar',
+        dataIndex: 'lugar',
+        key: 'lugar',
+        width: 30,
+    },
+    {
+        title: 'Huella hidrica total (litros por kilo)',
+        dataIndex: 'huellaHidricaTotal',
+        key: 'huellaHidricaTotal',
+        width: 30,
+    },
+    {
+        title: 'Huella hídrica verde (litros por kilo)',
+        dataIndex: 'huellaHidricaVerde',
+        key: 'huellaHidricaVerde',
+        width: 30,
+    },
+    {
+        title: 'Huella hídrica azul (litros por kilo)',
+        dataIndex: 'huellaHidricaAzul',
+        key: 'huellaHidricaAzul',
+        width: 30,
+    },
+    {
+        title: 'Huella Hidríca gris (litros por kilo)',
+        dataIndex: 'huellaHidricaGris',
+        key: 'huellaHidricaGris',
+        width: 30,
+    },
+    {
+        title: 'Agua para lavado (litros por kilogramo de alimento)',
+        dataIndex: 'aguaParaLavado',
+        key: 'aguaParaLavado',
+        width: 30,
+    },
+    {
+        title: 'Agua para cocción (litros por kilogramo de alimento)',
+        dataIndex: 'aguaParaCoccion',
+        key: 'aguaParaCoccion',
+        width: 30,
+    },
+    {
+        title: 'Lugar EGEI',
+        dataIndex: 'lugarEGEI',
+        key: 'lugarEGEI',
+        width: 30,
+    },
+    {
+        title: 'Cita EGEI',
+        dataIndex: 'citaEGEI',
+        key: 'citaEGEI',
+        width: 30,
+    },
+    {
+        title: 'Huella de carbono',
+        dataIndex: 'huellaDeCarbono',
+        key: 'huellaDeCarbono',
+        width: 30,
+    },
+    {
+        title: 'Huella ecológica',
+        dataIndex: 'huellaEcologica',
+        key: 'huellaEcologica',
+        width: 30,
+    },
+    {
+        title: 'Uso de suelo',
+        dataIndex: 'usoDeSuelo',
+        key: 'usoDeSuelo',
+        width: 30,
+    },
+    {
+        title: 'Energía Fósil',
+        dataIndex: 'energiaFosil',
+        key: 'energiaFosil',
+        width: 30,
+    },
+    {
+        title: 'Nitrogeno',
+        dataIndex: 'nitrogeno',
+        key: 'nitrogeno',
+        width: 30,
+    },
+    {
+        title: 'Fósforo ambiental',
+        dataIndex: 'fosforoAmbiental',
+        key: 'fosforoAmbiental',
+        width: 30,
+    },
+    {
+        title: 'Puntaje ecológico',
+        dataIndex: 'puntajeEcologico',
+        key: 'puntajeEcologico',
+        width: 30,
+    },
+];
 export const aspectosMedioambientales1 = [
     {
         title: 'Factor de corrección para Huella Hídrica y EGEI',

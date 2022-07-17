@@ -1,3 +1,17 @@
+export const aspectoGlucemico0 = [
+    {
+        title: 'Índice glicémico',
+        dataIndex: 'indiceGlicemico',
+        key: 'indiceGlicemico',
+        width: 30,
+    },
+    {
+        title: 'Carga glicémica',
+        dataIndex: 'cargaGlicemica',
+        key: 'cargaGlicemica',
+        width: 30,
+    },
+];
 export const aspectoGlucemico1 = [
     {
         title: 'Índice glicémico',

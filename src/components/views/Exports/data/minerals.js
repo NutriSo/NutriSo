@@ -1,3 +1,65 @@
+export const minerales0 = [
+    {
+        title: 'Calcio (mg)',
+        dataIndex: 'calcio',
+        key: 'calcio',
+        width: 30,
+    },
+    {
+        title: 'Fósforo (mg)',
+        dataIndex: 'fosforo',
+        key: 'fosforo',
+        width: 30,
+    },
+    {
+        title: 'Hierro (mg)',
+        dataIndex: 'hierro',
+        key: 'hierro',
+        width: 30,
+    },
+    {
+        title: 'Hierro NO HEM (mg)',
+        dataIndex: 'hierroNoHem',
+        key: 'hierroNoHem',
+        width: 30,
+    },
+    {
+        title: 'Hierro total (mg)',
+        dataIndex: 'hierroTotal',
+        key: 'hierroTotal',
+        width: 30,
+    },
+    {
+        title: 'Magnesio (mg)',
+        dataIndex: 'magnesio',
+        key: 'magnesio',
+        width: 30,
+    },
+    {
+        title: 'Sodio (mg)',
+        dataIndex: 'sodio',
+        key: 'sodio',
+        width: 30,
+    },
+    {
+        title: 'Potasio (mg)',
+        dataIndex: 'potasio',
+        key: 'potasio',
+        width: 30,
+    },
+    {
+        title: 'Zinc (mg)',
+        dataIndex: 'zinc',
+        key: 'zinc',
+        width: 30,
+    },
+    {
+        title: 'Selenio (mg)',
+        dataIndex: 'selenio',
+        key: 'selenio',
+        width: 30,
+    },
+];
 export const minerales1 = [
     {
         title: 'Calcio (mg)',

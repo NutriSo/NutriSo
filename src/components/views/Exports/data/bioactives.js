@@ -1,3 +1,89 @@
+export const componentesBioactivos0 = [
+    {
+        title: 'Fitoquímicos',
+        dataIndex: 'fitoquimicos',
+        key: 'fitoquimicos',
+        width: 30,
+    },
+    {
+        title: 'Polifenoles',
+        dataIndex: 'polifenoles',
+        key: 'polifenoles',
+        width: 30,
+    },
+    {
+        title: 'Antocianinas',
+        dataIndex: 'antocianinas',
+        key: 'antocianinas',
+        width: 30,
+    },
+    {
+        title: 'Taninos',
+        dataIndex: 'taninos',
+        key: 'taninos',
+        width: 30,
+    },
+    {
+        title: 'Isoflavonas',
+        dataIndex: 'isoflavonas',
+        key: 'isoflavonas',
+        width: 30,
+    },
+    {
+        title: 'Resveratrol',
+        dataIndex: 'resveratrol',
+        key: 'resveratrol',
+        width: 30,
+    },
+    {
+        title: 'Isotiocianatos',
+        dataIndex: 'isotiocianatos',
+        key: 'isotiocianatos',
+        width: 30,
+    },
+    {
+        title: 'Carotenoides',
+        dataIndex: 'carotenoides',
+        key: 'carotenoides',
+        width: 30,
+    },
+    {
+        title: 'Betacarotenos',
+        dataIndex: 'betacarotenos',
+        key: 'betacarotenos',
+        width: 30,
+    },
+    {
+        title: 'Licopeno',
+        dataIndex: 'licopeno',
+        key: 'licopeno',
+        width: 30,
+    },
+    {
+        title: 'Luteína',
+        dataIndex: 'luteina',
+        key: 'luteina',
+        width: 30,
+    },
+    {
+        title: 'Alicina',
+        dataIndex: 'alicina',
+        key: 'alicina',
+        width: 30,
+    },
+    {
+        title: 'Cafeína',
+        dataIndex: 'cafeina',
+        key: 'cafeina',
+        width: 30,
+    },
+    {
+        title: 'UFC',
+        dataIndex: 'ufc',
+        key: 'ufc',
+        width: 30,
+    },
+];
 export const componentesBioactivos1 = [
     {
         title: 'Fitoquímicos',

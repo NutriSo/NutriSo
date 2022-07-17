@@ -5,19 +5,17 @@ import { message } from 'antd';
 import dayjs from 'dayjs';
 
 import ButtonsArea from '../../../commons/ButtonsArea';
-import {
-    baseColumns,
-    caloriasMacronutrientes,
-    vitaminas,
-    minerales,
-    aspectoGlucemico,
-    aspectosMedioambientales,
-    aspectosEconomicos,
-    componentesBioactivos,
-    aditivosAlimentarios,
-    extraColumns,
-    groupColumns,
-} from '../data';
+import { baseColumns } from '../data';
+import * as calories from '../data/calories';
+import * as vitamins from '../data/vitamins';
+import * as minerals from '../data/minerals';
+import * as glycemic from '../data/glycemic';
+import * as environmental from '../data/environmental';
+import * as economic from '../data/economic';
+import * as bioactives from '../data/bioactives';
+import * as additives from '../data/additives';
+import * as extraColumns2 from '../data/extraColumns';
+import * as food from '../data/foodGroups';
 import groups from '../data/excelGroups';
 import keys from '../data/excelKeys';
 import {
@@ -29,21 +27,22 @@ import {
     getMaxGroupByReg,
     generateFinalCsvRows,
 } from '../utils';
+
 import { isEmptyArray } from '../../../../utils';
 
 const Groups = ({ selected = false, setLoading }) => {
     const [columns, setColumns] = useState([
         ...baseColumns,
-        ...groupColumns,
-        ...extraColumns,
-        ...caloriasMacronutrientes,
-        ...vitaminas,
-        ...minerales,
-        ...aspectoGlucemico,
-        ...aspectosMedioambientales,
-        ...aspectosEconomicos,
-        ...componentesBioactivos,
-        ...aditivosAlimentarios,
+        ...food.groupColumns0,
+        ...extraColumns2.extraColumns0,
+        ...calories.caloriasMacronutrientes0,
+        ...vitamins.vitaminas0,
+        ...minerals.minerales0,
+        ...glycemic.aspectoGlucemico0,
+        ...environmental.aspectosMedioambientales0,
+        ...economic.aspectosEconomicos0,
+        ...bioactives.componentesBioactivos0,
+        ...additives.aditivosAlimentarios0,
     ]);
     const [foodReady, setFoodReady] = useState(false);
     const [usersData, setUsersData] = useState([]);
@@ -167,25 +166,25 @@ const Groups = ({ selected = false, setLoading }) => {
 
             for (let i = 0; i < maxGroup; i++) {
                 newColumns.push(
-                    ...groupColumns,
-                    ...extraColumns,
-                    ...caloriasMacronutrientes,
-                    ...vitaminas,
-                    ...minerales,
-                    ...aspectoGlucemico,
-                    ...aspectosMedioambientales,
-                    ...aspectosEconomicos,
-                    ...componentesBioactivos,
-                    ...aditivosAlimentarios
+                    ...food[`groupColumns${i}`],
+                    ...extraColumns2[`extraColumns${i}`],
+                    ...calories[`caloriasMacronutrientes${i}`],
+                    ...vitamins[`vitaminas${i}`],
+                    ...minerals[`minerales${i}`],
+                    ...glycemic[`aspectoGlucemico${i}`],
+                    ...environmental[`aspectosMedioambientales${i}`],
+                    ...economic[`aspectosEconomicos2`],
+                    ...bioactives[`componentesBioactivos${i}`],
+                    ...additives[`aditivosAlimentarios${i}`]
                 );
             }
 
             const cvsRows = generateFinalCsvRows(csvRowsPreview, maxGroup);
 
-            // setExportData(csvRowsPreview);
-            // setTimeout(() => {
-            //     onFileReady();
-            // }, 1000);
+            setExportData(csvRowsPreview);
+            setTimeout(() => {
+                onFileReady();
+            }, 1000);
         } catch (error) {
             handleCancel();
             message.error('Ocurrió un error al armar los datos para exportar');
@@ -194,7 +193,7 @@ const Groups = ({ selected = false, setLoading }) => {
             console.groupEnd();
         }
     };
-
+    console.log({ columns });
     return (
         <ButtonsArea
             fileReady={fileReady}
