@@ -1416,7 +1416,7 @@ export const generateFinalCsvRows = (data) => {
         rows.push(filteredRows);
     });
 
-    const tempRows = [];
+    const normalizedKeysToColumnNames = [];
 
     rows.forEach((row) => {
         row.forEach(({ idParticipante, idRegistro, fechaRegistro, ...rest }, index) => {
@@ -1429,7 +1429,7 @@ export const generateFinalCsvRows = (data) => {
                 delete rest[key];
             });
 
-            tempRows.push({
+            normalizedKeysToColumnNames.push({
                 idParticipante,
                 idRegistro,
                 fechaRegistro,
@@ -1438,19 +1438,35 @@ export const generateFinalCsvRows = (data) => {
         });
     });
 
-    const finalRows = [];
-    console.log({ tempRows });
+    const preFinalRows = [];
 
-    let id = '';
+    uniqueIds.forEach((id) => {
+        const filteredRows = normalizedKeysToColumnNames.filter(
+            (elem) => elem.idRegistro === id
+        );
 
-    tempRows.forEach((row) => {
-        const { idRegistro } = row;
-
-        if (id !== idRegistro) {
-            id = idRegistro;
-            return;
-        }
+        preFinalRows.push(filteredRows);
     });
+
+    const finalRows = [];
+
+    preFinalRows.forEach((elem) => {
+        const { idParticipante, idRegistro, fechaRegistro } = elem[0];
+        let rowToPush = {
+            idParticipante,
+            idRegistro,
+            fechaRegistro,
+        };
+
+        elem.forEach((props) => {
+            const { idParticipante, idRegistro, fechaRegistro, ...rest } = props;
+
+            rowToPush = { ...rowToPush, ...rest };
+        });
+
+        finalRows.push(rowToPush);
+    });
+    return finalRows;
 };
 
 export const getMaxGroupByReg = (arreglo, callback) => {
