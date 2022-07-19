@@ -159,32 +159,38 @@ const Groups = ({ selected = false, setLoading }) => {
 
             const csvRowsPreview = generateCsvRows(unified);
 
-            const newColumns = columns;
+            // const newColumns = columns;
+            // console.log('prev', { newColumns });
+            // let maxGroup = 0;
+            // getMaxGroupByReg(csvRowsPreview, (res) => (maxGroup = res));
 
-            let maxGroup = 0;
-            getMaxGroupByReg(csvRowsPreview, (res) => (maxGroup = res));
+            // for (let i = 0; i < maxGroup; i++) {
+            //     // console.log('i', i);
+            //     // if (i === 0) {
+            //     //     i++;
+            //     //     return;
+            //     // }
+            //     newColumns.push(
+            //         ...food[`groupColumns${i}`],
+            //         ...extraColumns2[`extraColumns${i}`],
+            //         ...calories[`caloriasMacronutrientes${i}`],
+            //         ...vitamins[`vitaminas${i}`],
+            //         ...minerals[`minerales${i}`],
+            //         ...glycemic[`aspectoGlucemico${i}`],
+            //         ...environmental[`aspectosMedioambientales${i}`],
+            //         ...economic[`aspectosEconomicos2`],
+            //         ...bioactives[`componentesBioactivos${i}`],
+            //         ...additives[`aditivosAlimentarios${i}`]
+            //     );
+            // }
+            // console.log('next', { newColumns });
+            // const cvsRows = generateFinalCsvRows(csvRowsPreview);
 
-            for (let i = 0; i < maxGroup; i++) {
-                newColumns.push(
-                    ...food[`groupColumns${i}`],
-                    ...extraColumns2[`extraColumns${i}`],
-                    ...calories[`caloriasMacronutrientes${i}`],
-                    ...vitamins[`vitaminas${i}`],
-                    ...minerals[`minerales${i}`],
-                    ...glycemic[`aspectoGlucemico${i}`],
-                    ...environmental[`aspectosMedioambientales${i}`],
-                    ...economic[`aspectosEconomicos2`],
-                    ...bioactives[`componentesBioactivos${i}`],
-                    ...additives[`aditivosAlimentarios${i}`]
-                );
-            }
-
-            const cvsRows = generateFinalCsvRows(csvRowsPreview);
-
-            setExportData(cvsRows);
-            setTimeout(() => {
-                onFileReady();
-            }, 1000);
+            console.log('csvRowsPreview', csvRowsPreview);
+            // setExportData(csvRowsPreview);
+            // setTimeout(() => {
+            //     onFileReady();
+            // }, 1000);
         } catch (error) {
             handleCancel();
             message.error('Ocurrió un error al armar los datos para exportar');

@@ -34,7 +34,9 @@ const BodyFields = ({ id }) => {
 
     const getinfoCampCor = async () => {
         try {
-            const { data, status } = await apiURL.get(`/extrasComposCorp/individual?usuario=${id}`);
+            const { data, status } = await apiURL.get(
+                `/extrasComposCorp/individual?usuario=${id}`
+            );
 
             if (status === 200 || data.length > 0) {
                 const grasas = data[0].porcentGrasa.map((elem) => elem.valor);
@@ -103,7 +105,10 @@ const BodyFields = ({ id }) => {
                         },
                     };
 
-                    const res2 = await apiURL.post(`/extrasComposCorp/individual?usuario=${id}`, body);
+                    const res2 = await apiURL.post(
+                        `/extrasComposCorp/individual?usuario=${id}`,
+                        body
+                    );
                     console.log(res2);
                 } catch (error) {
                     console.groupCollapsed('Error en la funcion updateCampCor');
@@ -132,7 +137,10 @@ const BodyFields = ({ id }) => {
                         },
                     };
 
-                    const res2 = await apiURL.patch(`/extrasComposCorp/individual?usuario=${id}`, body);
+                    const res2 = await apiURL.patch(
+                        `/extrasComposCorp/individual?usuario=${id}`,
+                        body
+                    );
                     console.log(res2);
                 } catch (error) {
                     console.groupCollapsed('Error en la funcion updateCampCor');
@@ -160,9 +168,11 @@ const BodyFields = ({ id }) => {
 
     return (
         <>
-            <div className='basicContainer'> {/**containerCampoCor, basicInfo-Title, campCor-Container3 */}
+            <div className='basicContainer'>
+                {' '}
+                {/**containerCampoCor, basicInfo-Title, campCor-Container3 */}
                 <div className='containData'>
-                    <h2>Campos Corporales</h2>
+                    <h2>Composición corporal</h2>
                     {/*Grafica-----------------------------------------------------------------------*/}
                     <div className='basicInfo-Container-Slide'>
                         {infoCampoCor?.grasas && Array.isArray(infoCampoCor.grasas) && (
@@ -184,13 +194,17 @@ const BodyFields = ({ id }) => {
                     <Popup
                         content={
                             <>
-                                <strong><p id='popTitle'>Agregando un nuevo valor</p></strong>
+                                <strong>
+                                    <p id='popTitle'>Agregando un nuevo valor</p>
+                                </strong>
                                 <div className='basicInfo-Container'>
                                     <div className='entradas'>
-                                        <div className="labels">
-                                            <label className='label-campCor'>Porcentaje de grasa:</label>
+                                        <div className='labels'>
+                                            <label className='label-campCor'>
+                                                Porcentaje de grasa:
+                                            </label>
                                         </div>
-                                        <div className="inputs">
+                                        <div className='inputs'>
                                             <input
                                                 className='input-campCor'
                                                 type='number'
@@ -203,10 +217,12 @@ const BodyFields = ({ id }) => {
                                         </div>
                                     </div>
                                     <div className='entradas'>
-                                        <div className="labels">
-                                            <label className='label-campCor'>Porcentaje de masa:</label>
+                                        <div className='labels'>
+                                            <label className='label-campCor'>
+                                                Porcentaje de masa:
+                                            </label>
                                         </div>
-                                        <div className="inputs">
+                                        <div className='inputs'>
                                             <input
                                                 className='input-campCor'
                                                 type='number'
@@ -219,10 +235,12 @@ const BodyFields = ({ id }) => {
                                         </div>
                                     </div>
                                     <div className='entradas'>
-                                        <div className="labels">
-                                            <label className='label-campCor'>Porcentaje de agua:</label>
+                                        <div className='labels'>
+                                            <label className='label-campCor'>
+                                                Porcentaje de agua:
+                                            </label>
                                         </div>
-                                        <div className="inputs">
+                                        <div className='inputs'>
                                             <input
                                                 className='input-campCor'
                                                 type='number'
@@ -236,12 +254,14 @@ const BodyFields = ({ id }) => {
                                     </div>
                                 </div>
                                 {/**PARTICION DE CAMPOS */}
-                                <div className="basicInfo-Container">
+                                <div className='basicInfo-Container'>
                                     <div className='entradas'>
-                                        <div className="labels">
-                                            <label className='label-campCor'>Densidad osea:</label>
+                                        <div className='labels'>
+                                            <label className='label-campCor'>
+                                                Densidad osea:
+                                            </label>
                                         </div>
-                                        <div className="inputs">
+                                        <div className='inputs'>
                                             <input
                                                 className='input-campCor'
                                                 type='number'
@@ -254,10 +274,12 @@ const BodyFields = ({ id }) => {
                                         </div>
                                     </div>
                                     <div className='entradas'>
-                                        <div className="labels">
-                                            <label className='label-campCor'>Grasa visceral:</label>
+                                        <div className='labels'>
+                                            <label className='label-campCor'>
+                                                Grasa visceral:
+                                            </label>
                                         </div>
-                                        <div className="inputs">
+                                        <div className='inputs'>
                                             <input
                                                 className='input-campCor'
                                                 type='number'
@@ -270,10 +292,12 @@ const BodyFields = ({ id }) => {
                                         </div>
                                     </div>
                                     <div className='entradas'>
-                                        <div className="labels">
-                                            <label className='label-campCor'>Tasa metabolica:</label>
+                                        <div className='labels'>
+                                            <label className='label-campCor'>
+                                                Tasa metabolica:
+                                            </label>
                                         </div>
-                                        <div className="inputs">
+                                        <div className='inputs'>
                                             <input
                                                 className='input-campCor'
                                                 type='number'
@@ -287,12 +311,14 @@ const BodyFields = ({ id }) => {
                                     </div>
                                 </div>
                                 {/**NUEVA PARTICION 1 SOLO */}
-                                <div className="basicInfo-Container">
+                                <div className='basicInfo-Container'>
                                     <div className='entradas'>
-                                        <div className="labels">
-                                            <label className='label-campCor'>Edad metabolica:</label>
+                                        <div className='labels'>
+                                            <label className='label-campCor'>
+                                                Edad metabolica:
+                                            </label>
                                         </div>
-                                        <div className="inputs">
+                                        <div className='inputs'>
                                             <input
                                                 className='input-campCor'
                                                 type='number'
@@ -306,7 +332,10 @@ const BodyFields = ({ id }) => {
                                     </div>
                                 </div>
                                 <br />
-                                <button className='btn-see-circunferencia' onClick={updateCampCor} value='Add'>
+                                <button
+                                    className='btn-see-circunferencia'
+                                    onClick={updateCampCor}
+                                    value='Add'>
                                     Agregar
                                 </button>
                             </>
@@ -320,8 +349,12 @@ const BodyFields = ({ id }) => {
                 <Popup
                     content={
                         <>
-                            <strong><p>Error</p></strong>
-                            <center><p>Porfavor ingrese todos los campos para guardar</p></center>
+                            <strong>
+                                <p>Error</p>
+                            </strong>
+                            <center>
+                                <p>Porfavor ingrese todos los campos para guardar</p>
+                            </center>
                             <button
                                 className='btn-see-circunferencia'
                                 onClick={closeErrorCampCor}
@@ -335,7 +368,6 @@ const BodyFields = ({ id }) => {
             )}
         </>
     );
-
 };
 
 export default BodyFields;

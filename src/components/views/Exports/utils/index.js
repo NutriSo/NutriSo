@@ -1,6 +1,6 @@
 import { isEmptyArray, isEmptyObject, isInvalidElem } from '../../../../utils';
 import { KG } from '../constants';
-// 34.
+
 export const getIsSelected = (state, number, index) => {
     return state[number] === true && index === number;
 };

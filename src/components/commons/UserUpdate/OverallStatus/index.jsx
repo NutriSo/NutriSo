@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import apiURL from '../../../../axios/axiosConfig';
 import { Tabs, Form, Select } from 'antd';
 
-
 import { capitilizeWord } from '../../../../utils';
 import { Rules } from '../../../../utils/formRules';
+import mocks from '../../../../mocks/estadisticasUsuario';
 
-import './OverallStatus.scss'
+import './OverallStatus.scss';
 
 const OverallStatus = ({ id }) => {
     const [form] = Form.useForm();
@@ -25,16 +25,14 @@ const OverallStatus = ({ id }) => {
     useEffect(() => {
         getEstadoGeneral();
 
-        return () => {
-
-        };
+        return () => {};
     }, [id]);
-
-
 
     const getEstadoGeneral = async () => {
         try {
-            const { data, status } = await apiURL.get(`/extrasEstadoGeneral/individual?usuario=${id}`);
+            const { data, status } = await apiURL.get(
+                `/extrasEstadoGeneral/individual?usuario=${id}`
+            );
 
             if (status === 200 || data.length > 0) {
                 const muchoCansancio = data[0].muchoCansancio.map((elem) => elem.valor);
@@ -84,14 +82,20 @@ const OverallStatus = ({ id }) => {
                 const cabello = {
                     caidaDeCabello: generalCheckCabello ? 'No' : values.caidaDeCabello,
                     cabelloQuebradizo: generalCheckCabello ? 'N/A' : values.cabelloQuebradizo,
-                    cabelloTenidoOTratamiento: generalCheckCabello ? 'N/A' : values.cabelloTenidoOTratamiento,
+                    cabelloTenidoOTratamiento: generalCheckCabello
+                        ? 'N/A'
+                        : values.cabelloTenidoOTratamiento,
                     fecha: new Date(),
                 };
 
                 const boca = {
-                    cortadurasEnComisuras: generalCheckBoca1 ? 'No' : values.cortadurasEnComisuras,
+                    cortadurasEnComisuras: generalCheckBoca1
+                        ? 'No'
+                        : values.cortadurasEnComisuras,
                     frecuencia3: generalCheckBoca1 ? 'N/A' : values.frecuencia3,
-                    inflamacionDeLengua: generalCheckBoca2 ? 'No' : values.inflamacionDeLengua,
+                    inflamacionDeLengua: generalCheckBoca2
+                        ? 'No'
+                        : values.inflamacionDeLengua,
                     frecuenciaDe2: generalCheckBoca2 ? 'N/A' : values.frecuenciaDe2,
                     inflamacionEncias: generalCheckBoca3 ? 'No' : values.inflamacionEncias,
                     frecuenciaDeIE: generalCheckBoca3 ? 'N/A' : values.frecuenciaDeIE,
@@ -126,7 +130,10 @@ const OverallStatus = ({ id }) => {
                 };
                 console.log('Body', body);
                 console.log('PATCH');
-                const { data } = await apiURL.patch(`extrasEstadoGeneral/individual?usuario=${id}`, body);
+                const { data } = await apiURL.patch(
+                    `extrasEstadoGeneral/individual?usuario=${id}`,
+                    body
+                );
                 console.log(data);
             } else {
                 const datosPies = {
@@ -155,13 +162,19 @@ const OverallStatus = ({ id }) => {
                 const datosCabello = {
                     caidaDeCabello: generalCheckCabello ? 'No' : values.caidaDeCabello,
                     cabelloQuebradizo: generalCheckCabello ? 'N/A' : values.cabelloQuebradizo,
-                    cabelloTenidoOTratamiento: generalCheckCabello ? 'N/A' : values.cabelloTenidoOTratamiento,
+                    cabelloTenidoOTratamiento: generalCheckCabello
+                        ? 'N/A'
+                        : values.cabelloTenidoOTratamiento,
                     fecha: new Date(),
                 };
                 const datosBoca = {
-                    cortadurasEnComisuras: generalCheckBoca1 ? 'No' : values.cortadurasEnComisuras,
+                    cortadurasEnComisuras: generalCheckBoca1
+                        ? 'No'
+                        : values.cortadurasEnComisuras,
                     frecuencia3: generalCheckBoca1 ? 'N/A' : values.frecuencia3,
-                    inflamacionDeLengua: generalCheckBoca2 ? 'No' : values.inflamacionDeLengua,
+                    inflamacionDeLengua: generalCheckBoca2
+                        ? 'No'
+                        : values.inflamacionDeLengua,
                     frecuenciaDe2: generalCheckBoca2 ? 'N/A' : values.frecuenciaDe2,
                     inflamacionEncias: generalCheckBoca3 ? 'No' : values.inflamacionEncias,
                     frecuenciaDeIE: generalCheckBoca3 ? 'N/A' : values.frecuenciaDeIE,
@@ -192,7 +205,10 @@ const OverallStatus = ({ id }) => {
                 };
                 console.log('Body', body);
                 console.log('POST');
-                const { data } = await apiURL.post(`extrasEstadoGeneral/individual?usuario=${id}`, body);
+                const { data } = await apiURL.post(
+                    `extrasEstadoGeneral/individual?usuario=${id}`,
+                    body
+                );
                 console.log(data);
             }
         } catch (error) {
@@ -202,13 +218,12 @@ const OverallStatus = ({ id }) => {
         }
     };
 
-
     return (
-        <div className='basicContainer'> {/**containerEstadoGen */}
+        <div className='basicContainer'>
+            {' '}
             <div className='containData'>
                 <h2>Estado general</h2>
                 <Form form={form} requiredMark={false} onFinish={updateEstadoGeneral}>
-
                     <Form.Item
                         label='Mucho cansancio'
                         name='muchoCansancio'
@@ -268,14 +283,11 @@ const OverallStatus = ({ id }) => {
                     <Form.Item
                         label='¿Se hinchan sus pies o manos?'
                         name='seHinchan'
-                        className='lb-EstadoGenSelect'
-                    /*
-                    rules={[
-                        Rules.basicSpanish,
-                    ]}*/
-                    >
+                        className='lb-EstadoGenSelect'>
                         <Select
-                            onChange={(value) => setGeneralCheckPYM(value === 'No' ? true : false)}
+                            onChange={(value) =>
+                                setGeneralCheckPYM(value === 'No' ? true : false)
+                            }
                             defaultValue={'No'}>
                             <Option value={'Si'}>Si</Option>
                             <Option value={'No'}>No</Option>
@@ -285,12 +297,7 @@ const OverallStatus = ({ id }) => {
                     <Form.Item
                         label='¿A qué hora del día ocurre?'
                         name='aQuehora'
-                        className='lb-EstadoGenSelect'
-                    /*
-                    rules={[
-                        Rules.basicSpanish,
-                    ]}*/
-                    >
+                        className='lb-EstadoGenSelect'>
                         <Select disabled={generalCheckPYM} defaultValue={''}>
                             <Option value={'Al despertar'}>Al despertar</Option>
                             <Option value={'Durante el día'}>Durante el día</Option>
@@ -301,32 +308,20 @@ const OverallStatus = ({ id }) => {
                     <Form.Item
                         name='frecuencia'
                         label='¿Con que frecuencia ocurre?'
-                        className='lb-EstadoGenSelect'
-                    /*
-                    rules={[
-                        Rules.basicSpanish,
-                    ]}*/
-                    >
+                        className='lb-EstadoGenSelect'>
                         <Select disabled={generalCheckPYM} defaultValue={''}>
-                            <Option value={'Al despertar'}>Todos los días</Option>
-                            <Option value={'Durante el día'}>1 a 3 veces a la semana</Option>
-                            <Option value={'En la noche'}>1 o 2 veces al mes</Option>
+                            {mocks.estadoGeneral.map(({ value, label }) => (
+                                <Option value={value}>{label}</Option>
+                            ))}
                         </Select>
                     </Form.Item>
 
-                    <div className="labels">
+                    <div className='labels'>
                         <p>¿Cuántas horas pasa sentado al día?</p>
                     </div>
-                    <div className="inputs">
-                        <Form.Item
-                            name='horasSentado'
-                        /*
-                        rules={[
-                            Rules.basicSpanish,
-                        ]}*/
-                        >
+                    <div className='inputs'>
+                        <Form.Item name='horasSentado'>
                             <input
-                                disabled={generalCheckPYM}
                                 type='text'
                                 name='hSentado'
                                 className='lb-EstadoGen2'
@@ -335,20 +330,12 @@ const OverallStatus = ({ id }) => {
                         </Form.Item>
                     </div>
 
-                    <div className="labels">
+                    <div className='labels'>
                         <p>¿Cuántas horas pasa parado al día?</p>
                     </div>
-                    <div className="inputs">
-                        <Form.Item
-                            name='horasParado'
-                        /*
-                        rules={[
-                            Rules.basicSpanish,
-                        ]}*/
-                        >
-                            {/*<input disabled = {generalCheckPYM} className='lb-EstadoGen2'></input>*/}
+                    <div className='inputs'>
+                        <Form.Item name='horasParado'>
                             <input
-                                disabled={generalCheckPYM}
                                 type='text'
                                 name='hParado'
                                 className='lb-EstadoGen2'
@@ -361,14 +348,11 @@ const OverallStatus = ({ id }) => {
                     <Form.Item
                         name='sangradoDe'
                         className='lb-EstadoGenSelect'
-                        label='Sangrado de nariz'
-                    /*
-                    rules={[
-                        Rules.basicSpanish,
-                    ]}*/
-                    >
+                        label='Sangrado de nariz'>
                         <Select
-                            onChange={(value) => setGeneralCheckNa(value === 'No' ? true : false)}
+                            onChange={(value) =>
+                                setGeneralCheckNa(value === 'No' ? true : false)
+                            }
                             defaultValue={'No'}>
                             <Option value={'Si'}>Si</Option>
                             <Option value={'No'}>No</Option>
@@ -378,16 +362,11 @@ const OverallStatus = ({ id }) => {
                     <Form.Item
                         name='frecuenciaDe'
                         label='¿Con qué frecuencia ocurre?'
-                        className='lb-EstadoGenSelect'
-                    /*
-                    rules={[
-                        Rules.basicSpanish,
-                    ]}*/
-                    >
+                        className='lb-EstadoGenSelect'>
                         <Select disabled={generalCheckNa} defaultValue={''}>
-                            <Option value={'Casi todos los días'}>Casi todos los días</Option>
-                            <Option value={'1 a 2 veces a la semana'}>1 a 2 veces a la semana</Option>
-                            <Option value={'1 o 2 veces al mes'}>1 o 2 veces al mes</Option>
+                            {mocks.estadoGeneral.map(({ value, label }) => (
+                                <Option value={value}>{label}</Option>
+                            ))}
                         </Select>
                     </Form.Item>
 
@@ -395,14 +374,11 @@ const OverallStatus = ({ id }) => {
                     <Form.Item
                         name='manchasRojasMoretes'
                         className='lb-EstadoGenSelect'
-                        label='Manchas rojas en su piel o moretes sin motivo'
-                    /*
-                    rules={[
-                        Rules.basicSpanish,
-                    ]}*/
-                    >
+                        label='Manchas rojas en su piel o moretes sin motivo'>
                         <Select
-                            onChange={(value) => setGeneralCheckPi(value === 'No' ? true : false)}
+                            onChange={(value) =>
+                                setGeneralCheckPi(value === 'No' ? true : false)
+                            }
                             defaultValue={'No'}>
                             <Option value={'Si'}>Si</Option>
                             <Option value={'No'}>No</Option>
@@ -412,16 +388,11 @@ const OverallStatus = ({ id }) => {
                     <Form.Item
                         name='frecuenciaDeEllo'
                         label='¿Con qué frecuencia ocurre?'
-                        className='lb-EstadoGenSelect'
-                    /*
-                    rules={[
-                        Rules.basicSpanish,
-                    ]}*/
-                    >
+                        className='lb-EstadoGenSelect'>
                         <Select disabled={generalCheckPi} defaultValue={''}>
-                            <Option value={'Casi todos los días'}>Casi todos los días</Option>
-                            <Option value={'1 a 2 veces a la semana'}>1 a 2 veces a la semana</Option>
-                            <Option value={'1 o 2 veces al mes'}>1 o 2 veces al mes</Option>
+                            {mocks.estadoGeneral.map(({ value, label }) => (
+                                <Option value={value}>{label}</Option>
+                            ))}
                         </Select>
                     </Form.Item>
 
@@ -429,14 +400,11 @@ const OverallStatus = ({ id }) => {
                     <Form.Item
                         name='quebradizas'
                         label='Uñas quebradizas'
-                        className='lb-EstadoGenSelect'
-                    /*
-                    rules={[
-                        Rules.basicSpanish,
-                    ]}*/
-                    >
+                        className='lb-EstadoGenSelect'>
                         <Select
-                            onChange={(value) => setGeneralCheckNails(value === 'No' ? true : false)}
+                            onChange={(value) =>
+                                setGeneralCheckNails(value === 'No' ? true : false)
+                            }
                             defaultValue={'No'}>
                             <Option value={'Si'}>Si</Option>
                             <Option value={'No'}>No</Option>
@@ -446,31 +414,22 @@ const OverallStatus = ({ id }) => {
                     <Form.Item
                         name='frecuencia2'
                         label='¿Ha realizado algún tratamiento estético en sus uñas recientemente?'
-                        className='lb-EstadoGenSelect'
-                    /*
-                    rules={[
-                        Rules.basicSpanish,
-                    ]}*/
-                    >
+                        className='lb-EstadoGenSelect'>
                         <Select disabled={generalCheckNails} defaultValue={''}>
                             <Option value={'Si'}>Si</Option>
                             <Option value={'No'}>No</Option>
                         </Select>
                     </Form.Item>
 
-
                     <h2>Cabello</h2>
                     <Form.Item
                         name='caidaDeCabello'
                         label='Caída de cabello'
-                        className='lb-EstadoGenSelect'
-                    /*
-                    rules={[
-                        Rules.basicSpanish,
-                    ]}*/
-                    >
+                        className='lb-EstadoGenSelect'>
                         <Select
-                            onChange={(value) => setGeneralCheckCabello(value === 'No' ? true : false)}
+                            onChange={(value) =>
+                                setGeneralCheckCabello(value === 'No' ? true : false)
+                            }
                             defaultValue={'No'}>
                             <Option value={'Si'}>Si</Option>
                             <Option value={'No'}>No</Option>
@@ -480,12 +439,7 @@ const OverallStatus = ({ id }) => {
                     <Form.Item
                         label='Cabello quebradizo'
                         name='cabelloQuebradizo'
-                        className='lb-EstadoGenSelect'
-                    /*
-                    rules={[
-                        Rules.basicSpanish,
-                    ]}*/
-                    >
+                        className='lb-EstadoGenSelect'>
                         <Select disabled={generalCheckCabello} defaultValue={''}>
                             <Option value={'Si'}>Si</Option>
                             <Option value={'No'}>No</Option>
@@ -495,12 +449,7 @@ const OverallStatus = ({ id }) => {
                     <Form.Item
                         label='¿Tiene su cabello teñido o bajo algún tratamiento estético?'
                         name='cabelloTenidoOTratamiento'
-                        className='lb-EstadoGenSelect'
-                    /*
-                    rules={[
-                        Rules.basicSpanish,
-                    ]}*/
-                    >
+                        className='lb-EstadoGenSelect'>
                         <Select disabled={generalCheckCabello} defaultValue={''}>
                             <Option value={'Si'}>Si</Option>
                             <Option value={'No'}>No</Option>
@@ -511,14 +460,11 @@ const OverallStatus = ({ id }) => {
                     <Form.Item
                         name='cortadurasEnComisuras'
                         label='Cortaduras en las comisuras de su boca'
-                        className='lb-EstadoGenSelect'
-                    /*
-                    rules={[
-                        Rules.basicSpanish,
-                    ]}*/
-                    >
+                        className='lb-EstadoGenSelect'>
                         <Select
-                            onChange={(value) => setGeneralCheckBoca1(value === 'No' ? true : false)}
+                            onChange={(value) =>
+                                setGeneralCheckBoca1(value === 'No' ? true : false)
+                            }
                             defaultValue={'No'}>
                             <Option value={'Si'}>Si</Option>
                             <Option value={'No'}>No</Option>
@@ -528,30 +474,22 @@ const OverallStatus = ({ id }) => {
                     <Form.Item
                         name='frecuencia3'
                         label='¿Con qué frecuencia ocurre?'
-                        className='lb-EstadoGenSelect'
-                    /*
-                    rules={[
-                        Rules.basicSpanish,
-                    ]}*/
-                    >
+                        className='lb-EstadoGenSelect'>
                         <Select disabled={generalCheckBoca1} defaultValue={''}>
-                            <Option value={'Casi todos los días'}>Casi todos los días</Option>
-                            <Option value={'1 a 3 veces a la semana'}>1 a 3 veces a la semana</Option>
-                            <Option value={'1 o 2 veces al mes'}>1 o 2 veces al mes</Option>
+                            {mocks.estadoGeneral.map(({ value, label }) => (
+                                <Option value={value}>{label}</Option>
+                            ))}
                         </Select>
                     </Form.Item>
 
                     <Form.Item
                         name='inflamacionDeLengua'
                         label='Inflamación en lengua'
-                        className='lb-EstadoGenSelect'
-                    /*
-                    rules={[
-                        Rules.basicSpanish,
-                    ]}*/
-                    >
+                        className='lb-EstadoGenSelect'>
                         <Select
-                            onChange={(value) => setGeneralCheckBoca2(value === 'No' ? true : false)}
+                            onChange={(value) =>
+                                setGeneralCheckBoca2(value === 'No' ? true : false)
+                            }
                             defaultValue={'No'}>
                             <Option value={'Si'}>Si</Option>
                             <Option value={'No'}>No</Option>
@@ -561,31 +499,22 @@ const OverallStatus = ({ id }) => {
                     <Form.Item
                         name='frecuenciaDe2'
                         label='¿Con qué frecuencia ocurre?'
-                        className='lb-EstadoGenSelect'
-                    /*
-                    rules={[
-                        Rules.basicSpanish,
-                    ]}*/
-                    >
+                        className='lb-EstadoGenSelect'>
                         <Select disabled={generalCheckBoca2} defaultValue={''}>
-                            <Option value={'Casi todos los días'}>Casi todos los días</Option>
-                            <Option value={'1 a 3 veces a la semana'}>1 a 3 veces a la semana</Option>
-                            <Option value={'1 o 2 veces al mes'}>1 o 2 veces al mes</Option>
+                            {mocks.estadoGeneral.map(({ value, label }) => (
+                                <Option value={value}>{label}</Option>
+                            ))}
                         </Select>
                     </Form.Item>
-
 
                     <Form.Item
                         name='inflamacionEncias'
                         label='Inflamación de encías'
-                        className='lb-EstadoGenSelect'
-                    /*
-                    rules={[
-                        Rules.basicSpanish,
-                    ]}*/
-                    >
+                        className='lb-EstadoGenSelect'>
                         <Select
-                            onChange={(value) => setGeneralCheckBoca3(value === 'No' ? true : false)}
+                            onChange={(value) =>
+                                setGeneralCheckBoca3(value === 'No' ? true : false)
+                            }
                             defaultValue={'No'}>
                             <Option value={'Si'}>Si</Option>
                             <Option value={'No'}>No</Option>
@@ -595,30 +524,22 @@ const OverallStatus = ({ id }) => {
                     <Form.Item
                         name='frecuenciaDeIE'
                         label='¿Con qué frecuencia ocurre?'
-                        className='lb-EstadoGenSelect'
-                    /*
-                    rules={[
-                        Rules.basicSpanish,
-                    ]}*/
-                    >
+                        className='lb-EstadoGenSelect'>
                         <Select disabled={generalCheckBoca3} defaultValue={''}>
-                            <Option value={'Casi todos los días'}>Casi todos los días</Option>
-                            <Option value={'1 a 3 veces a la semana'}>1 a 3 veces a la semana</Option>
-                            <Option value={'1 o 2 veces al mes'}>1 o 2 veces al mes</Option>
+                            {mocks.estadoGeneral.map(({ value, label }) => (
+                                <Option value={value}>{label}</Option>
+                            ))}
                         </Select>
                     </Form.Item>
 
                     <Form.Item
                         name='sangradoEncias'
                         label='Sangrado de encías'
-                        className='lb-EstadoGenSelect'
-                    /*
-                    rules={[
-                        Rules.basicSpanish,
-                    ]}*/
-                    >
+                        className='lb-EstadoGenSelect'>
                         <Select
-                            onChange={(value) => setGeneralCheckBoca4(value === 'No' ? true : false)}
+                            onChange={(value) =>
+                                setGeneralCheckBoca4(value === 'No' ? true : false)
+                            }
                             defaultValue={'No'}>
                             <Option value={'Si'}>Si</Option>
                             <Option value={'No'}>No</Option>
@@ -627,16 +548,11 @@ const OverallStatus = ({ id }) => {
                     <Form.Item
                         name='frecuenciaDeSE'
                         label='¿Con qué frecuencia ocurre?'
-                        className='lb-EstadoGenSelect'
-                    /*
-                    rules={[
-                        Rules.basicSpanish,
-                    ]}*/
-                    >
+                        className='lb-EstadoGenSelect'>
                         <Select disabled={generalCheckBoca4} defaultValue={''}>
-                            <Option value={'Casi todos los días'}>Casi todos los días</Option>
-                            <Option value={'1 a 3 veces a la semana'}>1 a 3 veces a la semana</Option>
-                            <Option value={'1 o 2 veces al mes'}>1 o 2 veces al mes</Option>
+                            {mocks.estadoGeneral.map(({ value, label }) => (
+                                <Option value={value}>{label}</Option>
+                            ))}
                         </Select>
                     </Form.Item>
 
@@ -651,7 +567,7 @@ const OverallStatus = ({ id }) => {
                             <Option value={'Cesárea'}>Cesárea</Option>
                         </Select>
                     </Form.Item>
-                    <div className="basicContainer">
+                    <div className='basicContainer'>
                         <button
                             className='btn-see-circunferencia'
                             htmlType='submit'
@@ -664,7 +580,6 @@ const OverallStatus = ({ id }) => {
             </div>
         </div>
     );
-
 };
 
 export default OverallStatus;
