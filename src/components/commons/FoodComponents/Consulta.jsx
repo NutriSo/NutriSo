@@ -23,7 +23,7 @@ const Consulta = ({ onClick }) => {
     const [fileReady, setFileReady] = useState(false);
     const [filterData, setFilterData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-
+    console.log({ allData, data });
     const scrollRef = useRef();
 
     const fetchItems = useCallback(async () => {
@@ -50,7 +50,7 @@ const Consulta = ({ onClick }) => {
         }
     }, [isLoading]);
 
-    const hasMoreItems = page < 17 || !isSearching;
+    const hasMoreItems = page < 17 || isSearching;
 
     useEffect(() => {
         fetchData();
@@ -91,21 +91,13 @@ const Consulta = ({ onClick }) => {
             message.error(`Error: ${error.message}`);
         }
     };
-    //console.log("im all the data"+allData);
 
     const onSearch = ({ target }) => {
-        var inputValue = document.getElementById("search_valor").value;
-        console.log("Buscar: "+inputValue);
         setIsSearching(true);
         const filteredData = allData.filter((alimento) =>
-            alimento.nombreAlimento.includes(inputValue)
+            alimento.nombreAlimento.includes(target.value)
         );
-        if(filteredData.length > 0){
-            setFilterData(filteredData);
-        }else{
-            setFilterData(data);
-        }
-        
+        setFilterData(filteredData);
     };
 
     const getExportData = async () => {
@@ -309,9 +301,9 @@ const Consulta = ({ onClick }) => {
                 <div className='search'>
                     <input
                         id='search_valor'
+                        onChange={onSearch}
                         placeholder='Busqueda rápida'
                     />
-                    <Button className='searchButton' onClick={onSearch}>Buscar</Button>
                 </div>
                 <div className='grid_container' ref={scrollRef}>
                     <InfiniteScroll

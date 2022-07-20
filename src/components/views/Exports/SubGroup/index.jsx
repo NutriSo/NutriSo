@@ -5,17 +5,19 @@ import { message } from 'antd';
 import dayjs from 'dayjs';
 
 import ButtonsArea from '../../../commons/ButtonsArea';
-import { baseColumns } from '../data';
-import * as calories from '../data/calories';
-import * as vitamins from '../data/vitamins';
-import * as minerals from '../data/minerals';
-import * as glycemic from '../data/glycemic';
-import * as environmental from '../data/environmental';
-import * as economic from '../data/economic';
-import * as bioactives from '../data/bioactives';
-import * as additives from '../data/additives';
-import * as extraColumns2 from '../data/extraColumns';
-import * as food from '../data/foodGroups';
+import {
+    baseColumns,
+    caloriasMacronutrientes,
+    vitaminas,
+    minerales,
+    aspectoGlucemico,
+    aspectosMedioambientales,
+    aspectosEconomicos,
+    componentesBioactivos,
+    aditivosAlimentarios,
+    extraColumns,
+    groupColumns,
+} from '../data';
 import groups from '../data/excelGroups';
 import keys from '../data/excelKeys';
 import {
@@ -24,25 +26,22 @@ import {
     getRowValues,
     generateCsvRows,
     unifyGroups,
-    getMaxGroupByReg,
-    generateFinalCsvRows,
 } from '../utils';
-
 import { isEmptyArray } from '../../../../utils';
 
-const Groups = ({ selected = false, setLoading }) => {
+const SubGroup = ({ selected = false, setLoading }) => {
     const [columns, setColumns] = useState([
         ...baseColumns,
-        ...food.groupColumns0,
-        ...extraColumns2.extraColumns0,
-        ...calories.caloriasMacronutrientes0,
-        ...vitamins.vitaminas0,
-        ...minerals.minerales0,
-        ...glycemic.aspectoGlucemico0,
-        ...environmental.aspectosMedioambientales0,
-        ...economic.aspectosEconomicos0,
-        ...bioactives.componentesBioactivos0,
-        ...additives.aditivosAlimentarios0,
+        ...groupColumns,
+        ...extraColumns,
+        ...caloriasMacronutrientes,
+        ...vitaminas,
+        ...minerales,
+        ...aspectoGlucemico,
+        ...aspectosMedioambientales,
+        ...aspectosEconomicos,
+        ...componentesBioactivos,
+        ...aditivosAlimentarios,
     ]);
     const [foodReady, setFoodReady] = useState(false);
     const [usersData, setUsersData] = useState([]);
@@ -106,9 +105,10 @@ const Groups = ({ selected = false, setLoading }) => {
             });
 
             foods.forEach((food) => {
-                const { usuario, horario, idRegistro, grupoExportable } = food;
+                const { usuario, horario, idRegistro, subGrupoExportable } = food;
 
-                const isPartOfGroup = groups[keys.grupoExportable].includes(grupoExportable);
+                const isPartOfGroup =
+                    groups[keys.subGrupoExportable].includes(subGrupoExportable);
 
                 if (!isPartOfGroup) return;
 
@@ -121,8 +121,8 @@ const Groups = ({ selected = false, setLoading }) => {
                 };
 
                 const newState = normalizeArrayToExport({
-                    state: getArrayByGroups(groups[keys.grupoExportable]),
-                    group: grupoExportable,
+                    state: getArrayByGroups(groups[keys.subGrupoExportable]),
+                    group: subGrupoExportable,
                     food,
                 });
 
@@ -157,40 +157,12 @@ const Groups = ({ selected = false, setLoading }) => {
                 return;
             }
 
-            const csvRowsPreview = generateCsvRows(unified);
+            const csvRowsPreview = generateCsvRows(unified, 2);
 
-            // const newColumns = columns;
-            // console.log('prev', { newColumns });
-            // let maxGroup = 0;
-            // getMaxGroupByReg(csvRowsPreview, (res) => (maxGroup = res));
-
-            // for (let i = 0; i < maxGroup; i++) {
-            //     // console.log('i', i);
-            //     // if (i === 0) {
-            //     //     i++;
-            //     //     return;
-            //     // }
-            //     newColumns.push(
-            //         ...food[`groupColumns${i}`],
-            //         ...extraColumns2[`extraColumns${i}`],
-            //         ...calories[`caloriasMacronutrientes${i}`],
-            //         ...vitamins[`vitaminas${i}`],
-            //         ...minerals[`minerales${i}`],
-            //         ...glycemic[`aspectoGlucemico${i}`],
-            //         ...environmental[`aspectosMedioambientales${i}`],
-            //         ...economic[`aspectosEconomicos2`],
-            //         ...bioactives[`componentesBioactivos${i}`],
-            //         ...additives[`aditivosAlimentarios${i}`]
-            //     );
-            // }
-            // console.log('next', { newColumns });
-            // const cvsRows = generateFinalCsvRows(csvRowsPreview);
-
-            console.log('csvRowsPreview', csvRowsPreview);
-            // setExportData(csvRowsPreview);
-            // setTimeout(() => {
-            //     onFileReady();
-            // }, 1000);
+            setExportData(csvRowsPreview);
+            setTimeout(() => {
+                onFileReady();
+            }, 1000);
         } catch (error) {
             handleCancel();
             message.error('Ocurrió un error al armar los datos para exportar');
@@ -206,10 +178,10 @@ const Groups = ({ selected = false, setLoading }) => {
             xlsxData={{
                 columns: columns,
                 data: exportData,
-                fileName: `Grupos ${dayjs(new Date()).format('DD-MM-YYYY')}`,
+                fileName: `Sub-Grupos ${dayjs(new Date()).format('DD-MM-YYYY')}`,
             }}
         />
     );
 };
 
-export default Groups;
+export default SubGroup;

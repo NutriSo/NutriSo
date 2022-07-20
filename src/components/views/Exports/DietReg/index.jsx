@@ -307,7 +307,7 @@ const DietReg = ({ selected = false, setLoading }) => {
             console.groupEnd();
         }
     };
-    console.log({ exportData });
+
     return (
         <ButtonsArea
             fileReady={fileReady}

@@ -24,7 +24,7 @@ const UserCard = ({ user }) => {
             <div className='profile-img-name'>
                 <div className='fondo-img' />
                 <div className='hoyito'></div>
-
+                
                 <div className='profile-img'>
                     <img src={isPhotoExist ? user.foto : standardAvatar} alt='userProfile' />
                 </div>

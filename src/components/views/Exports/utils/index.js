@@ -1,14 +1,4 @@
 import { isEmptyArray, isEmptyObject, isInvalidElem } from '../../../../utils';
-import {
-    caloriasMacronutrientes,
-    vitaminas,
-    minerales,
-    aspectoGlucemico,
-    aspectosMedioambientales,
-    aspectosEconomicos,
-    componentesBioactivos,
-    aditivosAlimentarios,
-} from '../Groups/data';
 import { KG } from '../constants';
 
 export const getIsSelected = (state, number, index) => {
@@ -44,268 +34,68 @@ export const normalizeArrayToExport = ({ state, group, food }) => {
     return auxState;
 };
 
-export const unifyArrays = (state) => {
-    if (isInvalidElem(state)) return [];
-
-    let result = [];
-
-    const newArray0 = state[0].map((item) => ({
-        ...item,
-        values: [...item.values, ...state[1].find(({ id }) => item.id === id).values],
-    }));
-
-    const newArray1 = newArray0.map((item) => ({
-        ...item,
-        values: [...item.values, ...state[2].find(({ id }) => item.id === id).values],
-    }));
-
-    const newArray2 = newArray1.map((item) => ({
-        ...item,
-        values: [...item.values, ...state[3].find(({ id }) => item.id === id).values],
-    }));
-
-    const newArray3 = newArray2.map((item) => ({
-        ...item,
-        values: [...item.values, ...state[4].find(({ id }) => item.id === id).values],
-    }));
-
-    const newArray4 = newArray3.map((item) => ({
-        ...item,
-        values: [...item.values, ...state[5].find(({ id }) => item.id === id).values],
-    }));
-
-    const newArray5 = newArray4.map((item) => ({
-        ...item,
-        values: [...item.values, ...state[6].find(({ id }) => item.id === id).values],
-    }));
-
-    const newArray6 = newArray5.map((item) => ({
-        ...item,
-        values: [...item.values, ...state[7].find(({ id }) => item.id === id).values],
-    }));
-
-    const newArray7 = newArray6.map((item) => ({
-        ...item,
-        values: [...item.values, ...state[8].find(({ id }) => item.id === id).values],
-    }));
-
-    const newArray8 = newArray7.map((item) => ({
-        ...item,
-        values: [...item.values, ...state[9].find(({ id }) => item.id === id).values],
-    }));
-
-    const newArray9 = newArray8.map((item) => ({
-        ...item,
-        values: [...item.values, ...state[10].find(({ id }) => item.id === id).values],
-    }));
-
-    const newArray10 = newArray9.map((item) => ({
-        ...item,
-        values: [...item.values, ...state[11].find(({ id }) => item.id === id).values],
-    }));
-
-    const newArray11 = newArray10.map((item) => ({
-        ...item,
-        values: [...item.values, ...state[12].find(({ id }) => item.id === id).values],
-    }));
-
-    const newArray12 = newArray11.map((item) => ({
-        ...item,
-        values: [...item.values, ...state[13].find(({ id }) => item.id === id).values],
-    }));
-
-    const newArray13 = newArray12.map((item) => ({
-        ...item,
-        values: [...item.values, ...state[14].find(({ id }) => item.id === id).values],
-    }));
-
-    const newArray14 = newArray13.map((item) => ({
-        ...item,
-        values: [...item.values, ...state[15].find(({ id }) => item.id === id).values],
-    }));
-
-    const newArray15 = newArray14.map((item) => ({
-        ...item,
-        values: [...item.values, ...state[16].find(({ id }) => item.id === id).values],
-    }));
-
-    const newArray16 = newArray15.map((item) => ({
-        ...item,
-        values: [...item.values, ...state[17].find(({ id }) => item.id === id).values],
-    }));
-
-    return newArray16;
-};
-
-export const getCharacteristicColumns = () => {
-    return {
-        ...caloriasMacronutrientes,
-        ...vitaminas,
-        ...minerales,
-        ...aspectoGlucemico,
-        ...aspectosMedioambientales,
-        ...aspectosEconomicos,
-        ...componentesBioactivos,
-        ...aditivosAlimentarios,
-    };
-};
-
-export const normalizeDataByGroupDTO = (food, quantity) => {
-    const factor = Number(
-        food.aspectoMedioambiental.factorDeCorreccionParaHuellaHidricaYEGEI
-    );
-    const washing = Number(food.aspectoMedioambiental.aguaParaLavado);
-    const cooking = Number(food.aspectoMedioambiental.aguaParaCoccion);
-    const consumption = Number(food.cantidadAlimento.pesoNeto * quantity);
-
-    const washingValue = (consumption * washing) / KG;
-    const cookingValue = (consumption * cooking) / KG;
-    return {
-        energiaKcal: Number(food.caloriasMacronutrientes.energia * quantity),
-        proteina: Number(food.caloriasMacronutrientes.proteina * quantity),
-        lipidos: Number(food.caloriasMacronutrientes.lipidos * quantity),
-        agSaturados: Number(food.caloriasMacronutrientes.agSaturados * quantity),
-        agMonoinsaturados: Number(food.caloriasMacronutrientes.agMonoinsaturados * quantity),
-        agPoliinsaturados: Number(food.caloriasMacronutrientes.adPoliinsaturados * quantity),
-        colesterol: Number(food.caloriasMacronutrientes.colesterol * quantity),
-        omega3: Number(food.caloriasMacronutrientes.omega3 * quantity),
-        omega6: Number(food.caloriasMacronutrientes.omega6 * quantity),
-        omega9: Number(food.caloriasMacronutrientes.omega9 * quantity),
-        hidratosDeCarbono: Number(food.caloriasMacronutrientes.hidratosDeCarbono * quantity),
-        fibra: Number(food.caloriasMacronutrientes.fibra * quantity),
-        fibraInsoluble: Number(food.caloriasMacronutrientes.fibraInsoluble * quantity),
-        azucar: Number(food.caloriasMacronutrientes.azucar * quantity),
-        etanol: Number(food.caloriasMacronutrientes.etanol * quantity),
-        tiamina: Number(food.vitaminas.tiamina * quantity),
-        riboflavina: Number(food.vitaminas.riboflavin * quantity),
-        niacina: Number(food.vitaminas.niacina * quantity),
-        acidoPantotenico: Number(food.vitaminas.acidoPantotenico * quantity),
-        piridoxina: Number(food.vitaminas.piridoxina * quantity),
-        biotina: Number(food.vitaminas.biotina * quantity),
-        cobalamina: Number(food.vitaminas.cobalmina * quantity),
-        acidoAscorbico: Number(food.vitaminas.acidoAscorbico * quantity),
-        acidoFolico: Number(food.vitaminas.acidoFolico * quantity),
-        vitaminaA: Number(food.vitaminas.vitaminaA * quantity),
-        vitaminaD: Number(food.vitaminas.vitaminaD * quantity),
-        vitaminaK: Number(food.vitaminas.vitaminaK * quantity),
-        vitaminaE: Number(food.vitaminas.vitaminaE * quantity),
-        calcio: Number(food.minerales.calcio * quantity),
-        fosforo: Number(food.minerales.fosforo * quantity),
-        hierro: Number(food.minerales.hierro * quantity),
-        hierroNoHem: Number(food.minerales.hierroNoHem * quantity),
-        hierroTotal: Number(food.minerales.hierroTotal * quantity),
-        magnesio: Number(food.minerales.magnesio * quantity),
-        sodio: Number(food.minerales.sodio * quantity),
-        potasio: Number(food.minerales.potasio * quantity),
-        zinc: Number(food.minerales.zinc * quantity),
-        selenio: Number(food.minerales.selenio * quantity),
-        indiceGlicemico: Number(food.aspectoGlucemico.indiceGlicemico * quantity),
-        cargaGlicemica: Number(food.aspectoGlucemico.cargaGlicemica * quantity),
-        factorDeCorreccionParaHuellaHidricaYEGEI: factor,
-        tipo: food.aspectoMedioambiental.tipo,
-        lugar: food.aspectoMedioambiental.lugar,
-        huellaHidricaTotal: Number(
-            Number(food.aspectoMedioambiental.huellaHidricaTotal * quantity) * factor
-        ),
-        huellaHidricaVerde: Number(
-            Number(food.aspectoMedioambiental.huellaHidricaVerde * quantity) * factor
-        ),
-        huellaHidricaAzul: Number(
-            Number(food.aspectoMedioambiental.huellaHidricaAzul * quantity) * factor
-        ),
-        huellaHidricaGris: Number(
-            Number(food.aspectoMedioambiental.huellaHidricaGris * quantity) * factor
-        ),
-        aguaParaLavado: washingValue, // revisar abajo
-        aguaParaCoccion: cookingValue,
-        lugarEGEI: food.aspectoMedioambiental.lugarEGEI,
-        citaEGEI: food.aspectoMedioambiental.citaEGEI,
-        huellaDeCarbono: Number(food.aspectoMedioambiental.huellaCarbono * quantity),
-        huellaEcologica: Number(food.aspectoMedioambiental.huellaEcologica * quantity),
-        usoDeSuelo: Number(food.aspectoMedioambiental.usoDeSuelo * quantity),
-        energiaFosil: Number(food.aspectoMedioambiental.energiaFosil * quantity),
-        nitrogeno: Number(food.aspectoMedioambiental.nitrogeno * quantity),
-        fosforoAmbiental: Number(food.aspectoMedioambiental.fosforo * quantity),
-        puntajeEcologico: Number(food.aspectoMedioambiental.puntajeEcologico * quantity),
-        precio: food.aspectoEconomico.precio,
-        lugarDeCompra: food.aspectoEconomico.lugarDeCompra,
-        lugarDeVenta: food.aspectoEconomico.lugarDeVenta,
-        fitoquimicos: Number(food.componentesBioactivos.fitoquimicos * quantity),
-        polifenoles: Number(food.componentesBioactivos.polifenoles * quantity),
-        antocianinas: Number(food.componentesBioactivos.antocianinas * quantity),
-        taninos: Number(food.componentesBioactivos.taninos * quantity),
-        isoflavonas: Number(food.componentesBioactivos.isoflavonas * quantity),
-        resveratrol: Number(food.componentesBioactivos.resveratrol * quantity),
-        isotiocianatos: Number(food.componentesBioactivos.isotiocinatos * quantity),
-        carotenoides: Number(food.componentesBioactivos.caretenoides * quantity),
-        betacarotenos: Number(food.componentesBioactivos.betacarotenos * quantity),
-        licopeno: Number(food.componentesBioactivos.licopeno * quantity),
-        luteina: Number(food.componentesBioactivos.luteina * quantity),
-        alicina: Number(food.componentesBioactivos.alicina * quantity),
-        cafeina: Number(food.componentesBioactivos.cafeina * quantity),
-        ufc: Number(food.componentesBioactivos.UFC * quantity),
-        benzoatoDeSodio: Number(food.aditivosAlimentarios.benzoatoDeSodio * quantity),
-        polisorbato: Number(food.aditivosAlimentarios.polisorbato * quantity),
-        azulBrillanteFCFoE133: Number(
-            food.aditivosAlimentarios.azulBrillanteFCFoE133 * quantity
-        ),
-        azurrubinaOE102: Number(food.aditivosAlimentarios.azurrubinaOE102 * quantity),
-        amarilloOcasoFDFoE110: Number(
-            food.aditivosAlimentarios.amarilloOcasoFDFoE110 * quantity
-        ),
-        tartrazinaOE102: Number(food.aditivosAlimentarios.tartrazinaOE102 * quantity),
-        verdeSoE142: Number(food.aditivosAlimentarios.verdeSoE142 * quantity),
-        negroBrillanteBNoE151: Number(
-            food.aditivosAlimentarios.negroBrillanteBNoE151 * quantity
-        ),
-        sucralosa: Number(food.aditivosAlimentarios.sucralosa * quantity),
-        estevia: Number(food.aditivosAlimentarios.estevia * quantity),
-        sacarina: Number(food.aditivosAlimentarios.sacarina * quantity),
-        aspartame: Number(food.aditivosAlimentarios.aspartame * quantity),
-        acesulfameK: Number(food.aditivosAlimentarios.acesulfameK * quantity),
-        carboxymethylcellulose: Number(
-            food.aditivosAlimentarios.carboxymethylcellulose * quantity
-        ),
-        dioxidoDeTitanio: Number(food.aditivosAlimentarios.dioxidoDeTitanio * quantity),
-        monolauratoDeGlicerol: Number(
-            food.aditivosAlimentarios.monolauratoDeGlicerol * quantity
-        ),
-        consumption,
-    };
-};
-
 export const normalizeSumByGroupDTO = (prevData, newData) => {
     if (isEmptyObject(newData)) return {};
 
     const {
-        energiaKcal,
+        id,
+        sku,
+        nombreAlimento,
+        grupoExportable,
+        subGrupoExportable,
+        grupoAlimento,
+        clasificacionExportable,
+        opcionesPreparacion,
+        icono,
+        mensaje,
+        cantidadAlimento,
+        caloriasMacronutrientes,
+        vitaminas,
+        minerales,
+        aspectoGlucemico,
+        aspectoEconomico,
+        aspectoMedioambiental,
+        componentesBioactivos,
+        aditivosAlimentarios,
+        cantidad: consumption,
+    } = newData;
+
+    const {
+        energia,
         proteina,
         lipidos,
         agSaturados,
         agMonoinsaturados,
-        agPoliinsaturados,
+        adPoliinsaturados,
         colesterol,
         omega3,
         omega6,
         omega9,
         hidratosDeCarbono,
         fibra,
+        fibraSoluble,
         fibraInsoluble,
         azucar,
         etanol,
+    } = caloriasMacronutrientes;
+
+    const {
         tiamina,
-        riboflavina,
+        riboflavin,
         niacina,
         acidoPantotenico,
         piridoxina,
         biotina,
-        cobalamina,
+        cobalmina,
         acidoAscorbico,
         acidoFolico,
         vitaminaA,
         vitaminaD,
         vitaminaK,
         vitaminaE,
+    } = vitaminas;
+
+    const {
         calcio,
         fosforo,
         hierro,
@@ -316,8 +106,11 @@ export const normalizeSumByGroupDTO = (prevData, newData) => {
         potasio,
         zinc,
         selenio,
-        indiceGlicemico,
-        cargaGlicemica,
+    } = minerales;
+
+    const { indiceGlicemico, cargaGlicemica } = aspectoGlucemico;
+
+    const {
         factorDeCorreccionParaHuellaHidricaYEGEI,
         tipo,
         lugar,
@@ -329,30 +122,35 @@ export const normalizeSumByGroupDTO = (prevData, newData) => {
         aguaParaCoccion,
         lugarEGEI,
         citaEGEI,
-        huellaDeCarbono,
+        huellaCarbono,
         huellaEcologica,
-        usoDeSuelo,
         energiaFosil,
+        usoDeSuelo,
         nitrogeno,
-        fosforoAmbiental,
         puntajeEcologico,
-        precio,
-        lugarDeCompra,
-        lugarDeVenta,
+        ...rest
+    } = aspectoMedioambiental;
+
+    const { precio, lugarDeCompra, lugarDeVenta } = aspectoEconomico;
+
+    const {
         fitoquimicos,
         polifenoles,
         antocianinas,
         taninos,
         isoflavonas,
         resveratrol,
-        isotiocianatos,
-        carotenoides,
+        isotiocinatos,
+        caretenoides,
         betacarotenos,
         licopeno,
         luteina,
         alicina,
         cafeina,
-        ufc,
+        UFC,
+    } = componentesBioactivos;
+
+    const {
         benzoatoDeSodio,
         polisorbato,
         azulBrillanteFCFoE133,
@@ -369,133 +167,1073 @@ export const normalizeSumByGroupDTO = (prevData, newData) => {
         carboxymethylcellulose,
         dioxidoDeTitanio,
         monolauratoDeGlicerol,
-        consumption,
-    } = newData;
+    } = aditivosAlimentarios;
 
     const washingValue = (consumption * aguaParaLavado) / KG;
     const cookingValue = (consumption * aguaParaCoccion) / KG;
 
-    return {
-        energiaKcal: getPropSum(prevData?.energiaKcal, energiaKcal),
-        proteina: getPropSum(prevData?.proteina, proteina),
-        lipidos: getPropSum(prevData?.lipidos, lipidos),
-        agSaturados: getPropSum(prevData?.agSaturados, agSaturados),
-        agMonoinsaturados: getPropSum(prevData?.agMonoinsaturados, agMonoinsaturados),
-        agPoliinsaturados: getPropSum(prevData?.agPoliinsaturados, agPoliinsaturados),
-        colesterol: getPropSum(prevData?.colesterol, colesterol),
-        omega3: getPropSum(prevData?.omega3, omega3),
-        omega6: getPropSum(prevData?.omega6, omega6),
-        omega9: getPropSum(prevData?.omega9, omega9),
-        hidratosDeCarbono: getPropSum(prevData?.hidratosDeCarbono, hidratosDeCarbono),
-        fibra: getPropSum(prevData?.fibra, fibra),
-        fibraInsoluble: getPropSum(prevData?.fibraInsoluble, fibraInsoluble),
-        azucar: getPropSum(prevData?.azucar, azucar),
-        etanol: getPropSum(prevData?.etanol, etanol),
-        tiamina: getPropSum(prevData?.tiamina, tiamina),
-        riboflavina: getPropSum(prevData?.riboflavina, riboflavina),
-        niacina: getPropSum(prevData?.niacina, niacina),
-        acidoPantotenico: getPropSum(prevData?.acidoPantotenico, acidoPantotenico),
-        piridoxina: getPropSum(prevData?.piridoxina, piridoxina),
-        biotina: getPropSum(prevData?.biotina, biotina),
-        cobalamina: getPropSum(prevData?.cobalamina, cobalamina),
-        acidoAscorbico: getPropSum(prevData?.acidoAscorbico, acidoAscorbico),
-        acidoFolico: getPropSum(prevData?.acidoFolico, acidoFolico),
-        vitaminaA: getPropSum(prevData?.vitaminaA, vitaminaA),
-        vitaminaD: getPropSum(prevData?.vitaminaD, vitaminaD),
-        vitaminaK: getPropSum(prevData?.vitaminaK, vitaminaK),
-        vitaminaE: getPropSum(prevData?.vitaminaE, vitaminaE),
-        calcio: getPropSum(prevData?.calcio, calcio),
-        fosforo: getPropSum(prevData?.fosforo, fosforo),
-        hierro: getPropSum(prevData?.hierro, hierro),
-        hierroNoHem: getPropSum(prevData?.hierroNoHem, hierroNoHem),
-        hierroTotal: getPropSum(prevData?.hierroTotal, hierroTotal),
-        magnesio: getPropSum(prevData?.magnesio, magnesio),
-        sodio: getPropSum(prevData?.sodio, sodio),
-        potasio: getPropSum(prevData?.potasio, potasio),
-        zinc: getPropSum(prevData?.zinc, zinc),
-        selenio: getPropSum(prevData?.selenio, selenio),
-        indiceGlicemico: getPropSum(prevData?.indiceGlicemico, indiceGlicemico),
-        cargaGlicemica: getPropSum(prevData?.cargaGlicemica, cargaGlicemica),
+    const result = {
+        grupoAlimento: grupoExportable,
+        energiaKcal: getPropSum(prevData?.energiaKcal, energia, consumption),
+        proteina: getPropSum(prevData?.proteina, proteina, consumption),
+        lipidos: getPropSum(prevData?.lipidos, lipidos, consumption),
+        agSaturados: getPropSum(prevData?.agSaturados, agSaturados, consumption),
+        agMonoinsaturados: getPropSum(
+            prevData?.agMonoinsaturados,
+            agMonoinsaturados,
+            consumption
+        ),
+        agPoliinsaturados: getPropSum(
+            prevData?.adPoliinsaturados,
+            adPoliinsaturados,
+            consumption
+        ),
+        colesterol: getPropSum(prevData?.colesterol, colesterol, consumption),
+        omega3: getPropSum(prevData?.omega3, omega3, consumption),
+        omega6: getPropSum(prevData?.omega6, omega6, consumption),
+        omega9: getPropSum(prevData?.omega9, omega9, consumption),
+        hidratosDeCarbono: getPropSum(
+            prevData?.hidratosDeCarbono,
+            hidratosDeCarbono,
+            consumption
+        ),
+        fibra: getPropSum(prevData?.fibra, fibra, consumption),
+        fibraSoluble: getPropSum(prevData?.fibraSoluble, fibraSoluble, consumption),
+        fibraInsoluble: getPropSum(prevData?.fibraInsoluble, fibraInsoluble, consumption),
+        azucar: getPropSum(prevData?.azucar, azucar, consumption),
+        etanol: getPropSum(prevData?.etanol, etanol, consumption),
+        tiamina: getPropSum(prevData?.tiamina, tiamina, consumption),
+        riboflavina: getPropSum(prevData?.riboflavin, riboflavin, consumption),
+        niacina: getPropSum(prevData?.niacina, niacina, consumption),
+        acidoPantotenico: getPropSum(
+            prevData?.acidoPantotenico,
+            acidoPantotenico,
+            consumption
+        ),
+        piridoxina: getPropSum(prevData?.piridoxina, piridoxina, consumption),
+        biotina: getPropSum(prevData?.biotina, biotina, consumption),
+        cobalamina: getPropSum(prevData?.cobalmina, cobalmina, consumption),
+        acidoAscorbico: getPropSum(prevData?.acidoAscorbico, acidoAscorbico, consumption),
+        acidoFolico: getPropSum(prevData?.acidoFolico, acidoFolico, consumption),
+        vitaminaA: getPropSum(prevData?.vitaminaA, vitaminaA, consumption),
+        vitaminaD: getPropSum(prevData?.vitaminaD, vitaminaD, consumption),
+        vitaminaK: getPropSum(prevData?.vitaminaK, vitaminaK, consumption),
+        vitaminaE: getPropSum(prevData?.vitaminaE, vitaminaE, consumption),
+        calcio: getPropSum(prevData?.calcio, calcio, consumption),
+        fosforo: getPropSum(prevData?.fosforo, fosforo, consumption),
+        hierro: getPropSum(prevData?.hierro, hierro, consumption),
+        hierroNoHem: getPropSum(prevData?.hierroNoHem, hierroNoHem, consumption),
+        hierroTotal: getPropSum(prevData?.hierroTotal, hierroTotal, consumption),
+        magnesio: getPropSum(prevData?.magnesio, magnesio, consumption),
+        sodio: getPropSum(prevData?.sodio, sodio, consumption),
+        potasio: getPropSum(prevData?.potasio, potasio, consumption),
+        zinc: getPropSum(prevData?.zinc, zinc, consumption),
+        selenio: getPropSum(prevData?.selenio, selenio, consumption),
+        indiceGlicemico: getPropSum(prevData?.indiceGlicemico, indiceGlicemico, consumption),
+        cargaGlicemica: getPropSum(prevData?.cargaGlicemica, cargaGlicemica, consumption),
         factorDeCorreccionParaHuellaHidricaYEGEI,
-        tipo: newData?.tipo,
-        lugar: newData?.lugar,
-        huellaHidricaTotal: getPropSum(prevData?.huellaHidricaTotal, huellaHidricaTotal),
-        huellaHidricaVerde: getPropSum(prevData?.huellaHidricaVerde, huellaHidricaVerde),
-        huellaHidricaAzul: getPropSum(prevData?.huellaHidricaAzul, huellaHidricaAzul),
-        huellaHidricaGris: getPropSum(prevData?.huellaHidricaGris, huellaHidricaGris),
-        aguaParaLavado: getPropSum(prevData?.aguaParaLavado, washingValue),
-        aguaParaCoccion: getPropSum(prevData?.aguaParaCoccion, cookingValue),
-        lugarEGEI: newData?.lugarEGEI,
-        citaEGEI: newData?.lugarEGEI,
-        huellaDeCarbono: getPropSum(prevData?.huellaDeCarbono, huellaDeCarbono),
-        huellaEcologica: getPropSum(prevData?.huellaEcologica, huellaEcologica),
-        usoDeSuelo: getPropSum(prevData?.usoDeSuelo, usoDeSuelo),
-        energiaFosil: getPropSum(prevData?.energiaFosil, energiaFosil),
-        nitrogeno: getPropSum(prevData?.nitrogeno, nitrogeno),
-        fosforoAmbiental: getPropSum(prevData?.fosforoAmbiental, fosforoAmbiental),
-        puntajeEcologico: getPropSum(prevData?.puntajeEcologico, puntajeEcologico),
-        precio: getPropSum(prevData?.precio, precio),
-        lugarDeCompra: newData?.lugarDeCompra,
-        lugarDeVenta: newData?.lugarDeVenta,
-        fitoquimicos: getPropSum(prevData?.fitoquimicos, fitoquimicos),
-        polifenoles: getPropSum(prevData?.polifenoles, polifenoles),
-        antocianinas: getPropSum(prevData?.antocianinas, antocianinas),
-        taninos: getPropSum(prevData?.taninos, taninos),
-        isoflavonas: getPropSum(prevData?.isoflavonas, isoflavonas),
-        resveratrol: getPropSum(prevData?.resveratrol, resveratrol),
-        isotiocianatos: getPropSum(prevData?.isotiocianatos, isotiocianatos),
-        carotenoides: getPropSum(prevData?.carotenoides, carotenoides),
-        betacarotenos: getPropSum(prevData?.betacarotenos, betacarotenos),
-        licopeno: getPropSum(prevData?.licopeno, licopeno),
-        luteina: getPropSum(prevData?.luteina, luteina),
-        alicina: getPropSum(prevData?.alicina, alicina),
-        cafeina: getPropSum(prevData?.cafeina, cafeina),
-        ufc: getPropSum(prevData?.ufc, ufc),
-        benzoatoDeSodio: getPropSum(prevData?.benzoatoDeSodio, benzoatoDeSodio),
-        polisorbato: getPropSum(prevData?.polisorbato, polisorbato),
+        tipo: tipo,
+        lugar: lugar,
+        huellaHidricaTotal: getPropSum(
+            prevData?.huellaHidricaTotal,
+            huellaHidricaTotal,
+            consumption
+        ),
+        huellaHidricaVerde: getPropSum(
+            prevData?.huellaHidricaVerde,
+            huellaHidricaVerde,
+            consumption
+        ),
+        huellaHidricaAzul: getPropSum(
+            prevData?.huellaHidricaAzul,
+            huellaHidricaAzul,
+            consumption
+        ),
+        huellaHidricaGris: getPropSum(
+            prevData?.huellaHidricaGris,
+            huellaHidricaGris,
+            consumption
+        ),
+        aguaParaLavado: getPropSum(prevData?.aguaParaLavado, washingValue, consumption),
+        aguaParaCoccion: getPropSum(prevData?.aguaParaCoccion, cookingValue, consumption),
+        lugarEGEI: lugarEGEI,
+        citaEGEI: citaEGEI,
+        huellaDeCarbono: getPropSum(prevData?.huellaCarbono, huellaCarbono, consumption),
+        huellaEcologica: getPropSum(prevData?.huellaEcologica, huellaEcologica, consumption),
+        usoDeSuelo: getPropSum(prevData?.usoDeSuelo, usoDeSuelo, consumption),
+        energiaFosil: getPropSum(prevData?.energiaFosil, energiaFosil, consumption),
+        nitrogeno: getPropSum(prevData?.nitrogeno, nitrogeno, consumption),
+        fosforoAmbiental: getPropSum(prevData?.rest?.fosforo, rest.fosforo, consumption),
+        puntajeEcologico: getPropSum(
+            prevData?.puntajeEcologico,
+            puntajeEcologico,
+            consumption
+        ),
+        precio: getPropSum(prevData?.precio, precio, consumption),
+        lugarDeCompra: lugarDeCompra,
+        lugarDeVenta: lugarDeVenta,
+        fitoquimicos: getPropSum(prevData?.fitoquimicos, fitoquimicos, consumption),
+        polifenoles: getPropSum(prevData?.polifenoles, polifenoles, consumption),
+        antocianinas: getPropSum(prevData?.antocianinas, antocianinas, consumption),
+        taninos: getPropSum(prevData?.taninos, taninos, consumption),
+        isoflavonas: getPropSum(prevData?.isoflavonas, isoflavonas, consumption),
+        resveratrol: getPropSum(prevData?.resveratrol, resveratrol, consumption),
+        isotiocianatos: getPropSum(prevData?.isotiocinatos, isotiocinatos, consumption),
+        carotenoides: getPropSum(prevData?.caretenoides, caretenoides, consumption),
+        betacarotenos: getPropSum(prevData?.betacarotenos, betacarotenos, consumption),
+        licopeno: getPropSum(prevData?.licopeno, licopeno, consumption),
+        luteina: getPropSum(prevData?.luteina, luteina, consumption),
+        alicina: getPropSum(prevData?.alicina, alicina, consumption),
+        cafeina: getPropSum(prevData?.cafeina, cafeina, consumption),
+        ufc: getPropSum(prevData?.UFC, UFC, consumption),
+        benzoatoDeSodio: getPropSum(prevData?.benzoatoDeSodio, benzoatoDeSodio, consumption),
+        polisorbato: getPropSum(prevData?.polisorbato, polisorbato, consumption),
         azulBrillanteFCFoE133: getPropSum(
             prevData?.azulBrillanteFCFoE133,
-            azulBrillanteFCFoE133
+            azulBrillanteFCFoE133,
+            consumption
         ),
-        azurrubinaOE102: getPropSum(prevData?.azurrubinaOE102, azurrubinaOE102),
+        azurrubinaOE102: getPropSum(prevData?.azurrubinaOE102, azurrubinaOE102, consumption),
         amarilloOcasoFDFoE110: getPropSum(
             prevData?.amarilloOcasoFDFoE110,
-            amarilloOcasoFDFoE110
+            amarilloOcasoFDFoE110,
+            consumption
         ),
-        tartrazinaOE102: getPropSum(prevData?.tartrazinaOE102, tartrazinaOE102),
-        verdeSoE142: getPropSum(prevData?.verdeSoE142, verdeSoE142),
+        tartrazinaOE102: getPropSum(prevData?.tartrazinaOE102, tartrazinaOE102, consumption),
+        verdeSoE142: getPropSum(prevData?.verdeSoE142, verdeSoE142, consumption),
         negroBrillanteBNoE151: getPropSum(
             prevData?.negroBrillanteBNoE151,
-            negroBrillanteBNoE151
+            negroBrillanteBNoE151,
+            consumption
         ),
-        sucralosa: getPropSum(prevData?.sucralosa, sucralosa),
-        estevia: getPropSum(prevData?.estevia, estevia),
-        sacarina: getPropSum(prevData?.sacarina, sacarina),
-        aspartame: getPropSum(prevData?.aspartame, aspartame),
-        acesulfameK: getPropSum(prevData?.acesulfameK, acesulfameK),
+        sucralosa: getPropSum(prevData?.sucralosa, sucralosa, consumption),
+        estevia: getPropSum(prevData?.estevia, estevia, consumption),
+        sacarina: getPropSum(prevData?.sacarina, sacarina, consumption),
+        aspartame: getPropSum(prevData?.aspartame, aspartame, consumption),
+        acesulfameK: getPropSum(prevData?.acesulfameK, acesulfameK, consumption),
         carboxymethylcellulose: getPropSum(
             prevData?.carboxymethylcellulose,
-            carboxymethylcellulose
+            carboxymethylcellulose,
+            consumption
         ),
-        dioxidoDeTitanio: getPropSum(prevData?.dioxidoDeTitanio, dioxidoDeTitanio),
+        dioxidoDeTitanio: getPropSum(
+            prevData?.dioxidoDeTitanio,
+            dioxidoDeTitanio,
+            consumption
+        ),
         monolauratoDeGlicerol: getPropSum(
             prevData?.monolauratoDeGlicerol,
-            monolauratoDeGlicerol
+            monolauratoDeGlicerol,
+            consumption
         ),
     };
+
+    return result;
 };
 
-export const getPropSum = (firstProp, secondProp) => {
+export const normalizeSumBySubGroupDTO = (prevData, newData) => {
+    if (isEmptyObject(newData)) return {};
+
+    const {
+        id,
+        sku,
+        nombreAlimento,
+        grupoExportable,
+        subGrupoExportable,
+        grupoAlimento,
+        clasificacionExportable,
+        opcionesPreparacion,
+        icono,
+        mensaje,
+        cantidadAlimento,
+        caloriasMacronutrientes,
+        vitaminas,
+        minerales,
+        aspectoGlucemico,
+        aspectoEconomico,
+        aspectoMedioambiental,
+        componentesBioactivos,
+        aditivosAlimentarios,
+        cantidad: consumption,
+    } = newData;
+
+    const {
+        energia,
+        proteina,
+        lipidos,
+        agSaturados,
+        agMonoinsaturados,
+        adPoliinsaturados,
+        colesterol,
+        omega3,
+        omega6,
+        omega9,
+        hidratosDeCarbono,
+        fibra,
+        fibraSoluble,
+        fibraInsoluble,
+        azucar,
+        etanol,
+    } = caloriasMacronutrientes;
+
+    const {
+        tiamina,
+        riboflavin,
+        niacina,
+        acidoPantotenico,
+        piridoxina,
+        biotina,
+        cobalmina,
+        acidoAscorbico,
+        acidoFolico,
+        vitaminaA,
+        vitaminaD,
+        vitaminaK,
+        vitaminaE,
+    } = vitaminas;
+
+    const {
+        calcio,
+        fosforo,
+        hierro,
+        hierroNoHem,
+        hierroTotal,
+        magnesio,
+        sodio,
+        potasio,
+        zinc,
+        selenio,
+    } = minerales;
+
+    const { indiceGlicemico, cargaGlicemica } = aspectoGlucemico;
+
+    const {
+        factorDeCorreccionParaHuellaHidricaYEGEI,
+        tipo,
+        lugar,
+        huellaHidricaTotal,
+        huellaHidricaVerde,
+        huellaHidricaAzul,
+        huellaHidricaGris,
+        aguaParaLavado,
+        aguaParaCoccion,
+        lugarEGEI,
+        citaEGEI,
+        huellaCarbono,
+        huellaEcologica,
+        energiaFosil,
+        usoDeSuelo,
+        nitrogeno,
+        puntajeEcologico,
+        ...rest
+    } = aspectoMedioambiental;
+
+    const { precio, lugarDeCompra, lugarDeVenta } = aspectoEconomico;
+
+    const {
+        fitoquimicos,
+        polifenoles,
+        antocianinas,
+        taninos,
+        isoflavonas,
+        resveratrol,
+        isotiocinatos,
+        caretenoides,
+        betacarotenos,
+        licopeno,
+        luteina,
+        alicina,
+        cafeina,
+        UFC,
+    } = componentesBioactivos;
+
+    const {
+        benzoatoDeSodio,
+        polisorbato,
+        azulBrillanteFCFoE133,
+        azurrubinaOE102,
+        amarilloOcasoFDFoE110,
+        tartrazinaOE102,
+        verdeSoE142,
+        negroBrillanteBNoE151,
+        sucralosa,
+        estevia,
+        sacarina,
+        aspartame,
+        acesulfameK,
+        carboxymethylcellulose,
+        dioxidoDeTitanio,
+        monolauratoDeGlicerol,
+    } = aditivosAlimentarios;
+
+    const washingValue = (consumption * aguaParaLavado) / KG;
+    const cookingValue = (consumption * aguaParaCoccion) / KG;
+
+    const result = {
+        grupoAlimento: subGrupoExportable,
+        energiaKcal: getPropSum(prevData?.energiaKcal, energia, consumption),
+        proteina: getPropSum(prevData?.proteina, proteina, consumption),
+        lipidos: getPropSum(prevData?.lipidos, lipidos, consumption),
+        agSaturados: getPropSum(prevData?.agSaturados, agSaturados, consumption),
+        agMonoinsaturados: getPropSum(
+            prevData?.agMonoinsaturados,
+            agMonoinsaturados,
+            consumption
+        ),
+        agPoliinsaturados: getPropSum(
+            prevData?.adPoliinsaturados,
+            adPoliinsaturados,
+            consumption
+        ),
+        colesterol: getPropSum(prevData?.colesterol, colesterol, consumption),
+        omega3: getPropSum(prevData?.omega3, omega3, consumption),
+        omega6: getPropSum(prevData?.omega6, omega6, consumption),
+        omega9: getPropSum(prevData?.omega9, omega9, consumption),
+        hidratosDeCarbono: getPropSum(
+            prevData?.hidratosDeCarbono,
+            hidratosDeCarbono,
+            consumption
+        ),
+        fibra: getPropSum(prevData?.fibra, fibra, consumption),
+        fibraSoluble: getPropSum(prevData?.fibraSoluble, fibraSoluble, consumption),
+        fibraInsoluble: getPropSum(prevData?.fibraInsoluble, fibraInsoluble, consumption),
+        azucar: getPropSum(prevData?.azucar, azucar, consumption),
+        etanol: getPropSum(prevData?.etanol, etanol, consumption),
+        tiamina: getPropSum(prevData?.tiamina, tiamina, consumption),
+        riboflavina: getPropSum(prevData?.riboflavin, riboflavin, consumption),
+        niacina: getPropSum(prevData?.niacina, niacina, consumption),
+        acidoPantotenico: getPropSum(
+            prevData?.acidoPantotenico,
+            acidoPantotenico,
+            consumption
+        ),
+        piridoxina: getPropSum(prevData?.piridoxina, piridoxina, consumption),
+        biotina: getPropSum(prevData?.biotina, biotina, consumption),
+        cobalamina: getPropSum(prevData?.cobalmina, cobalmina, consumption),
+        acidoAscorbico: getPropSum(prevData?.acidoAscorbico, acidoAscorbico, consumption),
+        acidoFolico: getPropSum(prevData?.acidoFolico, acidoFolico, consumption),
+        vitaminaA: getPropSum(prevData?.vitaminaA, vitaminaA, consumption),
+        vitaminaD: getPropSum(prevData?.vitaminaD, vitaminaD, consumption),
+        vitaminaK: getPropSum(prevData?.vitaminaK, vitaminaK, consumption),
+        vitaminaE: getPropSum(prevData?.vitaminaE, vitaminaE, consumption),
+        calcio: getPropSum(prevData?.calcio, calcio, consumption),
+        fosforo: getPropSum(prevData?.fosforo, fosforo, consumption),
+        hierro: getPropSum(prevData?.hierro, hierro, consumption),
+        hierroNoHem: getPropSum(prevData?.hierroNoHem, hierroNoHem, consumption),
+        hierroTotal: getPropSum(prevData?.hierroTotal, hierroTotal, consumption),
+        magnesio: getPropSum(prevData?.magnesio, magnesio, consumption),
+        sodio: getPropSum(prevData?.sodio, sodio, consumption),
+        potasio: getPropSum(prevData?.potasio, potasio, consumption),
+        zinc: getPropSum(prevData?.zinc, zinc, consumption),
+        selenio: getPropSum(prevData?.selenio, selenio, consumption),
+        indiceGlicemico: getPropSum(prevData?.indiceGlicemico, indiceGlicemico, consumption),
+        cargaGlicemica: getPropSum(prevData?.cargaGlicemica, cargaGlicemica, consumption),
+        factorDeCorreccionParaHuellaHidricaYEGEI,
+        tipo: tipo,
+        lugar: lugar,
+        huellaHidricaTotal: getPropSum(
+            prevData?.huellaHidricaTotal,
+            huellaHidricaTotal,
+            consumption
+        ),
+        huellaHidricaVerde: getPropSum(
+            prevData?.huellaHidricaVerde,
+            huellaHidricaVerde,
+            consumption
+        ),
+        huellaHidricaAzul: getPropSum(
+            prevData?.huellaHidricaAzul,
+            huellaHidricaAzul,
+            consumption
+        ),
+        huellaHidricaGris: getPropSum(
+            prevData?.huellaHidricaGris,
+            huellaHidricaGris,
+            consumption
+        ),
+        aguaParaLavado: getPropSum(prevData?.aguaParaLavado, washingValue, consumption),
+        aguaParaCoccion: getPropSum(prevData?.aguaParaCoccion, cookingValue, consumption),
+        lugarEGEI: lugarEGEI,
+        citaEGEI: citaEGEI,
+        huellaDeCarbono: getPropSum(prevData?.huellaCarbono, huellaCarbono, consumption),
+        huellaEcologica: getPropSum(prevData?.huellaEcologica, huellaEcologica, consumption),
+        usoDeSuelo: getPropSum(prevData?.usoDeSuelo, usoDeSuelo, consumption),
+        energiaFosil: getPropSum(prevData?.energiaFosil, energiaFosil, consumption),
+        nitrogeno: getPropSum(prevData?.nitrogeno, nitrogeno, consumption),
+        fosforoAmbiental: getPropSum(prevData?.rest?.fosforo, rest.fosforo, consumption),
+        puntajeEcologico: getPropSum(
+            prevData?.puntajeEcologico,
+            puntajeEcologico,
+            consumption
+        ),
+        precio: getPropSum(prevData?.precio, precio, consumption),
+        lugarDeCompra: lugarDeCompra,
+        lugarDeVenta: lugarDeVenta,
+        fitoquimicos: getPropSum(prevData?.fitoquimicos, fitoquimicos, consumption),
+        polifenoles: getPropSum(prevData?.polifenoles, polifenoles, consumption),
+        antocianinas: getPropSum(prevData?.antocianinas, antocianinas, consumption),
+        taninos: getPropSum(prevData?.taninos, taninos, consumption),
+        isoflavonas: getPropSum(prevData?.isoflavonas, isoflavonas, consumption),
+        resveratrol: getPropSum(prevData?.resveratrol, resveratrol, consumption),
+        isotiocianatos: getPropSum(prevData?.isotiocinatos, isotiocinatos, consumption),
+        carotenoides: getPropSum(prevData?.caretenoides, caretenoides, consumption),
+        betacarotenos: getPropSum(prevData?.betacarotenos, betacarotenos, consumption),
+        licopeno: getPropSum(prevData?.licopeno, licopeno, consumption),
+        luteina: getPropSum(prevData?.luteina, luteina, consumption),
+        alicina: getPropSum(prevData?.alicina, alicina, consumption),
+        cafeina: getPropSum(prevData?.cafeina, cafeina, consumption),
+        ufc: getPropSum(prevData?.UFC, UFC, consumption),
+        benzoatoDeSodio: getPropSum(prevData?.benzoatoDeSodio, benzoatoDeSodio, consumption),
+        polisorbato: getPropSum(prevData?.polisorbato, polisorbato, consumption),
+        azulBrillanteFCFoE133: getPropSum(
+            prevData?.azulBrillanteFCFoE133,
+            azulBrillanteFCFoE133,
+            consumption
+        ),
+        azurrubinaOE102: getPropSum(prevData?.azurrubinaOE102, azurrubinaOE102, consumption),
+        amarilloOcasoFDFoE110: getPropSum(
+            prevData?.amarilloOcasoFDFoE110,
+            amarilloOcasoFDFoE110,
+            consumption
+        ),
+        tartrazinaOE102: getPropSum(prevData?.tartrazinaOE102, tartrazinaOE102, consumption),
+        verdeSoE142: getPropSum(prevData?.verdeSoE142, verdeSoE142, consumption),
+        negroBrillanteBNoE151: getPropSum(
+            prevData?.negroBrillanteBNoE151,
+            negroBrillanteBNoE151,
+            consumption
+        ),
+        sucralosa: getPropSum(prevData?.sucralosa, sucralosa, consumption),
+        estevia: getPropSum(prevData?.estevia, estevia, consumption),
+        sacarina: getPropSum(prevData?.sacarina, sacarina, consumption),
+        aspartame: getPropSum(prevData?.aspartame, aspartame, consumption),
+        acesulfameK: getPropSum(prevData?.acesulfameK, acesulfameK, consumption),
+        carboxymethylcellulose: getPropSum(
+            prevData?.carboxymethylcellulose,
+            carboxymethylcellulose,
+            consumption
+        ),
+        dioxidoDeTitanio: getPropSum(
+            prevData?.dioxidoDeTitanio,
+            dioxidoDeTitanio,
+            consumption
+        ),
+        monolauratoDeGlicerol: getPropSum(
+            prevData?.monolauratoDeGlicerol,
+            monolauratoDeGlicerol,
+            consumption
+        ),
+    };
+
+    return result;
+};
+
+export const normalizeSumByUltraProcessedDTO = (prevData, newData) => {
+    if (isEmptyObject(newData)) return {};
+
+    const {
+        id,
+        sku,
+        nombreAlimento,
+        grupoExportable,
+        subGrupoExportable,
+        grupoAlimento,
+        clasificacionExportable,
+        opcionesPreparacion,
+        icono,
+        mensaje,
+        cantidadAlimento,
+        caloriasMacronutrientes,
+        vitaminas,
+        minerales,
+        aspectoGlucemico,
+        aspectoEconomico,
+        aspectoMedioambiental,
+        componentesBioactivos,
+        aditivosAlimentarios,
+        cantidad: consumption,
+    } = newData;
+
+    const {
+        energia,
+        proteina,
+        lipidos,
+        agSaturados,
+        agMonoinsaturados,
+        adPoliinsaturados,
+        colesterol,
+        omega3,
+        omega6,
+        omega9,
+        hidratosDeCarbono,
+        fibra,
+        fibraSoluble,
+        fibraInsoluble,
+        azucar,
+        etanol,
+    } = caloriasMacronutrientes;
+
+    const {
+        tiamina,
+        riboflavin,
+        niacina,
+        acidoPantotenico,
+        piridoxina,
+        biotina,
+        cobalmina,
+        acidoAscorbico,
+        acidoFolico,
+        vitaminaA,
+        vitaminaD,
+        vitaminaK,
+        vitaminaE,
+    } = vitaminas;
+
+    const {
+        calcio,
+        fosforo,
+        hierro,
+        hierroNoHem,
+        hierroTotal,
+        magnesio,
+        sodio,
+        potasio,
+        zinc,
+        selenio,
+    } = minerales;
+
+    const { indiceGlicemico, cargaGlicemica } = aspectoGlucemico;
+
+    const {
+        factorDeCorreccionParaHuellaHidricaYEGEI,
+        tipo,
+        lugar,
+        huellaHidricaTotal,
+        huellaHidricaVerde,
+        huellaHidricaAzul,
+        huellaHidricaGris,
+        aguaParaLavado,
+        aguaParaCoccion,
+        lugarEGEI,
+        citaEGEI,
+        huellaCarbono,
+        huellaEcologica,
+        energiaFosil,
+        usoDeSuelo,
+        nitrogeno,
+        puntajeEcologico,
+        ...rest
+    } = aspectoMedioambiental;
+
+    const { precio, lugarDeCompra, lugarDeVenta } = aspectoEconomico;
+
+    const {
+        fitoquimicos,
+        polifenoles,
+        antocianinas,
+        taninos,
+        isoflavonas,
+        resveratrol,
+        isotiocinatos,
+        caretenoides,
+        betacarotenos,
+        licopeno,
+        luteina,
+        alicina,
+        cafeina,
+        UFC,
+    } = componentesBioactivos;
+
+    const {
+        benzoatoDeSodio,
+        polisorbato,
+        azulBrillanteFCFoE133,
+        azurrubinaOE102,
+        amarilloOcasoFDFoE110,
+        tartrazinaOE102,
+        verdeSoE142,
+        negroBrillanteBNoE151,
+        sucralosa,
+        estevia,
+        sacarina,
+        aspartame,
+        acesulfameK,
+        carboxymethylcellulose,
+        dioxidoDeTitanio,
+        monolauratoDeGlicerol,
+    } = aditivosAlimentarios;
+
+    const washingValue = (consumption * aguaParaLavado) / KG;
+    const cookingValue = (consumption * aguaParaCoccion) / KG;
+
+    const result = {
+        grupoAlimento: clasificacionExportable,
+        energiaKcal: getPropSum(prevData?.energiaKcal, energia, consumption),
+        proteina: getPropSum(prevData?.proteina, proteina, consumption),
+        lipidos: getPropSum(prevData?.lipidos, lipidos, consumption),
+        agSaturados: getPropSum(prevData?.agSaturados, agSaturados, consumption),
+        agMonoinsaturados: getPropSum(
+            prevData?.agMonoinsaturados,
+            agMonoinsaturados,
+            consumption
+        ),
+        agPoliinsaturados: getPropSum(
+            prevData?.adPoliinsaturados,
+            adPoliinsaturados,
+            consumption
+        ),
+        colesterol: getPropSum(prevData?.colesterol, colesterol, consumption),
+        omega3: getPropSum(prevData?.omega3, omega3, consumption),
+        omega6: getPropSum(prevData?.omega6, omega6, consumption),
+        omega9: getPropSum(prevData?.omega9, omega9, consumption),
+        hidratosDeCarbono: getPropSum(
+            prevData?.hidratosDeCarbono,
+            hidratosDeCarbono,
+            consumption
+        ),
+        fibra: getPropSum(prevData?.fibra, fibra, consumption),
+        fibraSoluble: getPropSum(prevData?.fibraSoluble, fibraSoluble, consumption),
+        fibraInsoluble: getPropSum(prevData?.fibraInsoluble, fibraInsoluble, consumption),
+        azucar: getPropSum(prevData?.azucar, azucar, consumption),
+        etanol: getPropSum(prevData?.etanol, etanol, consumption),
+        tiamina: getPropSum(prevData?.tiamina, tiamina, consumption),
+        riboflavina: getPropSum(prevData?.riboflavin, riboflavin, consumption),
+        niacina: getPropSum(prevData?.niacina, niacina, consumption),
+        acidoPantotenico: getPropSum(
+            prevData?.acidoPantotenico,
+            acidoPantotenico,
+            consumption
+        ),
+        piridoxina: getPropSum(prevData?.piridoxina, piridoxina, consumption),
+        biotina: getPropSum(prevData?.biotina, biotina, consumption),
+        cobalamina: getPropSum(prevData?.cobalmina, cobalmina, consumption),
+        acidoAscorbico: getPropSum(prevData?.acidoAscorbico, acidoAscorbico, consumption),
+        acidoFolico: getPropSum(prevData?.acidoFolico, acidoFolico, consumption),
+        vitaminaA: getPropSum(prevData?.vitaminaA, vitaminaA, consumption),
+        vitaminaD: getPropSum(prevData?.vitaminaD, vitaminaD, consumption),
+        vitaminaK: getPropSum(prevData?.vitaminaK, vitaminaK, consumption),
+        vitaminaE: getPropSum(prevData?.vitaminaE, vitaminaE, consumption),
+        calcio: getPropSum(prevData?.calcio, calcio, consumption),
+        fosforo: getPropSum(prevData?.fosforo, fosforo, consumption),
+        hierro: getPropSum(prevData?.hierro, hierro, consumption),
+        hierroNoHem: getPropSum(prevData?.hierroNoHem, hierroNoHem, consumption),
+        hierroTotal: getPropSum(prevData?.hierroTotal, hierroTotal, consumption),
+        magnesio: getPropSum(prevData?.magnesio, magnesio, consumption),
+        sodio: getPropSum(prevData?.sodio, sodio, consumption),
+        potasio: getPropSum(prevData?.potasio, potasio, consumption),
+        zinc: getPropSum(prevData?.zinc, zinc, consumption),
+        selenio: getPropSum(prevData?.selenio, selenio, consumption),
+        indiceGlicemico: getPropSum(prevData?.indiceGlicemico, indiceGlicemico, consumption),
+        cargaGlicemica: getPropSum(prevData?.cargaGlicemica, cargaGlicemica, consumption),
+        factorDeCorreccionParaHuellaHidricaYEGEI,
+        tipo: tipo,
+        lugar: lugar,
+        huellaHidricaTotal: getPropSum(
+            prevData?.huellaHidricaTotal,
+            huellaHidricaTotal,
+            consumption
+        ),
+        huellaHidricaVerde: getPropSum(
+            prevData?.huellaHidricaVerde,
+            huellaHidricaVerde,
+            consumption
+        ),
+        huellaHidricaAzul: getPropSum(
+            prevData?.huellaHidricaAzul,
+            huellaHidricaAzul,
+            consumption
+        ),
+        huellaHidricaGris: getPropSum(
+            prevData?.huellaHidricaGris,
+            huellaHidricaGris,
+            consumption
+        ),
+        aguaParaLavado: getPropSum(prevData?.aguaParaLavado, washingValue, consumption),
+        aguaParaCoccion: getPropSum(prevData?.aguaParaCoccion, cookingValue, consumption),
+        lugarEGEI: lugarEGEI,
+        citaEGEI: citaEGEI,
+        huellaDeCarbono: getPropSum(prevData?.huellaCarbono, huellaCarbono, consumption),
+        huellaEcologica: getPropSum(prevData?.huellaEcologica, huellaEcologica, consumption),
+        usoDeSuelo: getPropSum(prevData?.usoDeSuelo, usoDeSuelo, consumption),
+        energiaFosil: getPropSum(prevData?.energiaFosil, energiaFosil, consumption),
+        nitrogeno: getPropSum(prevData?.nitrogeno, nitrogeno, consumption),
+        fosforoAmbiental: getPropSum(prevData?.rest?.fosforo, rest.fosforo, consumption),
+        puntajeEcologico: getPropSum(
+            prevData?.puntajeEcologico,
+            puntajeEcologico,
+            consumption
+        ),
+        precio: getPropSum(prevData?.precio, precio, consumption),
+        lugarDeCompra: lugarDeCompra,
+        lugarDeVenta: lugarDeVenta,
+        fitoquimicos: getPropSum(prevData?.fitoquimicos, fitoquimicos, consumption),
+        polifenoles: getPropSum(prevData?.polifenoles, polifenoles, consumption),
+        antocianinas: getPropSum(prevData?.antocianinas, antocianinas, consumption),
+        taninos: getPropSum(prevData?.taninos, taninos, consumption),
+        isoflavonas: getPropSum(prevData?.isoflavonas, isoflavonas, consumption),
+        resveratrol: getPropSum(prevData?.resveratrol, resveratrol, consumption),
+        isotiocianatos: getPropSum(prevData?.isotiocinatos, isotiocinatos, consumption),
+        carotenoides: getPropSum(prevData?.caretenoides, caretenoides, consumption),
+        betacarotenos: getPropSum(prevData?.betacarotenos, betacarotenos, consumption),
+        licopeno: getPropSum(prevData?.licopeno, licopeno, consumption),
+        luteina: getPropSum(prevData?.luteina, luteina, consumption),
+        alicina: getPropSum(prevData?.alicina, alicina, consumption),
+        cafeina: getPropSum(prevData?.cafeina, cafeina, consumption),
+        ufc: getPropSum(prevData?.UFC, UFC, consumption),
+        benzoatoDeSodio: getPropSum(prevData?.benzoatoDeSodio, benzoatoDeSodio, consumption),
+        polisorbato: getPropSum(prevData?.polisorbato, polisorbato, consumption),
+        azulBrillanteFCFoE133: getPropSum(
+            prevData?.azulBrillanteFCFoE133,
+            azulBrillanteFCFoE133,
+            consumption
+        ),
+        azurrubinaOE102: getPropSum(prevData?.azurrubinaOE102, azurrubinaOE102, consumption),
+        amarilloOcasoFDFoE110: getPropSum(
+            prevData?.amarilloOcasoFDFoE110,
+            amarilloOcasoFDFoE110,
+            consumption
+        ),
+        tartrazinaOE102: getPropSum(prevData?.tartrazinaOE102, tartrazinaOE102, consumption),
+        verdeSoE142: getPropSum(prevData?.verdeSoE142, verdeSoE142, consumption),
+        negroBrillanteBNoE151: getPropSum(
+            prevData?.negroBrillanteBNoE151,
+            negroBrillanteBNoE151,
+            consumption
+        ),
+        sucralosa: getPropSum(prevData?.sucralosa, sucralosa, consumption),
+        estevia: getPropSum(prevData?.estevia, estevia, consumption),
+        sacarina: getPropSum(prevData?.sacarina, sacarina, consumption),
+        aspartame: getPropSum(prevData?.aspartame, aspartame, consumption),
+        acesulfameK: getPropSum(prevData?.acesulfameK, acesulfameK, consumption),
+        carboxymethylcellulose: getPropSum(
+            prevData?.carboxymethylcellulose,
+            carboxymethylcellulose,
+            consumption
+        ),
+        dioxidoDeTitanio: getPropSum(
+            prevData?.dioxidoDeTitanio,
+            dioxidoDeTitanio,
+            consumption
+        ),
+        monolauratoDeGlicerol: getPropSum(
+            prevData?.monolauratoDeGlicerol,
+            monolauratoDeGlicerol,
+            consumption
+        ),
+    };
+
+    return result;
+};
+
+export const normalizeSumByAppropriateDTO = (prevData, newData) => {
+    if (isEmptyObject(newData)) return {};
+
+    const {
+        id,
+        sku,
+        nombreAlimento,
+        grupoExportable,
+        subGrupoExportable,
+        grupoAlimento,
+        clasificacionExportable,
+        subGrupoAdecuada,
+        opcionesPreparacion,
+        icono,
+        mensaje,
+        cantidadAlimento,
+        caloriasMacronutrientes,
+        vitaminas,
+        minerales,
+        aspectoGlucemico,
+        aspectoEconomico,
+        aspectoMedioambiental,
+        componentesBioactivos,
+        aditivosAlimentarios,
+        cantidad: consumption,
+    } = newData;
+
+    const {
+        energia,
+        proteina,
+        lipidos,
+        agSaturados,
+        agMonoinsaturados,
+        adPoliinsaturados,
+        colesterol,
+        omega3,
+        omega6,
+        omega9,
+        hidratosDeCarbono,
+        fibra,
+        fibraSoluble,
+        fibraInsoluble,
+        azucar,
+        etanol,
+    } = caloriasMacronutrientes;
+
+    const {
+        tiamina,
+        riboflavin,
+        niacina,
+        acidoPantotenico,
+        piridoxina,
+        biotina,
+        cobalmina,
+        acidoAscorbico,
+        acidoFolico,
+        vitaminaA,
+        vitaminaD,
+        vitaminaK,
+        vitaminaE,
+    } = vitaminas;
+
+    const {
+        calcio,
+        fosforo,
+        hierro,
+        hierroNoHem,
+        hierroTotal,
+        magnesio,
+        sodio,
+        potasio,
+        zinc,
+        selenio,
+    } = minerales;
+
+    const { indiceGlicemico, cargaGlicemica } = aspectoGlucemico;
+
+    const {
+        factorDeCorreccionParaHuellaHidricaYEGEI,
+        tipo,
+        lugar,
+        huellaHidricaTotal,
+        huellaHidricaVerde,
+        huellaHidricaAzul,
+        huellaHidricaGris,
+        aguaParaLavado,
+        aguaParaCoccion,
+        lugarEGEI,
+        citaEGEI,
+        huellaCarbono,
+        huellaEcologica,
+        energiaFosil,
+        usoDeSuelo,
+        nitrogeno,
+        puntajeEcologico,
+        ...rest
+    } = aspectoMedioambiental;
+
+    const { precio, lugarDeCompra, lugarDeVenta } = aspectoEconomico;
+
+    const {
+        fitoquimicos,
+        polifenoles,
+        antocianinas,
+        taninos,
+        isoflavonas,
+        resveratrol,
+        isotiocinatos,
+        caretenoides,
+        betacarotenos,
+        licopeno,
+        luteina,
+        alicina,
+        cafeina,
+        UFC,
+    } = componentesBioactivos;
+
+    const {
+        benzoatoDeSodio,
+        polisorbato,
+        azulBrillanteFCFoE133,
+        azurrubinaOE102,
+        amarilloOcasoFDFoE110,
+        tartrazinaOE102,
+        verdeSoE142,
+        negroBrillanteBNoE151,
+        sucralosa,
+        estevia,
+        sacarina,
+        aspartame,
+        acesulfameK,
+        carboxymethylcellulose,
+        dioxidoDeTitanio,
+        monolauratoDeGlicerol,
+    } = aditivosAlimentarios;
+
+    const washingValue = (consumption * aguaParaLavado) / KG;
+    const cookingValue = (consumption * aguaParaCoccion) / KG;
+
+    const result = {
+        grupoAlimento: subGrupoAdecuada,
+        energiaKcal: getPropSum(prevData?.energiaKcal, energia, consumption),
+        proteina: getPropSum(prevData?.proteina, proteina, consumption),
+        lipidos: getPropSum(prevData?.lipidos, lipidos, consumption),
+        agSaturados: getPropSum(prevData?.agSaturados, agSaturados, consumption),
+        agMonoinsaturados: getPropSum(
+            prevData?.agMonoinsaturados,
+            agMonoinsaturados,
+            consumption
+        ),
+        agPoliinsaturados: getPropSum(
+            prevData?.adPoliinsaturados,
+            adPoliinsaturados,
+            consumption
+        ),
+        colesterol: getPropSum(prevData?.colesterol, colesterol, consumption),
+        omega3: getPropSum(prevData?.omega3, omega3, consumption),
+        omega6: getPropSum(prevData?.omega6, omega6, consumption),
+        omega9: getPropSum(prevData?.omega9, omega9, consumption),
+        hidratosDeCarbono: getPropSum(
+            prevData?.hidratosDeCarbono,
+            hidratosDeCarbono,
+            consumption
+        ),
+        fibra: getPropSum(prevData?.fibra, fibra, consumption),
+        fibraSoluble: getPropSum(prevData?.fibraSoluble, fibraSoluble, consumption),
+        fibraInsoluble: getPropSum(prevData?.fibraInsoluble, fibraInsoluble, consumption),
+        azucar: getPropSum(prevData?.azucar, azucar, consumption),
+        etanol: getPropSum(prevData?.etanol, etanol, consumption),
+        tiamina: getPropSum(prevData?.tiamina, tiamina, consumption),
+        riboflavina: getPropSum(prevData?.riboflavin, riboflavin, consumption),
+        niacina: getPropSum(prevData?.niacina, niacina, consumption),
+        acidoPantotenico: getPropSum(
+            prevData?.acidoPantotenico,
+            acidoPantotenico,
+            consumption
+        ),
+        piridoxina: getPropSum(prevData?.piridoxina, piridoxina, consumption),
+        biotina: getPropSum(prevData?.biotina, biotina, consumption),
+        cobalamina: getPropSum(prevData?.cobalmina, cobalmina, consumption),
+        acidoAscorbico: getPropSum(prevData?.acidoAscorbico, acidoAscorbico, consumption),
+        acidoFolico: getPropSum(prevData?.acidoFolico, acidoFolico, consumption),
+        vitaminaA: getPropSum(prevData?.vitaminaA, vitaminaA, consumption),
+        vitaminaD: getPropSum(prevData?.vitaminaD, vitaminaD, consumption),
+        vitaminaK: getPropSum(prevData?.vitaminaK, vitaminaK, consumption),
+        vitaminaE: getPropSum(prevData?.vitaminaE, vitaminaE, consumption),
+        calcio: getPropSum(prevData?.calcio, calcio, consumption),
+        fosforo: getPropSum(prevData?.fosforo, fosforo, consumption),
+        hierro: getPropSum(prevData?.hierro, hierro, consumption),
+        hierroNoHem: getPropSum(prevData?.hierroNoHem, hierroNoHem, consumption),
+        hierroTotal: getPropSum(prevData?.hierroTotal, hierroTotal, consumption),
+        magnesio: getPropSum(prevData?.magnesio, magnesio, consumption),
+        sodio: getPropSum(prevData?.sodio, sodio, consumption),
+        potasio: getPropSum(prevData?.potasio, potasio, consumption),
+        zinc: getPropSum(prevData?.zinc, zinc, consumption),
+        selenio: getPropSum(prevData?.selenio, selenio, consumption),
+        indiceGlicemico: getPropSum(prevData?.indiceGlicemico, indiceGlicemico, consumption),
+        cargaGlicemica: getPropSum(prevData?.cargaGlicemica, cargaGlicemica, consumption),
+        factorDeCorreccionParaHuellaHidricaYEGEI,
+        tipo: tipo,
+        lugar: lugar,
+        huellaHidricaTotal: getPropSum(
+            prevData?.huellaHidricaTotal,
+            huellaHidricaTotal,
+            consumption
+        ),
+        huellaHidricaVerde: getPropSum(
+            prevData?.huellaHidricaVerde,
+            huellaHidricaVerde,
+            consumption
+        ),
+        huellaHidricaAzul: getPropSum(
+            prevData?.huellaHidricaAzul,
+            huellaHidricaAzul,
+            consumption
+        ),
+        huellaHidricaGris: getPropSum(
+            prevData?.huellaHidricaGris,
+            huellaHidricaGris,
+            consumption
+        ),
+        aguaParaLavado: getPropSum(prevData?.aguaParaLavado, washingValue, consumption),
+        aguaParaCoccion: getPropSum(prevData?.aguaParaCoccion, cookingValue, consumption),
+        lugarEGEI: lugarEGEI,
+        citaEGEI: citaEGEI,
+        huellaDeCarbono: getPropSum(prevData?.huellaCarbono, huellaCarbono, consumption),
+        huellaEcologica: getPropSum(prevData?.huellaEcologica, huellaEcologica, consumption),
+        usoDeSuelo: getPropSum(prevData?.usoDeSuelo, usoDeSuelo, consumption),
+        energiaFosil: getPropSum(prevData?.energiaFosil, energiaFosil, consumption),
+        nitrogeno: getPropSum(prevData?.nitrogeno, nitrogeno, consumption),
+        fosforoAmbiental: getPropSum(prevData?.rest?.fosforo, rest.fosforo, consumption),
+        puntajeEcologico: getPropSum(
+            prevData?.puntajeEcologico,
+            puntajeEcologico,
+            consumption
+        ),
+        precio: getPropSum(prevData?.precio, precio, consumption),
+        lugarDeCompra: lugarDeCompra,
+        lugarDeVenta: lugarDeVenta,
+        fitoquimicos: getPropSum(prevData?.fitoquimicos, fitoquimicos, consumption),
+        polifenoles: getPropSum(prevData?.polifenoles, polifenoles, consumption),
+        antocianinas: getPropSum(prevData?.antocianinas, antocianinas, consumption),
+        taninos: getPropSum(prevData?.taninos, taninos, consumption),
+        isoflavonas: getPropSum(prevData?.isoflavonas, isoflavonas, consumption),
+        resveratrol: getPropSum(prevData?.resveratrol, resveratrol, consumption),
+        isotiocianatos: getPropSum(prevData?.isotiocinatos, isotiocinatos, consumption),
+        carotenoides: getPropSum(prevData?.caretenoides, caretenoides, consumption),
+        betacarotenos: getPropSum(prevData?.betacarotenos, betacarotenos, consumption),
+        licopeno: getPropSum(prevData?.licopeno, licopeno, consumption),
+        luteina: getPropSum(prevData?.luteina, luteina, consumption),
+        alicina: getPropSum(prevData?.alicina, alicina, consumption),
+        cafeina: getPropSum(prevData?.cafeina, cafeina, consumption),
+        ufc: getPropSum(prevData?.UFC, UFC, consumption),
+        benzoatoDeSodio: getPropSum(prevData?.benzoatoDeSodio, benzoatoDeSodio, consumption),
+        polisorbato: getPropSum(prevData?.polisorbato, polisorbato, consumption),
+        azulBrillanteFCFoE133: getPropSum(
+            prevData?.azulBrillanteFCFoE133,
+            azulBrillanteFCFoE133,
+            consumption
+        ),
+        azurrubinaOE102: getPropSum(prevData?.azurrubinaOE102, azurrubinaOE102, consumption),
+        amarilloOcasoFDFoE110: getPropSum(
+            prevData?.amarilloOcasoFDFoE110,
+            amarilloOcasoFDFoE110,
+            consumption
+        ),
+        tartrazinaOE102: getPropSum(prevData?.tartrazinaOE102, tartrazinaOE102, consumption),
+        verdeSoE142: getPropSum(prevData?.verdeSoE142, verdeSoE142, consumption),
+        negroBrillanteBNoE151: getPropSum(
+            prevData?.negroBrillanteBNoE151,
+            negroBrillanteBNoE151,
+            consumption
+        ),
+        sucralosa: getPropSum(prevData?.sucralosa, sucralosa, consumption),
+        estevia: getPropSum(prevData?.estevia, estevia, consumption),
+        sacarina: getPropSum(prevData?.sacarina, sacarina, consumption),
+        aspartame: getPropSum(prevData?.aspartame, aspartame, consumption),
+        acesulfameK: getPropSum(prevData?.acesulfameK, acesulfameK, consumption),
+        carboxymethylcellulose: getPropSum(
+            prevData?.carboxymethylcellulose,
+            carboxymethylcellulose,
+            consumption
+        ),
+        dioxidoDeTitanio: getPropSum(
+            prevData?.dioxidoDeTitanio,
+            dioxidoDeTitanio,
+            consumption
+        ),
+        monolauratoDeGlicerol: getPropSum(
+            prevData?.monolauratoDeGlicerol,
+            monolauratoDeGlicerol,
+            consumption
+        ),
+    };
+
+    return result;
+};
+
+export const getPropSum = (firstProp, secondProp, consumption) => {
     const firstValue = Number(firstProp);
     const secondValue = Number(secondProp);
 
-    if (isNaN(firstValue)) return secondValue;
+    if (isNaN(firstValue)) return secondValue * consumption;
 
-    if (isNaN(secondValue) && !isNaN(firstValue)) return firstValue;
+    if (isNaN(secondValue) && !isNaN(firstValue)) return firstValue * consumption;
 
     if (isNaN(secondValue)) return 0;
 
-    return firstValue + secondValue;
+    return firstValue * consumption + secondValue * consumption;
 };
 
 export const getRowValues = (data) => {
@@ -510,33 +1248,47 @@ export const getRowValues = (data) => {
             fechaRegistro,
             idRegistro,
             idParticipante,
-            ...normalizedValues,
+            ...normalizedValues[0],
         };
     });
 
-    const ids = [];
+    return groupByRegId(limpio);
+};
+
+export const groupByRegId = (data) => {
+    if (isInvalidElem(data) || isEmptyArray(data)) return;
+
+    const idsMapped = [];
     const result = [];
 
-    limpio.map((elem) => {
-        const { fechaRegistro, idRegistro, idParticipante, ...rest } = elem;
+    data.forEach((elem) => {
+        const { fechaRegistro, id, idParticipante, idRegistro, values } = elem;
 
-        const isDuplicated = ids.includes(idRegistro);
+        if (idsMapped.includes(idRegistro)) {
+            const index = result.findIndex((item) => item.idRegistro === idRegistro);
 
-        if (isDuplicated) return;
+            if (index === -1) return;
 
-        ids.push(idRegistro);
+            result[index].values.push({
+                grupo: id,
+                values,
+            });
 
-        const { values, id } = rest[0];
-
-        const newValue = {
-            idRegistro,
-            fechaRegistro,
-            idParticipante,
-            id,
-            values,
-        };
-
-        result.push(newValue);
+            return;
+        } else {
+            idsMapped.push(idRegistro);
+            result.push({
+                fechaRegistro,
+                idRegistro,
+                idParticipante,
+                values: [
+                    {
+                        grupo: id,
+                        values,
+                    },
+                ],
+            });
+        }
     });
 
     return result;
@@ -558,212 +1310,181 @@ export const removeEmptyValues = (data) => {
     return result;
 };
 
-export const getFoodRow = (data) => {
+export const unifyArrays = (data) => {
+    const groupsMapped = [];
     const result = [];
-    data.forEach((row) => {
-        const { idParticipante, idRegistro, fechaRegistro, ...rest } = row;
 
-        const { values, id } = rest;
+    data.forEach((food) => {
+        const { grupo, values } = food;
 
-        const newRow = {
-            idParticipante,
-            idRegistro,
-            fechaRegistro,
-            grupoExcel: id,
-        };
+        if (groupsMapped.includes(grupo)) {
+            const groupIndex = result.findIndex((item) => item.grupo === grupo);
 
-        values.forEach((food) => {
-            const { cantidad } = food;
-            const {
-                energiaKcal,
-                proteina,
-                lipidos,
-                agSaturados,
-                agMonoinsaturados,
-                agPoliinsaturados,
-                colesterol,
-                omega3,
-                omega6,
-                omega9,
-                hidratosDeCarbono,
-                fibra,
-                fibraInsoluble,
-                azucar,
-                etanol,
-                tiamina,
-                riboflavina,
-                niacina,
-                acidoPantotenico,
-                piridoxina,
-                biotina,
-                cobalamina,
-                acidoAscorbico,
-                acidoFolico,
-                vitaminaA,
-                vitaminaD,
-                vitaminaK,
-                vitaminaE,
-                calcio,
-                fosforo,
-                hierro,
-                hierroNoHem,
-                hierroTotal,
-                magnesio,
-                sodio,
-                potasio,
-                zinc,
-                selenio,
-                indiceGlicemico,
-                cargaGlicemica,
-                factorDeCorreccionParaHuellaHidricaYEGEI,
-                tipo,
-                lugar,
-                huellaHidricaTotal,
-                huellaHidricaVerde,
-                huellaHidricaAzul,
-                huellaHidricaGris,
-                aguaParaLavado,
-                aguaParaCoccion,
-                lugarEGEI,
-                citaEGEI,
-                huellaDeCarbono,
-                huellaEcologica,
-                usoDeSuelo,
-                energiaFosil,
-                nitrogeno,
-                fosforoAmbiental,
-                puntajeEcologico,
-                precio,
-                lugarDeCompra,
-                lugarDeVenta,
-                fitoquimicos,
-                polifenoles,
-                antocianinas,
-                taninos,
-                isoflavonas,
-                resveratrol,
-                isotiocianatos,
-                carotenoides,
-                betacarotenos,
-                licopeno,
-                luteina,
-                alicina,
-                cafeina,
-                ufc,
-                benzoatoDeSodio,
-                polisorbato,
-                azulBrillanteFCFoE133,
-                azurrubinaOE102,
-                amarilloOcasoFDFoE110,
-                tartrazinaOE102,
-                verdeSoE142,
-                negroBrillanteBNoE151,
-                sucralosa,
-                estevia,
-                sacarina,
-                aspartame,
-                acesulfameK,
-                carboxymethylcellulose,
-                dioxidoDeTitanio,
-                monolauratoDeGlicerol,
-            } = normalizeDataByGroupDTO(food, Number(cantidad));
+            if (groupIndex === -1) return;
 
-            newRow.energiaKcal = energiaKcal;
-            newRow.proteina = proteina;
-            newRow.lipidos = lipidos;
-            newRow.agSaturados = agSaturados;
-            newRow.agMonoinsaturados = agMonoinsaturados;
-            newRow.agPoliinsaturados = agPoliinsaturados;
-            newRow.colesterol = colesterol;
-            newRow.omega3 = omega3;
-            newRow.omega6 = omega6;
-            newRow.omega9 = omega9;
-            newRow.hidratosDeCarbono = hidratosDeCarbono;
-            newRow.fibra = fibra;
-            newRow.fibraInsoluble = fibraInsoluble;
-            newRow.azucar = azucar;
-            newRow.etanol = etanol;
-            newRow.tiamina = tiamina;
-            newRow.riboflavina = riboflavina;
-            newRow.niacina = niacina;
-            newRow.acidoPantotenico = acidoPantotenico;
-            newRow.piridoxina = piridoxina;
-            newRow.biotina = biotina;
-            newRow.cobalamina = cobalamina;
-            newRow.acidoAscorbico = acidoAscorbico;
-            newRow.acidoFolico = acidoFolico;
-            newRow.vitaminaA = vitaminaA;
-            newRow.vitaminaD = vitaminaD;
-            newRow.vitaminaK = vitaminaK;
-            newRow.vitaminaE = vitaminaE;
-            newRow.calcio = calcio;
-            newRow.fosforo = fosforo;
-            newRow.hierro = hierro;
-            newRow.hierroNoHem = hierroNoHem;
-            newRow.hierroTotal = hierroTotal;
-            newRow.magnesio = magnesio;
-            newRow.sodio = sodio;
-            newRow.potasio = potasio;
-            newRow.zinc = zinc;
-            newRow.selenio = selenio;
-            newRow.indiceGlicemico = indiceGlicemico;
-            newRow.cargaGlicemica = cargaGlicemica;
-            newRow.factorDeCorreccionParaHuellaHidricaYEGEI =
-                factorDeCorreccionParaHuellaHidricaYEGEI;
-            newRow.tipo = tipo;
-            newRow.lugar = lugar;
-            newRow.huellaHidricaTotal = huellaHidricaTotal;
-            newRow.huellaHidricaVerde = huellaHidricaVerde;
-            newRow.huellaHidricaAzul = huellaHidricaAzul;
-            newRow.huellaHidricaGris = huellaHidricaGris;
-            newRow.aguaParaLavado = aguaParaLavado;
-            newRow.aguaParaCoccion = aguaParaCoccion;
-            newRow.lugarEGEI = lugarEGEI;
-            newRow.citaEGEI = citaEGEI;
-            newRow.huellaDeCarbono = huellaDeCarbono;
-            newRow.huellaEcologica = huellaEcologica;
-            newRow.usoDeSuelo = usoDeSuelo;
-            newRow.energiaFosil = energiaFosil;
-            newRow.nitrogeno = nitrogeno;
-            newRow.fosforoAmbiental = fosforoAmbiental;
-            newRow.puntajeEcologico = puntajeEcologico;
-            newRow.precio = precio;
-            newRow.lugarDeCompra = lugarDeCompra;
-            newRow.lugarDeVenta = lugarDeVenta;
-            newRow.fitoquimicos = fitoquimicos;
-            newRow.polifenoles = polifenoles;
-            newRow.antocianinas = antocianinas;
-            newRow.taninos = taninos;
-            newRow.isoflavonas = isoflavonas;
-            newRow.resveratrol = resveratrol;
-            newRow.isotiocianatos = isotiocianatos;
-            newRow.carotenoides = carotenoides;
-            newRow.betacarotenos = betacarotenos;
-            newRow.licopeno = licopeno;
-            newRow.luteina = luteina;
-            newRow.alicina = alicina;
-            newRow.cafeina = cafeina;
-            newRow.ufc = ufc;
-            newRow.benzoatoDeSodio = benzoatoDeSodio;
-            newRow.polisorbato = polisorbato;
-            newRow.azulBrillanteFCFoE133 = azulBrillanteFCFoE133;
-            newRow.azurrubinaOE102 = azurrubinaOE102;
-            newRow.amarilloOcasoFDFoE110 = amarilloOcasoFDFoE110;
-            newRow.tartrazinaOE102 = tartrazinaOE102;
-            newRow.verdeSoE142 = verdeSoE142;
-            newRow.negroBrillanteBNoE151 = negroBrillanteBNoE151;
-            newRow.sucralosa = sucralosa;
-            newRow.estevia = estevia;
-            newRow.sacarina = sacarina;
-            newRow.aspartame = aspartame;
-            newRow.acesulfameK = acesulfameK;
-            newRow.carboxymethylcellulose = carboxymethylcellulose;
-            newRow.dioxidoDeTitanio = dioxidoDeTitanio;
-            newRow.monolauratoDeGlicerol = monolauratoDeGlicerol;
-        });
-
-        result.push(newRow);
+            result[groupIndex].values = [...result[groupIndex].values, ...values];
+        } else {
+            groupsMapped.push(grupo);
+            result.push(food);
+        }
     });
 
     return result;
+};
+
+export const unifyGroups = (data) => {
+    if (isInvalidElem(data)) return [];
+
+    const result = data.map((elem) => {
+        const { values, ...rest } = elem;
+
+        const newValues = [];
+        const gruopsMapped = [];
+
+        values.forEach((el) => {
+            const { grupo, ...rest } = el;
+
+            if (gruopsMapped.includes(grupo)) {
+                const index = gruopsMapped.findIndex((e) => e === grupo);
+
+                newValues[index].values.push(...rest.values);
+                return;
+            }
+
+            gruopsMapped.push(grupo);
+            newValues.push(el);
+        });
+
+        return { ...rest, values: newValues };
+    });
+
+    return result;
+};
+
+export const getMethodType = (num) => {
+    switch (num) {
+        case 1:
+            return normalizeSumByGroupDTO;
+        case 2:
+            return normalizeSumBySubGroupDTO;
+        case 3:
+            return normalizeSumByUltraProcessedDTO;
+        case 4:
+            return normalizeSumByAppropriateDTO;
+        default:
+            return normalizeSumByGroupDTO;
+    }
+};
+
+export const generateCsvRows = (data, type) => {
+    if (isInvalidElem(data)) return {};
+
+    const normalizedMethod = getMethodType(type);
+    const rows = [];
+
+    data.forEach((elem) => {
+        const { idParticipante, idRegistro, fechaRegistro, values } = elem;
+
+        let objToPush = {
+            idParticipante,
+            idRegistro,
+            fechaRegistro,
+        };
+
+        values.forEach((group) => {
+            let finalRow = {};
+
+            group.values.forEach((food) => {
+                finalRow = normalizedMethod(finalRow, food);
+            });
+            objToPush = { ...objToPush, ...finalRow };
+
+            rows.push(objToPush);
+        });
+    });
+
+    return rows;
+};
+
+export const generateFinalCsvRows = (data) => {
+    const rows = [];
+    const uniqueIds = new Set([...data.map((elem) => elem.idRegistro)]);
+
+    uniqueIds.forEach((id) => {
+        const filteredRows = data.filter((elem) => elem.idRegistro === id);
+
+        rows.push(filteredRows);
+    });
+
+    const normalizedKeysToColumnNames = [];
+
+    rows.forEach((row) => {
+        row.forEach(({ idParticipante, idRegistro, fechaRegistro, ...rest }, index) => {
+            const newRest = {};
+
+            Object.keys(rest).forEach((key) => {
+                newRest[key] = rest[key];
+                newRest[`${key}${index}`] = rest[key];
+
+                delete rest[key];
+            });
+
+            normalizedKeysToColumnNames.push({
+                idParticipante,
+                idRegistro,
+                fechaRegistro,
+                ...newRest,
+            });
+        });
+    });
+
+    const preFinalRows = [];
+
+    uniqueIds.forEach((id) => {
+        const filteredRows = normalizedKeysToColumnNames.filter(
+            (elem) => elem.idRegistro === id
+        );
+
+        preFinalRows.push(filteredRows);
+    });
+
+    const finalRows = [];
+
+    preFinalRows.forEach((elem) => {
+        const { idParticipante, idRegistro, fechaRegistro } = elem[0];
+        let rowToPush = {
+            idParticipante,
+            idRegistro,
+            fechaRegistro,
+        };
+
+        elem.forEach((props) => {
+            const { idParticipante, idRegistro, fechaRegistro, ...rest } = props;
+
+            rowToPush = { ...rowToPush, ...rest };
+        });
+
+        finalRows.push(rowToPush);
+    });
+    return finalRows;
+};
+
+export const getMaxGroupByReg = (arreglo, callback) => {
+    let variable = 0;
+    let contador = 0;
+    let cuenta = 0;
+    arreglo.map((p) => {
+        cuenta = 0;
+
+        arreglo.map((x) => {
+            if (p.idRegistro === x.idRegistro) {
+                cuenta++;
+            }
+        });
+        if (cuenta > contador) {
+            contador = cuenta;
+            variable = p;
+        }
+    });
+    callback(contador);
 };

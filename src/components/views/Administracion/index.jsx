@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { Switch, message, Input, Button, Form } from 'antd';
 
 import UploadImg from '../../commons/UploadImgs';
 import apiURL from '../../../axios/axiosConfig';
-
-import { Switch, message, Input, Button, Form } from 'antd';
+import Slider from '../../commons/Slider';
+import settings from './settings';
 
 import './Administracion.scss';
 
@@ -217,9 +218,7 @@ const Administracion = () => {
 
             if (nivel !== lvl) return null;
 
-            return url.map((url, index) => (
-                <UploadImg key={index} id='imagenNivel' url={url} disabled />
-            ));
+            return url.map((url, index) => <UploadImg key={index} url={url} disabled />);
         });
 
         const nornalizedImages = images.filter((elem) => elem !== null);
@@ -321,27 +320,39 @@ const Administracion = () => {
                 <div className='levels'>
                     <label id='titleLvl'>Lvl 5</label>
                     <div className='lvl'>
-                        <div className='imagenes'>{mapImagenes('5')}</div>
+                        <div className='imagenes'>
+                            <Slider config={settings.default}>{mapImagenes('5')}</Slider>
+                        </div>
                     </div>
                     <label id='titleLvl'>Lvl 4</label>
                     <div className='lvl'>
-                        <div className='imagenes'>{mapImagenes('4')}</div>
+                        <div className='imagenes'>
+                            <Slider config={settings.default}>{mapImagenes('4')}</Slider>
+                        </div>
                     </div>
                     <label id='titleLvl'>Lvl 3</label>
                     <div className='lvl'>
-                        <div className='imagenes'>{mapImagenes('3')}</div>
+                        <div className='imagenes'>
+                            <Slider config={settings.default}>{mapImagenes('3')}</Slider>
+                        </div>
                     </div>
                     <label id='titleLvl'>Lvl 2</label>
                     <div className='lvl'>
-                        <div className='imagenes'>{mapImagenes('2')}</div>
+                        <div className='imagenes'>
+                            <Slider config={settings.default}>{mapImagenes('2')}</Slider>
+                        </div>
                     </div>
                     <label id='titleLvl'>Lvl 1</label>
                     <div className='lvl'>
-                        <div className='imagenes'>{mapImagenes('1')}</div>
+                        <div className='imagenes'>
+                            <Slider config={settings.default}>{mapImagenes('1')}</Slider>
+                        </div>
                     </div>
                     <label id='titleLvl'>Lvl 0</label>
                     <div className='lvl'>
-                        <div className='imagenes'>{mapImagenes('0')}</div>
+                        <div className='imagenes'>
+                            <Slider config={settings.default}>{mapImagenes('0')}</Slider>
+                        </div>
                     </div>
                 </div>
             </div>

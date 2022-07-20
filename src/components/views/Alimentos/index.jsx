@@ -132,7 +132,6 @@ const Alimentos = () => {
 
     const sendData = async (values) => {
         const data = {
-            sku: await getSku(),
             marca: values?.marca,
             imagen: data2?.imagen,
             nombreAlimento: values?.pName,
