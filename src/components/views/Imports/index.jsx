@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from 'react';
 
-import { Button, message, Table, Form, Input, InputNumber } from 'antd';
+import { Button, message, Form, InputNumber } from 'antd';
 import apiURL from '../../../axios/axiosConfig';
 
 import Dropdown from '../../commons/Dropdown';
 import PointsTable from './PointsTable';
+import { Rules } from '../../../utils/formRules';
 
 import './Imports.scss';
 
-import { Rules } from '../../../utils/formRules';
-
 const Imports = () => {
-    const [ form ] = Form.useForm();
-    const [ exercises, setExercises ] = useState([]);
-    const [ pointsByExcersice, setPointsByExcersice ] = useState([]);
-    const [ loading, setLoading ] = useState(false);
+    const [form] = Form.useForm();
+    const [exercises, setExercises] = useState([]);
+    const [pointsByExcersice, setPointsByExcersice] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         fetchExcerises();
@@ -22,7 +21,7 @@ const Imports = () => {
         return () => {
             setLoading(false);
         };
-    }, [ loading === true ]);
+    }, [loading === true]);
 
     const fetchExcerises = async () => {
         try {
@@ -31,9 +30,7 @@ const Imports = () => {
             setExercises(data);
         } catch (error) {
             console.log('Error', error);
-            message.error(
-                'Error al obtener los ejercicios, refresque la ventana'
-            );
+            message.error('Error al obtener los ejercicios, refresque la ventana');
             setLoading(false);
         }
     };
@@ -53,9 +50,8 @@ const Imports = () => {
     const onFinish = (values) => {
         const { _id } = exercises.filter(
             (exercise) =>
-                exercise.nombre.toLowerCase().trim() ===
-                values.ejercicio.toLowerCase().trim()
-        )[ 0 ];
+                exercise.nombre.toLowerCase().trim() === values.ejercicio.toLowerCase().trim()
+        )[0];
 
         const data = {
             ejercicio: _id,
@@ -71,10 +67,7 @@ const Imports = () => {
 
     const postData = async (exercise) => {
         try {
-            const { data, status } = await apiURL.post(
-                '/puntosPorEjercicio/',
-                exercise
-            );
+            const { data, status } = await apiURL.post('/puntosPorEjercicio/', exercise);
 
             if (status === 200) {
                 message.success('Se ha agregado el ejercicio');
@@ -98,49 +91,23 @@ const Imports = () => {
                     layout='vertical'
                     requiredMark='optional'>
                     <div className='formArea'>
-                        <Form.Item
-                            name='ejercicio'
-                            label='Ejercicio'
-                            rules={[ Rules.basic ]}>
+                        <Form.Item name='ejercicio' label='Ejercicio' rules={[Rules.basic]}>
                             <Dropdown
                                 data={exercises}
                                 placeholder='Selecciona el ejercicio'
                             />
                         </Form.Item>
-                        <Form.Item
-                            name='grupo'
-                            label='Grupo'
-                            rules={[ Rules.basic ]}>
-                            <Dropdown
-                                data={types}
-                                placeholder='Cardiovasculares'
-                            />
+                        <Form.Item name='grupo' label='Grupo' rules={[Rules.basic]}>
+                            <Dropdown data={types} placeholder='Cardiovasculares' />
                         </Form.Item>
-                        <Form.Item
-                            name='duracion'
-                            label='Duración'
-                            rules={[ Rules.basic ]}>
-                            <Dropdown
-                                data={duration}
-                                placeholder='Menos de 10'
-                            />
+                        <Form.Item name='duracion' label='Duración' rules={[Rules.basic]}>
+                            <Dropdown data={duration} placeholder='Menos de 10' />
                         </Form.Item>
-                        <Form.Item
-                            name='intensidad'
-                            label='Intensidad'
-                            rules={[ Rules.basic ]}>
+                        <Form.Item name='intensidad' label='Intensidad' rules={[Rules.basic]}>
                             <Dropdown data={intensity} placeholder='Leve' />
                         </Form.Item>
-                        <Form.Item
-                            name='puntos'
-                            label='Puntos'
-                            rules={[ Rules.basic ]}>
-                            <InputNumber
-                                placeholder='0.5'
-                                min={0}
-                                max={100}
-                                type='number'
-                            />
+                        <Form.Item name='puntos' label='Puntos' rules={[Rules.basic]}>
+                            <InputNumber placeholder='0.5' min={0} max={100} type='number' />
                         </Form.Item>
                     </div>
 

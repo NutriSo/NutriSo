@@ -19,7 +19,7 @@ const Home = () => {
     const history = useHistory();
 
     useEffect(() => {
-        // getUsers();
+        getUsers();
         return () => {
             setUsers([]);
             setLoading(true);

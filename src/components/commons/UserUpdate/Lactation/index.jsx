@@ -5,6 +5,7 @@ import { Tabs, Form, Select } from 'antd';
 import { capitilizeWord } from '../../../../utils';
 import { Rules } from '../../../../utils/formRules';
 import { isEmptyArray } from '../../../../utils';
+import mocks from '../../../../mocks/estadisticasUsuario';
 
 import './Lactation.scss';
 
@@ -17,7 +18,7 @@ const Lactation = ({ id }) => {
     useEffect(() => {
         getLactancia();
 
-        return () => { };
+        return () => {};
     }, [id]);
 
     const getLactancia = async () => {
@@ -343,53 +344,30 @@ const Lactation = ({ id }) => {
             <div className='containData'>
                 <h2>Lactancia</h2>
                 <Form form={form2} requiredMark={false} onFinish={updateLactancia}>
-
-
                     <Form.Item
                         name='opcionLactancia'
                         label='Tipo de lactancia'
                         className='lb-lactanciaSelect'
-                    /*rules={[Rules.basicSpanish]}*/
+                        /*rules={[Rules.basicSpanish]}*/
                     >
                         <Select
+                            placeholder='Selecciona un tipo'
                             onChange={(value) =>
                                 setLactanciaExclusiva(value === '' ? true : false)
                             }
                             defaultValue={''}>
-                            <Option value={'Lactancia materna exclusiva'}>
-                                Lactancia materna exclusiva
-                            </Option>
-                            <Option value={'Lactancia artificial'}>
-                                Lactancia artificial
-                            </Option>
-                            <Option value={'Lactancia mixta'}>Lactancia mixta</Option>
-                            <Option value={'Lactancia materna complementada'}>
-                                Lactancia materna complementada
-                            </Option>
-                            <Option value={'Lactancia mixta complementada'}>
-                                Lactancia mixta complementada
-                            </Option>
-                            <Option value={'Lactancia artificial complementada'}>
-                                Lactancia artificial complementada
-                            </Option>
+                            {mocks.lactancia.map(({ value, label }) => (
+                                <Option value={value}>{label}</Option>
+                            ))}
                         </Select>
                     </Form.Item>
-
-                    <p>¿Por cuánto tiempo?</p>
-                    <Form.Item
-                        name='tiempoLactancia'
-                        rules={[Rules.basicSpanish]}
-                        required='true'>
-                        {/*<input disabled = {generalCheckPYM} className='lb-lactancia2'></input>*/}
-                        <input
-                            disabled={LactanciaCheckExlusiva}
-                            type='text'
-                            name='tLactancia'
-                            className='lb-lactancia2'
-                            placeholder=''
-                        />
+                    <Form.Item name='tiempoLactancia' label={'¿Por cuánto tiempo?'}>
+                        <Select className='lb-lactancia2' placeholder='Selecciona una opción'>
+                            {mocks.frecuenciasLactancia.map(({ value, label }) => (
+                                <Option value={value}>{label}</Option>
+                            ))}
+                        </Select>
                     </Form.Item>
-
                     <center>
                         <button
                             className='btn-see-circunferencia'

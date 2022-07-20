@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import apiURL from '../../../../axios/axiosConfig';
-import { Tabs } from 'antd';
-import Popup from './Popup';
 
+import Popup from './Popup';
 import CampoCor from '../../Charts/CampoCor';
 
 import './BodyFields.scss';
@@ -10,31 +9,34 @@ import './BodyFields.scss';
 const BodyFields = ({ id }) => {
     const [infoCampoCor, setInfoCampCor] = useState({});
     const [infoCorDates, setInfoCorDates] = useState({});
-    let [grasaEntry, setGrasaEn] = useState(-1);
-    let [masaEntry, setMasaEn] = useState(-1);
-    let [aguaEntry, setAguaEn] = useState(-1);
-    let [oseaEntry, setOseaEn] = useState(-1);
-    let [visceralEntry, setVisceralEn] = useState(-1);
-    let [tMetabolicaEntry, setTMetabolicaEn] = useState(-1);
-    let [eMetabolicaEntry, setEMetabolicaEn] = useState(-1);
+    const [grasa, setGrasa] = useState(-1);
+    const [masa, setMasa] = useState(-1);
+    const [agua, setAgua] = useState(-1);
+    const [osea, setOsea] = useState(-1);
+    const [visceral, setVisceral] = useState(-1);
+    const [tMetabolica, setTMetabolica] = useState(-1);
+    const [eMetabolica, setEMetabolica] = useState(-1);
 
-    //popup Window Campos Corporales
-    const [isOpenCampCor, setIsOpenCampCor] = useState(false);
-    const togglePopupCampCor = () => {
-        setIsOpenCampCor(!isOpenCampCor);
+    const [isOpen, setIsOpen] = useState(false);
+    const [hasError, setHasError] = useState(false);
+
+    const togglePopupErrorCampCor = () => {
+        setHasError(!hasError);
     };
 
-    useEffect(() => {
-        getinfoCampCor();
+    const togglePopupCampCor = () => {
+        setIsOpen(!isOpen);
+    };
 
-        return () => {
-            setInfoCorDates({});
-        };
-    }, [id]);
+    const onCloseError = () => {
+        setHasError(false);
+    };
 
     const getinfoCampCor = async () => {
         try {
-            const { data, status } = await apiURL.get(`/extrasComposCorp/individual?usuario=${id}`);
+            const { data, status } = await apiURL.get(
+                `/extrasComposCorp/individual?usuario=${id}`
+            );
 
             if (status === 200 || data.length > 0) {
                 const grasas = data[0].porcentGrasa.map((elem) => elem.valor);
@@ -65,45 +67,42 @@ const BodyFields = ({ id }) => {
         }
     };
 
-    //popup Window Error Circunferencia
-    const [isOpenErrorCampCor, setIsOpenErrorCampCor] = useState(false);
-    const togglePopupErrorCampCor = () => {
-        setIsOpenErrorCampCor(!isOpenErrorCampCor);
-    };
-
     const updateCampCor = async () => {
         if (
-            grasaEntry !== -1 ||
-            masaEntry !== -1 ||
-            aguaEntry !== -1 ||
-            oseaEntry !== -1 ||
-            visceralEntry !== -1 ||
-            tMetabolicaEntry !== -1 ||
-            eMetabolicaEntry !== -1
+            grasa !== -1 ||
+            masa !== -1 ||
+            agua !== -1 ||
+            osea !== -1 ||
+            visceral !== -1 ||
+            tMetabolica !== -1 ||
+            eMetabolica !== -1
         ) {
             if (!infoCampoCor?.masas) {
                 try {
                     console.log('POST');
                     const body = {
-                        porcentGrasa: { fecha: new Date(), valor: grasaEntry },
-                        porcentMasa: { fecha: new Date(), valor: masaEntry },
-                        porcentAgua: { fecha: new Date(), valor: aguaEntry },
-                        densidadOsea: { fecha: new Date(), valor: oseaEntry },
+                        porcentGrasa: { fecha: new Date(), valor: grasa },
+                        porcentMasa: { fecha: new Date(), valor: masa },
+                        porcentAgua: { fecha: new Date(), valor: agua },
+                        densidadOsea: { fecha: new Date(), valor: osea },
                         grasaVisceral: {
                             fecha: new Date(),
-                            valor: visceralEntry,
+                            valor: visceral,
                         },
                         tasaMetabolica: {
                             fecha: new Date(),
-                            valor: tMetabolicaEntry,
+                            valor: tMetabolica,
                         },
                         edadMetabolica: {
                             fecha: new Date(),
-                            valor: eMetabolicaEntry,
+                            valor: eMetabolica,
                         },
                     };
 
-                    const res2 = await apiURL.post(`/extrasComposCorp/individual?usuario=${id}`, body);
+                    const res2 = await apiURL.post(
+                        `/extrasComposCorp/individual?usuario=${id}`,
+                        body
+                    );
                     console.log(res2);
                 } catch (error) {
                     console.groupCollapsed('Error en la funcion updateCampCor');
@@ -114,25 +113,28 @@ const BodyFields = ({ id }) => {
                 try {
                     console.log('PATCH');
                     const body = {
-                        porcentGrasa: { fecha: new Date(), valor: grasaEntry },
-                        porcentMasa: { fecha: new Date(), valor: masaEntry },
-                        porcentAgua: { fecha: new Date(), valor: aguaEntry },
-                        densidadOsea: { fecha: new Date(), valor: oseaEntry },
+                        porcentGrasa: { fecha: new Date(), valor: grasa },
+                        porcentMasa: { fecha: new Date(), valor: masa },
+                        porcentAgua: { fecha: new Date(), valor: agua },
+                        densidadOsea: { fecha: new Date(), valor: osea },
                         grasaVisceral: {
                             fecha: new Date(),
-                            valor: visceralEntry,
+                            valor: visceral,
                         },
                         tasaMetabolica: {
                             fecha: new Date(),
-                            valor: tMetabolicaEntry,
+                            valor: tMetabolica,
                         },
                         edadMetabolica: {
                             fecha: new Date(),
-                            valor: eMetabolicaEntry,
+                            valor: eMetabolica,
                         },
                     };
 
-                    const res2 = await apiURL.patch(`/extrasComposCorp/individual?usuario=${id}`, body);
+                    const res2 = await apiURL.patch(
+                        `/extrasComposCorp/individual?usuario=${id}`,
+                        body
+                    );
                     console.log(res2);
                 } catch (error) {
                     console.groupCollapsed('Error en la funcion updateCampCor');
@@ -140,29 +142,35 @@ const BodyFields = ({ id }) => {
                     console.groupEnd();
                 }
             }
-            setIsOpenCampCor(false);
+            setIsOpen(false);
         } else {
-            setIsOpenErrorCampCor(true);
+            setHasError(true);
         }
-        setGrasaEn(-1);
-        setMasaEn(-1);
-        setAguaEn(-1);
-        setOseaEn(-1);
-        setVisceralEn(-1);
-        setTMetabolicaEn(-1);
-        setEMetabolicaEn(-1);
-        setIsOpenCampCor(false);
+        setGrasa(-1);
+        setMasa(-1);
+        setAgua(-1);
+        setOsea(-1);
+        setVisceral(-1);
+        setTMetabolica(-1);
+        setEMetabolica(-1);
+        setIsOpen(false);
     };
 
-    const closeErrorCampCor = () => {
-        setIsOpenErrorCampCor(false);
-    };
+    useEffect(() => {
+        getinfoCampCor();
+
+        return () => {
+            setInfoCorDates({});
+        };
+    }, [id]);
 
     return (
         <>
-            <div className='basicContainer'> {/**containerCampoCor, basicInfo-Title, campCor-Container3 */}
+            <div className='basicContainer'>
+                {' '}
+                {/**containerCampoCor, basicInfo-Title, campCor-Container3 */}
                 <div className='containData'>
-                    <h2>Campos Corporales</h2>
+                    <h2>Composición corporal</h2>
                     {/*Grafica-----------------------------------------------------------------------*/}
                     <div className='basicInfo-Container-Slide'>
                         {infoCampoCor?.grasas && Array.isArray(infoCampoCor.grasas) && (
@@ -180,17 +188,21 @@ const BodyFields = ({ id }) => {
                     className='btn-see-circunferencia'
                 />
                 <p></p>
-                {isOpenCampCor && (
+                {isOpen && (
                     <Popup
                         content={
                             <>
-                                <strong><p id='popTitle'>Agregando un nuevo valor</p></strong>
+                                <strong>
+                                    <p id='popTitle'>Agregando un nuevo valor</p>
+                                </strong>
                                 <div className='basicInfo-Container'>
                                     <div className='entradas'>
-                                        <div className="labels">
-                                            <label className='label-campCor'>Porcentaje de grasa:</label>
+                                        <div className='labels'>
+                                            <label className='label-campCor'>
+                                                Porcentaje de grasa:
+                                            </label>
                                         </div>
-                                        <div className="inputs">
+                                        <div className='inputs'>
                                             <input
                                                 className='input-campCor'
                                                 type='number'
@@ -198,15 +210,17 @@ const BodyFields = ({ id }) => {
                                                 min={0}
                                                 placeholder={''}
                                                 onChange={(event) =>
-                                                    setGrasaEn(event.target.value)
+                                                    setGrasa(event.target.value)
                                                 }></input>
                                         </div>
                                     </div>
                                     <div className='entradas'>
-                                        <div className="labels">
-                                            <label className='label-campCor'>Porcentaje de masa:</label>
+                                        <div className='labels'>
+                                            <label className='label-campCor'>
+                                                Porcentaje de masa:
+                                            </label>
                                         </div>
-                                        <div className="inputs">
+                                        <div className='inputs'>
                                             <input
                                                 className='input-campCor'
                                                 type='number'
@@ -214,15 +228,17 @@ const BodyFields = ({ id }) => {
                                                 min={0}
                                                 placeholder={''}
                                                 onChange={(event) =>
-                                                    setMasaEn(event.target.value)
+                                                    setMasa(event.target.value)
                                                 }></input>
                                         </div>
                                     </div>
                                     <div className='entradas'>
-                                        <div className="labels">
-                                            <label className='label-campCor'>Porcentaje de agua:</label>
+                                        <div className='labels'>
+                                            <label className='label-campCor'>
+                                                Porcentaje de agua:
+                                            </label>
                                         </div>
-                                        <div className="inputs">
+                                        <div className='inputs'>
                                             <input
                                                 className='input-campCor'
                                                 type='number'
@@ -230,18 +246,20 @@ const BodyFields = ({ id }) => {
                                                 min={0}
                                                 placeholder={''}
                                                 onChange={(event) =>
-                                                    setAguaEn(event.target.value)
+                                                    setAgua(event.target.value)
                                                 }></input>
                                         </div>
                                     </div>
                                 </div>
                                 {/**PARTICION DE CAMPOS */}
-                                <div className="basicInfo-Container">
+                                <div className='basicInfo-Container'>
                                     <div className='entradas'>
-                                        <div className="labels">
-                                            <label className='label-campCor'>Densidad osea:</label>
+                                        <div className='labels'>
+                                            <label className='label-campCor'>
+                                                Densidad osea:
+                                            </label>
                                         </div>
-                                        <div className="inputs">
+                                        <div className='inputs'>
                                             <input
                                                 className='input-campCor'
                                                 type='number'
@@ -249,15 +267,17 @@ const BodyFields = ({ id }) => {
                                                 min={0}
                                                 placeholder={''}
                                                 onChange={(event) =>
-                                                    setOseaEn(event.target.value)
+                                                    setOsea(event.target.value)
                                                 }></input>
                                         </div>
                                     </div>
                                     <div className='entradas'>
-                                        <div className="labels">
-                                            <label className='label-campCor'>Grasa visceral:</label>
+                                        <div className='labels'>
+                                            <label className='label-campCor'>
+                                                Grasa visceral:
+                                            </label>
                                         </div>
-                                        <div className="inputs">
+                                        <div className='inputs'>
                                             <input
                                                 className='input-campCor'
                                                 type='number'
@@ -265,15 +285,17 @@ const BodyFields = ({ id }) => {
                                                 min={0}
                                                 placeholder={''}
                                                 onChange={(event) =>
-                                                    setVisceralEn(event.target.value)
+                                                    setVisceral(event.target.value)
                                                 }></input>
                                         </div>
                                     </div>
                                     <div className='entradas'>
-                                        <div className="labels">
-                                            <label className='label-campCor'>Tasa metabolica:</label>
+                                        <div className='labels'>
+                                            <label className='label-campCor'>
+                                                Tasa metabolica:
+                                            </label>
                                         </div>
-                                        <div className="inputs">
+                                        <div className='inputs'>
                                             <input
                                                 className='input-campCor'
                                                 type='number'
@@ -281,18 +303,20 @@ const BodyFields = ({ id }) => {
                                                 min={0}
                                                 placeholder={''}
                                                 onChange={(event) =>
-                                                    setTMetabolicaEn(event.target.value)
+                                                    setTMetabolica(event.target.value)
                                                 }></input>
                                         </div>
                                     </div>
                                 </div>
                                 {/**NUEVA PARTICION 1 SOLO */}
-                                <div className="basicInfo-Container">
+                                <div className='basicInfo-Container'>
                                     <div className='entradas'>
-                                        <div className="labels">
-                                            <label className='label-campCor'>Edad metabolica:</label>
+                                        <div className='labels'>
+                                            <label className='label-campCor'>
+                                                Edad metabolica:
+                                            </label>
                                         </div>
-                                        <div className="inputs">
+                                        <div className='inputs'>
                                             <input
                                                 className='input-campCor'
                                                 type='number'
@@ -300,13 +324,16 @@ const BodyFields = ({ id }) => {
                                                 min={0}
                                                 placeholder={''}
                                                 onChange={(event) =>
-                                                    setEMetabolicaEn(event.target.value)
+                                                    setEMetabolica(event.target.value)
                                                 }></input>
                                         </div>
                                     </div>
                                 </div>
                                 <br />
-                                <button className='btn-see-circunferencia' onClick={updateCampCor} value='Add'>
+                                <button
+                                    className='btn-see-circunferencia'
+                                    onClick={updateCampCor}
+                                    value='Add'>
                                     Agregar
                                 </button>
                             </>
@@ -316,15 +343,19 @@ const BodyFields = ({ id }) => {
                 )}
             </div>
 
-            {isOpenErrorCampCor && (
+            {hasError && (
                 <Popup
                     content={
                         <>
-                            <strong><p>Error</p></strong>
-                            <center><p>Porfavor ingrese todos los campos para guardar</p></center>
+                            <strong>
+                                <p>Error</p>
+                            </strong>
+                            <center>
+                                <p>Porfavor ingrese todos los campos para guardar</p>
+                            </center>
                             <button
                                 className='btn-see-circunferencia'
-                                onClick={closeErrorCampCor}
+                                onClick={onCloseError}
                                 value='Add'>
                                 Ok
                             </button>
@@ -335,7 +366,6 @@ const BodyFields = ({ id }) => {
             )}
         </>
     );
-
 };
 
 export default BodyFields;
