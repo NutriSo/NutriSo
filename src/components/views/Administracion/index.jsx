@@ -321,28 +321,38 @@ const Administracion = () => {
                     <label id='titleLvl'>Lvl 5</label>
                     <div className='lvl'>
                         <div className='imagenes'>
-                            <Slider config={settings.level0}>{mapImagenes('5')}</Slider>
+                            <Slider config={settings.default}>{mapImagenes('5')}</Slider>
                         </div>
                     </div>
                     <label id='titleLvl'>Lvl 4</label>
                     <div className='lvl'>
-                        <div className='imagenes'>{mapImagenes('4')}</div>
+                        <div className='imagenes'>
+                            <Slider config={settings.default}>{mapImagenes('4')}</Slider>
+                        </div>
                     </div>
                     <label id='titleLvl'>Lvl 3</label>
                     <div className='lvl'>
-                        <div className='imagenes'>{mapImagenes('3')}</div>
+                        <div className='imagenes'>
+                            <Slider config={settings.default}>{mapImagenes('3')}</Slider>
+                        </div>
                     </div>
                     <label id='titleLvl'>Lvl 2</label>
                     <div className='lvl'>
-                        <div className='imagenes'>{mapImagenes('2')}</div>
+                        <div className='imagenes'>
+                            <Slider config={settings.default}>{mapImagenes('2')}</Slider>
+                        </div>
                     </div>
                     <label id='titleLvl'>Lvl 1</label>
                     <div className='lvl'>
-                        <div className='imagenes'>{mapImagenes('1')}</div>
+                        <div className='imagenes'>
+                            <Slider config={settings.default}>{mapImagenes('1')}</Slider>
+                        </div>
                     </div>
                     <label id='titleLvl'>Lvl 0</label>
                     <div className='lvl'>
-                        <div className='imagenes'>{mapImagenes('0')}</div>
+                        <div className='imagenes'>
+                            <Slider config={settings.default}>{mapImagenes('0')}</Slider>
+                        </div>
                     </div>
                 </div>
             </div>

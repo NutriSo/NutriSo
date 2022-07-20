@@ -5,6 +5,7 @@ import { Tabs, Form, Select } from 'antd';
 import { capitilizeWord } from '../../../../utils';
 import { Rules } from '../../../../utils/formRules';
 import { isEmptyArray } from '../../../../utils';
+import mocks from '../../../../mocks/estadisticasUsuario';
 
 import './Lactation.scss';
 
@@ -339,70 +340,45 @@ const Lactation = ({ id }) => {
     };
 
     return (
-        <div className='containerLactancia'>
-            <div className='basicInfo-TitleLac'>Lactancia</div>
-            <Form form={form2} requiredMark={false} onFinish={updateLactancia}>
-                <div className='basicInfo-Name-ContainerLac'>
-                    <div className='basicInfo-Name-ContainerLac2'>
-                        <label className='id-lactancia'>Lactancia materna exclusiva:</label>
-                        <Form.Item
-                            name='opcionLactancia'
-                            className='lb-lactanciaSelect'
-                            /*rules={[Rules.basicSpanish]}*/
-                        >
-                            <Select
-                                onChange={(value) =>
-                                    setLactanciaExclusiva(value === '' ? true : false)
-                                }
-                                defaultValue={''}>
-                                <Option value={'Lactancia materna exclusiva'}>
-                                    Lactancia materna exclusiva
-                                </Option>
-                                <Option value={'Lactancia artificial'}>
-                                    Lactancia artificial
-                                </Option>
-                                <Option value={'Lactancia mixta'}>Lactancia mixta</Option>
-                                <Option value={'Lactancia materna complementada'}>
-                                    Lactancia materna complementada
-                                </Option>
-                                <Option value={'Lactancia mixta complementada'}>
-                                    Lactancia mixta complementada
-                                </Option>
-                                <Option value={'Lactancia artificial complementada'}>
-                                    Lactancia artificial complementada
-                                </Option>
-                            </Select>
-                        </Form.Item>
-                    </div>
-                    <div className='basicInfo-Name-ContainerLac2'>
-                        <label className='id-lactancia'>¿Por cuánto tiempo? </label>
-                        <Form.Item
-                            name='tiempoLactancia'
-                            rules={[Rules.basicSpanish]}
-                            required='true'>
-                            {/*<input disabled = {generalCheckPYM} className='lb-lactancia2'></input>*/}
-                            <input
-                                disabled={LactanciaCheckExlusiva}
-                                type='text'
-                                name='tLactancia'
-                                className='lb-lactancia2'
-                                placeholder=''
-                            />
-                        </Form.Item>
-                    </div>
-                </div>
-                <div className='basicInfo-Save-ContainerLac'>
-                    <div className='basicInfo-Save-ContainerLac2 '>
+        <div className='basicContainer'>
+            <div className='containData'>
+                <h2>Lactancia</h2>
+                <Form form={form2} requiredMark={false} onFinish={updateLactancia}>
+                    <Form.Item
+                        name='opcionLactancia'
+                        label='Tipo de lactancia'
+                        className='lb-lactanciaSelect'
+                        /*rules={[Rules.basicSpanish]}*/
+                    >
+                        <Select
+                            placeholder='Selecciona un tipo'
+                            onChange={(value) =>
+                                setLactanciaExclusiva(value === '' ? true : false)
+                            }
+                            defaultValue={''}>
+                            {mocks.lactancia.map(({ value, label }) => (
+                                <Option value={value}>{label}</Option>
+                            ))}
+                        </Select>
+                    </Form.Item>
+                    <Form.Item name='tiempoLactancia' label={'¿Por cuánto tiempo?'}>
+                        <Select className='lb-lactancia2' placeholder='Selecciona una opción'>
+                            {mocks.frecuenciasLactancia.map(({ value, label }) => (
+                                <Option value={value}>{label}</Option>
+                            ))}
+                        </Select>
+                    </Form.Item>
+                    <center>
                         <button
-                            className='btn-Save-basicInfoLac3'
+                            className='btn-see-circunferencia'
                             htmlType='submit'
                             /*onClick={() => updateEstadoGeneral()}*/
                             value='Add'>
                             Save
                         </button>
-                    </div>
-                </div>
-            </Form>
+                    </center>
+                </Form>
+            </div>
         </div>
     );
 };

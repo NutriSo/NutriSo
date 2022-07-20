@@ -1,10 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { Col, DatePicker, Input, Row, Checkbox, Button, Modal, Select, message } from 'antd';
+import dayjs from 'dayjs';
+import {
+    Col,
+    DatePicker,
+    TimePicker,
+    Input,
+    Row,
+    Checkbox,
+    Button,
+    Modal,
+    Select,
+    message,
+} from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import apiURL from '../../../axios/axiosConfig';
-import dayjs from 'dayjs';
 
-import '../../commons/RemindersComponent/RowComponent';
 import styles from './styles.module.scss';
 
 const RowComponent = () => {
@@ -15,6 +25,7 @@ const RowComponent = () => {
     const [msj, setMsj] = useState('');
     const [categoria, setCategoria] = useState('');
     const [fecha, setFecha] = useState([]);
+    const [hora, setHora] = useState(null);
     const [global, setGlobal] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -29,8 +40,6 @@ const RowComponent = () => {
         try {
             const { data } = await apiURL.get('/recordatorios');
             setListRecor(data);
-
-            console.log(listRecor);
         } catch (error) {
             message.error(`Error: ${error.message}`);
         }
@@ -55,7 +64,6 @@ const RowComponent = () => {
             const todosUsuarios = listUsers.map((user) => user._id);
             const reminder = {
                 usuarios: global ? todosUsuarios : listUsersPut,
-                //hora y fecha
                 titulo: titulo,
                 mensaje: msj,
                 categoria: categoria,
@@ -66,12 +74,11 @@ const RowComponent = () => {
                     },
                 ],
                 fecha: fecha,
+                hora: hora,
                 global: global,
             };
             const response = await apiURL.post('/recordatorios', reminder);
             console.log(response);
-            //console.log(reminder);
-            //window.location.reload()
         } catch (error) {
             message.error(`Error: ${error.message}`);
         }
@@ -90,6 +97,10 @@ const RowComponent = () => {
         }
     };
 
+    const handleTime = (time) => {
+        setHora(time);
+    };
+
     const getDaysBetweenDates = function (startDate, endDate) {
         let now = startDate.clone(),
             dates = [];
@@ -101,16 +112,9 @@ const RowComponent = () => {
         return dates;
     };
 
-    function onChangeCh(e) {
-        console.log(`checked = ${e.target.checked}`);
-        console.log(listUsersPut);
-        console.log('esta es la lista de users');
-        if (e.target.checked) {
-            setGlobal(true);
-        } else {
-            setGlobal(false);
-        }
-    }
+    const onChangeCh = (e) => {
+        setGlobal(e.target.checked);
+    };
 
     return (
         <>
@@ -132,33 +136,26 @@ const RowComponent = () => {
                 visible={isModalVisible}
                 onOk={handleOk}
                 onCancel={handleCancel}>
-                <Row>
-                    <Col span={6} className={styles.normalPadding}>
-                        <p>Titulo:</p>
-                    </Col>
-                    <Col span={18} className={styles.normalPadding}>
-                        <Input
-                            placeholder='Titulo del recordatorio'
-                            onChange={(e) => setTitulo(e.target.value)}
-                        />
-                    </Col>
-                </Row>
-                <Row>
-                    <Col span={6} className={styles.normalPadding}>
-                        <p>Descripción (mensaje):</p>
-                    </Col>
-                    <Col span={18} className={styles.normalPadding}>
-                        <TextArea
-                            placeholder='Descripción del recordatorio'
-                            autoSize
-                            onChange={(e) => setMsj(e.target.value)}
-                        />
-                        <div style={{ margin: '24px 0' }} />
-                    </Col>
-                </Row>
-
+                <h3>Título</h3>
+                <Col span={24} className={styles.normalPadding}>
+                    <Input
+                        placeholder='Titulo del recordatorio'
+                        onChange={(e) => setTitulo(e.target.value)}
+                    />
+                </Col>
+                <h3>Descripción (mensaje):</h3>
+                <Col span={24} className={styles.normalPadding}>
+                    <TextArea
+                        placeholder='Descripción del recordatorio'
+                        autoSize
+                        rows={8}
+                        onChange={(e) => setMsj(e.target.value)}
+                    />
+                    <div style={{ margin: '24px 0' }} />
+                </Col>
+                <h3>Tipo</h3>
                 <Checkbox onChange={onChangeCh}>Global</Checkbox>
-
+                <h3>Usuarios</h3>
                 <Select
                     mode='multiple'
                     style={{ width: '100%' }}
@@ -166,11 +163,14 @@ const RowComponent = () => {
                     onChange={(value) => setlistUsersput(value)}
                     optionLabelProp='label'
                     disabled={global ? true : false}>
-                    {listUsers.map((users) => (
-                        <Option key={users.id}>{users.nombre}</Option>
+                    {listUsers.map((user) => (
+                        <Option
+                            key={
+                                user.id
+                            }>{`${user.nombre} ${user?.apellidoPaterno} ${user?.apellidoMaterno} `}</Option>
                     ))}
                 </Select>
-
+                <h3>Categoria</h3>
                 <Select
                     placeholder='Seleccione Categoría'
                     onChange={(value) => setCategoria(value)}
@@ -184,7 +184,12 @@ const RowComponent = () => {
                     <Option value='agua'>Agua</Option>
                 </Select>
                 <div className='site-calendar-demo-card'>
+                    <h3>Fechas</h3>
                     <RangePicker onChange={print} />
+                </div>
+                <div className='site-calendar-demo-card'>
+                    <h3>Horario</h3>
+                    <TimePicker use12Hours format='HH:mm' onChange={handleTime} />
                 </div>
             </Modal>
         </>

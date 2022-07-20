@@ -5,6 +5,9 @@ import { Button } from 'antd';
 import DietReg from './DietReg';
 import Demographics from './Demographics';
 import Groups from './Groups';
+import SubGroup from './SubGroup';
+import UltraProcessed from './UltraProcessed';
+import AppropriateSubGroup from './AppropriateSubGroup';
 import Loading from '../../commons/Loading';
 
 import { getIsSelected } from './utils';
@@ -20,6 +23,12 @@ const Exports = () => {
         setLoading(true);
         setSelected({ ...initialState, [id]: true });
     };
+
+    useEffect(() => {
+        if (!loading) {
+            setSelected(initialState);
+        }
+    }, [loading]);
 
     useEffect(() => {
         return () => {
@@ -43,6 +52,18 @@ const Exports = () => {
                         )}
                         {getIsSelected(selected, 3, index) && (
                             <Groups selected={selected[3]} setLoading={setLoading} />
+                        )}
+                        {getIsSelected(selected, 4, index) && (
+                            <SubGroup selected={selected[4]} setLoading={setLoading} />
+                        )}
+                        {getIsSelected(selected, 5, index) && (
+                            <UltraProcessed selected={selected[5]} setLoading={setLoading} />
+                        )}
+                        {getIsSelected(selected, 6, index) && (
+                            <AppropriateSubGroup
+                                selected={selected[6]}
+                                setLoading={setLoading}
+                            />
                         )}
                         {selected[index + 1] === false && (
                             <Button onClick={() => handleClick(index + 1)}>
