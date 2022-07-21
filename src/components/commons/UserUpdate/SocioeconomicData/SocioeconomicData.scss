@@ -1,0 +1,18 @@
+.basicInfo-ContainerSocioData{
+    display: flex;
+    background-color: rgba(251, 251, 26, 0);
+    flex-wrap: wrap;
+    margin-top: 20px;
+    column-gap: 10px;
+}
+
+.entradasSocioData {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+}
+
+.id-nameSocioData {
+    font-weight: 600;
+    font-size: 1rem;
+}
