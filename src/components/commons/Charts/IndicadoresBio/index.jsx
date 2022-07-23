@@ -8,10 +8,14 @@ import React, { useState, useEffect } from 'react';
 import Chart from 'chart.js/auto';
 import { Line } from 'react-chartjs-2';
 
-import { stringArrayToNumberArray, returnLabelsByChart, returnDateLabelByChat } from '../../../../utils';
+import {
+    stringArrayToNumberArray,
+    returnLabelsByChart,
+    returnDateLabelByChat,
+} from '../../../../utils';
 
 const IndicadoresBio = ({ data, dates }) => {
-    const [ chartData, setChartData ] = useState(initalData);
+    const [chartData, setChartData] = useState(initalData);
 
     useEffect(() => {
         if (data?.glucosaAyuno && Array.isArray(data.glucosaAyuno)) {
@@ -23,7 +27,11 @@ const IndicadoresBio = ({ data, dates }) => {
             const colesterolHDL = stringArrayToNumberArray(data?.colesterolHDL);
             const microbiotaIntestinal = stringArrayToNumberArray(data?.microbiotaIntestinal);
 
-            const labels = returnDateLabelByChat([ new Date().toString() ], dates?.length, dates);
+            const labels = returnDateLabelByChat(
+                [new Date().toString()],
+                dates?.length,
+                dates
+            );
 
             setChartData({
                 ...chartData,
@@ -63,7 +71,7 @@ const IndicadoresBio = ({ data, dates }) => {
         return () => {
             setChartData({});
         };
-    }, [ data?.glucosaAyuno, data?.glucosaDespues, data?.trigliceridos, data?.colesterolTotal, data?.colesterolLDL, data?.colesterolHDL, data?.microbiotaIntestinal ]);
+    }, [data]);
 
     return (
         <Line
@@ -89,7 +97,15 @@ const IndicadoresBio = ({ data, dates }) => {
 export default IndicadoresBio;
 
 export const initalData = {
-    labels: [ 'Glucosa ayuno', 'Glucosa despues', 'Trigliceridos', 'Colesterol Total', 'Colesterol LDL', 'Colesterol HDL', 'Microbiota Intestinal' ],
+    labels: [
+        'Glucosa ayuno',
+        'Glucosa despues',
+        'Trigliceridos',
+        'Colesterol Total',
+        'Colesterol LDL',
+        'Colesterol HDL',
+        'Microbiota Intestinal',
+    ],
     datasets: [
         {
             label: 'Glucosa ayuno',
