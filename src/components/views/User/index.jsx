@@ -5,6 +5,7 @@ import { DatePicker, Space } from 'antd';
 import moment from 'moment';
 import dayjs from 'dayjs';
 
+import Clinic from '../../commons/UserUpdate/Clinic';
 import Weight from '../../commons/UserUpdate/Weight';
 import Circumference from '../../commons/UserUpdate/Circumference';
 import BodyFields from '../../commons/UserUpdate/BodyFields';
@@ -143,7 +144,7 @@ const Usuarios = () => {
     return (
         <>
             <div className='basicContainer'>
-                <div className="containData">
+                <div className='containData'>
                     <div className='profile-imgBasic'>
                         <img
                             src={isPhotoExist ? info.foto : standardAvatar}
@@ -154,11 +155,11 @@ const Usuarios = () => {
                     </div>
 
                     <div className='basicInfo-Container'>
-                        <div className="entradas">
-                            <div className="labels">
+                        <div className='entradas'>
+                            <div className='labels'>
                                 <label className='id-name'>Nombre:</label>
                             </div>
-                            <div className="inputs">
+                            <div className='inputs'>
                                 <input
                                     className='lb-name'
                                     placeholder={info.nombre || ''}
@@ -168,11 +169,11 @@ const Usuarios = () => {
                             </div>
                         </div>
 
-                        <div className="entradas">
-                            <div className="labels">
+                        <div className='entradas'>
+                            <div className='labels'>
                                 <label className='id-name'>Apellido Paterno:</label>
                             </div>
-                            <div className="inputs">
+                            <div className='inputs'>
                                 <input
                                     className='lb-name'
                                     placeholder={info.apellidoPaterno || ''}
@@ -184,11 +185,11 @@ const Usuarios = () => {
                             </div>
                         </div>
 
-                        <div className="entradas">
-                            <div className="labels">
+                        <div className='entradas'>
+                            <div className='labels'>
                                 <label className='id-name'>Apellido Materno:</label>
                             </div>
-                            <div className="inputs">
+                            <div className='inputs'>
                                 <input
                                     className='lb-name'
                                     placeholder={info.apellidoMaterno || ''}
@@ -202,24 +203,26 @@ const Usuarios = () => {
                     </div>
 
                     <div className='basicInfo-Container'>
-                        <div className="entradas">
+                        <div className='entradas'>
                             <div className='labels'>
                                 <label className='id-name'>Celular:</label>
                             </div>
-                            <div className="inputs">
+                            <div className='inputs'>
                                 <input
                                     className='lb-name'
                                     placeholder={info.celular || ''}
                                     type='number'
                                     name='celular'
-                                    onChange={(event) => setCelular(event.target.value)}></input>
+                                    onChange={(event) =>
+                                        setCelular(event.target.value)
+                                    }></input>
                             </div>
                         </div>
-                        <div className="entradas">
+                        <div className='entradas'>
                             <div className='labels'>
                                 <label className='id-name'>Ciudad de residencia:</label>
                             </div>
-                            <div className="inputs">
+                            <div className='inputs'>
                                 <input
                                     className='lb-name'
                                     placeholder={info.ciudadDeResidencia || ''}
@@ -230,11 +233,11 @@ const Usuarios = () => {
                                     }></input>
                             </div>
                         </div>
-                        <div className="entradas">
+                        <div className='entradas'>
                             <div className='labels'>
                                 <label className='id-name'>Tiempo Residando:</label>
                             </div>
-                            <div className="inputs">
+                            <div className='inputs'>
                                 <input
                                     className='lb-name'
                                     placeholder={capitilizeWord(info.tiempoViviendoAhi || '')}
@@ -248,14 +251,16 @@ const Usuarios = () => {
                     </div>
 
                     <div className='basicInfo-Container'>
-                        <div className="entradas">
+                        <div className='entradas'>
                             <div className='labels'>
                                 <label className='id-name'>Estado de Nacimiento:</label>
                             </div>
-                            <div className="inputs">
+                            <div className='inputs'>
                                 <input
                                     className='lb-name'
-                                    placeholder={capitilizeWord(info.estadoDeNacimiento || '')}
+                                    placeholder={capitilizeWord(
+                                        info.estadoDeNacimiento || ''
+                                    )}
                                     type='text'
                                     name='estadoDN'
                                     onChange={(event) =>
@@ -265,33 +270,38 @@ const Usuarios = () => {
                         </div>
 
                         <div className='entradas'>
-                            <div className="labels">
+                            <div className='labels'>
                                 <label className='id-name'>Fecha de Nacimiento:</label>
                             </div>
-                            <div className="inputs">
+                            <div className='inputs'>
                                 <Space direction='vertical'>
                                     {formattedBirthday !==
                                         dayjs(new Date()).format('YYYY-MM-DD') && (
-                                            <DatePicker
-                                                defaultValue={moment(formattedBirthday, 'YYYY-MM-DD')}
-                                                placeholder={formattedBirthday}
-                                                onChange={onChange}
-                                            />
-                                        )}
+                                        <DatePicker
+                                            defaultValue={moment(
+                                                formattedBirthday,
+                                                'YYYY-MM-DD'
+                                            )}
+                                            placeholder={formattedBirthday}
+                                            onChange={onChange}
+                                        />
+                                    )}
                                 </Space>
                             </div>
                         </div>
                         <div className='entradas'>
-                            <div className="labels">
+                            <div className='labels'>
                                 <label className='id-name'>Genero:</label>
                             </div>
-                            <div className="inputs">
+                            <div className='inputs'>
                                 <input
                                     className='lb-name'
                                     placeholder={capitilizeWord(info.genero || '')}
                                     type='text'
                                     name='genero'
-                                    onChange={(event) => setGenero(event.target.value)}></input>
+                                    onChange={(event) =>
+                                        setGenero(event.target.value)
+                                    }></input>
                             </div>
                         </div>
                     </div>
@@ -306,7 +316,7 @@ const Usuarios = () => {
                 </div>
             </div>
 
-            <SocioeconomicData id={globalUserId}/>
+            <SocioeconomicData id={globalUserId} />
             <Weight id={globalUserId} />
             <Circumference id={globalUserId} />
             <BodyFields id={globalUserId} />
@@ -314,6 +324,7 @@ const Usuarios = () => {
             <OverallStatus id={globalUserId} />
             <SolarExposition id={globalUserId} />
             <Gastrointestinal id={globalUserId} />
+            <Clinic id={globalUserId} />
             <Lactation id={globalUserId} />
         </>
     );
