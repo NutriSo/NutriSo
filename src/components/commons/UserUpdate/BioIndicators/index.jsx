@@ -45,7 +45,7 @@ const BioIndicators = ({ id }) => {
                     (elem) => elem?.numero
                 );
                 const datesBio = data[0].glucosaAyuno.map((elem) => elem.fecha);
-                console.log({ microbiotaIntestinal, data });
+
                 setBioquimicosDates(datesBio);
 
                 setInfoBioquimicos({
@@ -66,34 +66,35 @@ const BioIndicators = ({ id }) => {
     };
 
     const updateIndicadoresBio = async (values) => {
+        const today = new Date();
         try {
             const body = {
-                glucosaAyuno: { valor: values.glucosaAyuno, fecha: new Date() },
+                glucosaAyuno: { valor: values.glucosaAyuno, fecha: today },
                 glucosaDespues: {
                     valor: values.glucosaDespues,
-                    fecha: new Date(),
+                    fecha: today,
                     minutos: values.minutos,
                 },
                 trigliceridos: {
                     valor: values.trigliceridos,
-                    fecha: new Date(),
+                    fecha: today,
                 },
                 colesterolTotal: {
                     valor: values.colesterolTotal,
-                    fecha: new Date(),
+                    fecha: today,
                 },
                 colesterolLDL: {
                     valor: values.colesterolLDL,
-                    fecha: new Date(),
+                    fecha: today,
                 },
                 colesterolHDL: {
                     valor: values.colesterolHDL,
-                    fecha: new Date(),
+                    fecha: today,
                 },
                 microbiotaIntestinal: {
                     valor: values.microbiotaIntestinal,
                     numero: values.microbiotaIntestinalNum,
-                    fecha: new Date(),
+                    fecha: today,
                 },
             };
 
@@ -263,7 +264,7 @@ const BioIndicators = ({ id }) => {
                                 </Form.Item>
                                 <Form.Item
                                     label='Microbiota intestital número'
-                                    name='microbiotaIntestinalnum'
+                                    name='microbiotaIntestinalNum'
                                     className='id-name'
                                     rules={[Rules.minOne]}>
                                     <input
