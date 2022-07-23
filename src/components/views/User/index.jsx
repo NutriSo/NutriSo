@@ -13,6 +13,7 @@ import OverallStatus from '../../commons/UserUpdate/OverallStatus';
 import SolarExposition from '../../commons/UserUpdate/SolarExposition';
 import Gastrointestinal from '../../commons/UserUpdate/Gastrointestinal';
 import Lactation from '../../commons/UserUpdate/Lactation';
+import SocioeconomicData from '../../commons/UserUpdate/SocioeconomicData';
 import { capitilizeWord, isInvalidElem, isEmptyString, getUserHash } from '../../../utils';
 
 import './user.scss';
@@ -305,6 +306,7 @@ const Usuarios = () => {
                 </div>
             </div>
 
+            <SocioeconomicData id={globalUserId}/>
             <Weight id={globalUserId} />
             <Circumference id={globalUserId} />
             <BodyFields id={globalUserId} />
