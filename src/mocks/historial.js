@@ -91,8 +91,8 @@ export default {
             label: 'Artritis reumatoide',
         },
         {
-            value: 'Insuficiencia Renal Crónica',
-            label: 'Insuficiencia Renal Crónica',
+            value: 'Insuficiencia renal crónica',
+            label: 'Insuficiencia renal crónica',
         },
         {
             value: 'Cardiopatía',

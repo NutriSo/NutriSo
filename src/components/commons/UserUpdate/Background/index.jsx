@@ -67,14 +67,40 @@ const Background = ({ id }) => {
         }
     };
 
-    const onFinish = async (values) => {};
+    const onFinish = async (values) => {
+        try {
+            const body = {
+                historiaClinica: {
+                    antecedentesHeredoFamiliares: familiares,
+                    antecedentesPatologicos: patologicos,
+                    medicamentos: medicamentos,
+                    suplementos: suplementos,
+                },
+            };
+
+            const { data, status } = await apiURL.patch(
+                `historialClinico/individual?usuario=${id}`,
+                body
+            );
+
+            message.success('Se actualizó correctamente');
+        } catch (error) {
+            console.groupCollapsed('Error en la función background');
+            console.error(error);
+            console.groupEnd();
+            message.error('Error al guardar los datos');
+        }
+    };
 
     useEffect(() => {
         fetchData();
 
-        // return () => {
-        //     setBioquimicosDates({});
-        // };
+        return () => {
+            setFamiliares([]);
+            setPatologicos([]);
+            setMedicamentos([]);
+            setSuplementos([]);
+        };
     }, [id]);
 
     return (

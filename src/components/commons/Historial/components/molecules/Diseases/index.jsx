@@ -48,7 +48,7 @@ const DiseasesTabs = ({ dataSource, diseases, onChangeDiseases }) => {
                                     value={value}
                                     checked={isChecked}
                                     disabled={isDisabled}
-                                    onChange={() => onChangeDiseases(key, value, !isChecked)}>
+                                    onChange={() => onChangeDiseases(key, value, isChecked)}>
                                     {label}
                                 </Checkbox>
                             );

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Checkbox } from 'antd';
 
 import Diseases from './components/molecules/Diseases';
-import { isEmptyArray } from '../../../utils';
+import { isEmptyArray, capitilizeWord } from '../../../utils';
 import { familiarsInitialState } from './data';
 
 const Familiars = ({ source, updateSource }) => {
@@ -16,7 +16,7 @@ const Familiars = ({ source, updateSource }) => {
     };
 
     const onChangeDiseases = (familiar, enfermedad, checked) => {
-        if (checked) {
+        if (!checked) {
             const obj = {
                 familiar,
                 enfermedad,
@@ -26,9 +26,13 @@ const Familiars = ({ source, updateSource }) => {
             return;
         }
 
-        const findIndex = source.findIndex(
-            (item) => item.familiar === familiar && item.enfermedad === enfermedad
-        );
+        const findIndex = source.findIndex((item) => {
+            const normalizedFamiliar = capitilizeWord(item.familiar);
+            const normalizedEnfermedad = capitilizeWord(item.enfermedad);
+
+            return normalizedFamiliar === familiar && normalizedEnfermedad === enfermedad;
+        });
+
         if (findIndex === -1) return;
 
         updateSource((prevState) => {
@@ -40,7 +44,7 @@ const Familiars = ({ source, updateSource }) => {
 
     const onClean = () => {
         setFamiliarsChecked(familiarsInitialState);
-        updateSource(null);
+        // updateSource(null);
     };
 
     useEffect(() => {
