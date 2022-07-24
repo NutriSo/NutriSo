@@ -4,7 +4,7 @@ import { Form, message } from 'antd';
 
 import InputTags from '../../InputTags';
 import Historial from '../../../commons/Historial';
-import { isEmptyObject } from '../../../../utils';
+import { isEmptyObject, isEmptyString } from '../../../../utils';
 
 const Background = ({ id }) => {
     const [form] = Form.useForm();
@@ -12,6 +12,32 @@ const Background = ({ id }) => {
     const [patologicos, setPatologicos] = useState([]);
     const [medicamentos, setMedicamentos] = useState([]);
     const [suplementos, setSuplementos] = useState([]);
+
+    const handleRemovePatologicos = (tag) => {
+        const newState = patologicos.filter((item) => {
+            const normalizedItem = item.toLowerCase().trim();
+            const normalizedTag = tag.toLowerCase().trim();
+
+            if (isEmptyString(normalizedItem)) return false;
+
+            return normalizedItem !== normalizedTag;
+        });
+
+        setPatologicos(newState);
+    };
+
+    const handleRemoveMedicamentos = (tag) => {
+        const newState = medicamentos.filter((item) => {
+            const normalizedItem = item.toLowerCase().trim();
+            const normalizedTag = tag.toLowerCase().trim();
+
+            if (isEmptyString(normalizedItem)) return false;
+
+            return normalizedItem !== normalizedTag;
+        });
+
+        setMedicamentos(newState);
+    };
 
     const fetchData = async () => {
         try {
@@ -27,7 +53,12 @@ const Background = ({ id }) => {
                     medicamentos,
                     suplementos,
                 } = historiaClinica;
-
+                console.log({
+                    antecedentesHeredoFamiliares,
+                    antecedentesPatologicos,
+                    medicamentos,
+                    suplementos,
+                });
                 setFamiliares(antecedentesHeredoFamiliares);
                 setPatologicos(antecedentesPatologicos);
                 setMedicamentos(medicamentos);
@@ -41,6 +72,7 @@ const Background = ({ id }) => {
     };
 
     const onFinish = async (values) => {};
+    console.log(medicamentos);
 
     useEffect(() => {
         fetchData();
@@ -63,19 +95,38 @@ const Background = ({ id }) => {
                     <div className='basicInfo-ContainerSocioData'>
                         <div className='entradasSocioData'>
                             <Form.Item label='Heredo-Familiares' name='familiares'>
-                                <Historial source={familiares} />
+                                <Historial source={familiares} updateSource={setFamiliares} />
                             </Form.Item>
                         </div>
                         <div className='entradasSocioData'>
                             <Form.Item label='Patológicos' name='patologicos'>
                                 <InputTags
                                     source={patologicos}
-                                    onUpdateOptions={() => {}}
-                                    onRemoveTag={() => {}}
+                                    onUpdateOptions={setPatologicos}
+                                    onRemoveTag={handleRemovePatologicos}
                                 />
                             </Form.Item>
                         </div>
                     </div>
+                    <div className='basicInfo-ContainerSocioData'>
+                        <div className='entradasSocioData'>
+                            <Form.Item label='Medicamentos' name='medicamentos'>
+                                <InputTags
+                                    source={medicamentos}
+                                    onUpdateOptions={setMedicamentos}
+                                    onRemoveTag={handleRemoveMedicamentos}
+                                />
+                            </Form.Item>
+                        </div>
+                    </div>
+                    <center>
+                        <button
+                            className='btn-see-circunferencia'
+                            htmlType='submit'
+                            value='Add'>
+                            Guardar
+                        </button>
+                    </center>
                 </Form>
             </div>
         </div>

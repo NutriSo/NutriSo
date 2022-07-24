@@ -5,9 +5,8 @@ import Diseases from './components/molecules/Diseases';
 import { isEmptyArray } from '../../../utils';
 import { familiarsInitialState } from './data';
 
-const Familiars = ({ source }) => {
+const Familiars = ({ source, updateSource }) => {
     const [familiarsChecked, setFamiliarsChecked] = useState(familiarsInitialState);
-    const [diseases, setDiseases] = useState(null);
 
     const onChangeFamiliars = (key) => {
         setFamiliarsChecked({
@@ -23,16 +22,16 @@ const Familiars = ({ source }) => {
                 enfermedad,
             };
 
-            setDiseases((prevState) => (prevState ? [...prevState, obj] : [obj]));
+            updateSource((prevState) => (prevState ? [...prevState, obj] : [obj]));
             return;
         }
 
-        const findIndex = diseases.findIndex(
+        const findIndex = source.findIndex(
             (item) => item.familiar === familiar && item.enfermedad === enfermedad
         );
         if (findIndex === -1) return;
 
-        setDiseases((prevState) => {
+        updateSource((prevState) => {
             const newState = [...prevState];
             newState.splice(findIndex, 1);
             return newState;
@@ -41,7 +40,7 @@ const Familiars = ({ source }) => {
 
     const onClean = () => {
         setFamiliarsChecked(familiarsInitialState);
-        setDiseases(null);
+        updateSource(null);
     };
 
     useEffect(() => {
@@ -49,7 +48,7 @@ const Familiars = ({ source }) => {
             onClean();
             return;
         }
-        setDiseases(source);
+        updateSource(source);
         const familiares = source.map((item) => item.familiar);
 
         const newFamiliarsState = { ...familiarsInitialState };
@@ -75,7 +74,7 @@ const Familiars = ({ source }) => {
             ))}
             <Diseases
                 dataSource={familiarsChecked}
-                diseases={diseases}
+                diseases={source}
                 onChangeDiseases={onChangeDiseases}
             />
         </div>
