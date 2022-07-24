@@ -48,7 +48,7 @@ const Familiars = ({ source, updateSource }) => {
             onClean();
             return;
         }
-        updateSource(source);
+
         const familiares = source.map((item) => item.familiar);
 
         const newFamiliarsState = { ...familiarsInitialState };

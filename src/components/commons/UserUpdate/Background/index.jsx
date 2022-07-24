@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import apiURL from '../../../../axios/axiosConfig';
-import { Form, message } from 'antd';
+import { Form, message, Divider } from 'antd';
 
 import InputTags from '../../InputTags';
 import Historial from '../../../commons/Historial';
+import Supplements from './components/molecules/Supplements';
 import { isEmptyObject, isEmptyString } from '../../../../utils';
 
 const Background = ({ id }) => {
@@ -53,12 +54,7 @@ const Background = ({ id }) => {
                     medicamentos,
                     suplementos,
                 } = historiaClinica;
-                console.log({
-                    antecedentesHeredoFamiliares,
-                    antecedentesPatologicos,
-                    medicamentos,
-                    suplementos,
-                });
+
                 setFamiliares(antecedentesHeredoFamiliares);
                 setPatologicos(antecedentesPatologicos);
                 setMedicamentos(medicamentos);
@@ -72,7 +68,6 @@ const Background = ({ id }) => {
     };
 
     const onFinish = async (values) => {};
-    console.log(medicamentos);
 
     useEffect(() => {
         fetchData();
@@ -98,6 +93,7 @@ const Background = ({ id }) => {
                                 <Historial source={familiares} updateSource={setFamiliares} />
                             </Form.Item>
                         </div>
+                        <Divider />
                         <div className='entradasSocioData'>
                             <Form.Item label='Patológicos' name='patologicos'>
                                 <InputTags
@@ -115,6 +111,17 @@ const Background = ({ id }) => {
                                     source={medicamentos}
                                     onUpdateOptions={setMedicamentos}
                                     onRemoveTag={handleRemoveMedicamentos}
+                                />
+                            </Form.Item>
+                        </div>
+                    </div>
+                    <Divider />
+                    <div className='basicInfo-ContainerSocioData'>
+                        <div className='entradasSocioData'>
+                            <Form.Item label='Suplementos' name='suplementos'>
+                                <Supplements
+                                    source={suplementos}
+                                    updateSource={setSuplementos}
                                 />
                             </Form.Item>
                         </div>
