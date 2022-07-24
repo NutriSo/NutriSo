@@ -5,6 +5,7 @@ import { DatePicker, Space } from 'antd';
 import moment from 'moment';
 import dayjs from 'dayjs';
 
+import Background from '../../commons/UserUpdate/Background';
 import Clinic from '../../commons/UserUpdate/Clinic';
 import Weight from '../../commons/UserUpdate/Weight';
 import Circumference from '../../commons/UserUpdate/Circumference';
@@ -315,7 +316,7 @@ const Usuarios = () => {
                     </div>
                 </div>
             </div>
-
+            <Background id={globalUserId} />
             <SocioeconomicData id={globalUserId} />
             <Weight id={globalUserId} />
             <Circumference id={globalUserId} />

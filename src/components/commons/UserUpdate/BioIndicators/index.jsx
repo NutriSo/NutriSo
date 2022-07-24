@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import apiURL from '../../../../axios/axiosConfig';
-import { Tabs, Form, message } from 'antd';
+import { Form, message } from 'antd';
 import Popup from './Popup';
 
 import IndicadoresBio from '../../Charts/IndicadoresBio';

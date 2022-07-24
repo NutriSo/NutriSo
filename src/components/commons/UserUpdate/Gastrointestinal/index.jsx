@@ -29,7 +29,7 @@ const Gastrointestinal = ({ id }) => {
             const { data, status } = await apiURL.get(
                 `/gastroIntestinales/individual?usuario=${id}`
             );
-            console.log(data);
+
             if (status === 200 || data.length > 0) {
                 const inflamacionAbdominal = data?.inflamacionAbdominal;
                 const diarrea = data?.diarrea;
