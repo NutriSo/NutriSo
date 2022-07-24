@@ -108,7 +108,7 @@ const SocioeconomicData = ({ id }) => {
     };
 
     return (
-        <div className='basicContainer'>
+        <div className='basicContainer socioContainer'>
             <div className='containData'>
                 <h2>Datos Socioeconomicos</h2>
                 <Form

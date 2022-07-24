@@ -143,7 +143,7 @@ const Usuarios = () => {
     }
 
     return (
-        <>
+        <section className=''>
             <div className='basicContainer'>
                 <div className='containData'>
                     <div className='profile-imgBasic'>
@@ -154,7 +154,6 @@ const Usuarios = () => {
                         />
                         <h2>Configuración de perfil</h2>
                     </div>
-
                     <div className='basicInfo-Container'>
                         <div className='entradas'>
                             <div className='labels'>
@@ -169,7 +168,6 @@ const Usuarios = () => {
                                     onChange={(event) => setName(event.target.value)}></input>
                             </div>
                         </div>
-
                         <div className='entradas'>
                             <div className='labels'>
                                 <label className='id-name'>Apellido Paterno:</label>
@@ -185,7 +183,6 @@ const Usuarios = () => {
                                     }></input>
                             </div>
                         </div>
-
                         <div className='entradas'>
                             <div className='labels'>
                                 <label className='id-name'>Apellido Materno:</label>
@@ -202,7 +199,6 @@ const Usuarios = () => {
                             </div>
                         </div>
                     </div>
-
                     <div className='basicInfo-Container'>
                         <div className='entradas'>
                             <div className='labels'>
@@ -250,7 +246,6 @@ const Usuarios = () => {
                             </div>
                         </div>
                     </div>
-
                     <div className='basicInfo-Container'>
                         <div className='entradas'>
                             <div className='labels'>
@@ -327,7 +322,7 @@ const Usuarios = () => {
             <Gastrointestinal id={globalUserId} />
             <Clinic id={globalUserId} />
             <Lactation id={globalUserId} />
-        </>
+        </section>
     );
 };
 
