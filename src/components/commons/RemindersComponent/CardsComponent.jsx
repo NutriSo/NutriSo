@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import classNames from 'classnames';
 
 import {
     Card,
@@ -10,6 +9,7 @@ import {
     Button,
     Modal,
     DatePicker,
+    TimePicker,
     Select,
     message,
     Checkbox,
@@ -22,6 +22,7 @@ import {
     GlobalOutlined,
 } from '@ant-design/icons';
 import moment from 'moment';
+import dayjs from 'dayjs';
 import apiURL from '../../../axios/axiosConfig';
 import { capitilizeWord } from '../../../utils';
 
@@ -38,8 +39,11 @@ const CardsComponent = () => {
     const [msj, setMsj] = useState('');
     const [categoria, setCategoria] = useState('');
     const [fecha, setFecha] = useState([]);
+    const [hora, setHora] = useState(null);
     const [global, setGlobal] = useState(false);
     const [seleccionado, setSeleccionado] = useState('');
+
+    const modalVisible = isModalVisible && seleccionado?.fecha && arrayUsers.length > 0;
 
     const { RangePicker } = DatePicker;
     const { TextArea } = Input;
@@ -68,54 +72,51 @@ const CardsComponent = () => {
     const fetchData2 = async () => {
         try {
             const { data } = await apiURL.get(`/recordatorios/${seleccionado._id}`);
-            setGlobal(data.global);
-            setArrayusers(data.usuarios);
+            if (data) {
+                setGlobal(data.global);
+                setArrayusers(data.usuarios);
+                setFecha(data.fecha);
+                setMsj(data.mensaje);
+                setTitulo(data.titulo);
+                setCategoria(data.categoria);
+                setHora(data.hora);
+            }
         } catch (error) {
             message.error(`Error: ${error.message}`);
         }
     };
 
-    const getUpdatedIds = (array) => {
-        const ids = [];
-
-        array.forEach((user) => {
-            const findIndex = listUsers.findIndex((elem) => elem._id === user);
-            if (findIndex !== -1) {
-                ids.push(listUsers[findIndex]._id);
-            }
-        });
-
-        setlistUsersput(ids);
-    };
-
     const handleOk = async () => {
-        setIsModalVisible(false);
-
         try {
             const reminder = {
                 usuarios: (listUsersPut.length > 0 && listUsersPut) || arrayUsers,
-                //hora y fecha
-                titulo: seleccionado?.titulo ?? titulo,
-                mensaje: seleccionado?.mensaje ?? msj,
-                categoria: seleccionado?.categoria ?? categoria,
+                hora: hora,
+                titulo: titulo,
+                mensaje: msj,
+                categoria: categoria,
                 dias: [
                     {
                         day: 'martes',
                         activo: false,
                     },
                 ],
-                fecha: seleccionado?.fecha ?? fecha,
-                global: seleccionado?.global ?? global,
+                fecha: fecha,
+                global: global,
             };
 
             const response = await apiURL.patch(
                 `/recordatorios/${seleccionado._id}`,
                 reminder
             );
-
+            // console.log({ response });
+            message.success('Se actualizó el recordatorio');
             //window.location.reload();
+            setIsModalVisible(false);
         } catch (error) {
-            message.error(`Error: ${error.message}`);
+            console.log(error);
+            message.error(
+                'Ocurrió un error, puede que ya existe un recordatorio con ese título'
+            );
         }
     };
     const handleCancel = () => {
@@ -168,6 +169,36 @@ const CardsComponent = () => {
         });
 
         setList(filteredData);
+    };
+
+    const handleTime = (time) => {
+        setHora(time);
+        setSeleccionado({ ...seleccionado, hora: time });
+    };
+
+    const print = (values) => {
+        if (values) {
+            const dateA = values[0];
+            const dateB = values[1];
+
+            setSeleccionado({
+                ...seleccionado,
+                fecha: getDaysBetweenDates(dateA, dateB),
+            });
+            setFecha(getDaysBetweenDates(dateA, dateB));
+        }
+    };
+
+    const getDaysBetweenDates = (startDate, endDate) => {
+        let now = startDate.clone();
+        const dates = [];
+
+        while (now.isSameOrBefore(endDate)) {
+            dates.push(dayjs(now).toISOString());
+            now.add(1, 'days');
+        }
+
+        return dates;
     };
 
     function onChangeCh(e) {
@@ -258,80 +289,87 @@ const CardsComponent = () => {
                     ))}
                 </Row>
             </Row>
-
-            <Modal
-                title='Actualizar recordatorio'
-                visible={isModalVisible && seleccionado?.fecha && arrayUsers.length > 0}
-                onOk={handleOk}
-                onCancel={handleCancel}>
-                <Row>
-                    <Col span={6} style={{ padding: 16 }}>
-                        <p>Titulo: </p>
-                    </Col>
-                    <Col span={18} style={{ padding: 16 }}>
-                        <Input
-                            defaultValue={seleccionado?.titulo ?? titulo}
-                            onChange={(e) => setTitulo(e.target.value)}
-                        />
-                    </Col>
-                </Row>
-                <Row>
-                    <Col span={6} style={{ padding: 16 }}>
-                        <p>Descripción (mensaje):</p>
-                    </Col>
-                    <Col span={18} style={{ padding: 16 }}>
-                        <TextArea
-                            placeholder='Descripción del recordatorio'
-                            autoSize
-                            onChange={(e) => setMsj(e.target.value)}
-                            defaultValue={seleccionado?.mensaje ?? msj}
-                        />
-                        <div style={{ margin: '24px 0' }} />
-                    </Col>
-                </Row>
-                <Checkbox
-                    onChange={onChangeCh}
-                    defaultChecked={seleccionado?.global ?? global}>
-                    Global
-                </Checkbox>
-                <Select
-                    disabled={global}
-                    mode='multiple'
-                    style={{ width: '100%' }}
-                    placeholder='Seleccionar usuarios'
-                    onChange={(value) => setlistUsersput(value)}
-                    optionLabelProp='label'
-                    defaultValue={
-                        (arrayUsers.length > 0 && getUserNames(arrayUsers)) || listUsersPut
-                    }>
-                    {listUsers.map((users) => (
-                        <Option key={users.id}>{users.nombre}</Option>
-                    ))}
-                </Select>
-                <Select
-                    placeholder='Seleccione Categoría'
-                    onChange={(value) => setCategoria(value)}
-                    defaultValue={seleccionado?.categoria ?? categoria}
-                    style={{ width: '100%' }}>
-                    <Option value='desayuno'>Desayuno</Option>
-                    <Option value='comida'>Comida</Option>
-                    <Option value='cena'>Cena</Option>
-                    <Option value='ejercicio'>Ejercicio</Option>
-                    <Option value='colacion1'>Colacion 1</Option>
-                    <Option value='colacion2'>Colación 2</Option>
-                    <Option value='agua'>Agua</Option>
-                </Select>
-                <div className='site-calendar-demo-card'>
-                    <RangePicker
+            {modalVisible && (
+                <Modal
+                    title='Actualizar recordatorio'
+                    visible={modalVisible}
+                    onOk={handleOk}
+                    onCancel={handleCancel}>
+                    <Row>
+                        <Col span={6} style={{ padding: 16 }}>
+                            <p>Titulo: </p>
+                        </Col>
+                        <Col span={18} style={{ padding: 16 }}>
+                            <Input
+                                defaultValue={seleccionado?.titulo ?? titulo}
+                                onChange={(e) => setTitulo(e.target.value)}
+                            />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col span={6} style={{ padding: 16 }}>
+                            <p>Descripción (mensaje):</p>
+                        </Col>
+                        <Col span={18} style={{ padding: 16 }}>
+                            <TextArea
+                                placeholder='Descripción del recordatorio'
+                                autoSize
+                                onChange={(e) => setMsj(e.target.value)}
+                                defaultValue={seleccionado?.mensaje ?? msj}
+                            />
+                            <div style={{ margin: '24px 0' }} />
+                        </Col>
+                    </Row>
+                    <Checkbox
+                        onChange={onChangeCh}
+                        defaultChecked={seleccionado?.global ?? global}>
+                        Global
+                    </Checkbox>
+                    <Select
+                        disabled={global}
+                        mode='multiple'
+                        style={{ width: '100%' }}
+                        placeholder='Seleccionar usuarios'
+                        onChange={(value) => setlistUsersput(value)}
+                        optionLabelProp='label'
                         defaultValue={
-                            seleccionado?.fecha && [
-                                moment(seleccionado.fecha[0]),
-                                moment(seleccionado.fecha[seleccionado.fecha.length - 1]),
-                            ]
-                        }
-                    />
-                </div>
-            </Modal>
+                            (arrayUsers.length > 0 && getUserNames(arrayUsers)) ||
+                            listUsersPut
+                        }>
+                        {listUsers.map((users) => (
+                            <Option key={users.id}>{users.nombre}</Option>
+                        ))}
+                    </Select>
+                    <Select
+                        placeholder='Seleccione Categoría'
+                        onChange={(value) => setCategoria(value)}
+                        defaultValue={seleccionado?.categoria ?? categoria}
+                        style={{ width: '100%' }}>
+                        <Option value='desayuno'>Desayuno</Option>
+                        <Option value='comida'>Comida</Option>
+                        <Option value='cena'>Cena</Option>
+                        <Option value='ejercicio'>Ejercicio</Option>
+                        <Option value='colacion1'>Colacion 1</Option>
+                        <Option value='colacion2'>Colación 2</Option>
+                        <Option value='agua'>Agua</Option>
+                    </Select>
+                    <div className='site-calendar-demo-card'>
+                        <RangePicker
+                            onChange={print}
+                            defaultValue={
+                                seleccionado?.fecha && [
+                                    moment(seleccionado.fecha[0]),
+                                    moment(seleccionado.fecha[seleccionado.fecha.length - 1]),
+                                ]
+                            }
+                        />
+                    </div>
+                    <div className='site-calendar-demo-card'>
+                        <h3>Horario</h3>
+                        <TimePicker use12Hours format='HH:mm' onChange={handleTime} />
+                    </div>
+                </Modal>
+            )}
         </div>
     );
 };

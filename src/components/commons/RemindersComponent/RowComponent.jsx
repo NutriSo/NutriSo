@@ -50,8 +50,6 @@ const RowComponent = () => {
         try {
             const { data } = await apiURL.get('/informacionUsuarios');
             setlistUsers(data);
-
-            console.log('hola primer list');
         } catch (error) {
             message.error(`Error: ${error.message}`);
         }
@@ -78,6 +76,7 @@ const RowComponent = () => {
                 global: global,
             };
             const response = await apiURL.post('/recordatorios', reminder);
+            message.success('Recordatorio agregado');
             console.log(response);
         } catch (error) {
             message.error(`Error: ${error.message}`);
