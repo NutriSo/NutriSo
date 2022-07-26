@@ -5,6 +5,7 @@ import { message } from 'antd';
 import dayjs from 'dayjs';
 
 import ButtonsArea from '../../../commons/ButtonsArea';
+import CustomExport from '../../../commons/CustomExport';
 import { baseColumns } from '../data';
 import * as calories from '../data/calories';
 import * as vitamins from '../data/vitamins';
@@ -187,10 +188,10 @@ const Groups = ({ selected = false, setLoading }) => {
             // const cvsRows = generateFinalCsvRows(csvRowsPreview);
 
             console.log('csvRowsPreview', csvRowsPreview);
-            // setExportData(csvRowsPreview);
-            // setTimeout(() => {
-            //     onFileReady();
-            // }, 1000);
+            setExportData(csvRowsPreview);
+            setTimeout(() => {
+                onFileReady();
+            }, 1000);
         } catch (error) {
             handleCancel();
             message.error('Ocurrió un error al armar los datos para exportar');
@@ -200,16 +201,18 @@ const Groups = ({ selected = false, setLoading }) => {
         }
     };
 
-    return (
-        <ButtonsArea
-            fileReady={fileReady}
-            xlsxData={{
-                columns: columns,
-                data: exportData,
-                fileName: `Grupos ${dayjs(new Date()).format('DD-MM-YYYY')}`,
-            }}
-        />
-    );
+    return <CustomExport dataSource={exportData} fileReady={fileReady} />;
+
+    // return (
+    //     <ButtonsArea
+    //         fileReady={fileReady}
+    //         xlsxData={{
+    //             columns: columns,
+    //             data: exportData,
+    //             fileName: `Grupos ${dayjs(new Date()).format('DD-MM-YYYY')}`,
+    //         }}
+    //     />
+    // );
 };
 
 export default Groups;
