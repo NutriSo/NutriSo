@@ -1,12 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { CSVDownload } from 'react-csv';
 
-const CustomExport = ({ dataSource, fileReady }) => {
-    if (!dataSource && !fileReady) return <div />;
-    console.log({ dataSource, fileReady });
+import { isEmptyArray } from '../../../utils';
 
-    return <div />;
-    return <CSVDownload data={dataSource} />;
+const CustomExport = ({ dataSource, columns, fileReady }) => {
+    if (!dataSource && !fileReady) return <div />;
+
+    const [csvData, setCsvData] = useState([]);
+
+    useEffect(() => {
+        if (!dataSource && !fileReady) {
+            return;
+        }
+
+        const data = [...dataSource];
+        data.unshift(columns);
+
+        setCsvData(data);
+    }, []);
+
+    if (isEmptyArray(csvData)) return <div />;
+
+    return <CSVDownload data={csvData} />;
 };
 
 export default CustomExport;
