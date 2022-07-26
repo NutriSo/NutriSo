@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import apiURL from '../../../../axios/axiosConfig';
-import { Form, message, Divider } from 'antd';
+import { Form, message, Divider, Input } from 'antd';
 
 import InputTags from '../../InputTags';
 import Historial from '../../../commons/Historial';
@@ -13,6 +13,9 @@ const Background = ({ id }) => {
     const [patologicos, setPatologicos] = useState([]);
     const [medicamentos, setMedicamentos] = useState([]);
     const [suplementos, setSuplementos] = useState([]);
+    const [comentarios, setComentarios] = useState('');
+
+    const { TextArea } = Input;
 
     const handleRemovePatologicos = (tag) => {
         const newState = patologicos.filter((item) => {
@@ -53,12 +56,14 @@ const Background = ({ id }) => {
                     antecedentesPatologicos,
                     medicamentos,
                     suplementos,
+                    comentarios,
                 } = historiaClinica;
 
                 setFamiliares(antecedentesHeredoFamiliares);
                 setPatologicos(antecedentesPatologicos);
                 setMedicamentos(medicamentos);
                 setSuplementos(suplementos);
+                setComentarios(comentarios);
             }
         } catch (error) {
             console.groupCollapsed('Error en la función antecedentes clínicos');
@@ -73,8 +78,9 @@ const Background = ({ id }) => {
                 historiaClinica: {
                     antecedentesHeredoFamiliares: familiares,
                     antecedentesPatologicos: patologicos,
-                    medicamentos: medicamentos,
-                    suplementos: suplementos,
+                    medicamentos,
+                    suplementos,
+                    comentarios: values.comentarios,
                 },
             };
 
@@ -82,7 +88,7 @@ const Background = ({ id }) => {
                 `historialClinico/individual?usuario=${id}`,
                 body
             );
-
+            console.log(data);
             message.success('Se actualizó correctamente');
         } catch (error) {
             console.groupCollapsed('Error en la función background');
@@ -148,6 +154,18 @@ const Background = ({ id }) => {
                                 <Supplements
                                     source={suplementos}
                                     updateSource={setSuplementos}
+                                />
+                            </Form.Item>
+                        </div>
+                    </div>
+                    <div className='basicInfo-ContainerSocioData'>
+                        <div className='entradasSocioData'>
+                            <Form.Item label='Comentarios' name='comentarios'>
+                                <TextArea
+                                    allowClear
+                                    autoSize
+                                    placeholder={comentarios ?? 'Ingresa comentarios'}
+                                    rows={6}
                                 />
                             </Form.Item>
                         </div>
