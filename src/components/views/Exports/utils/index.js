@@ -1438,34 +1438,14 @@ export const generateFinalCsvRows = (data) => {
         });
     });
 
-    const preFinalRows = [];
-
-    uniqueIds.forEach((id) => {
-        const filteredRows = normalizedKeysToColumnNames.filter(
-            (elem) => elem.idRegistro === id
-        );
-
-        preFinalRows.push(filteredRows);
-    });
-
     const finalRows = [];
-
-    preFinalRows.forEach((elem) => {
-        const { idParticipante, idRegistro, fechaRegistro } = elem[0];
-        let rowToPush = {
-            idParticipante,
-            idRegistro,
-            fechaRegistro,
-        };
-
-        elem.forEach((props) => {
-            const { idParticipante, idRegistro, fechaRegistro, ...rest } = props;
-
-            rowToPush = { ...rowToPush, ...rest };
+    // Acomodar los valores que tiene register por aquellos donde su key coincida en la posición que tiene la misma key la columna.
+    rows.forEach((row) => {
+        row.forEach((register) => {
+            console.log({ register });
         });
-
-        finalRows.push(rowToPush);
     });
+
     return finalRows;
 };
 
