@@ -52,10 +52,10 @@ const Metas = () => {
     }
     const postMetas = async () => {
         const meta = { objetivo, descripcion, categoriaDeSostenibilidad };
-        window.location.reload();
-        console.log(meta);
+
         try {
             const response = await apiURL.post('/Metas', meta);
+            window.location.reload();
         } catch (error) {
             console.error(error);
         }

@@ -5,7 +5,7 @@ import { Tabs, Form, Select } from 'antd';
 import { capitilizeWord } from '../../../../utils';
 import { Rules } from '../../../../utils/formRules';
 
-import './SolarExposition.scss'
+import './SolarExposition.scss';
 
 const SolarExposition = ({ id }) => {
     const [form3] = Form.useForm();
@@ -13,18 +13,17 @@ const SolarExposition = ({ id }) => {
     const [infoExpoSol, setInfoExpoSol] = useState({});
     const [ExpoSolChecBloSolar, setExpoSolCheckBloSolar] = useState({});
 
-
     useEffect(() => {
         getExpoSolar();
 
-        return () => {
-
-        };
+        return () => {};
     }, [id]);
 
     const getExpoSolar = async () => {
         try {
-            const { data, status } = await apiURL.get(`/exposicionSolar/individual?usuario=${id}`);
+            const { data, status } = await apiURL.get(
+                `/exposicionSolar/individual?usuario=${id}`
+            );
 
             if (status === 200 || data.length > 0) {
                 const minutosAlSol = data[0]?.minutosAlSol.map((elem) => elem.valor);
@@ -50,13 +49,20 @@ const SolarExposition = ({ id }) => {
                         fecha: new Date(),
                     },
                     cubresTuPiel: { valor: values.cubresTuPiel, fecha: new Date() },
-                    bloqueadorSolar: ExpoSolChecBloSolar ? 'No' : { valor: values.bloqueadorSolar, fecha: new Date() },
-                    diasXsemana: ExpoSolChecBloSolar ? 'N/A' : { valor: values.diasXsemana, fecha: new Date() },
+                    bloqueadorSolar: ExpoSolChecBloSolar
+                        ? 'No'
+                        : { valor: values.bloqueadorSolar, fecha: new Date() },
+                    diasXsemana: ExpoSolChecBloSolar
+                        ? 'N/A'
+                        : { valor: values.diasXsemana, fecha: new Date() },
                 };
                 console.log('Body', body);
                 console.log('PATCH');
 
-                const { data } = await apiURL.patch(`exposicionSolar/individual?usuario=${id}`, body);
+                const { data } = await apiURL.patch(
+                    `exposicionSolar/individual?usuario=${id}`,
+                    body
+                );
                 console.log(data);
             } else {
                 const body = {
@@ -64,14 +70,23 @@ const SolarExposition = ({ id }) => {
                     minutosAlSol: [{ valor: values.minutosAlSol, fecha: new Date() }],
                     cubresTuPiel: [{ valor: values.cubresTuPiel, fecha: new Date() }],
                     bloqueadorSolar: [
-                        ExpoSolChecBloSolar ? 'No' : { valor: values.bloqueadorSolar, fecha: new Date() },
+                        ExpoSolChecBloSolar
+                            ? 'No'
+                            : { valor: values.bloqueadorSolar, fecha: new Date() },
                     ],
-                    diasXsemana: [ExpoSolChecBloSolar ? 'N/A' : { valor: values.diasXsemana, fecha: new Date() }],
+                    diasXsemana: [
+                        ExpoSolChecBloSolar
+                            ? 'N/A'
+                            : { valor: values.diasXsemana, fecha: new Date() },
+                    ],
                 };
                 console.log('Body', body);
                 console.log('POST');
 
-                const { data } = await apiURL.post(`exposicionSolar/individual?usuario=${id}`, body);
+                const { data } = await apiURL.post(
+                    `exposicionSolar/individual?usuario=${id}`,
+                    body
+                );
                 console.log(data);
             }
         } catch (error) {
@@ -81,14 +96,11 @@ const SolarExposition = ({ id }) => {
         }
     };
 
-
-
     return (
         <div className='basicContainer'>
             <div className='containData'>
                 <h2>Expocición Solar</h2>
                 <Form form={form3} requiredMark={false} onFinish={updateExpoSol}>
-
                     <Form.Item
                         name='minutosAlSol'
                         label='¿Cuántos minutos te expones al sol al día?'
@@ -121,10 +133,12 @@ const SolarExposition = ({ id }) => {
                         name='bloqueadorSolar'
                         label='¿Utilizas bloqueador solar?'
                         className='lb-expoSolSelect'
-                    /*rules={[Rules.basicSpanish]}*/
+                        /*rules={[Rules.basicSpanish]}*/
                     >
                         <Select
-                            onChange={(value) => setExpoSolCheckBloSolar(value === 'No' ? true : false)}
+                            onChange={(value) =>
+                                setExpoSolCheckBloSolar(value === 'No' ? true : false)
+                            }
                             defaultValue={'No'}>
                             <Option value={'Si'}>Si</Option>
                             <Option value={'No'}>No</Option>
@@ -135,7 +149,7 @@ const SolarExposition = ({ id }) => {
                         label='¿Cuántos días a la semana?'
                         name='diasXsemana'
                         className='lb-expoSolSelect'
-                    /*
+                        /*
                     rules={[
                         Rules.basicSpanish,
                     ]}*/
@@ -151,7 +165,6 @@ const SolarExposition = ({ id }) => {
                         </Select>
                     </Form.Item>
 
-
                     <center>
                         <button
                             className='btn-see-circunferencia'
@@ -165,7 +178,6 @@ const SolarExposition = ({ id }) => {
             </div>
         </div>
     );
-
 };
 
 export default SolarExposition;

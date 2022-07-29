@@ -1438,34 +1438,30 @@ export const generateFinalCsvRows = (data) => {
         });
     });
 
-    const preFinalRows = [];
+    const tempRows = [];
 
-    uniqueIds.forEach((id) => {
-        const filteredRows = normalizedKeysToColumnNames.filter(
-            (elem) => elem.idRegistro === id
-        );
+    rows.forEach((row) => {
+        let newRow = [];
+        row.forEach((register) => {
+            const { idParticipante, idRegistro, fechaRegistro } = register;
+            const newRegister = normalizePropsOrder(register);
 
-        preFinalRows.push(filteredRows);
+            if (isEmptyArray(newRow)) {
+                newRow.push(idParticipante, idRegistro, fechaRegistro, newRegister);
+            } else {
+                newRow = [...newRow, newRegister];
+            }
+        });
+        tempRows.push(newRow);
     });
 
     const finalRows = [];
 
-    preFinalRows.forEach((elem) => {
-        const { idParticipante, idRegistro, fechaRegistro } = elem[0];
-        let rowToPush = {
-            idParticipante,
-            idRegistro,
-            fechaRegistro,
-        };
-
-        elem.forEach((props) => {
-            const { idParticipante, idRegistro, fechaRegistro, ...rest } = props;
-
-            rowToPush = { ...rowToPush, ...rest };
-        });
-
-        finalRows.push(rowToPush);
+    tempRows.forEach((elem) => {
+        const row = elem.map((e) => e).reduce((acc, curr) => acc.concat(curr), []);
+        finalRows.push(row);
     });
+
     return finalRows;
 };
 
@@ -1487,4 +1483,202 @@ export const getMaxGroupByReg = (arreglo, callback) => {
         }
     });
     callback(contador);
+};
+
+export const normalizePropsOrder = (data) => {
+    if (isInvalidElem(data)) return '';
+
+    const result = [];
+
+    const {
+        grupoAlimento,
+        energiaKcal,
+        proteina,
+        lipidos,
+        agSaturados,
+        agMonoinsaturados,
+        agPoliinsaturados,
+        colesterol,
+        omega3,
+        omega6,
+        omega9,
+        hidratosDeCarbono,
+        fibra,
+        fibraSoluble,
+        fibraInsoluble,
+        azucar,
+        etanol,
+        tiamina,
+        riboflavina,
+        niacina,
+        acidoPantotenico,
+        piridoxina,
+        biotina,
+        cobalamina,
+        acidoAscorbico,
+        acidoFolico,
+        vitaminaA,
+        vitaminaD,
+        vitaminaK,
+        vitaminaE,
+        calcio,
+        fosforo,
+        hierro,
+        hierroNoHem,
+        hierroTotal,
+        magnesio,
+        sodio,
+        potasio,
+        zinc,
+        selenio,
+        indiceGlicemico,
+        cargaGlicemica,
+        factorDeCorreccionParaHuellaHidricaYEGEI,
+        tipo,
+        lugar,
+        huellaHidricaTotal,
+        huellaHidricaVerde,
+        huellaHidricaAzul,
+        huellaHidricaGris,
+        aguaParaLavado,
+        aguaParaCoccion,
+        lugarEGEI,
+        citaEGEI,
+        huellaDeCarbono,
+        huellaEcologica,
+        usoDeSuelo,
+        energiaFosil,
+        nitrogeno,
+        fosforoAmbiental,
+        puntajeEcologico,
+        precio,
+        lugarDeCompra,
+        lugarDeVenta,
+        fitoquimicos,
+        polifenoles,
+        antocianinas,
+        taninos,
+        isoflavonas,
+        resveratrol,
+        isotiocianatos,
+        carotenoides,
+        betacarotenos,
+        licopeno,
+        luteina,
+        alicina,
+        cafeina,
+        ufc,
+        benzoatoDeSodio,
+        polisorbato,
+        azulBrillanteFCFoE133,
+        azurrubinaOE102,
+        amarilloOcasoFDFoE110,
+        tartrazinaOE102,
+        verdeSoE142,
+        negroBrillanteBNoE151,
+        sucralosa,
+        estevia,
+        sacarina,
+        aspartame,
+        acesulfameK,
+        carboxymethylcellulose,
+        dioxidoDeTitanio,
+        monolauratoDeGlicerol,
+    } = data;
+
+    result.push(grupoAlimento);
+    result.push(energiaKcal);
+    result.push(proteina);
+    result.push(lipidos);
+    result.push(agSaturados);
+    result.push(agMonoinsaturados);
+    result.push(agPoliinsaturados);
+    result.push(colesterol);
+    result.push(omega3);
+    result.push(omega6);
+    result.push(omega9);
+    result.push(hidratosDeCarbono);
+    result.push(fibra);
+    result.push(fibraSoluble);
+    result.push(fibraInsoluble);
+    result.push(azucar);
+    result.push(etanol);
+    result.push(tiamina);
+    result.push(riboflavina);
+    result.push(niacina);
+    result.push(acidoPantotenico);
+    result.push(piridoxina);
+    result.push(biotina);
+    result.push(cobalamina);
+    result.push(acidoAscorbico);
+    result.push(acidoFolico);
+    result.push(vitaminaA);
+    result.push(vitaminaD);
+    result.push(vitaminaK);
+    result.push(vitaminaE);
+    result.push(calcio);
+    result.push(fosforo);
+    result.push(hierro);
+    result.push(hierroNoHem);
+    result.push(hierroTotal);
+    result.push(magnesio);
+    result.push(sodio);
+    result.push(potasio);
+    result.push(zinc);
+    result.push(selenio);
+    result.push(indiceGlicemico);
+    result.push(cargaGlicemica);
+    result.push(factorDeCorreccionParaHuellaHidricaYEGEI);
+    result.push(tipo);
+    result.push(lugar);
+    result.push(huellaHidricaTotal);
+    result.push(huellaHidricaVerde);
+    result.push(huellaHidricaAzul);
+    result.push(huellaHidricaGris);
+    result.push(aguaParaLavado);
+    result.push(aguaParaCoccion);
+    result.push(lugarEGEI);
+    result.push(citaEGEI);
+    result.push(huellaDeCarbono);
+    result.push(huellaEcologica);
+    result.push(usoDeSuelo);
+    result.push(energiaFosil);
+    result.push(nitrogeno);
+    result.push(fosforoAmbiental);
+    result.push(puntajeEcologico);
+    result.push(precio);
+    result.push(lugarDeCompra);
+    result.push(lugarDeVenta);
+    result.push(fitoquimicos);
+    result.push(polifenoles);
+    result.push(antocianinas);
+    result.push(taninos);
+    result.push(isoflavonas);
+    result.push(resveratrol);
+    result.push(isotiocianatos);
+    result.push(carotenoides);
+    result.push(betacarotenos);
+    result.push(licopeno);
+    result.push(luteina);
+    result.push(alicina);
+    result.push(cafeina);
+    result.push(ufc);
+    result.push(benzoatoDeSodio);
+    result.push(polisorbato);
+    result.push(azulBrillanteFCFoE133);
+    result.push(azurrubinaOE102);
+    result.push(amarilloOcasoFDFoE110);
+    result.push(tartrazinaOE102);
+    result.push(verdeSoE142);
+    result.push(negroBrillanteBNoE151);
+    result.push(sucralosa);
+    result.push(estevia);
+    result.push(sacarina);
+    result.push(aspartame);
+    result.push(acesulfameK);
+    result.push(carboxymethylcellulose);
+    result.push(dioxidoDeTitanio);
+    result.push(monolauratoDeGlicerol);
+
+    return result;
 };
