@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Checkbox } from 'antd';
 
-import supplementsInitialState from '../../../data';
-import { isEmptyArray } from '../../../../../../../utils';
+import supplementsInitialState from '@/components/commons/UserUpdate/Background/data';
+import { isEmptyArray } from '@/utils';
 
 const Supplements = ({ source, updateSource }) => {
     const [supplementsChecked, setSupplementsChecked] = useState(supplementsInitialState);

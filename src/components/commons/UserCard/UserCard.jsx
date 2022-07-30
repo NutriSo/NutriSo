@@ -8,10 +8,12 @@ import {
     GlobalOutlined,
 } from '@ant-design/icons';
 
-import { getCurrentAge } from '../../../utils';
+import { getCurrentAge } from '@/utils';
 
 import './User-card.scss';
-const standardAvatar = 'https://res.cloudinary.com/dwjv6orjf/image/upload/v1618875313/standard_avatar_txfgx5.png';
+
+const standardAvatar =
+    'https://res.cloudinary.com/dwjv6orjf/image/upload/v1618875313/standard_avatar_txfgx5.png';
 
 const UserCard = ({ user }) => {
     const isPhotoExist = user?.foto && user.foto !== '';
@@ -24,7 +26,7 @@ const UserCard = ({ user }) => {
             <div className='profile-img-name'>
                 <div className='fondo-img' />
                 <div className='hoyito'></div>
-                
+
                 <div className='profile-img'>
                     <img src={isPhotoExist ? user.foto : standardAvatar} alt='userProfile' />
                 </div>
@@ -57,7 +59,11 @@ const UserCard = ({ user }) => {
                     </div>
                     <div className='genero'>
                         <p className='info-text'>
-                            {user.genero == 'hombre' || user.genero == 'Hombre' ? <ManOutlined /> : <WomanOutlined />}
+                            {user.genero == 'hombre' || user.genero == 'Hombre' ? (
+                                <ManOutlined />
+                            ) : (
+                                <WomanOutlined />
+                            )}
                             &nbsp;
                             {user.genero}
                         </p>

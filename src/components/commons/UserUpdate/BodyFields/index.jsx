@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import apiURL from '../../../../axios/axiosConfig';
+
+import apiURL from '@/axios/axiosConfig';
+import CampoCor from '@/components/commons/Charts/CampoCor';
 
 import Popup from './Popup';
-import CampoCor from '../../Charts/CampoCor';
-
 import './BodyFields.scss';
 
 const BodyFields = ({ id }) => {

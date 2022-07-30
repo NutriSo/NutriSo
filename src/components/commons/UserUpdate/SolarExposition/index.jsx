@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import apiURL from '../../../../axios/axiosConfig';
-import { Tabs, Form, Select } from 'antd';
+import { Form, Select } from 'antd';
 
-import { capitilizeWord } from '../../../../utils';
-import { Rules } from '../../../../utils/formRules';
+import apiURL from '@/axios/axiosConfig';
+import { Rules } from '@/utils/formRules';
 
 import './SolarExposition.scss';
 

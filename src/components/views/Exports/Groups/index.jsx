@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import apiURL from '../../../../axios/axiosConfig';
 
 import { message } from 'antd';
 import dayjs from 'dayjs';
 
-import CustomExport from '../../../commons/CustomExport';
+import apiURL from '@/axios/axiosConfig';
+import { isEmptyArray } from '@/utils';
+import CustomExport from '@/components/commons/CustomExport';
+
 import { baseColumns } from '../data';
 import * as calories from '../data/calories';
 import * as vitamins from '../data/vitamins';
@@ -27,7 +29,6 @@ import {
     generateFinalCsvRows,
     getFinalColumns,
 } from '../utils';
-import { isEmptyArray } from '../../../../utils';
 
 const Groups = ({ selected = false, setLoading }) => {
     const [columns, setColumns] = useState([

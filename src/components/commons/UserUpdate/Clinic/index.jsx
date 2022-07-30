@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import apiURL from '../../../../axios/axiosConfig';
+import React, { useState, useEffect, useRef } from 'react';
 
-import { Form, Input, message } from 'antd';
-import { isEmptyArray } from '../../../../utils';
+import { Form, Input, message, Tooltip } from 'antd';
+
+import apiURL from '@/axios/axiosConfig';
+import { isEmptyArray } from '@/utils';
 
 const initialState = {
     sistolica: {
@@ -20,6 +21,7 @@ const initialState = {
 const Clinic = ({ id }) => {
     const [form] = Form.useForm();
     const [clinic, setClinic] = useState(initialState);
+    // const [tooltip, setTooltip] = useState('');
 
     const fetchData = async () => {
         try {
@@ -34,6 +36,8 @@ const Clinic = ({ id }) => {
                 const lastDiastolica = presionArterialDiastolica.slice(-1)[0];
                 const lastSistolica = presionArterialSistolica.slice(-1)[0];
                 const lastNigricans = acantosisNigricans.slice(-1)[0];
+
+                // setTooltip(presionArterialSistolica.slice(-2)[0].valor);
 
                 setClinic({
                     sistolica: lastSistolica.valor,

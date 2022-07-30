@@ -1,4 +1,4 @@
-import { ADD_AUTHORIZATIONS, SIGN_OUT } from '@/redux/Constants';
+import { ADD_AUTHORIZATIONS, SIGN_OUT } from '../Constants';
 
 export const addAuthorizationAction = (payload) => {
     return {

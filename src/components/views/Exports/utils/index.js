@@ -1,4 +1,4 @@
-import { isEmptyArray, isEmptyObject, isInvalidElem } from '../../../../utils';
+import { isEmptyArray, isEmptyObject, isInvalidElem } from '@/utils';
 import { KG } from '../constants';
 import * as calories from '../data/calories';
 import * as vitamins from '../data/vitamins';

@@ -7,7 +7,7 @@ import {
     EditOutlined,
 } from '@ant-design/icons';
 
-import apiURL from '../../../axios/axiosConfig';
+import apiURL from '@/axios/axiosConfig';
 
 import './Metas.scss';
 

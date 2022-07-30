@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import apiURL from '../../../../axios/axiosConfig';
 
 import { message } from 'antd';
 import dayjs from 'dayjs';
 
-import ButtonsArea from '../../../commons/ButtonsArea';
-import { columns } from './data';
+import apiURL from '@/axios/axiosConfig';
+import ButtonsArea from '@/components/commons/ButtonsArea';
 import {
     capitilizeWord,
     isEmptyString,
@@ -15,7 +14,9 @@ import {
     returnJoinedArrayByKey,
     normalize24HoursTo12Hours,
     isEmptyArray,
-} from '../../../../utils';
+} from '@/utils';
+
+import { columns } from './data';
 
 const Demographics = ({ selected = false, setLoading }) => {
     const [exportData, setExportData] = useState([]);

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import apiURL from '../../../../axios/axiosConfig';
 
 import { message } from 'antd';
 import dayjs from 'dayjs';
 
-import CustomExport from '../../../commons/CustomExport';
+import apiURL from '@/axios/axiosConfig';
+import CustomExport from '@/components/commons/CustomExport';
+import { isEmptyArray } from '@/utils';
+
 import {
     baseColumns,
     caloriasMacronutrientes,
@@ -29,7 +31,6 @@ import {
     generateFinalCsvRows,
     getFinalColumns,
 } from '../utils';
-import { isEmptyArray } from '../../../../utils';
 
 const UltraProcessed = ({ selected = false, setLoading }) => {
     const [columns, setColumns] = useState([

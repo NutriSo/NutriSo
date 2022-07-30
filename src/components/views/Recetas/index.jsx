@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Col, Input, Row, Button, Modal, Select } from 'antd';
-import apiURL from '../../../axios/axiosConfig';
 import { PlusOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 
-import RecipesCard from '../../commons/RecipeCard';
-import UploadImgs from '../../commons/UploadImgs';
-import Loading from '../../commons/Loading';
+import apiURL from '@/axios/axiosConfig';
+import RecipesCard from '@/components/commons/RecipeCard';
+import UploadImgs from '@/components/commons/UploadImgs';
+import Loading from '@/components/commons/Loading';
 
 import './Recetas.scss';
 
@@ -180,7 +180,12 @@ const Recetas = () => {
                     <h1> Recetas </h1>
                 </Col>
                 <Col span={2} style={{ padding: 16 }}>
-                    <Button onClick={showModal} type='primary' shape='circle' icon={<PlusOutlined />} />
+                    <Button
+                        onClick={showModal}
+                        type='primary'
+                        shape='circle'
+                        icon={<PlusOutlined />}
+                    />
                 </Col>
             </Row>
             <div className='grid_recetas'>
@@ -279,7 +284,10 @@ const Recetas = () => {
                             <p>Titulo:</p>
                         </Col>
                         <Col span={18} style={{ padding: 16 }}>
-                            <Input placeholder='Titulo de la Receta' onChange={(e) => setTitulo(e.target.value)} />
+                            <Input
+                                placeholder='Titulo de la Receta'
+                                onChange={(e) => setTitulo(e.target.value)}
+                            />
                         </Col>
                     </Row>
                     <Row>
@@ -307,7 +315,10 @@ const Recetas = () => {
                             <p>URL:</p>
                         </Col>
                         <Col span={18} style={{ padding: 16 }}>
-                            <Input placeholder='URL del video' onChange={(e) => setUrl(e.target.value)} />
+                            <Input
+                                placeholder='URL del video'
+                                onChange={(e) => setUrl(e.target.value)}
+                            />
                         </Col>
                     </Row>
 
@@ -338,7 +349,11 @@ const Recetas = () => {
                         />
                     </Row>
                 </Modal>
-                <Modal title='Editar Receta' visible={isModalActVisible} onCancel={handleCancelAct} onOk={handleOkAct}>
+                <Modal
+                    title='Editar Receta'
+                    visible={isModalActVisible}
+                    onCancel={handleCancelAct}
+                    onOk={handleOkAct}>
                     <UploadImgs onChange={handleUploadImg} url={foto ?? ''} />
                     <Row>
                         <Col span={6} style={{ padding: 16 }}>
@@ -376,7 +391,11 @@ const Recetas = () => {
                             <p>URL:</p>
                         </Col>
                         <Col span={18} style={{ padding: 16 }}>
-                            <Input value={url} placeholder='URL del video' onChange={(e) => setUrl(e.target.value)} />
+                            <Input
+                                value={url}
+                                placeholder='URL del video'
+                                onChange={(e) => setUrl(e.target.value)}
+                            />
                         </Col>
                     </Row>
                     <Row>

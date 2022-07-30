@@ -1,16 +1,17 @@
 import { useState } from 'react';
 
-import apiURL from '../../../axios/axiosConfig';
 import { message, Form } from 'antd';
 
-import IconsComponent from '../../commons/FoodComponents/IconsComponent.jsx';
-import PropertiesComponent from '../../commons/FoodComponents/PropertiesComponent';
-import Consulta from '../../commons/FoodComponents/Consulta.jsx';
-import Loading from '../../commons/Loading';
-
-import { getSku } from '../../../services';
-import { isEmptyObject } from '../../../utils';
-import { generateIconsDTO, generateFormDTO } from '../../commons/FoodComponents/data/dto';
+import apiURL from '@/axios/axiosConfig';
+import IconsComponent from '@/components/commons/FoodComponents/IconsComponent.jsx';
+import PropertiesComponent from '@/components/commons/FoodComponents/PropertiesComponent';
+import Consulta from '@/components/commons/FoodComponents/Consulta.jsx';
+import Loading from '@/components/commons/Loading';
+import { isEmptyObject } from '@/utils';
+import {
+    generateIconsDTO,
+    generateFormDTO,
+} from '@/components/commons/FoodComponents/data/dto';
 
 import './Alimentos.scss';
 

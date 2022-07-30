@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import apiURL from '../../../../axios/axiosConfig';
 import { Form, message, Divider, Input } from 'antd';
 
-import InputTags from '../../InputTags';
-import Historial from '../../../commons/Historial';
+import apiURL from '@/axios/axiosConfig';
+import InputTags from '@/components/commons/InputTags';
+import Historial from '@/components/commons/Historial';
+import { isEmptyObject, isEmptyString } from '@/utils';
+
 import Supplements from './components/molecules/Supplements';
-import { isEmptyObject, isEmptyString } from '../../../../utils';
 
 const Background = ({ id }) => {
     const [form] = Form.useForm();
