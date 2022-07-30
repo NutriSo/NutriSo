@@ -8,13 +8,19 @@ import React, { useState, useEffect } from 'react';
 import Chart from 'chart.js/auto';
 import { Line } from 'react-chartjs-2';
 
-import { stringArrayToNumberArray, returnLabelsByChart } from '../../../../utils';
+import { stringArrayToNumberArray, returnDateLabelByChat } from '@/utils';
 
 const EstadoGeneral = ({ data }) => {
-    const [ chartData, setChartData ] = useState(initalData);
+    const [chartData, setChartData] = useState(initalData);
 
     useEffect(() => {
-        if (data?.muchoCansancio && data?.mareos && data?.muchaSed && data?.muchasGanasDeOrinar && data?.muchaHambre) {
+        if (
+            data?.muchoCansancio &&
+            data?.mareos &&
+            data?.muchaSed &&
+            data?.muchasGanasDeOrinar &&
+            data?.muchaHambre
+        ) {
             const muchoCansancio = stringArrayToNumberArray(data?.muchoCansancio);
             const mareos = stringArrayToNumberArray(data?.mareos);
             const muchaSed = stringArrayToNumberArray(data?.muchaSed);
@@ -23,26 +29,29 @@ const EstadoGeneral = ({ data }) => {
 
             setChartData({
                 ...chartData,
-                labels: returnLabelsByChart([ 'Cansancio', 'Mareo', 'Sed', 'Ganas de Orinar', 'Hambre'], muchoCansancio.length / 2),
+                labels: returnLabelsByChart(
+                    ['Cansancio', 'Mareo', 'Sed', 'Ganas de Orinar', 'Hambre'],
+                    muchoCansancio.length / 2
+                ),
                 datasets: [
                     {
-                        ...chartData?.datasets[ 0 ],
+                        ...chartData?.datasets[0],
                         data: muchoCansancio,
                     },
                     {
-                        ...chartData?.datasets[ 1 ],
+                        ...chartData?.datasets[1],
                         data: mareos,
                     },
                     {
-                        ...chartData?.datasets[ 2 ],
+                        ...chartData?.datasets[2],
                         data: muchaSed,
                     },
                     {
-                        ...chartData?.datasets[ 3 ],
+                        ...chartData?.datasets[3],
                         data: muchasGanasDeOrinar,
                     },
                     {
-                        ...chartData?.datasets[ 4 ],
+                        ...chartData?.datasets[4],
                         data: muchaHambre,
                     },
                 ],
@@ -51,7 +60,13 @@ const EstadoGeneral = ({ data }) => {
         return () => {
             setChartData({});
         };
-    }, [ data?.muchoCansancio && data?.mareos && data?.muchaSed && data?.muchasGanasDeOrinar && data?.muchaHambre]);
+    }, [
+        data?.muchoCansancio &&
+            data?.mareos &&
+            data?.muchaSed &&
+            data?.muchasGanasDeOrinar &&
+            data?.muchaHambre,
+    ]);
 
     return (
         <Line
@@ -77,7 +92,7 @@ const EstadoGeneral = ({ data }) => {
 export default EstadoGeneral;
 
 export const initalData = {
-    labels: [ 'Cansancio', 'Mareo', 'Sed', 'Ganas de Orinar', 'Hambre'],
+    labels: ['Cansancio', 'Mareo', 'Sed', 'Ganas de Orinar', 'Hambre'],
     datasets: [
         {
             label: 'Cansancio',

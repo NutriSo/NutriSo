@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 
-import { exportXlsx } from '../../../utils/exportXlsx';
-
 import { Button } from 'antd';
+
+import { exportXlsx } from '@/utils/exportXlsx';
 
 const ButtonsArea = ({ xlsxData, fileReady }) => {
     useEffect(() => {

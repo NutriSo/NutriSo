@@ -1,4 +1,4 @@
-import apiURL from '../axios/axiosConfig';
+import apiURL from '@/axios/axiosConfig';
 
 export const getSku = async () => {
     try {

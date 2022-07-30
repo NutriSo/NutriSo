@@ -8,16 +8,20 @@ import React, { useState, useEffect } from 'react';
 import Chart from 'chart.js/auto';
 import { Line } from 'react-chartjs-2';
 
-import { stringArrayToNumberArray, returnDateLabelByChat } from '../../../../utils';
+import { stringArrayToNumberArray, returnDateLabelByChat } from '@/utils';
 
 const PesoEstatura = ({ data, dates, option = 1 }) => {
-    const [ chartData, setChartData ] = useState(option === 1 ? initialData2 : initialData1);
+    const [chartData, setChartData] = useState(option === 1 ? initialData2 : initialData1);
 
     useEffect(() => {
         if (data?.peso && data?.altura) {
             const peso = stringArrayToNumberArray(data?.peso);
             const altura = stringArrayToNumberArray(data?.altura);
-            const labels = returnDateLabelByChat([ new Date().toString() ], dates.length, dates);
+            const labels = returnDateLabelByChat(
+                [new Date().toString()],
+                dates.length,
+                dates
+            );
 
             if (option === 1) {
                 setChartData({
@@ -46,7 +50,7 @@ const PesoEstatura = ({ data, dates, option = 1 }) => {
         return () => {
             setChartData({});
         };
-    }, [ data?.peso, data?.altura ]);
+    }, [data?.peso, data?.altura]);
 
     return (
         <Line
@@ -72,7 +76,7 @@ const PesoEstatura = ({ data, dates, option = 1 }) => {
 export default PesoEstatura;
 
 export const initialData1 = {
-    labels: [ 'Altura' ],
+    labels: ['Altura'],
     datasets: [
         {
             label: 'Altura',
@@ -87,7 +91,7 @@ export const initialData1 = {
 };
 
 export const initialData2 = {
-    labels: [ 'Peso' ],
+    labels: ['Peso'],
     datasets: [
         {
             label: 'Peso',

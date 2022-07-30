@@ -1,5 +1,5 @@
-import DataLayout from '../components/layouts/DataLayout';
-import Food from '../components/views/Food';
+import DataLayout from '@/components/layouts/DataLayout';
+import Food from '@/components/views/Food';
 
 const Index = () => {
     return (

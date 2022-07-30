@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { CSVDownload } from 'react-csv';
 
-import { isEmptyArray } from '../../../utils';
+import { isEmptyArray } from '@/utils';
 
 const CustomExport = ({ dataSource, columns, fileReady, fileName }) => {
     if (!dataSource && !fileReady) return <div />;

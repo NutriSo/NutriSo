@@ -13,9 +13,8 @@ const PathRoutes = () => {
     return (
         <HashRouter>
             <Switch>
-                {(isLoggedIn && (
-                    <Route path={'/'} component={PrincipalRoutes} />
-                )) || (
+                {isLoggedIn && <Route path={'/'} component={PrincipalRoutes} />}
+                {!isLoggedIn && (
                     <>
                         <Redirect to={Routes.Login} />
                         <Route exact path={Routes.Login} component={Login} />

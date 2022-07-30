@@ -1,11 +1,10 @@
 import { useState } from 'react';
 
 import { PlusCircleTwoTone } from '@ant-design/icons';
-import { Modal, Button } from 'antd';
+import { Modal } from 'antd';
 
 import Props from './Props';
 import Tags from './Tags';
-import { generateFormDTO } from './data/dto';
 
 const PropertiesComponent = ({
     data,
