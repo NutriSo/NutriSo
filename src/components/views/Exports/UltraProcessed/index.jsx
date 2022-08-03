@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import apiURL from '../../../../axios/axiosConfig';
 
 import { message } from 'antd';
 import dayjs from 'dayjs';
 
-import ButtonsArea from '../../../commons/ButtonsArea';
+import apiURL from '@/axios/axiosConfig';
+import CustomExport from '@/components/commons/CustomExport';
+import { isEmptyArray } from '@/utils';
+
 import {
     baseColumns,
     caloriasMacronutrientes,
@@ -26,8 +28,9 @@ import {
     getRowValues,
     generateCsvRows,
     unifyGroups,
+    generateFinalCsvRows,
+    getFinalColumns,
 } from '../utils';
-import { isEmptyArray } from '../../../../utils';
 
 const UltraProcessed = ({ selected = false, setLoading }) => {
     const [columns, setColumns] = useState([
@@ -158,8 +161,11 @@ const UltraProcessed = ({ selected = false, setLoading }) => {
             }
 
             const csvRowsPreview = generateCsvRows(unified, 3);
+            const cvsRows = generateFinalCsvRows(csvRowsPreview);
+            const finalColumns = getFinalColumns(columns, csvRowsPreview);
 
-            setExportData(csvRowsPreview);
+            setColumns(finalColumns);
+            setExportData(cvsRows);
             setTimeout(() => {
                 onFileReady();
             }, 1000);
@@ -173,13 +179,11 @@ const UltraProcessed = ({ selected = false, setLoading }) => {
     };
 
     return (
-        <ButtonsArea
+        <CustomExport
+            dataSource={exportData}
+            columns={columns}
             fileReady={fileReady}
-            xlsxData={{
-                columns: columns,
-                data: exportData,
-                fileName: `Ultra-Procesados ${dayjs(new Date()).format('DD-MM-YYYY')}`,
-            }}
+            fileName={`Ultra-Procesados ${dayjs(new Date()).format('DD-MM-YYYY')}`}
         />
     );
 };

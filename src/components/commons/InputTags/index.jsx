@@ -1,10 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import classnames from 'classnames';
-
 import { Input, Tag } from 'antd';
 
-import { capitilizeWord, isEmptyString } from '../../../utils';
-
+import { capitilizeWord, isEmptyString } from '@/utils';
 import styles from './InputTags.modules.scss';
 
 const InputTags = ({ source, onUpdateOptions, onRemoveTag }) => {
@@ -32,11 +30,19 @@ const InputTags = ({ source, onUpdateOptions, onRemoveTag }) => {
                 ref={inputRef}
                 onPressEnter={handleAddTag}
             />
-            {source?.map((option, index) => (
-                <Tag key={index} color='#439776' closable onClose={() => onRemoveTag(option)}>
-                    {option}
-                </Tag>
-            ))}
+            {source?.map((option, index) => {
+                if (!isEmptyString(option)) {
+                    return (
+                        <Tag
+                            key={index}
+                            color='#439776'
+                            closable
+                            onClose={() => onRemoveTag(option)}>
+                            {option}
+                        </Tag>
+                    );
+                }
+            })}
         </div>
     );
 };

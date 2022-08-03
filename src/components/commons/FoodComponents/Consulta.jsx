@@ -1,15 +1,15 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
 
-import apiURL from '../../../axios/axiosConfig';
 import InfiniteScroll from 'react-infinite-scroller';
 import { message, Button } from 'antd';
 import dayjs from 'dayjs';
 
-import ButtonsArea from '../ButtonsArea';
-import AddFood from '../../views/addfood/AddFoodModal/AddFoodModal';
-import Loading from '../../commons/Loading';
-import { returnArrayToString } from '../../../utils';
-import { columns } from './data/formData';
+import apiURL from '@/axios/axiosConfig';
+import ButtonsArea from '@/components/commons/ButtonsArea';
+import AddFood from '@/components/views/addfood/AddFoodModal/AddFoodModal';
+import Loading from '@/components/commons/Loading';
+import { returnArrayToString } from '@/utils';
+import { columns } from '@/components/commons/FoodComponents/data/formData';
 
 import styles from './Consulta.module.scss';
 

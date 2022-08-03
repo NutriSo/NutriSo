@@ -8,10 +8,10 @@ import React, { useState, useEffect } from 'react';
 import Chart from 'chart.js/auto';
 import { Line } from 'react-chartjs-2';
 
-import { stringArrayToNumberArray, returnLabelsByChart, returnDateLabelByChat } from '../../../../utils';
+import { stringArrayToNumberArray, returnDateLabelByChat } from '@/utils';
 
 const CampoCor = ({ data, dates }) => {
-    const [ chartData, setChartData ] = useState(initalData);
+    const [chartData, setChartData] = useState(initalData);
 
     useEffect(() => {
         if (data?.grasas && Array.isArray(data.grasas)) {
@@ -23,7 +23,11 @@ const CampoCor = ({ data, dates }) => {
             const tasaMetabolica = stringArrayToNumberArray(data?.tasaMetabolica);
             const edadMetabolica = stringArrayToNumberArray(data?.edadMetabolica);
 
-            const labels = returnDateLabelByChat([ new Date().toString() ], dates?.length, dates);
+            const labels = returnDateLabelByChat(
+                [new Date().toString()],
+                dates?.length,
+                dates
+            );
 
             setChartData({
                 ...chartData,
@@ -63,7 +67,15 @@ const CampoCor = ({ data, dates }) => {
         return () => {
             setChartData({});
         };
-    }, [ data?.porcentGrasa, data?.porcentMasa, data?.porcentAgua, data?.densidadOsea, data?.grasaVisceral, data?.tasaMetabolica, data?.edadMetabolica ]);
+    }, [
+        data?.porcentGrasa,
+        data?.porcentMasa,
+        data?.porcentAgua,
+        data?.densidadOsea,
+        data?.grasaVisceral,
+        data?.tasaMetabolica,
+        data?.edadMetabolica,
+    ]);
 
     return (
         <Line
@@ -89,7 +101,15 @@ const CampoCor = ({ data, dates }) => {
 export default CampoCor;
 
 export const initalData = {
-    labels: [ 'Grasa', 'Masa', 'Agua', 'Densidad Ósea', 'Grasa Visceral', 'Tasa Metabólica', 'Edad Metabólica' ],
+    labels: [
+        'Grasa',
+        'Masa',
+        'Agua',
+        'Densidad Ósea',
+        'Grasa Visceral',
+        'Tasa Metabólica',
+        'Edad Metabólica',
+    ],
     datasets: [
         {
             label: 'Grasa',

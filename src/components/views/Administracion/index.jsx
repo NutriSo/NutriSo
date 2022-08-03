@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Switch, message, Input, Button, Form } from 'antd';
 
-import UploadImg from '../../commons/UploadImgs';
-import apiURL from '../../../axios/axiosConfig';
-import Slider from '../../commons/Slider';
-import settings from './settings';
+import UploadImg from '@/components/commons/UploadImgs';
+import apiURL from '@/axios/axiosConfig';
+import Slider from '@/components/commons/Slider';
 
+import settings from './settings';
 import './Administracion.scss';
 
 const Administracion = () => {

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import apiURL from '../../../../axios/axiosConfig';
 import { Tabs } from 'antd';
 
-import PesoEstatura from '../../Charts/PesoEstatura';
+import apiURL from '@/axios/axiosConfig';
+import PesoEstatura from '@/components/commons/Charts/PesoEstatura';
 
 import './Weight.scss';
 
@@ -23,7 +23,7 @@ const Weight = ({ id }) => {
     const fetchData = async () => {
         try {
             const { data } = await apiURL.get(`datosUsuarios/individual?usuario=${id}`);
-            console.log(data);
+
             if (data.length > 0) {
                 const datesPeso = data[0].registroPeso;
 
@@ -41,17 +41,24 @@ const Weight = ({ id }) => {
     };
 
     return (
-        <div className='basicContainer'>{/*containerCircunferencia,   basicInfo-Title, circunferencia-Container3*/}
+        <div className='basicContainer'>
+            {/*containerCircunferencia,   basicInfo-Title, circunferencia-Container3*/}
             <div className='containData'>
                 <h2>Peso</h2>
                 <div className='basicInfo-Container-Slide'>
                     <Tabs defaultActiveKey='peso'>
                         <TabPane tab='Peso' key='peso'>
-                            {dates?.peso?.length > 0 && <PesoEstatura data={weightData} dates={dates.peso} />}
+                            {dates?.peso?.length > 0 && (
+                                <PesoEstatura data={weightData} dates={dates.peso} />
+                            )}
                         </TabPane>
                         <TabPane tab='Altura' key='altura'>
                             {dates?.estatura?.length > 0 && (
-                                <PesoEstatura data={weightData} dates={dates.estatura} option={2} />
+                                <PesoEstatura
+                                    data={weightData}
+                                    dates={dates.estatura}
+                                    option={2}
+                                />
                             )}
                         </TabPane>
                     </Tabs>

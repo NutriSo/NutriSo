@@ -81,7 +81,7 @@ export const isInvalidElem = (elem) => {
 };
 
 export const isEmptyArray = (arr) => {
-    if (!Array.isArray(arr) || isInvalidElem(arr)) return true;
+    if (isInvalidElem(arr) || !Array.isArray(arr)) return true;
 
     return arr.length === 0;
 };

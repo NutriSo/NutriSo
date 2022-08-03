@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { message } from 'antd';
-import apiURL from '../../../axios/axiosConfig';
-import '../../commons/RemindersComponent/RowComponent';
+import React, { useState } from 'react';
+
+import RowComponent from '@/components/commons/RemindersComponent/RowComponent';
+import CardsComponent from '@/components/commons/RemindersComponent/CardsComponent';
 
 import './reminders.scss';
-import RowComponent from '../../commons/RemindersComponent/RowComponent';
-import CardsComponent from '../../commons/RemindersComponent/CardsComponent';
+import '../../commons/RemindersComponent/RowComponent';
 
 const Reminders = () => {
     const [data, setData] = useState([]);

@@ -1,12 +1,12 @@
-import DataLayout from '../components/layouts/DataLayout';
-import Home from '../components/views/Home';
+import DataLayout from '@/components/layouts/DataLayout';
+import Home from '@/components/views/Home';
 
 const Index = () => {
-  return (
-    <DataLayout>
-      <Home />
-    </DataLayout>
-  );
+    return (
+        <DataLayout>
+            <Home />
+        </DataLayout>
+    );
 };
 
 export default Index;

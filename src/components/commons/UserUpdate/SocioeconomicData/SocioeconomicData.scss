@@ -1,4 +1,4 @@
-.basicInfo-ContainerSocioData{
+.basicInfo-ContainerSocioData {
     display: flex;
     background-color: rgba(251, 251, 26, 0);
     flex-wrap: wrap;
@@ -10,9 +10,17 @@
     display: flex;
     flex-grow: 1;
     flex-direction: column;
+    width: 100%;
 }
 
 .id-nameSocioData {
     font-weight: 600;
     font-size: 1rem;
+}
+
+.socioContainer {
+    .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+        border: 1px solid #000000 !important;
+        border-radius: 5px !important;
+    }
 }

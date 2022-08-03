@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import apiURL from '../../../../axios/axiosConfig';
 import { Form, message, Select } from 'antd';
 
-import { Rules } from '../../../../utils/formRules';
-import mocks from '../../../../mocks/estadisticasUsuario';
+import apiURL from '@/axios/axiosConfig';
+import mocks from '@/mocks/estadisticasUsuario';
 
 import './SocioeconomicData.scss';
 
@@ -108,7 +107,7 @@ const SocioeconomicData = ({ id }) => {
     };
 
     return (
-        <div className='basicContainer'>
+        <div className='basicContainer socioContainer'>
             <div className='containData'>
                 <h2>Datos Socioeconomicos</h2>
                 <Form

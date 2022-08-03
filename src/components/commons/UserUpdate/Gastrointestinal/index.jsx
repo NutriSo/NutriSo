@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import apiURL from '../../../../axios/axiosConfig';
-import { Tabs, Form, Select, message } from 'antd';
+import { Form, Select, message } from 'antd';
 
-import { capitilizeWord } from '../../../../utils';
-import { Rules } from '../../../../utils/formRules';
-import { isEmptyArray } from '../../../../utils';
-import mocks from '../../../../mocks/estadisticasUsuario';
+import apiURL from '@/axios/axiosConfig';
+import { isEmptyArray } from '@/utils';
+import mocks from '@/mocks/estadisticasUsuario';
 
 import './Gastrointestinal.scss';
 
@@ -29,7 +27,7 @@ const Gastrointestinal = ({ id }) => {
             const { data, status } = await apiURL.get(
                 `/gastroIntestinales/individual?usuario=${id}`
             );
-            console.log(data);
+
             if (status === 200 || data.length > 0) {
                 const inflamacionAbdominal = data?.inflamacionAbdominal;
                 const diarrea = data?.diarrea;

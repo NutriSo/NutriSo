@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { useDispatch } from 'react-redux';
-import { signOutAction } from '../../../redux/actions/authorizationAction';
-
 import { Menu } from 'antd';
 import {
     HomeOutlined,
@@ -18,7 +16,9 @@ import {
     YoutubeOutlined,
     SettingOutlined,
 } from '@ant-design/icons';
-import Routes from '../../../routes/routes';
+
+import { signOutAction } from '@/redux/actions/authorizationAction';
+import Routes from '@/routes/routes';
 
 import './SideMenu.scss';
 
@@ -82,9 +82,7 @@ const SideMenu = () => {
             <Menu.Item
                 key={`${Routes.Imports}/${Routes.Alimentos}`}
                 icon={<CloudUploadOutlined />}
-                onClick={() =>
-                    handleHistory(`${Routes.Imports}/${Routes.Alimentos}`)
-                }>
+                onClick={() => handleHistory(`${Routes.Imports}/${Routes.Alimentos}`)}>
                 Importar alimentos
             </Menu.Item>
             <Menu.Item

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import apiURL from '../../../../axios/axiosConfig';
 
 import { message } from 'antd';
 import dayjs from 'dayjs';
 
-import ButtonsArea from '../../../commons/ButtonsArea';
+import apiURL from '@/axios/axiosConfig';
+import ButtonsArea from '@/components/commons/ButtonsArea';
+
 import { columns } from './data';
 import { KG } from '../constants';
 

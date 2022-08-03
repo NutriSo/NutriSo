@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import apiURL from '../../../../axios/axiosConfig';
-import { Tabs } from 'antd';
+
+import apiURL from '@/axios/axiosConfig';
+import Circunferencia from '@/components/commons/Charts/Circunferencia';
+
 import Popup from './Popup';
-
-import Circunferencia from '../../Charts/Circunferencia';
-
 import './Circumference.scss';
 
 const Circumference = ({ id }) => {
@@ -15,7 +14,6 @@ const Circumference = ({ id }) => {
     });
     const [cinturaEntry, setCinturaEn] = useState(-1);
     const [caderaEntry, setCaderaEn] = useState(-1);
-
 
     useEffect(() => {
         getCircunferencias();
@@ -39,7 +37,9 @@ const Circumference = ({ id }) => {
 
     const getCircunferencias = async () => {
         try {
-            const { data, status } = await apiURL.get(`/extrasCircunferencia/individual?usuario=${id}`);
+            const { data, status } = await apiURL.get(
+                `/extrasCircunferencia/individual?usuario=${id}`
+            );
 
             if (status === 200 || data.length > 0) {
                 const cadera = data[0].cadera.map((elem) => elem.valor);
@@ -73,7 +73,10 @@ const Circumference = ({ id }) => {
                         cadera: { fecha: new Date(), valor: caderaEntry },
                     };
 
-                    const cin = await apiURL.post(`/extrasCircunferencia/individual?usuario=${id}`, body);
+                    const cin = await apiURL.post(
+                        `/extrasCircunferencia/individual?usuario=${id}`,
+                        body
+                    );
                     console.log(cin);
                 } catch (error) {
                     console.groupCollapsed('Error en la funcion updateCintura');
@@ -87,7 +90,10 @@ const Circumference = ({ id }) => {
                         cadera: { fecha: new Date(), valor: caderaEntry },
                     };
 
-                    const cin = await apiURL.patch(`/extrasCircunferencia/individual?usuario=${id}`, body);
+                    const cin = await apiURL.patch(
+                        `/extrasCircunferencia/individual?usuario=${id}`,
+                        body
+                    );
                     console.log(cin);
                 } catch (error) {
                     console.groupCollapsed('Error en la funcion updateCintura');
@@ -109,21 +115,26 @@ const Circumference = ({ id }) => {
         setIsOpenError(false);
     };
 
-
     return (
         <>
-            <div className='basicContainer'> {/**containerCircunferencia, basicInfo-Title */}
+            <div className='basicContainer'>
+                {' '}
+                {/**containerCircunferencia, basicInfo-Title */}
                 <div className='containData'>
                     <h2>Circunferencia</h2>
-                    <div className='basicInfo-Container-Slide'> {/** No se le aplica el Slide porque es un canvas puedo quitar el Slide de aqui */}
+                    <div className='basicInfo-Container-Slide'>
+                        {' '}
+                        {/** No se le aplica el Slide porque es un canvas puedo quitar el Slide de aqui */}
                         {infoCircunferencia?.cintura?.length > 0 && (
-                            <Circunferencia data={infoCircunferencia} dates={circunferenciaDates.cadera} />
+                            <Circunferencia
+                                data={infoCircunferencia}
+                                dates={circunferenciaDates.cadera}
+                            />
                         )}
                     </div>
-                </div>            
+                </div>
             </div>
 
-            {/*PopUpAgregarCircunferencia----------------------------------------------------------------*/}
             <div className='basicContainer'>
                 <input
                     type='button'
@@ -135,13 +146,17 @@ const Circumference = ({ id }) => {
                     <Popup
                         content={
                             <>
-                                <strong><p id='popTitle'>Agregando un nuevo valor</p></strong>
+                                <strong>
+                                    <p id='popTitle'>Agregando un nuevo valor</p>
+                                </strong>
                                 <div className='basicInfo-Container'>
                                     <div className='entradas'>
-                                        <div className="labels">
-                                            <label className='label-circunferencia'>Cintura:</label>
+                                        <div className='labels'>
+                                            <label className='label-circunferencia'>
+                                                Cintura:
+                                            </label>
                                         </div>
-                                        <div className="inputs">
+                                        <div className='inputs'>
                                             <input
                                                 className='lb-name'
                                                 type='number'
@@ -153,11 +168,13 @@ const Circumference = ({ id }) => {
                                                 }></input>
                                         </div>
                                     </div>
-                                    <div className="entradas">
-                                        <div className="labels">
-                                            <label className='label-circunferencia'>Cadera:</label>
+                                    <div className='entradas'>
+                                        <div className='labels'>
+                                            <label className='label-circunferencia'>
+                                                Cadera:
+                                            </label>
                                         </div>
-                                        <div className="inputs">
+                                        <div className='inputs'>
                                             <input
                                                 className='lb-name'
                                                 type='number'
@@ -169,8 +186,8 @@ const Circumference = ({ id }) => {
                                                 }></input>
                                         </div>
                                     </div>
-                                </div>                                
-                                
+                                </div>
+
                                 <br />
                                 <button
                                     className='btn-see-circunferencia'
@@ -190,20 +207,26 @@ const Circumference = ({ id }) => {
                 <Popup
                     content={
                         <>
-                            <strong><p>Error</p></strong>
-                            <center><p>Porfavor ingrese todos los campos para guardar</p></center>
+                            <strong>
+                                <p>Error</p>
+                            </strong>
+                            <center>
+                                <p>Porfavor ingrese todos los campos para guardar</p>
+                            </center>
 
-                            <button className='btn-see-circunferencia' onClick={closeError} value='Add'>
+                            <button
+                                className='btn-see-circunferencia'
+                                onClick={closeError}
+                                value='Add'>
                                 Ok
                             </button>
                         </>
                     }
                     handleClose={togglePopupError}
                 />
-            )}            
+            )}
         </>
     );
-
 };
 
 export default Circumference;

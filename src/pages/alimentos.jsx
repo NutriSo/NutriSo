@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react';
 
-import DataLayout from "../components/layouts/DataLayout";
-import Alimentos from  "../components/views/Alimentos"
+import DataLayout from '@/components/layouts/DataLayout';
+import Alimentos from '@/components/views/Alimentos';
 
 const Index = () => {
     return (
         <DataLayout>
-            <Alimentos/>
+            <Alimentos />
         </DataLayout>
     );
 };

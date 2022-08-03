@@ -1,13 +1,13 @@
 import { React, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import apiURL from '../../../axios/axiosConfig';
-import Routes from '../../../routes/routes';
 
 import { useSelector } from 'react-redux';
 import { Row, message } from 'antd';
 
-import UserCard from '../../commons/UserCard/UserCard';
-import Loading from '../../commons/Loading';
+import apiURL from '@/axios/axiosConfig';
+import Routes from '@/routes/routes';
+import UserCard from '@/components/commons/UserCard/UserCard';
+import Loading from '@/components/commons/Loading';
 
 import './index.scss';
 
