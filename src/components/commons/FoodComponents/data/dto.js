@@ -1,7 +1,6 @@
-import { isEmptyObject, isInvalidElem } from '../../../../utils';
+import { isEmptyObject, isInvalidElem } from '@/utils';
 
 export const generateFormDTO = (data) => {
-    //console.log(data)
     if (isInvalidElem(data) || Array.isArray(data)) return [];
 
     const {

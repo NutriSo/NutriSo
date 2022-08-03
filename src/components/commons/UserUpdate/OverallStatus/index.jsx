@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import apiURL from '../../../../axios/axiosConfig';
 import { Form, message, Select } from 'antd';
 
-import { capitilizeWord } from '../../../../utils';
-import { Rules } from '../../../../utils/formRules';
-import mocks from '../../../../mocks/estadisticasUsuario';
+import apiURL from '@/axios/axiosConfig';
+import { Rules } from '@/utils/formRules';
+import mocks from '@/mocks/estadisticasUsuario';
 
 import './OverallStatus.scss';
 

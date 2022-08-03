@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import classnames from 'classnames';
 import { Input, Tag } from 'antd';
 
-import { capitilizeWord, isEmptyString } from '../../../utils';
+import { capitilizeWord, isEmptyString } from '@/utils';
 import styles from './InputTags.modules.scss';
 
 const InputTags = ({ source, onUpdateOptions, onRemoveTag }) => {

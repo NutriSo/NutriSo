@@ -1,11 +1,8 @@
 import React from 'react';
 
 import * as XLSX from 'xlsx';
-
 import { Modal } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
-
-import DataLayout from '../../layouts/DataLayout';
 
 import './ImportData.scss';
 
@@ -38,15 +35,12 @@ const UploadXlsx = ({ setData, onSuccess }) => {
                 reader.onload = (e) => {
                     const data = e.target.result;
                     const workbook = XLSX.read(data, { type: 'buffer' });
-                    const firstWorksheet =
-                        workbook.Sheets[workbook.SheetNames[0]];
+                    const firstWorksheet = workbook.Sheets[workbook.SheetNames[0]];
                     const dataTable = XLSX.utils.sheet_to_json(firstWorksheet);
                     if (dataTable.length) {
                         resolve(dataTable);
                     }
-                    reject(
-                        'No se detectó ninguna hoja válida, revisa el documento.'
-                    );
+                    reject('No se detectó ninguna hoja válida, revisa el documento.');
                 };
             } catch (error) {
                 reject('No se pudo cargar el archivo, revisa el formato.');

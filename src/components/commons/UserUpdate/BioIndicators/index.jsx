@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import apiURL from '../../../../axios/axiosConfig';
 import { Form, message } from 'antd';
+
+import apiURL from '@/axios/axiosConfig';
+import IndicadoresBio from '@/components/commons/Charts/IndicadoresBio';
+import { Rules } from '@/utils/formRules';
+
 import Popup from './Popup';
-
-import IndicadoresBio from '../../Charts/IndicadoresBio';
-
-import { capitilizeWord } from '../../../../utils';
-import { Rules } from '../../../../utils/formRules';
-
 import './BioIndicators.scss';
 
 const BioIndicators = ({ id }) => {

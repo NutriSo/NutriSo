@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import apiURL from '../../../../axios/axiosConfig';
 import { Tabs } from 'antd';
 
-import PesoEstatura from '../../Charts/PesoEstatura';
+import apiURL from '@/axios/axiosConfig';
+import PesoEstatura from '@/components/commons/Charts/PesoEstatura';
 
 import './Weight.scss';
 

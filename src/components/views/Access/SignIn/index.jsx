@@ -2,12 +2,12 @@ import React from 'react';
 
 import { Form, Row, Input, Button, message } from 'antd';
 
-import apiURL from '../../../../axios/axiosConfig';
+import apiURL from '@/axios/axiosConfig';
 
 import '../Login.scss';
 
 const SignIn = ({ loading, setLoading }) => {
-    const [ form ] = Form.useForm();
+    const [form] = Form.useForm();
 
     const onRegister = async (data) => {
         try {
@@ -19,9 +19,7 @@ const SignIn = ({ loading, setLoading }) => {
         } catch (error) {
             const msg = error.response.data.message;
             message.error(
-                `${msg ??
-                `Ocurrió un error, intente más tarde [${error.message}]`
-                }`
+                `${msg ?? `Ocurrió un error, intente más tarde [${error.message}]`}`
             );
             setLoading(false);
         }
@@ -64,11 +62,7 @@ const SignIn = ({ loading, setLoading }) => {
                             message: 'Please enter your password.',
                         },
                     ]}>
-                    <Input.Password
-                        placeholder='Password'
-                        type='password'
-                        visibilityToggle
-                    />
+                    <Input.Password placeholder='Password' type='password' visibilityToggle />
                 </Form.Item>
                 <Button type='primary' htmlType='submit' loading={loading}>
                     Sign In

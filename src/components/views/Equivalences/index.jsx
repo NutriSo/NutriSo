@@ -1,14 +1,12 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
 
 import { message } from 'antd';
 
-import apiURL from '../../../axios/axiosConfig';
+import apiURL from '@/axios/axiosConfig';
+import ButtonsArea from '@/components/commons/ButtonsArea';
+import Loading from '@/components/commons/Loading';
 
-import ButtonsArea from '../../commons/ButtonsArea';
 import EquivalencesTable from './EquivalencesTable';
-import Loading from '../../commons/Loading';
-
 import './Equivalences.scss';
 
 const Equivalences = () => {

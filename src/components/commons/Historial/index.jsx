@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Checkbox } from 'antd';
 
-import Diseases from './components/molecules/Diseases';
-import { isEmptyArray, capitilizeWord } from '../../../utils';
+import Diseases from '@/components/commons/Historial/components/molecules/Diseases';
+import { isEmptyArray, capitilizeWord } from '@/utils';
 import { familiarsInitialState } from './data';
 
 const Familiars = ({ source, updateSource }) => {

@@ -8,11 +8,7 @@ import React, { useState, useEffect } from 'react';
 import Chart from 'chart.js/auto';
 import { Line } from 'react-chartjs-2';
 
-import {
-    stringArrayToNumberArray,
-    returnLabelsByChart,
-    returnDateLabelByChat,
-} from '../../../../utils';
+import { stringArrayToNumberArray, returnDateLabelByChat } from '@/utils';
 
 const IndicadoresBio = ({ data, dates }) => {
     const [chartData, setChartData] = useState(initalData);

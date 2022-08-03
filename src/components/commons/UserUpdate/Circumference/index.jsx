@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import apiURL from '../../../../axios/axiosConfig';
-import { Tabs } from 'antd';
+
+import apiURL from '@/axios/axiosConfig';
+import Circunferencia from '@/components/commons/Charts/Circunferencia';
+
 import Popup from './Popup';
-
-import Circunferencia from '../../Charts/Circunferencia';
-
 import './Circumference.scss';
 
 const Circumference = ({ id }) => {

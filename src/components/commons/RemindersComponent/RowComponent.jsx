@@ -13,7 +13,7 @@ import {
     message,
 } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import apiURL from '../../../axios/axiosConfig';
+import apiURL from '@/axios/axiosConfig';
 
 import styles from './styles.module.scss';
 

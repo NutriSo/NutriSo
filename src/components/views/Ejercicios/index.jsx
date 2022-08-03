@@ -1,5 +1,5 @@
 import React from 'react';
-import Listas from '../../commons/Ejercicios/Listas';
+import Listas from '@/components/commons/Ejercicios/Listas';
 
 import './Ejercicios.scss';
 

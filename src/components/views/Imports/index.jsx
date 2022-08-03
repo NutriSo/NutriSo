@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 
 import { Button, message, Form, InputNumber } from 'antd';
-import apiURL from '../../../axios/axiosConfig';
 
-import Dropdown from '../../commons/Dropdown';
+import apiURL from '@/axios/axiosConfig';
+import Dropdown from '@/components/commons/Dropdown';
+import { Rules } from '@/utils/formRules';
+
 import PointsTable from './PointsTable';
-import { Rules } from '../../../utils/formRules';
-
 import './Imports.scss';
 
 const Imports = () => {

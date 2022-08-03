@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Tabs, Checkbox } from 'antd';
 
-import { isEmptyArray, capitilizeWord } from '../../../../../../utils';
-import mocks from '../../../../../../mocks/historial';
+import { isEmptyArray, capitilizeWord } from '@/utils';
+import mocks from '@/mocks/historial';
+
 import './Diseases.scss';
 
 const DiseasesTabs = ({ dataSource, diseases, onChangeDiseases }) => {

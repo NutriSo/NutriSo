@@ -1,5 +1,15 @@
-import { isEmptyArray, isEmptyObject, isInvalidElem } from '../../../../utils';
+import { isEmptyArray, isEmptyObject, isInvalidElem } from '@/utils';
 import { KG } from '../constants';
+import * as calories from '../data/calories';
+import * as vitamins from '../data/vitamins';
+import * as minerals from '../data/minerals';
+import * as glycemic from '../data/glycemic';
+import * as environmental from '../data/environmental';
+import * as economic from '../data/economic';
+import * as bioactives from '../data/bioactives';
+import * as additives from '../data/additives';
+import * as extraColumns2 from '../data/extraColumns';
+import * as food from '../data/foodGroups';
 
 export const getIsSelected = (state, number, index) => {
     return state[number] === true && index === number;
@@ -1483,6 +1493,35 @@ export const getMaxGroupByReg = (arreglo, callback) => {
         }
     });
     callback(contador);
+};
+
+export const getFinalColumns = (columns, data) => {
+    const newColumns = columns;
+
+    let maxGroup = 0;
+    getMaxGroupByReg(data, (res) => (maxGroup = res));
+
+    for (let i = 0; i < maxGroup - 1; i++) {
+        newColumns.push(
+            ...food[`groupColumns${0}`],
+            ...extraColumns2[`extraColumns${0}`],
+            ...calories[`caloriasMacronutrientes${0}`],
+            ...vitamins[`vitaminas${0}`],
+            ...minerals[`minerales${0}`],
+            ...glycemic[`aspectoGlucemico${0}`],
+            ...environmental[`aspectosMedioambientales${0}`],
+            ...economic[`aspectosEconomicos2`],
+            ...bioactives[`componentesBioactivos${0}`],
+            ...additives[`aditivosAlimentarios${0}`]
+        );
+    }
+
+    const finalColumns = [];
+    newColumns.forEach((columnProps) => {
+        finalColumns.push(columnProps.title);
+    });
+
+    return finalColumns;
 };
 
 export const normalizePropsOrder = (data) => {

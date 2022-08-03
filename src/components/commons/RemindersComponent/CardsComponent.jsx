@@ -23,8 +23,9 @@ import {
 } from '@ant-design/icons';
 import moment from 'moment';
 import dayjs from 'dayjs';
-import apiURL from '../../../axios/axiosConfig';
-import { capitilizeWord } from '../../../utils';
+
+import apiURL from '@/axios/axiosConfig';
+import { capitilizeWord } from '@/utils';
 
 import styles from './styles.module.scss';
 

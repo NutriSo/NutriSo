@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import apiURL from '../../../../axios/axiosConfig';
 
 import { message } from 'antd';
 import dayjs from 'dayjs';
 
-import ButtonsArea from '../../../commons/ButtonsArea';
-import CustomExport from '../../../commons/CustomExport';
+import apiURL from '@/axios/axiosConfig';
+import { isEmptyArray } from '@/utils';
+import CustomExport from '@/components/commons/CustomExport';
+
 import { baseColumns } from '../data';
 import * as calories from '../data/calories';
 import * as vitamins from '../data/vitamins';
@@ -25,11 +26,9 @@ import {
     getRowValues,
     generateCsvRows,
     unifyGroups,
-    getMaxGroupByReg,
     generateFinalCsvRows,
+    getFinalColumns,
 } from '../utils';
-
-import { isEmptyArray } from '../../../../utils';
 
 const Groups = ({ selected = false, setLoading }) => {
     const [columns, setColumns] = useState([
@@ -159,33 +158,8 @@ const Groups = ({ selected = false, setLoading }) => {
             }
 
             const csvRowsPreview = generateCsvRows(unified);
-
-            const newColumns = columns;
-
-            let maxGroup = 0;
-            getMaxGroupByReg(csvRowsPreview, (res) => (maxGroup = res));
-
-            for (let i = 0; i < maxGroup - 1; i++) {
-                newColumns.push(
-                    ...food[`groupColumns${0}`],
-                    ...extraColumns2[`extraColumns${0}`],
-                    ...calories[`caloriasMacronutrientes${0}`],
-                    ...vitamins[`vitaminas${0}`],
-                    ...minerals[`minerales${0}`],
-                    ...glycemic[`aspectoGlucemico${0}`],
-                    ...environmental[`aspectosMedioambientales${0}`],
-                    ...economic[`aspectosEconomicos2`],
-                    ...bioactives[`componentesBioactivos${0}`],
-                    ...additives[`aditivosAlimentarios${0}`]
-                );
-            }
-
             const cvsRows = generateFinalCsvRows(csvRowsPreview);
-
-            const finalColumns = [];
-            newColumns.forEach((columnProps) => {
-                finalColumns.push(columnProps.title);
-            });
+            const finalColumns = getFinalColumns(columns, csvRowsPreview);
 
             setColumns(finalColumns);
             setExportData(cvsRows);
@@ -201,18 +175,14 @@ const Groups = ({ selected = false, setLoading }) => {
         }
     };
 
-    return <CustomExport dataSource={exportData} columns={columns} fileReady={fileReady} />;
-
-    // return (
-    //     <ButtonsArea
-    //         fileReady={fileReady}
-    //         xlsxData={{
-    //             columns: columns,
-    //             data: exportData,
-    //             fileName: `Grupos ${dayjs(new Date()).format('DD-MM-YYYY')}`,
-    //         }}
-    //     />
-    // );
+    return (
+        <CustomExport
+            dataSource={exportData}
+            columns={columns}
+            fileReady={fileReady}
+            fileName={`Grupos ${dayjs(new Date()).format('DD-MM-YYYY')}`}
+        />
+    );
 };
 
 export default Groups;

@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 
 import { message, Progress } from 'antd';
-import apiURL from '../../../axios/axiosConfig';
 
-import ImportData from '../../commons/ImportData';
+import apiURL from '@/axios/axiosConfig';
+import ImportData from '@/components/commons/ImportData';
 
 import './Food.scss';
 
