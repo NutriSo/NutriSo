@@ -15,6 +15,7 @@ import OverallStatus from '@/components/commons/UserUpdate/OverallStatus';
 import SolarExposition from '@/components/commons/UserUpdate/SolarExposition';
 import Gastrointestinal from '@/components/commons/UserUpdate/Gastrointestinal';
 import Lactation from '@/components/commons/UserUpdate/Lactation';
+import HoursOfSleep from '../../commons/UserUpdate/HoursOfSleep';
 import SocioeconomicData from '@/components/commons/UserUpdate/SocioeconomicData';
 import { capitilizeWord, isInvalidElem, isEmptyString, getUserHash } from '@/utils';
 
@@ -143,7 +144,7 @@ const Usuarios = () => {
     }
 
     return (
-        <section className=''>
+        <>
             <div className='basicContainer'>
                 <div className='containData'>
                     <div className='profile-imgBasic'>
@@ -154,6 +155,7 @@ const Usuarios = () => {
                         />
                         <h2>Configuración de perfil</h2>
                     </div>
+
                     <div className='basicInfo-Container'>
                         <div className='entradas'>
                             <div className='labels'>
@@ -168,6 +170,7 @@ const Usuarios = () => {
                                     onChange={(event) => setName(event.target.value)}></input>
                             </div>
                         </div>
+
                         <div className='entradas'>
                             <div className='labels'>
                                 <label className='id-name'>Apellido Paterno:</label>
@@ -183,6 +186,7 @@ const Usuarios = () => {
                                     }></input>
                             </div>
                         </div>
+
                         <div className='entradas'>
                             <div className='labels'>
                                 <label className='id-name'>Apellido Materno:</label>
@@ -199,6 +203,7 @@ const Usuarios = () => {
                             </div>
                         </div>
                     </div>
+
                     <div className='basicInfo-Container'>
                         <div className='entradas'>
                             <div className='labels'>
@@ -246,6 +251,7 @@ const Usuarios = () => {
                             </div>
                         </div>
                     </div>
+
                     <div className='basicInfo-Container'>
                         <div className='entradas'>
                             <div className='labels'>
@@ -320,9 +326,10 @@ const Usuarios = () => {
             <OverallStatus id={globalUserId} />
             <SolarExposition id={globalUserId} />
             <Gastrointestinal id={globalUserId} />
+            <HoursOfSleep id={globalUserId} />
             <Clinic id={globalUserId} />
             <Lactation id={globalUserId} />
-        </section>
+        </>
     );
 };
 
