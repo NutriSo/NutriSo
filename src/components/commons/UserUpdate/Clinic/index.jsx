@@ -21,7 +21,7 @@ const initialState = {
 const Clinic = ({ id }) => {
     const [form] = Form.useForm();
     const [clinic, setClinic] = useState(initialState);
-    // const [tooltip, setTooltip] = useState('');
+    const [tooltip, setTooltip] = useState('');
 
     const fetchData = async () => {
         try {
@@ -37,7 +37,7 @@ const Clinic = ({ id }) => {
                 const lastSistolica = presionArterialSistolica.slice(-1)[0];
                 const lastNigricans = acantosisNigricans.slice(-1)[0];
 
-                // setTooltip(presionArterialSistolica.slice(-2)[0].valor);
+                setTooltip(presionArterialSistolica.slice(-2)[0].valor);
 
                 setClinic({
                     sistolica: lastSistolica.valor,
@@ -88,22 +88,24 @@ const Clinic = ({ id }) => {
                     onFinish={onFinish}>
                     <div className='basicInfo-ContainerSocioData'>
                         <div className='entradasSocioData'>
-                            <Form.Item
-                                label='Presión arterial sistólica'
-                                name='presionArterialS'>
-                                <Input
-                                    placeholder={clinic.sistolica ?? 0}
-                                    value={clinic.sistolica}
-                                    onChange={(e) =>
-                                        setClinic({
-                                            ...clinic,
-                                            sistolica: {
-                                                valor: e.target.value,
-                                            },
-                                        })
-                                    }
-                                />
-                            </Form.Item>
+                            <Tooltip title={tooltip} placement='right'>
+                                <Form.Item
+                                    label='Presión arterial sistólica'
+                                    name='presionArterialS'>
+                                    <Input
+                                        placeholder={clinic.sistolica ?? 0}
+                                        value={clinic.sistolica}
+                                        onChange={(e) =>
+                                            setClinic({
+                                                ...clinic,
+                                                sistolica: {
+                                                    valor: e.target.value,
+                                                },
+                                            })
+                                        }
+                                    />
+                                </Form.Item>
+                            </Tooltip>
                         </div>
                         <div className='entradasSocioData'>
                             <Form.Item
