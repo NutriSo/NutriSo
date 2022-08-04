@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Select } from 'antd';
+import { Form, message, Select } from 'antd';
 
-import apiURL from '../../../../axios/axiosConfig';
-import { Rules } from '../../../../utils/formRules';
+import apiURL from '@/axios/axiosConfig';
+import { Rules } from '@/utils/formRules';
+import { isEmptyArray } from '@/utils';
 
 import './HoursOfSleep.scss';
 
@@ -19,22 +20,23 @@ const HoursOfSleep = ({ id }) => {
 
     const getHoursSleep = async () => {
         try {
-            const { data, status } = await apiURL.get(`/sueno/individual?usuario=${id}`);
+            const { data } = await apiURL.get(`/sueno/individual?usuario=${id}`);
 
-            if (status === 200 || data.length > 0) {
-                const horasDeSueno = data[0]?.horasDeSueno.map((elem) => elem.valor);
-                const estadoDeDescanso = data[0]?.estadoDeDescanso.map((elem) => elem.valor);
-                const despiertaPorLaNoche = data[0]?.despiertaPorLaNoche.map(
-                    (elem) => elem.valor
-                );
-                const frecuencia = data[0]?.frecuencia.map((elem) => elem.valor);
+            if (!isEmptyArray(data)) {
+                const { horasDeSueño, estadoDeDescanso, despiertaPorLaNoche, frecuencia } =
+                    data[0];
+
+                const sueno = horasDeSueño.slice(-1)[0]?.valor;
+                const descanso = estadoDeDescanso.slice(-1)[0]?.valor;
+                const despierta = despiertaPorLaNoche.slice(-1)[0]?.valor;
+                const frecuenciaSueno = frecuencia.slice(-1)[0]?.valor;
+
                 setInfoHoursSleep({
-                    horaDeSueno: horasDeSueno,
-                    estadoDeDescanso: estadoDeDescanso,
-                    despiertaPorLaNoche: despiertaPorLaNoche,
-                    frecuencia: frecuencia,
+                    sueno,
+                    descanso,
+                    despierta,
+                    frecuenciaSueno,
                 });
-                console.log('DATA: ', infoHoursSleep);
             }
         } catch (error) {
             console.groupCollapsed('Error en la funcion fetchInfoHoursSleep');
@@ -43,67 +45,44 @@ const HoursOfSleep = ({ id }) => {
         }
     };
 
-    const updateHoursSleep = async (values) => {
-        console.log('This function is currently unavailable');
-        /*try {
-      if (infoHoursSleep?.horaDeSueno) {
-        const body = {
-          usuario: info.usuario,
-          horaDeSueno: {
-            valor: values.horaDeSueno,
-            fecha: new Date(),
-          },
-          estadoDeDescanso: {
-            valor: values.estadoDeDescanso,
-            fecha: new Date(),
-          },
-          despiertaPorLaNoche: hoursSleepCheckDespierta
-            ? "No"
-            : { valor: values.despiertaPorLaNoche, fecha: new Date() },
-          frecuencia: hoursSleepCheckDespierta
-            ? "N/A"
-            : { valor: values.frecuencia, fecha: new Date() },
-        };
-        console.log("Body", body);
-        console.log("PATCH");
+    const onPostHoursSleep = async (body) => {
+        try {
+            const { data } = await apiURL.post(`sueno/individual?usuario=${id}`, body);
+            message.success('Se guardó correctamente');
+        } catch (error) {
+            console.log('Error en la funcion onPostHoursSleep');
+            console.error(error);
+            message.error('Ocurrió un error al guardar los datos');
+        }
+    };
 
-        const { data } = await apiURL.patch(
-          `sueno/individual?usuario=${id}`,
-          body
-        );
-        console.log(data);
-      } else {
-        const body = {
-          usuario: info.usuario,
-          horaDeSueno: [{ valor: values.horaDeSueno, fecha: new Date() }],
-          estadoDeDescanso: [
-            { valor: values.estadoDeDescanso, fecha: new Date() },
-          ],
-          despiertaPorLaNoche: [
-            hoursSleepCheckDespierta
-              ? "No"
-              : { valor: values.despiertaPorLaNoche, fecha: new Date() },
-          ],
-          frecuencia: [
-            hoursSleepCheckDespierta
-              ? "N/A"
-              : { valor: values.frecuencia, fecha: new Date() },
-          ],
-        };
-        console.log("Body", body);
-        console.log("POST");
+    const onPatchHoursSleep = async (body) => {
+        try {
+            const { data } = await apiURL.patch(`sueno/individual?usuario=${id}`, body);
+            message.success('Se guardó correctamente');
+        } catch (error) {
+            console.log('Error en la funcion onPatchHoursSleep');
+            console.error(error);
+            message.error('Ocurrió un error al guardar los datos');
+        }
+    };
 
-        const { data } = await apiURL.post(
-          `sueno/individual?usuario=${id}`,
-          body
-        );
-        console.log(data);
-      }
-    } catch (error) {
-      console.groupCollapsed("[ERROR] updateHoursSleep");
-      console.error(error);
-      console.groupEnd();
-    }*/
+    const updateHoursSleep = (values) => {
+        const despiertaNoche = values.despiertaNoche;
+        const frecuencia = despiertaNoche === 'Si' ? values.frecuenciaSueno : '';
+
+        const body = {
+            horasDeSueño: { valor: values.horasDeSueno },
+            estadoDeDescanso: { valor: values.estadoDeDescanso },
+            despiertaPorLaNoche: { valor: despiertaNoche },
+            frecuencia: { valor: frecuencia },
+        };
+
+        if (!infoHoursSleep?.sueno) {
+            onPostHoursSleep(body);
+        } else {
+            onPatchHoursSleep(body);
+        }
     };
 
     return (
@@ -117,23 +96,21 @@ const HoursOfSleep = ({ id }) => {
                     <div className='inputs'>
                         <Form.Item name='horasDeSueno'>
                             <input
-                                type='text'
+                                type='number'
                                 name='hSueno'
                                 className='lb-EstadoGen2'
-                                placeholder={infoHoursSleep?.horaDeSueno || ''}
+                                placeholder={infoHoursSleep?.sueno || ''}
                             />
                         </Form.Item>
                     </div>
 
                     <Form.Item
-                        name='cubresTuPiel'
+                        name='estadoDeDescanso'
                         label='¿Descansa?'
                         className='descansa'
                         rules={[Rules.basicSpanish]}>
                         <Select
-                            placeholder={
-                                infoHoursSleep?.estadoDeDescanso || 'Selecione una opción'
-                            }>
+                            placeholder={infoHoursSleep?.descanso || 'Selecione una opción'}>
                             <Option value={'Si'}>Si</Option>
                             <Option value={'No'}>No</Option>
                             <Option value={'Mas o menos'}>Mas o menos</Option>
@@ -151,9 +128,7 @@ const HoursOfSleep = ({ id }) => {
                             onChange={(value) =>
                                 setHoursSleepCheckDespierta(value === 'No' ? true : false)
                             }
-                            placeholder={
-                                infoHoursSleep?.despiertaPorLaNoche || 'Selecione una opción'
-                            }>
+                            placeholder={infoHoursSleep?.despierta || 'Selecione una opción'}>
                             <Option value={'Si'}>Si</Option>
                             <Option value={'No'}>No</Option>
                         </Select>
@@ -171,7 +146,7 @@ const HoursOfSleep = ({ id }) => {
                         <Select
                             disabled={hoursSleepCheckDespierta}
                             placeholder={
-                                infoHoursSleep?.frecuencia || 'Selecione una opción'
+                                infoHoursSleep?.frecuenciaSueno || 'Selecione una opción'
                             }>
                             <Option value={'Casi todos los días'}>Casi todos los días</Option>
                             <Option value={'1 a 3 veces a la semana'}>
@@ -185,7 +160,6 @@ const HoursOfSleep = ({ id }) => {
                         <button
                             className='btn-see-circunferencia'
                             htmlType='submit'
-                            /*onClick={() => updateEstadoGeneral()}*/
                             value='Add'>
                             Guardar
                         </button>

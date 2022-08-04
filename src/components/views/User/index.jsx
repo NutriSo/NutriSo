@@ -15,7 +15,7 @@ import OverallStatus from '@/components/commons/UserUpdate/OverallStatus';
 import SolarExposition from '@/components/commons/UserUpdate/SolarExposition';
 import Gastrointestinal from '@/components/commons/UserUpdate/Gastrointestinal';
 import Lactation from '@/components/commons/UserUpdate/Lactation';
-import HoursOfSleep from '../../commons/UserUpdate/HoursOfSleep';
+import HoursOfSleep from '@/components/commons/UserUpdate/HoursOfSleep';
 import SocioeconomicData from '@/components/commons/UserUpdate/SocioeconomicData';
 import { capitilizeWord, isInvalidElem, isEmptyString, getUserHash } from '@/utils';
 
