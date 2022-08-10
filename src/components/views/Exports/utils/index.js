@@ -1421,11 +1421,29 @@ export const generateCsvRows = (data, type) => {
 export const generateFinalCsvRows = (data, type) => {
     const rows = [];
     const uniqueIds = new Set([...data.map((elem) => elem.idRegistro)]);
+    const participants = new Set([...data.map((elem) => elem.idParticipante)]);
 
-    uniqueIds.forEach((id) => {
+    const copyUnique = [...uniqueIds];
+    const copyParticipants = [...participants];
+
+    copyUnique.forEach((id) => {
         const filteredRows = data.filter((elem) => elem.idRegistro === id);
 
-        rows.push(filteredRows);
+        const newIds = filteredRows.map((elem) => {
+            const idIndex = copyParticipants.findIndex((e) => e === elem.idParticipante);
+            if (idIndex === -1) {
+                return elem;
+            }
+
+            const obj = {
+                ...elem,
+                idParticipante: Number(idIndex + 1),
+            };
+
+            return obj;
+        });
+
+        rows.push(newIds);
     });
 
     const normalizedKeysToColumnNames = [];
