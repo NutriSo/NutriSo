@@ -38,6 +38,7 @@ const Usuarios = () => {
   let [estadoDeNacomiento, setEstadoDeNacimiento] = useState("");
   let [fechaNacimiento, setFechaNacimiento] = useState("");
   let [genero, setGenero] = useState("");
+  const [buttonDisabled, setButtonDisabled] = useState(false);
 
   const globalUserId = getUserHash();
   const isPhotoExist = !isInvalidElem(info?.foto) && !isEmptyString(info?.foto);
@@ -58,6 +59,10 @@ const Usuarios = () => {
     if (info?.usuario) {
     }
   }, [info]);
+
+  const toggleButton = (value) => {
+    setButtonDisabled(value);
+  };
 
   const fethInfo = async () => {
     try {
@@ -119,6 +124,8 @@ const Usuarios = () => {
       genero = info.genero;
     }
 
+    toggleButton(true);
+
     try {
       const body = {
         nombre: name,
@@ -137,6 +144,7 @@ const Usuarios = () => {
         body
       );
       console.log(res);
+      toggleButton(false);
     } catch (error) {
       console.groupCollapsed("Error en la funcion fetchInfo");
       console.error(error);
@@ -305,6 +313,7 @@ const Usuarios = () => {
           <div className="basicInfo-Save">
             <button
               className="btn-see-circunferencia"
+              disabled={buttonDisabled}
               onClick={() => GuardarCambios()}
             >
               Guardar

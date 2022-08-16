@@ -11,12 +11,17 @@ const HoursOfSleep = ({ id }) => {
   const [form] = Form.useForm();
   const [infoHoursSleep, setInfoHoursSleep] = useState({});
   const [hoursSleepCheckDespierta, setHoursSleepCheckDespierta] = useState({});
+  const [buttonDisabled, setButtonDisabled] = useState(false);
 
   useEffect(() => {
     getHoursSleep();
 
     return () => {};
   }, [id]);
+
+  const toggleButton = (value) => {
+    setButtonDisabled(value);
+  };
 
   const getHoursSleep = async () => {
     try {
@@ -50,7 +55,10 @@ const HoursOfSleep = ({ id }) => {
 
   const updateHoursSleep = async (values) => {
     console.log("This function is currently unavailable");
-    /*try {
+    /*
+    toggleButton(true);
+
+    try {
       if (infoHoursSleep?.horaDeSueno) {
         const body = {
           usuario: info.usuario,
@@ -77,6 +85,7 @@ const HoursOfSleep = ({ id }) => {
           body
         );
         console.log(data);
+        toggleButton(false);
       } else {
         const body = {
           usuario: info.usuario,
@@ -103,6 +112,7 @@ const HoursOfSleep = ({ id }) => {
           body
         );
         console.log(data);
+        toggleButton(false);
       }
     } catch (error) {
       console.groupCollapsed("[ERROR] updateHoursSleep");
@@ -192,6 +202,7 @@ const HoursOfSleep = ({ id }) => {
             <button
               className="btn-see-circunferencia"
               htmlType="submit"
+              disabled={buttonDisabled}
               /*onClick={() => updateEstadoGeneral()}*/
               value="Add"
             >
