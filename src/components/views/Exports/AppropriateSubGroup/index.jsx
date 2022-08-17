@@ -4,7 +4,7 @@ import apiURL from '../../../../axios/axiosConfig';
 import { message } from 'antd';
 import dayjs from 'dayjs';
 
-import ButtonsArea from '../../../commons/ButtonsArea';
+import CustomExport from '../../../commons/CustomExport';
 import {
     baseColumns,
     caloriasMacronutrientes,
@@ -26,6 +26,8 @@ import {
     getRowValues,
     generateCsvRows,
     unifyGroups,
+    generateFinalCsvRows,
+    getFinalColumns,
 } from '../utils';
 import { isEmptyArray } from '../../../../utils';
 
@@ -158,8 +160,11 @@ const AppropriateSubGroup = ({ selected = false, setLoading }) => {
             }
 
             const csvRowsPreview = generateCsvRows(unified, 4);
+            const cvsRows = generateFinalCsvRows(csvRowsPreview);
+            const finalColumns = getFinalColumns(columns, csvRowsPreview);
 
-            setExportData(csvRowsPreview);
+            setColumns(finalColumns);
+            setExportData(cvsRows);
             setTimeout(() => {
                 onFileReady();
             }, 1000);
@@ -171,15 +176,12 @@ const AppropriateSubGroup = ({ selected = false, setLoading }) => {
             console.groupEnd();
         }
     };
-
     return (
-        <ButtonsArea
+        <CustomExport
+            dataSource={exportData}
+            columns={columns}
             fileReady={fileReady}
-            xlsxData={{
-                columns: columns,
-                data: exportData,
-                fileName: `Sub-Grupo Adecuada ${dayjs(new Date()).format('DD-MM-YYYY')}`,
-            }}
+            fileName={`Sub-Grupo Adecuada ${dayjs(new Date()).format('DD-MM-YYYY')}`}
         />
     );
 };

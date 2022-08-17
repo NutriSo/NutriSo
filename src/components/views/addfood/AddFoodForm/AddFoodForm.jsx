@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import { Form, Input, Button, Select, Row, Col, Card, message, InputNumber } from 'antd';
+import { Form, Input, Button, Select, Row, Col, Card, InputNumber } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons';
 
-import UploadImgs from '../../../commons/UploadImgs';
-import InputTags from '../../../commons/InputTags';
-import apiURL from '../../../../axios/axiosConfig';
-import { getSku } from '../../../../services';
-import mocks from '../../../../mocks/alimentos';
-import { Rules } from '../../../../utils/formRules';
+import { getSku } from '@/services';
+import UploadImgs from '@/components/commons/UploadImgs';
+import InputTags from '@/components/commons/InputTags';
+import mocks from '@/mocks/alimentos';
+import { Rules } from '@/utils/formRules';
 
 import './AddFoodForm.scss';
 

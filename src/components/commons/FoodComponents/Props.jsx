@@ -1,6 +1,6 @@
 import { Form, Input, Button } from 'antd';
 
-import { Rules } from '../../../utils/formRules';
+import { Rules } from '@/utils/formRules';
 
 const Props = ({ dataSource, form, onFinish }) => {
     const onFinishFailed = (errorInfo) => {

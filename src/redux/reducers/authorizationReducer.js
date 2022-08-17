@@ -1,4 +1,4 @@
-import { ADD_AUTHORIZATIONS, SIGN_OUT } from '../Constants';
+import { ADD_AUTHORIZATIONS, SIGN_OUT } from '@/redux/Constants';
 
 const initialState = {
     token: '',

@@ -1,11 +1,9 @@
-import React from 'react';
-import { Form, Input, Button } from 'antd';
+import React, { useEffect, useState } from 'react';
 
-import { useEffect, useState } from 'react';
 import { SmileTwoTone, MehTwoTone, FrownTwoTone } from '@ant-design/icons';
 
-import UploadImg from '../UploadImgs';
-import { isInvalidElem } from '../../../utils';
+import UploadImg from '@/components/commons/UploadImgs';
+import { isInvalidElem } from '@/utils';
 
 const IconsComponent = ({
     dataSource,

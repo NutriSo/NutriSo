@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 
 import { Button } from 'antd';
 
+import Loading from '@/components/commons/Loading';
+
 import DietReg from './DietReg';
 import Demographics from './Demographics';
 import Groups from './Groups';
 import SubGroup from './SubGroup';
 import UltraProcessed from './UltraProcessed';
 import AppropriateSubGroup from './AppropriateSubGroup';
-import Loading from '../../commons/Loading';
 
 import { getIsSelected } from './utils';
 import { opciones, initialState } from './data';

@@ -1,26 +1,28 @@
 import React, { useState, useEffect } from "react";
-import apiURL from "../../../axios/axiosConfig";
 
 import { DatePicker, Space } from "antd";
 import moment from "moment";
 import dayjs from "dayjs";
 
-import Weight from "../../commons/UserUpdate/Weight";
-import Circumference from "../../commons/UserUpdate/Circumference";
-import BodyFields from "../../commons/UserUpdate/BodyFields";
-import BioIndicators from "../../commons/UserUpdate/BioIndicators";
-import OverallStatus from "../../commons/UserUpdate/OverallStatus";
-import SolarExposition from "../../commons/UserUpdate/SolarExposition";
-import Gastrointestinal from "../../commons/UserUpdate/Gastrointestinal";
-import Lactation from "../../commons/UserUpdate/Lactation";
-import SocioeconomicData from "../../commons/UserUpdate/SocioeconomicData";
+import apiURL from "@/axios/axiosConfig";
+import Background from "@/components/commons/UserUpdate/Background";
+import Clinic from "@/components/commons/UserUpdate/Clinic";
+import Weight from "@/components/commons/UserUpdate/Weight";
+import Circumference from "@/components/commons/UserUpdate/Circumference";
+import BodyFields from "@/components/commons/UserUpdate/BodyFields";
+import BioIndicators from "@/components/commons/UserUpdate/BioIndicators";
+import OverallStatus from "@/components/commons/UserUpdate/OverallStatus";
+import SolarExposition from "@/components/commons/UserUpdate/SolarExposition";
+import Gastrointestinal from "@/components/commons/UserUpdate/Gastrointestinal";
+import Lactation from "@/components/commons/UserUpdate/Lactation";
 import HoursOfSleep from "../../commons/UserUpdate/HoursOfSleep";
+import SocioeconomicData from "@/components/commons/UserUpdate/SocioeconomicData";
 import {
   capitilizeWord,
   isInvalidElem,
   isEmptyString,
   getUserHash,
-} from "../../../utils";
+} from "@/utils";
 
 import "./user.scss";
 

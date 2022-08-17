@@ -1,7 +1,7 @@
 import React from 'react';
 
-import DataLayout from '../components/layouts/DataLayout';
-import Imports from '../components/views/Imports';
+import DataLayout from '@/components/layouts/DataLayout';
+import Imports from '@/components/views/Imports';
 
 const Index = () => {
     return (

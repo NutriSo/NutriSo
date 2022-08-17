@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Row, Col, Button } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 
@@ -12,10 +13,20 @@ const HeaderTitle = ({ recipe, onEdit, onDelete }) => {
                 {recipe.titulo}
             </Col>
             <Col>
-                <Button type={type} shape={shape} icon={<EditOutlined />} onClick={() => onEdit(recipe)} />
+                <Button
+                    type={type}
+                    shape={shape}
+                    icon={<EditOutlined />}
+                    onClick={() => onEdit(recipe)}
+                />
             </Col>
             <Col>
-                <Button type={type} shape={shape} icon={<DeleteOutlined />} onClick={() => onDelete(recipe)} />
+                <Button
+                    type={type}
+                    shape={shape}
+                    icon={<DeleteOutlined />}
+                    onClick={() => onDelete(recipe)}
+                />
             </Col>
         </Row>
     );
