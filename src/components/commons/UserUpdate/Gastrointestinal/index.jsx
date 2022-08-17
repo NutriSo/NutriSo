@@ -27,7 +27,7 @@ const Gastrointestinal = ({ id }) => {
             const { data, status } = await apiURL.get(
                 `/gastroIntestinales/individual?usuario=${id}`
             );
-
+            setInfo({ usuario: id });
             if (status === 200 || data.length > 0) {
                 const inflamacionAbdominal = data?.inflamacionAbdominal;
                 const diarrea = data?.diarrea;
@@ -50,106 +50,70 @@ const Gastrointestinal = ({ id }) => {
     };
 
     const updateGastroIn = async (values) => {
-        console.log('hello');
         const infAbd = !isEmptyArray(infoGastroIn?.inflamacionAbdominal);
         const diar = !isEmptyArray(infoGastroIn?.diarrea);
         const estre = !isEmptyArray(infoGastroIn?.estreñimiento);
         const refl = !isEmptyArray(infoGastroIn?.reflujo);
 
+        const hasToPatch = infAbd || diar || estre || refl;
+        const today = new Date();
+
+        const defaultNo = {
+            estado: 'No',
+            fecha: today,
+            frecuencia: '',
+        };
+
         try {
-            if (infAbd || diar || estre || refl) {
-                const body = {
-                    usuario: id,
-                    inflamacionAbdominal: [
-                        GasInCheckInfAbd ? 'No' : { valor: values.infAbd, fecha: new Date() },
-                    ],
-                    frecuencia: [
-                        GasInCheckInfAbd
-                            ? 'N/A'
-                            : { valor: values.fInflaAbd, fecha: new Date() },
-                    ],
-
-                    diarrea: [
-                        GasInCheckDiarrea
-                            ? 'No'
-                            : { valor: values.diarrea, fecha: new Date() },
-                    ],
-                    frecuencia2: [
-                        GasInCheckDiarrea
-                            ? 'N/A'
-                            : { valor: values.fDiarrea, fecha: new Date() },
-                    ],
-
-                    estreñimiento: [
-                        GasInCheckEstre ? 'No' : { valor: values.estre, fecha: new Date() },
-                    ],
-                    frecuencia3: [
-                        GasInCheckEstre ? 'N/A' : { valor: values.fEstre, fecha: new Date() },
-                    ],
-
-                    reflujo: [
-                        GasInCheckReflu ? 'No' : { valor: values.reflu, fecha: new Date() },
-                    ],
-
-                    frecuencia4: [
-                        GasInCheckReflu ? 'N/A' : { valor: values.fReflu, fecha: new Date() },
-                    ],
-                };
+            const body = {
+                usuario: info.usuario,
+                inflamacionAbdominal: [
+                    GasInCheckInfAbd
+                        ? defaultNo
+                        : {
+                              estado: values.infAbd,
+                              frecuencia: values?.fInflaAbd || 'N/A',
+                              fecha: today,
+                          },
+                ],
+                diarrea: [
+                    GasInCheckDiarrea
+                        ? defaultNo
+                        : {
+                              estado: values.diarrea,
+                              frecuencia: values?.fDiarrea || 'N/A',
+                              fecha: today,
+                          },
+                ],
+                estreñimiento: [
+                    GasInCheckEstre
+                        ? defaultNo
+                        : {
+                              estado: values.estre,
+                              frecuencia: values?.fEstre || 'N/A',
+                              fecha: today,
+                          },
+                ],
+                reflujo: [
+                    GasInCheckReflu
+                        ? defaultNo
+                        : {
+                              estado: values.reflu,
+                              frecuencia: values?.fReflu || 'N/A',
+                              fecha: today,
+                          },
+                ],
+            };
+            if (hasToPatch) {
                 console.log('Body', body);
-                const { data } = await apiURL.patch(
-                    `gastroIntestinales/individual?usuario=${id}`,
-                    body
-                );
-                console.log(data);
-
                 console.log('PATCH');
+                await apiURL.patch(`gastroIntestinales/individual?usuario=${id}`, body);
             } else {
-                const body = {
-                    usuario: info.usuario,
-                    inflamacionAbdominal: [
-                        GasInCheckInfAbd ? 'No' : { valor: values.infAbd, fecha: new Date() },
-                    ],
-                    frecuencia: [
-                        GasInCheckInfAbd
-                            ? 'N/A'
-                            : { valor: values.fInflaAbd, fecha: new Date() },
-                    ],
-
-                    diarrea: [
-                        GasInCheckDiarrea
-                            ? 'No'
-                            : { valor: values.diarrea, fecha: new Date() },
-                    ],
-                    frecuencia2: [
-                        GasInCheckDiarrea
-                            ? 'N/A'
-                            : { valor: values.fDiarrea, fecha: new Date() },
-                    ],
-
-                    estreñimiento: [
-                        GasInCheckEstre ? 'No' : { valor: values.estre, fecha: new Date() },
-                    ],
-                    frecuencia3: [
-                        GasInCheckEstre ? 'N/A' : { valor: values.fEstre, fecha: new Date() },
-                    ],
-
-                    reflujo: [
-                        GasInCheckReflu ? 'No' : { valor: values.reflu, fecha: new Date() },
-                    ],
-
-                    frecuencia4: [
-                        GasInCheckReflu ? 'N/A' : { valor: values.fReflu, fecha: new Date() },
-                    ],
-                };
                 console.log('Body', body);
-                const { data } = await apiURL.post(
-                    `gastroIntestinales/individual?usuario=${id}`,
-                    body
-                );
-                console.log(data);
-
                 console.log('POST');
+                await apiURL.post(`gastroIntestinales/individual?usuario=${id}`, body);
             }
+            message.success('Datos actualizados correctamente');
         } catch (error) {
             console.groupCollapsed('[ERROR] updateGastroIn');
             console.error(error);
@@ -157,7 +121,7 @@ const Gastrointestinal = ({ id }) => {
             message.error('Verifique los datos ingresados');
         }
     };
-
+    console.log({ GasInCheckReflu });
     return (
         <div className='basicContainer'>
             <div className='containData'>
