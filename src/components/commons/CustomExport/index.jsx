@@ -14,15 +14,7 @@ const CustomExport = ({ dataSource, columns, fileReady, fileName }) => {
         }
 
         const data = [...dataSource];
-
-        data.sort((a, b) => {
-            if (a[3] > b[3]) return 1;
-            if (a[3] < b[3]) return -1;
-            return 0;
-        });
-
         data.unshift(columns);
-
         setCsvData(data);
     }, []);
 

@@ -161,8 +161,11 @@ const SubGroup = ({ selected = false, setLoading }) => {
             }
 
             const csvRowsPreview = generateCsvRows(unified, 2);
-            const cvsRows = generateFinalCsvRows(csvRowsPreview);
-            const finalColumns = getFinalColumns(columns, csvRowsPreview);
+            const cvsRows = generateFinalCsvRows(csvRowsPreview, keys.subGrupoExportable);
+            const finalColumns = getFinalColumns(
+                columns,
+                groups[keys.subGrupoExportable].length
+            );
 
             setColumns(finalColumns);
             setExportData(cvsRows);

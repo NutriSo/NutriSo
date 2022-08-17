@@ -1,4 +1,6 @@
 import { isEmptyArray, isEmptyObject, isInvalidElem } from '@/utils';
+import groups from '../data/excelGroups';
+import keys from '../data/excelKeys';
 import { KG } from '../constants';
 import * as calories from '../data/calories';
 import * as vitamins from '../data/vitamins';
@@ -1416,14 +1418,32 @@ export const generateCsvRows = (data, type) => {
     return rows;
 };
 
-export const generateFinalCsvRows = (data) => {
+export const generateFinalCsvRows = (data, type) => {
     const rows = [];
     const uniqueIds = new Set([...data.map((elem) => elem.idRegistro)]);
+    const participants = new Set([...data.map((elem) => elem.idParticipante)]);
 
-    uniqueIds.forEach((id) => {
+    const copyUnique = [...uniqueIds];
+    const copyParticipants = [...participants];
+
+    copyUnique.forEach((id) => {
         const filteredRows = data.filter((elem) => elem.idRegistro === id);
 
-        rows.push(filteredRows);
+        const newIds = filteredRows.map((elem) => {
+            const idIndex = copyParticipants.findIndex((e) => e === elem.idParticipante);
+            if (idIndex === -1) {
+                return elem;
+            }
+
+            const obj = {
+                ...elem,
+                idParticipante: Number(idIndex + 1),
+            };
+
+            return obj;
+        });
+
+        rows.push(newIds);
     });
 
     const normalizedKeysToColumnNames = [];
@@ -1452,7 +1472,7 @@ export const generateFinalCsvRows = (data) => {
 
     rows.forEach((row) => {
         let newRow = [];
-        row.forEach((register) => {
+        row.forEach((register, index) => {
             const { idParticipante, idRegistro, fechaRegistro } = register;
             const newRegister = normalizePropsOrder(register);
 
@@ -1468,8 +1488,23 @@ export const generateFinalCsvRows = (data) => {
     const finalRows = [];
 
     tempRows.forEach((elem) => {
-        const row = elem.map((e) => e).reduce((acc, curr) => acc.concat(curr), []);
-        finalRows.push(row);
+        const row = elem
+            .map((e) => e)
+            .reduce((acc, curr) => {
+                const isArray = Array.isArray(curr);
+                if (isArray) {
+                    const [name] = curr;
+                    const tempArray = groups[type].map((elem) => getZeroData(elem));
+                    const arrIndex = tempArray.findIndex((elem) => elem[0] === name);
+                    tempArray.splice(arrIndex, 1, curr);
+
+                    return acc.concat(...tempArray);
+                } else {
+                    return acc.concat(curr);
+                }
+            }, []);
+        const maxColumnsData = groups[type].length * 93 + 3;
+        finalRows.push(row.slice(0, maxColumnsData));
     });
 
     return finalRows;
@@ -1495,13 +1530,10 @@ export const getMaxGroupByReg = (arreglo, callback) => {
     callback(contador);
 };
 
-export const getFinalColumns = (columns, data) => {
+export const getFinalColumns = (columns, maxColumns) => {
     const newColumns = columns;
 
-    let maxGroup = 0;
-    getMaxGroupByReg(data, (res) => (maxGroup = res));
-
-    for (let i = 0; i < maxGroup - 1; i++) {
+    for (let i = 0; i < maxColumns - 1; i++) {
         newColumns.push(
             ...food[`groupColumns${0}`],
             ...extraColumns2[`extraColumns${0}`],
@@ -1718,6 +1750,106 @@ export const normalizePropsOrder = (data) => {
     result.push(carboxymethylcellulose);
     result.push(dioxidoDeTitanio);
     result.push(monolauratoDeGlicerol);
+
+    return result;
+};
+
+export const getZeroData = (name) => {
+    const result = [];
+
+    result.push(name);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push('');
+    result.push('');
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push('');
+    result.push('');
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
+    result.push(0);
 
     return result;
 };

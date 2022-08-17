@@ -10,26 +10,22 @@ export default defineConfig(({ command, mode }) => {
         return {
             base: './',
             plugins: [react()],
+            server: { host: true },
             resolve: {
                 browser: true,
                 dedupe: ['react'],
                 preferBuiltins: false,
-                alias: {
-                    './runtimeConfig': './runtimeConfig.browser',
-                    '@': path.resolve(__dirname, 'src'),
-                },
-            },
-            server: {
-                host: true,
+                alias: [
+                    { find: './runtimeConfig', replacement: './runtimeConfig.browser' },
+                    { find: '@', replacement: path.resolve(__dirname, 'src') },
+                ],
             },
         };
     }
 
     return {
         plugins: [react()],
-        server: {
-            host: true,
-        },
+        server: { host: true },
         resolve: {
             alias: [{ find: '@', replacement: path.resolve(__dirname, 'src') }],
         },
