@@ -4,6 +4,7 @@ import { Form, message, Select } from 'antd';
 import apiURL from '@/axios/axiosConfig';
 import { Rules } from '@/utils/formRules';
 import { isEmptyArray } from '@/utils';
+import mocks from '@/mocks/estadisticasUsuario';
 
 import './HoursOfSleep.scss';
 
@@ -11,6 +12,7 @@ const HoursOfSleep = ({ id }) => {
     const [form] = Form.useForm();
     const [infoHoursSleep, setInfoHoursSleep] = useState({});
     const [hoursSleepCheckDespierta, setHoursSleepCheckDespierta] = useState({});
+    const [buttonDisabled, setButtonDisabled] = useState(false);
 
     useEffect(() => {
         getHoursSleep();
@@ -47,7 +49,7 @@ const HoursOfSleep = ({ id }) => {
 
     const onPostHoursSleep = async (body) => {
         try {
-            const { data } = await apiURL.post(`sueno/individual?usuario=${id}`, body);
+            await apiURL.post(`sueno/individual?usuario=${id}`, body);
             message.success('Se guardó correctamente');
         } catch (error) {
             console.log('Error en la funcion onPostHoursSleep');
@@ -58,7 +60,7 @@ const HoursOfSleep = ({ id }) => {
 
     const onPatchHoursSleep = async (body) => {
         try {
-            const { data } = await apiURL.patch(`sueno/individual?usuario=${id}`, body);
+            await apiURL.patch(`sueno/individual?usuario=${id}`, body);
             message.success('Se guardó correctamente');
         } catch (error) {
             console.log('Error en la funcion onPatchHoursSleep');
@@ -68,6 +70,7 @@ const HoursOfSleep = ({ id }) => {
     };
 
     const updateHoursSleep = (values) => {
+        setButtonDisabled(true);
         const despiertaNoche = values.despiertaNoche;
         const frecuencia = despiertaNoche === 'Si' ? values.frecuenciaSueno : '';
 
@@ -83,6 +86,7 @@ const HoursOfSleep = ({ id }) => {
         } else {
             onPatchHoursSleep(body);
         }
+        setButtonDisabled(false);
     };
 
     return (
@@ -121,9 +125,7 @@ const HoursOfSleep = ({ id }) => {
                     <Form.Item
                         name='despiertaNoche'
                         label='¿Despierta durante la noche?'
-                        className='hourSleepSelect'
-                        /*rules={[Rules.basicSpanish]}*/
-                    >
+                        className='hourSleepSelect'>
                         <Select
                             onChange={(value) =>
                                 setHoursSleepCheckDespierta(value === 'No' ? true : false)
@@ -137,22 +139,17 @@ const HoursOfSleep = ({ id }) => {
                     <Form.Item
                         label='¿Con que frecuencia ocurre?'
                         name='frecuenciaSueno'
-                        className='hourSleepSelect'
-                        /*
-                    rules={[
-                        Rules.basicSpanish,
-                    ]}*/
-                    >
+                        className='hourSleepSelect'>
                         <Select
                             disabled={hoursSleepCheckDespierta}
                             placeholder={
                                 infoHoursSleep?.frecuenciaSueno || 'Selecione una opción'
                             }>
-                            <Option value={'Casi todos los días'}>Casi todos los días</Option>
-                            <Option value={'1 a 3 veces a la semana'}>
-                                1 a 3 veces a la semana
-                            </Option>
-                            <Option value={'1 o 2 veces al mes'}>1 o 2 veces al mes</Option>
+                            {mocks.frecuencias.map(({ value, label }) => (
+                                <Option key={value} value={value}>
+                                    {label}
+                                </Option>
+                            ))}
                         </Select>
                     </Form.Item>
 
@@ -160,6 +157,7 @@ const HoursOfSleep = ({ id }) => {
                         <button
                             className='btn-see-circunferencia'
                             htmlType='submit'
+                            disabled={buttonDisabled}
                             value='Add'>
                             Guardar
                         </button>

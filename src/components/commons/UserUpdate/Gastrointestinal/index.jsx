@@ -139,14 +139,20 @@ const Gastrointestinal = ({ id }) => {
                                 setGasInCheckInfAbd(value === 'No' ? true : false)
                             }
                             defaultValue={'No'}>
-                            <Option value={'Si'}>Si</Option>
-                            <Option value={'No'}>No</Option>
+                            <Option key='Si' value={'Si'}>
+                                Si
+                            </Option>
+                            <Option key='No' value={'No'}>
+                                No
+                            </Option>
                         </Select>
                     </Form.Item>
                     <Form.Item name='fInflaAbd' label='Frecuencia' className='lb-gastroIn2'>
                         <Select placeholder='Selecciona una frecuencia'>
                             {mocks.frecuencias.map(({ value, label }) => (
-                                <Option value={value}>{label}</Option>
+                                <Option key={value} value={value}>
+                                    {label}
+                                </Option>
                             ))}
                         </Select>
                     </Form.Item>
@@ -156,14 +162,20 @@ const Gastrointestinal = ({ id }) => {
                                 setGasInCheckDiarrea(value === 'No' ? true : false)
                             }
                             defaultValue={'No'}>
-                            <Option value={'Si'}>Si</Option>
-                            <Option value={'No'}>No</Option>
+                            <Option key='Si' value={'Si'}>
+                                Si
+                            </Option>
+                            <Option key='No' value={'No'}>
+                                No
+                            </Option>
                         </Select>
                     </Form.Item>
                     <Form.Item name='fDiarrea' label='Frecuencia' className='lb-gastroIn2'>
                         <Select placeholder='Selecciona una frecuencia'>
                             {mocks.frecuencias.map(({ value, label }) => (
-                                <Option value={value}>{label}</Option>
+                                <Option key={value} value={value}>
+                                    {label}
+                                </Option>
                             ))}
                         </Select>
                     </Form.Item>
@@ -176,14 +188,20 @@ const Gastrointestinal = ({ id }) => {
                                 setGasInCheckEstre(value === 'No' ? true : false)
                             }
                             defaultValue={'No'}>
-                            <Option value={'Si'}>Si</Option>
-                            <Option value={'No'}>No</Option>
+                            <Option key='Si' value={'Si'}>
+                                Si
+                            </Option>
+                            <Option key='No' value={'No'}>
+                                No
+                            </Option>
                         </Select>
                     </Form.Item>
                     <Form.Item name='fEstre' label='Frecuencia' className='lb-gastroIn2'>
                         <Select placeholder='Selecciona una frecuencia'>
                             {mocks.frecuencias.map(({ value, label }) => (
-                                <Option value={value}>{label}</Option>
+                                <Option key={value} value={value}>
+                                    {label}
+                                </Option>
                             ))}
                         </Select>
                     </Form.Item>
@@ -193,14 +211,20 @@ const Gastrointestinal = ({ id }) => {
                                 setGasInCheckReflu(value === 'No' ? true : false)
                             }
                             defaultValue={'No'}>
-                            <Option value={'Si'}>Si</Option>
-                            <Option value={'No'}>No</Option>
+                            <Option key='Si' value={'Si'}>
+                                Si
+                            </Option>
+                            <Option key='No' value={'No'}>
+                                No
+                            </Option>
                         </Select>
                     </Form.Item>
                     <Form.Item name='fReflu' label='Frecuencia' className='lb-gastroIn2'>
                         <Select placeholder='Selecciona una frecuencia'>
                             {mocks.frecuencias.map(({ value, label }) => (
-                                <Option value={value}>{label}</Option>
+                                <Option key={value} value={value}>
+                                    {label}
+                                </Option>
                             ))}
                         </Select>
                     </Form.Item>
