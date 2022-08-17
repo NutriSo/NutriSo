@@ -15,6 +15,7 @@ const Gastrointestinal = ({ id }) => {
     const [GasInCheckDiarrea, setGasInCheckDiarrea] = useState({});
     const [GasInCheckEstre, setGasInCheckEstre] = useState({});
     const [GasInCheckReflu, setGasInCheckReflu] = useState({});
+    const [buttonDisabled, setButtonDisabled] = useState(false);
 
     useEffect(() => {
         getGastroIn();
@@ -50,6 +51,7 @@ const Gastrointestinal = ({ id }) => {
     };
 
     const updateGastroIn = async (values) => {
+        setButtonDisabled(true);
         const infAbd = !isEmptyArray(infoGastroIn?.inflamacionAbdominal);
         const diar = !isEmptyArray(infoGastroIn?.diarrea);
         const estre = !isEmptyArray(infoGastroIn?.estreñimiento);
@@ -113,6 +115,7 @@ const Gastrointestinal = ({ id }) => {
                 console.log('POST');
                 await apiURL.post(`gastroIntestinales/individual?usuario=${id}`, body);
             }
+            setButtonDisabled(false);
             message.success('Datos actualizados correctamente');
         } catch (error) {
             console.groupCollapsed('[ERROR] updateGastroIn');
@@ -121,7 +124,7 @@ const Gastrointestinal = ({ id }) => {
             message.error('Verifique los datos ingresados');
         }
     };
-    console.log({ GasInCheckReflu });
+
     return (
         <div className='basicContainer'>
             <div className='containData'>
@@ -205,7 +208,7 @@ const Gastrointestinal = ({ id }) => {
                         <button
                             className='btn-see-circunferencia'
                             htmlType='submit'
-                            /*onClick={() => updateEstadoGeneral()}*/
+                            disabled={buttonDisabled}
                             value='Add'>
                             Guardar
                         </button>
