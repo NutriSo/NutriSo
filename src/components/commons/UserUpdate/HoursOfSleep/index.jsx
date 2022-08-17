@@ -27,7 +27,7 @@ const HoursOfSleep = ({ id }) => {
             const { data, status } = await apiURL.get(`/sueno/individual?usuario=${id}`);
 
             if (status === 200 || data.length > 0) {
-                const horasDeSueno = data[0]?.horasDeSueno.map((elem) => elem.valor);
+                const horasDeSueno = data[0]?.horasDeSueño.map((elem) => elem.valor);
                 const estadoDeDescanso = data[0]?.estadoDeDescanso.map((elem) => elem.valor);
                 const despiertaPorLaNoche = data[0]?.despiertaPorLaNoche.map(
                     (elem) => elem.valor
@@ -39,7 +39,6 @@ const HoursOfSleep = ({ id }) => {
                     despiertaPorLaNoche: despiertaPorLaNoche,
                     frecuencia: frecuencia,
                 });
-                console.log('DATA: ', infoHoursSleep);
             }
         } catch (error) {
             console.groupCollapsed('Error en la funcion fetchInfoHoursSleep');
