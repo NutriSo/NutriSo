@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Select, message } from 'antd';
 
-import apiURL from '../../../../axios/axiosConfig';
-import { isEmptyArray } from '../../../../utils';
-import mocks from '../../../../mocks/estadisticasUsuario';
+import apiURL from '@/axios/axiosConfig';
+import { isEmptyArray } from '@/utils';
+import mocks from '@/mocks/estadisticasUsuario';
 
 import './Gastrointestinal.scss';
 
@@ -15,17 +15,13 @@ const Gastrointestinal = ({ id }) => {
     const [GasInCheckDiarrea, setGasInCheckDiarrea] = useState({});
     const [GasInCheckEstre, setGasInCheckEstre] = useState({});
     const [GasInCheckReflu, setGasInCheckReflu] = useState({});
-    const [buttonDisabled, setButtonDisabled] = useState(true);
+    const [buttonDisabled, setButtonDisabled] = useState(false);
 
     useEffect(() => {
         getGastroIn();
 
         return () => {};
     }, [id]);
-
-    const toggleButton = (value) => {
-        setButtonDisabled(value);
-    };
 
     const getGastroIn = async () => {
         try {
@@ -55,7 +51,7 @@ const Gastrointestinal = ({ id }) => {
     };
 
     const updateGastroIn = async (values) => {
-        toggleButton(true);
+        setButtonDisabled(true);
         const infAbd = !isEmptyArray(infoGastroIn?.inflamacionAbdominal);
         const diar = !isEmptyArray(infoGastroIn?.diarrea);
         const estre = !isEmptyArray(infoGastroIn?.estreñimiento);
@@ -119,7 +115,7 @@ const Gastrointestinal = ({ id }) => {
                 console.log('POST');
                 await apiURL.post(`gastroIntestinales/individual?usuario=${id}`, body);
             }
-            toggleButton(false);
+            setButtonDisabled(false);
             message.success('Datos actualizados correctamente');
         } catch (error) {
             console.groupCollapsed('[ERROR] updateGastroIn');
@@ -226,16 +222,17 @@ const Gastrointestinal = ({ id }) => {
                     <Form.Item name='fReflu' label='Frecuencia' className='lb-gastroIn2'>
                         <Select placeholder='Selecciona una frecuencia'>
                             {mocks.frecuencias.map(({ value, label }) => (
-                                <Option value={value}>{label}</Option>
+                                <Option key={value} value={value}>
+                                    {label}
+                                </Option>
                             ))}
                         </Select>
                     </Form.Item>
                     <center>
                         <button
-                            disabled={buttonDisabled}
                             className='btn-see-circunferencia'
                             htmlType='submit'
-                            /*onClick={() => updateEstadoGeneral()}*/
+                            disabled={buttonDisabled}
                             value='Add'>
                             Guardar
                         </button>

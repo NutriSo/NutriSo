@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { DatePicker, Space } from 'antd';
+import { DatePicker, message, Space } from 'antd';
 import moment from 'moment';
 import dayjs from 'dayjs';
 
@@ -15,7 +15,7 @@ import OverallStatus from '@/components/commons/UserUpdate/OverallStatus';
 import SolarExposition from '@/components/commons/UserUpdate/SolarExposition';
 import Gastrointestinal from '@/components/commons/UserUpdate/Gastrointestinal';
 import Lactation from '@/components/commons/UserUpdate/Lactation';
-import HoursOfSleep from '../../commons/UserUpdate/HoursOfSleep';
+import HoursOfSleep from '@/components/commons/UserUpdate/HoursOfSleep';
 import SocioeconomicData from '@/components/commons/UserUpdate/SocioeconomicData';
 import { capitilizeWord, isInvalidElem, isEmptyString, getUserHash } from '@/utils';
 
@@ -35,7 +35,6 @@ const Usuarios = () => {
     let [estadoDeNacomiento, setEstadoDeNacimiento] = useState('');
     let [fechaNacimiento, setFechaNacimiento] = useState('');
     let [genero, setGenero] = useState('');
-    const [buttonDisabled, setButtonDisabled] = useState(false);
 
     const globalUserId = getUserHash();
     const isPhotoExist = !isInvalidElem(info?.foto) && !isEmptyString(info?.foto);
@@ -56,10 +55,6 @@ const Usuarios = () => {
         if (info?.usuario) {
         }
     }, [info]);
-
-    const toggleButton = (value) => {
-        setButtonDisabled(value);
-    };
 
     const fethInfo = async () => {
         try {
@@ -121,8 +116,6 @@ const Usuarios = () => {
             genero = info.genero;
         }
 
-        toggleButton(true);
-
         try {
             const body = {
                 nombre: name,
@@ -136,12 +129,11 @@ const Usuarios = () => {
                 genero: genero,
             };
 
-            const res = await apiURL.patch(
+            await apiURL.patch(
                 `/informacionUsuarios/individual?usuario=${globalUserId}`,
                 body
             );
-            console.log(res);
-            toggleButton(false);
+            message.success('Se han guardado los cambios');
         } catch (error) {
             console.groupCollapsed('Error en la funcion fetchInfo');
             console.error(error);
@@ -169,13 +161,14 @@ const Usuarios = () => {
                             <div className='labels'>
                                 <label className='id-name'>Nombre:</label>
                             </div>
-                            <div className='inputs'>
+                            <div>
                                 <input
                                     className='lb-name'
                                     placeholder={info.nombre || ''}
                                     type='text'
                                     name='nombre'
-                                    onChange={(event) => setName(event.target.value)}></input>
+                                    onChange={(event) => setName(event.target.value)}
+                                />
                             </div>
                         </div>
 
@@ -183,15 +176,14 @@ const Usuarios = () => {
                             <div className='labels'>
                                 <label className='id-name'>Apellido Paterno:</label>
                             </div>
-                            <div className='inputs'>
+                            <div>
                                 <input
                                     className='lb-name'
                                     placeholder={info.apellidoPaterno || ''}
                                     type='text'
                                     name='apellidoPaterno'
-                                    onChange={(event) =>
-                                        setApellidoP(event.target.value)
-                                    }></input>
+                                    onChange={(event) => setApellidoP(event.target.value)}
+                                />
                             </div>
                         </div>
 
@@ -199,15 +191,14 @@ const Usuarios = () => {
                             <div className='labels'>
                                 <label className='id-name'>Apellido Materno:</label>
                             </div>
-                            <div className='inputs'>
+                            <div>
                                 <input
                                     className='lb-name'
                                     placeholder={info.apellidoMaterno || ''}
                                     type='text'
                                     name='apellidoMaterno'
-                                    onChange={(event) =>
-                                        setApellidoM(event.target.value)
-                                    }></input>
+                                    onChange={(event) => setApellidoM(event.target.value)}
+                                />
                             </div>
                         </div>
                     </div>
@@ -217,22 +208,21 @@ const Usuarios = () => {
                             <div className='labels'>
                                 <label className='id-name'>Celular:</label>
                             </div>
-                            <div className='inputs'>
+                            <div>
                                 <input
                                     className='lb-name'
                                     placeholder={info.celular || ''}
                                     type='number'
                                     name='celular'
-                                    onChange={(event) =>
-                                        setCelular(event.target.value)
-                                    }></input>
+                                    onChange={(event) => setCelular(event.target.value)}
+                                />
                             </div>
                         </div>
                         <div className='entradas'>
                             <div className='labels'>
                                 <label className='id-name'>Ciudad de residencia:</label>
                             </div>
-                            <div className='inputs'>
+                            <div>
                                 <input
                                     className='lb-name'
                                     placeholder={info.ciudadDeResidencia || ''}
@@ -240,14 +230,15 @@ const Usuarios = () => {
                                     name='ciudad'
                                     onChange={(event) =>
                                         setCiudadResidencia(event.target.value)
-                                    }></input>
+                                    }
+                                />
                             </div>
                         </div>
                         <div className='entradas'>
                             <div className='labels'>
                                 <label className='id-name'>Tiempo Residando:</label>
                             </div>
-                            <div className='inputs'>
+                            <div>
                                 <input
                                     className='lb-name'
                                     placeholder={capitilizeWord(info.tiempoViviendoAhi || '')}
@@ -255,7 +246,8 @@ const Usuarios = () => {
                                     name='residando'
                                     onChange={(event) =>
                                         setTiempoResidando(event.target.value)
-                                    }></input>
+                                    }
+                                />
                             </div>
                         </div>
                     </div>
@@ -265,7 +257,7 @@ const Usuarios = () => {
                             <div className='labels'>
                                 <label className='id-name'>Estado de Nacimiento:</label>
                             </div>
-                            <div className='inputs'>
+                            <div>
                                 <input
                                     className='lb-name'
                                     placeholder={capitilizeWord(
@@ -275,7 +267,8 @@ const Usuarios = () => {
                                     name='estadoDN'
                                     onChange={(event) =>
                                         setEstadoDeNacimiento(event.target.value)
-                                    }></input>
+                                    }
+                                />
                             </div>
                         </div>
 
@@ -283,35 +276,29 @@ const Usuarios = () => {
                             <div className='labels'>
                                 <label className='id-name'>Fecha de Nacimiento:</label>
                             </div>
-                            <div className='inputs'>
-                                <Space direction='vertical'>
-                                    {formattedBirthday !==
-                                        dayjs(new Date()).format('YYYY-MM-DD') && (
-                                        <DatePicker
-                                            defaultValue={moment(
-                                                formattedBirthday,
-                                                'YYYY-MM-DD'
-                                            )}
-                                            placeholder={formattedBirthday}
-                                            onChange={onChange}
-                                        />
-                                    )}
-                                </Space>
+                            <div className='overrideDatePickerContainer'>
+                                {formattedBirthday !==
+                                    dayjs(new Date()).format('YYYY-MM-DD') && (
+                                    <DatePicker
+                                        defaultValue={moment(formattedBirthday, 'YYYY-MM-DD')}
+                                        placeholder={formattedBirthday}
+                                        onChange={onChange}
+                                    />
+                                )}
                             </div>
                         </div>
                         <div className='entradas'>
                             <div className='labels'>
                                 <label className='id-name'>Genero:</label>
                             </div>
-                            <div className='inputs'>
+                            <div>
                                 <input
                                     className='lb-name'
                                     placeholder={capitilizeWord(info.genero || '')}
                                     type='text'
                                     name='genero'
-                                    onChange={(event) =>
-                                        setGenero(event.target.value)
-                                    }></input>
+                                    onChange={(event) => setGenero(event.target.value)}
+                                />
                             </div>
                         </div>
                     </div>
@@ -319,14 +306,13 @@ const Usuarios = () => {
                     <div className='basicInfo-Save'>
                         <button
                             className='btn-see-circunferencia'
-                            disabled={buttonDisabled}
                             onClick={() => GuardarCambios()}>
                             Guardar
                         </button>
                     </div>
                 </div>
             </div>
-
+            <Background id={globalUserId} />
             <SocioeconomicData id={globalUserId} />
             <Weight id={globalUserId} />
             <Circumference id={globalUserId} />
@@ -334,8 +320,9 @@ const Usuarios = () => {
             <BioIndicators id={globalUserId} />
             <OverallStatus id={globalUserId} />
             <SolarExposition id={globalUserId} />
-            <HoursOfSleep id={globalUserId} />
             <Gastrointestinal id={globalUserId} />
+            <HoursOfSleep id={globalUserId} />
+            <Clinic id={globalUserId} />
             <Lactation id={globalUserId} />
         </>
     );
