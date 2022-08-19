@@ -161,8 +161,11 @@ const UltraProcessed = ({ selected = false, setLoading }) => {
             }
 
             const csvRowsPreview = generateCsvRows(unified, 3);
-            const cvsRows = generateFinalCsvRows(csvRowsPreview);
-            const finalColumns = getFinalColumns(columns, csvRowsPreview);
+            const cvsRows = generateFinalCsvRows(csvRowsPreview, keys.ultraProcesados);
+            const finalColumns = getFinalColumns(
+                columns,
+                groups[keys.ultraProcesados].length
+            );
 
             setColumns(finalColumns);
             setExportData(cvsRows);
