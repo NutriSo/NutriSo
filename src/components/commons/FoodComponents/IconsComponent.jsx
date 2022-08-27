@@ -38,94 +38,98 @@ const IconsComponent = ({
     }, [dataSource]);
 
     return (
-        <>
-            <div className='icons'>
-                <div className='img_food'>
-                    {hasImage && <UploadImg url={data?.imagen} onChange={handleImage} />}
-                    {!hasImage && <UploadImg disabled />}
-                </div>
-                <div className='icon_healty'>
-                    <h1 id='healt'>Nutricional</h1>
-                    <div id='icons-icons'>
-                        <SmileTwoTone
-                            twoToneColor={nutricionalIcon1Color}
-                            style={{ fontSize: '35px' }}
-                            onClick={() => nutricional('1')}
-                        />
-                        <MehTwoTone
-                            twoToneColor={nutricionalIcon2Color}
-                            style={{ fontSize: '35px' }}
-                            onClick={() => nutricional('2')}
-                        />
-                        <FrownTwoTone
-                            twoToneColor={nutricionalIcon3Color}
-                            style={{ fontSize: '35px' }}
-                            onClick={() => nutricional('3')}
-                        />
-                    </div>
-                </div>
-                <div className='icon_enviroment'>
-                    <h1 id='enviro'>Ambiental</h1>
-                    <div id='icons-icons'>
-                        <SmileTwoTone
-                            twoToneColor={ambientalIcon1Color}
-                            style={{ fontSize: '35px' }}
-                            onClick={() => ambiental('1')}
-                        />
-                        <MehTwoTone
-                            twoToneColor={ambientalIcon2Color}
-                            style={{ fontSize: '35px' }}
-                            onClick={() => ambiental('2')}
-                        />
-                        <FrownTwoTone
-                            twoToneColor={ambientalIcon3Color}
-                            style={{ fontSize: '35px' }}
-                            onClick={() => ambiental('3')}
-                        />
-                    </div>
-                </div>
-                <div className='icon_economy'>
-                    <h1 id='economy'>Economía</h1>
-                    <div id='icons-icons'>
-                        <SmileTwoTone
-                            twoToneColor={economiaIcon1Color}
-                            style={{ fontSize: '35px' }}
-                            onClick={() => economia('1')}
-                        />
-                        <MehTwoTone
-                            twoToneColor={economiaIcon2Color}
-                            style={{ fontSize: '35px' }}
-                            onClick={() => economia('2')}
-                        />
-                        <FrownTwoTone
-                            twoToneColor={economiaIcon3Color}
-                            style={{ fontSize: '35px' }}
-                            onClick={() => economia('3')}
-                        />
-                    </div>
-                </div>
-                <div className='icon_culture_society'>
-                    <h1 id='culture'>Cultura sociedad</h1>
-                    <div id='icons-icons'>
-                        <SmileTwoTone
-                            twoToneColor={culturaIcon1Color}
-                            style={{ fontSize: '35px' }}
-                            onClick={() => sociedad('1')}
-                        />
-                        <MehTwoTone
-                            twoToneColor={culturaIcon2Color}
-                            style={{ fontSize: '35px' }}
-                            onClick={() => sociedad('2')}
-                        />
-                        <FrownTwoTone
-                            twoToneColor={culturaIcon3Color}
-                            style={{ fontSize: '35px' }}
-                            onClick={() => sociedad('3')}
-                        />
-                    </div>
+        <div className='icons'>
+            <div className='img_food'>
+                {hasImage && (
+                    <UploadImg
+                        url={data?.imagen}
+                        onChange={handleImage}
+                        name={data?.nombreAlimento}
+                    />
+                )}
+                {!hasImage && <UploadImg disabled />}
+            </div>
+            <div className='icon_healty'>
+                <h1 id='healt'>Nutricional</h1>
+                <div id='icons-icons'>
+                    <SmileTwoTone
+                        twoToneColor={nutricionalIcon1Color}
+                        style={{ fontSize: '35px' }}
+                        onClick={() => nutricional('1')}
+                    />
+                    <MehTwoTone
+                        twoToneColor={nutricionalIcon2Color}
+                        style={{ fontSize: '35px' }}
+                        onClick={() => nutricional('2')}
+                    />
+                    <FrownTwoTone
+                        twoToneColor={nutricionalIcon3Color}
+                        style={{ fontSize: '35px' }}
+                        onClick={() => nutricional('3')}
+                    />
                 </div>
             </div>
-        </>
+            <div className='icon_enviroment'>
+                <h1 id='enviro'>Ambiental</h1>
+                <div id='icons-icons'>
+                    <SmileTwoTone
+                        twoToneColor={ambientalIcon1Color}
+                        style={{ fontSize: '35px' }}
+                        onClick={() => ambiental('1')}
+                    />
+                    <MehTwoTone
+                        twoToneColor={ambientalIcon2Color}
+                        style={{ fontSize: '35px' }}
+                        onClick={() => ambiental('2')}
+                    />
+                    <FrownTwoTone
+                        twoToneColor={ambientalIcon3Color}
+                        style={{ fontSize: '35px' }}
+                        onClick={() => ambiental('3')}
+                    />
+                </div>
+            </div>
+            <div className='icon_economy'>
+                <h1 id='economy'>Economía</h1>
+                <div id='icons-icons'>
+                    <SmileTwoTone
+                        twoToneColor={economiaIcon1Color}
+                        style={{ fontSize: '35px' }}
+                        onClick={() => economia('1')}
+                    />
+                    <MehTwoTone
+                        twoToneColor={economiaIcon2Color}
+                        style={{ fontSize: '35px' }}
+                        onClick={() => economia('2')}
+                    />
+                    <FrownTwoTone
+                        twoToneColor={economiaIcon3Color}
+                        style={{ fontSize: '35px' }}
+                        onClick={() => economia('3')}
+                    />
+                </div>
+            </div>
+            <div className='icon_culture_society'>
+                <h1 id='culture'>Cultura sociedad</h1>
+                <div id='icons-icons'>
+                    <SmileTwoTone
+                        twoToneColor={culturaIcon1Color}
+                        style={{ fontSize: '35px' }}
+                        onClick={() => sociedad('1')}
+                    />
+                    <MehTwoTone
+                        twoToneColor={culturaIcon2Color}
+                        style={{ fontSize: '35px' }}
+                        onClick={() => sociedad('2')}
+                    />
+                    <FrownTwoTone
+                        twoToneColor={culturaIcon3Color}
+                        style={{ fontSize: '35px' }}
+                        onClick={() => sociedad('3')}
+                    />
+                </div>
+            </div>
+        </div>
     );
 };
 

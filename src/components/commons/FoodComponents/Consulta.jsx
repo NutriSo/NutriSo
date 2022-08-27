@@ -8,7 +8,7 @@ import apiURL from '@/axios/axiosConfig';
 import ButtonsArea from '@/components/commons/ButtonsArea';
 import AddFood from '@/components/views/addfood/AddFoodModal/AddFoodModal';
 import Loading from '@/components/commons/Loading';
-import { returnArrayToString } from '@/utils';
+import { returnArrayToString, isEmptyString } from '@/utils';
 import { columns } from '@/components/commons/FoodComponents/data/formData';
 
 import styles from './Consulta.module.scss';
@@ -23,7 +23,7 @@ const Consulta = ({ onClick }) => {
     const [fileReady, setFileReady] = useState(false);
     const [filterData, setFilterData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    console.log({ allData, data });
+
     const scrollRef = useRef();
 
     const fetchItems = useCallback(async () => {
@@ -94,9 +94,20 @@ const Consulta = ({ onClick }) => {
 
     const onSearch = ({ target }) => {
         setIsSearching(true);
-        const filteredData = allData.filter((alimento) =>
-            alimento.nombreAlimento.includes(target.value)
-        );
+
+        if (isEmptyString(target.value)) {
+            setFilterData(allData);
+            return;
+        }
+
+        const normalizedValue = target.value.toLowerCase().trim();
+
+        const filteredData = allData.filter((alimento) => {
+            const normalizedName = alimento.nombreAlimento.toLowerCase().trim();
+
+            return normalizedName.includes(normalizedValue);
+        });
+
         setFilterData(filteredData);
     };
 

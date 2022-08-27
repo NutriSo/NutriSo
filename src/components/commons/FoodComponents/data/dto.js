@@ -597,7 +597,7 @@ export const generateFormDTO = (data) => {
 export const generateIconsDTO = (data) => {
     if (isInvalidElem(data) || isEmptyObject(data)) return null;
 
-    const { icono, imagen } = data;
+    const { icono, imagen, nombreAlimento } = data;
 
     const { iconoNutricional, iconoAmbiental, iconoEconomia, iconoCulturaSociedad } = icono;
 
@@ -607,5 +607,6 @@ export const generateIconsDTO = (data) => {
         iconoEconomia,
         iconoCulturaSociedad,
         iconoNutricional,
+        nombreAlimento,
     };
 };

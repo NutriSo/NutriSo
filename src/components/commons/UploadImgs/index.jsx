@@ -4,8 +4,8 @@ import { Upload, Modal, message } from 'antd';
 
 import axios from 'axios';
 
-const UploadImgs = ({ onChange, disabled, url }) => {
-    const [ imageDetails, setImageDetails ] = useState({
+const UploadImgs = ({ onChange, disabled, url, name }) => {
+    const [imageDetails, setImageDetails] = useState({
         previewVisible: false,
         previewImage: '',
         previewTitle: '',
@@ -14,7 +14,6 @@ const UploadImgs = ({ onChange, disabled, url }) => {
         fileList: [],
     });
 
-
     useEffect(() => {
         if (url) {
             setImageDetails({
@@ -22,14 +21,14 @@ const UploadImgs = ({ onChange, disabled, url }) => {
                 fileList: [
                     {
                         uid: '-1',
-                        name: 'previewPicture.png',
+                        name: name || 'previewPicture.png',
                         status: 'done',
                         url: url,
                     },
                 ],
             });
         }
-    }, [ url ]);
+    }, [url]);
 
     function getBase64(file) {
         return new Promise((resolve, reject) => {
@@ -40,8 +39,7 @@ const UploadImgs = ({ onChange, disabled, url }) => {
         });
     }
 
-    const handleCancel = () =>
-        setImageDetails({ ...imageDetails, previewVisible: false });
+    const handleCancel = () => setImageDetails({ ...imageDetails, previewVisible: false });
 
     const handlePreview = async (file) => {
         if (!file.url && !file.preview) {
@@ -52,8 +50,7 @@ const UploadImgs = ({ onChange, disabled, url }) => {
             ...imageDetails,
             previewImage: file.url || file.preview,
             previewVisible: true,
-            previewTitle:
-                file.name || file.url.substring(file.url.lastIndexOf('/') + 1),
+            previewTitle: file.name || file.url.substring(file.url.lastIndexOf('/') + 1),
         });
     };
 
@@ -63,11 +60,11 @@ const UploadImgs = ({ onChange, disabled, url }) => {
                 setImageDetails({ ...imageDetails, fileList: [] });
                 //onChange('');
             } else if (file.status === 'uploading') {
-                setImageDetails({ ...imageDetails, fileList: [ file ] });
+                setImageDetails({ ...imageDetails, fileList: [file] });
             } else if (file.status === 'done') {
                 setImageDetails({
                     ...imageDetails,
-                    fileList: [ file ],
+                    fileList: [file],
                     previewKeyName: file.response.key,
                 });
 
@@ -81,8 +78,7 @@ const UploadImgs = ({ onChange, disabled, url }) => {
     const uploadButton = <div className='uploadAvatar'>Subir</div>;
 
     const handleBeforeUpload = (file) => {
-        const isJpgOrPng =
-            file.type === 'image/jpeg' || file.type === 'image/png';
+        const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
 
         if (!isJpgOrPng) {
             message.error(`${file.name} is not a png file`);
@@ -98,8 +94,7 @@ const UploadImgs = ({ onChange, disabled, url }) => {
 
     const handleUpload = async ({ onSuccess, onError, onProgress, file }) => {
         try {
-            const url =
-                'https://api.cloudinary.com/v1_1/dwjv6orjf/image/upload';
+            const url = 'https://api.cloudinary.com/v1_1/dwjv6orjf/image/upload';
             const formData = new FormData();
             formData.append('file', file);
             formData.append('upload_preset', 'dietaso');
@@ -123,7 +118,7 @@ const UploadImgs = ({ onChange, disabled, url }) => {
 
                         setImageDetails({
                             ...imageDetails,
-                            fileList: [ file ],
+                            fileList: [file],
                             previewImage: data.secure_url,
                             previewKeyName: data.original_filename,
                             signature: data.signature,
@@ -165,8 +160,10 @@ const UploadImgs = ({ onChange, disabled, url }) => {
                 token: imageDetails.previewKeyName,
             };
 
-            await axios.post('https://api.cloudinary.com/v1_1/dwjv6orjf/delete_by_token', body);
-
+            await axios.post(
+                'https://api.cloudinary.com/v1_1/dwjv6orjf/delete_by_token',
+                body
+            );
         } catch (error) {
             console.log(`Fallado ${error}`);
             return false;
@@ -188,7 +185,6 @@ const UploadImgs = ({ onChange, disabled, url }) => {
                 onRemove={handleRemove}>
                 {imageDetails.fileList.length > 0 ? null : uploadButton}
             </Upload>
-            {/*  <input type="file" onChange={(e) => setImageDetails({ ...imageDetails, fileList: [ e.target.files[ 0 ] ] })} /> */}
             <Modal
                 width={'40rem'}
                 visible={imageDetails.previewVisible}
