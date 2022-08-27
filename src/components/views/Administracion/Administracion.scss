@@ -175,6 +175,25 @@
     padding: 8px 0px 0px 8px !important;
 }
 
+.titleSection {
+    display: flex;
+    width: 100%;
+
+    .description {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        color: #ffffff;
+        font-size: 1.5rem;
+        font-weight: 700;
+
+        &:hover {
+            cursor: pointer;
+            color: #f1f1f1;
+        }
+    }
+}
+
 #titleLvl {
     background-color: rgba(137, 43, 226, 0);
     width: 99%;

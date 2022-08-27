@@ -5,23 +5,18 @@ import UploadImg from '@/components/commons/UploadImgs';
 import apiURL from '@/axios/axiosConfig';
 import Slider from '@/components/commons/Slider';
 
+import DescriptionModal from './DescriptionModal';
+import { defaultState } from './defultState';
 import settings from './settings';
+
 import './Administracion.scss';
 
 const Administracion = () => {
     const [form] = Form.useForm();
     const [imagenes, setImagenes] = useState([]);
-    const [updateStates, setUpdateStates] = useState({
-        bioquimicos: false,
-        circunferencia: false,
-        camposCorporales: false,
-        gastrointestinal: false,
-        clinicos: false,
-        sueno: false,
-        exposicionSolar: false,
-        estadoGeneral: false,
-        informacionPersonal: false,
-    });
+    const [description, setDescription] = useState(null);
+    const [isOpen, setIsOpen] = useState(false);
+    const [updateStates, setUpdateStates] = useState(defaultState);
     const [updateStatesOn, setUpdateStatesOn] = useState(false);
 
     useEffect(() => {
@@ -29,6 +24,13 @@ const Administracion = () => {
         getOnOff();
         fetchImagenes();
         getOpcionesEdicion();
+        return () => {
+            setImagenes([]);
+            setIsOpen(false);
+            setDescription(null);
+            setUpdateStatesOn(false);
+            setUpdateStates(defaultState);
+        };
     }, []);
 
     const getOnOff = async () => {
@@ -206,6 +208,11 @@ const Administracion = () => {
         return toReturn;
     };
 
+    const toggleModal = (number) => {
+        setDescription(number);
+        setIsOpen((s) => !s);
+    };
+
     return (
         <div className='main-Administracion'>
             <div className='primerosDos'>
@@ -300,37 +307,67 @@ const Administracion = () => {
                     </Form>
                 </div>
                 <div className='levels'>
-                    <label id='titleLvl'>Lvl 5</label>
+                    <section className='titleSection'>
+                        <label id='titleLvl'>Lvl 5</label>
+                        <div className='description' onClick={() => toggleModal(5)}>
+                            Ver/Editar descripción
+                        </div>
+                    </section>
                     <div className='lvl'>
                         <div className='imagenes'>
                             <Slider config={settings.default}>{mapImagenes('5')}</Slider>
                         </div>
                     </div>
-                    <label id='titleLvl'>Lvl 4</label>
+                    <section className='titleSection'>
+                        <label id='titleLvl'>Lvl 4</label>
+                        <div className='description' onClick={() => toggleModal(4)}>
+                            Ver/Editar descripción
+                        </div>
+                    </section>
                     <div className='lvl'>
                         <div className='imagenes'>
                             <Slider config={settings.default}>{mapImagenes('4')}</Slider>
                         </div>
                     </div>
-                    <label id='titleLvl'>Lvl 3</label>
+                    <section className='titleSection'>
+                        <label id='titleLvl'>Lvl 3</label>
+                        <div className='description' onClick={() => toggleModal(3)}>
+                            Ver/Editar descripción
+                        </div>
+                    </section>
                     <div className='lvl'>
                         <div className='imagenes'>
                             <Slider config={settings.default}>{mapImagenes('3')}</Slider>
                         </div>
                     </div>
-                    <label id='titleLvl'>Lvl 2</label>
+                    <section className='titleSection'>
+                        <label id='titleLvl'>Lvl 2</label>
+                        <div className='description' onClick={() => toggleModal(2)}>
+                            Ver/Editar descripción
+                        </div>
+                    </section>
                     <div className='lvl'>
                         <div className='imagenes'>
                             <Slider config={settings.default}>{mapImagenes('2')}</Slider>
                         </div>
                     </div>
-                    <label id='titleLvl'>Lvl 1</label>
+                    <section className='titleSection'>
+                        <label id='titleLvl'>Lvl 1</label>
+                        <div className='description' onClick={() => toggleModal(1)}>
+                            Ver/Editar descripción
+                        </div>
+                    </section>
                     <div className='lvl'>
                         <div className='imagenes'>
                             <Slider config={settings.default}>{mapImagenes('1')}</Slider>
                         </div>
                     </div>
-                    <label id='titleLvl'>Lvl 0</label>
+                    <section className='titleSection'>
+                        <label id='titleLvl'>Lvl 0</label>
+                        <div className='description' onClick={() => toggleModal(0)}>
+                            Ver/Editar descripción
+                        </div>
+                    </section>
                     <div className='lvl'>
                         <div className='imagenes'>
                             <Slider config={settings.default}>{mapImagenes('0')}</Slider>
@@ -338,6 +375,12 @@ const Administracion = () => {
                     </div>
                 </div>
             </div>
+            <DescriptionModal
+                dataSource={imagenes}
+                isOpen={isOpen}
+                onClose={toggleModal}
+                level={description}
+            />
         </div>
     );
 };
