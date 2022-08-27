@@ -46,29 +46,8 @@ const Administracion = () => {
     const getOpcionesEdicion = async () => {
         try {
             const { data } = await apiURL.get('/opcionesEdicion');
-            const {
-                bioquimicos,
-                camposCorporales,
-                circunferencia,
-                clinicos,
-                estadoGeneral,
-                exposicionSolar,
-                gastroIntestinal,
-                informacionPersonal,
-                sueno,
-            } = data[0];
 
-            setUpdateStates({
-                bioquimicos,
-                camposCorporales,
-                circunferencia,
-                clinicos,
-                estadoGeneral,
-                exposicionSolar,
-                gastroIntestinal,
-                informacionPersonal,
-                sueno,
-            });
+            setUpdateStates(data[0]);
         } catch (error) {
             console.groupCollapsed('Error xd');
             console.error(error);
@@ -231,13 +210,16 @@ const Administracion = () => {
         <div className='main-Administracion'>
             <div className='primerosDos'>
                 <div className='segundo'>
-                    <label className='texto'>OFF</label>
-                    <Switch
-                        className='switch'
-                        checked={updateStatesOn}
-                        onChange={handlePatchOnOff}
-                    />
-                    <label className='texto'>ON</label>
+                    <h2>Registro libre</h2>
+                    <div>
+                        <label className='texto'>OFF</label>
+                        <Switch
+                            className='switch'
+                            checked={updateStatesOn}
+                            onChange={handlePatchOnOff}
+                        />
+                        <label className='texto'>ON</label>
+                    </div>
                 </div>
                 <div className='primero'>
                     <div className='labels'>
