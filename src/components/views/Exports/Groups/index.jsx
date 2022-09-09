@@ -83,7 +83,8 @@ const Groups = ({ selected = false, setLoading }) => {
         try {
             const foods = [];
             const usersAux = [];
-
+            console.log(foods)
+            console.log(usersAux)
             const { data } = await apiURL.get('registroDietetico/exports');
 
             if (data?.length <= 0) {
@@ -147,10 +148,11 @@ const Groups = ({ selected = false, setLoading }) => {
 
     const createExportData = () => {
         console.log('Armando los datos de exportación...');
+        
         try {
             const rows = getRowValues(usersData);
             const unified = unifyGroups(rows);
-
+            console.log(rows);
             if (isEmptyArray(unified)) {
                 message.info('No hay datos para exportar');
                 handleCancel();
