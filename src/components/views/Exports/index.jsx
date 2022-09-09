@@ -10,6 +10,7 @@ import Groups from './Groups';
 import SubGroup from './SubGroup';
 import UltraProcessed from './UltraProcessed';
 import AppropriateSubGroup from './AppropriateSubGroup';
+import GroupsByDay from './GroupsByDay';
 
 import { getIsSelected } from './utils';
 import { opciones, initialState } from './data';
@@ -65,6 +66,9 @@ const Exports = () => {
                                 selected={selected[6]}
                                 setLoading={setLoading}
                             />
+                        )}
+                        {getIsSelected(selected, 9, index) && (
+                            <GroupsByDay selected={selected[9]} setLoading={setLoading} />
                         )}
                         {selected[index + 1] === false && (
                             <Button onClick={() => handleClick(index + 1)}>
