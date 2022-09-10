@@ -83,8 +83,8 @@ const Groups = ({ selected = false, setLoading }) => {
         try {
             const foods = [];
             const usersAux = [];
-            console.log(foods)
-            console.log(usersAux)
+            console.log(foods);
+            console.log(usersAux);
             const { data } = await apiURL.get('registroDietetico/exports');
 
             if (data?.length <= 0) {
@@ -148,7 +148,7 @@ const Groups = ({ selected = false, setLoading }) => {
 
     const createExportData = () => {
         console.log('Armando los datos de exportación...');
-        
+
         try {
             const rows = getRowValues(usersData);
             const unified = unifyGroups(rows);
@@ -179,6 +179,8 @@ const Groups = ({ selected = false, setLoading }) => {
             console.groupEnd();
         }
     };
+
+    return <div />;
 
     return (
         <CustomExport

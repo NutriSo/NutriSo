@@ -1344,50 +1344,34 @@ export const unifyArrays = (data) => {
     return result;
 };
 
-export const unifyGroups = (data) => {//AQUI MONSE ->
+export const unifyGroups = (data) => {
+    //AQUI MONSE ->
     if (isInvalidElem(data)) return [];
-    console.log(data)
+
     const result = data.map((elem) => {
         const { values, ...rest } = elem;
-        //console.log(values)
-        //console.log(rest)
-        
-        
+
         const newValues = [];
         const gruopsMapped = [];
         const cantidades = 0;
-        
-        //console.log(gruopsMapped)
+
         values.forEach((el) => {
             const { grupo, ...rest } = el;
-            console.log("holiwi")
-            //console.log({grupo,rest}) o console.log(el)
-            //console.log(grupo)
-            //console.log(newValues[].values[].cantidad)
-            
-            
-           /* rest.forEach(() => {
-                    
-                    for (let x = 0; x < values.length; x++) {
-                            cantidades += rest.values[x].cantidad;
-                        
-                    }
-               
-            });*/
+
             if (gruopsMapped.includes(grupo)) {
                 const index = gruopsMapped.findIndex((e) => e === grupo);
-               
-                /*if (...rest.values.nombreAlimento.reduce === grupo) {
-                    cantidades += parseInt(...rest.values.cantidad);
-                }*/
-                
-                
-                newValues[index].values.push(...rest.values);
-                console.log(newValues[index].values.nombreAlimento)
-                //console.log(...rest.values)
-                console.log(newValues)
+
+                // AQUÍ MERO
+                const newObj = rest.values[0];
+
+                console.log({
+                    alimentoAGuardar: rest.values,
+                    datosYaGuardadosEnGrupo: newValues[index],
+                });
+
+                // AQUÍ TERMINA
+                newValues[index].values.push(newObj);
                 return;
-                
             }
 
             //console.log(el)
