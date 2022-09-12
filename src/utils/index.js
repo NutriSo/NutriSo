@@ -98,6 +98,10 @@ export const returnJoinedArray = (arr) => {
     return arr.join(', ');
 };
 
+export const isNumberType = (param) => {
+    return typeof param === 'number';
+};
+
 export const returnJoinedArrayByKey = (key, arr) => {
     try {
         if (!Array.isArray(arr)) return '';
