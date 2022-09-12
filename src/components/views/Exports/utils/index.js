@@ -1366,14 +1366,6 @@ export const unifyGroups = (data) => {
                     return;
                 }
 
-                const obj = rest.values[0];
-                const foods = newValues[index].values;
-                const id1 = obj.id;
-                const id2 = foods.map((e) => e._id);
-                // console.log({ obj, foods, id1, id2 });
-                const foodWithSameId = foods.find((e) => e.id === obj.id);
-                // console.log({ foodWithSameId });
-
                 newValues[index].values.push(...rest.values);
                 return;
             }
