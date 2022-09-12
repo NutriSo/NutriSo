@@ -1,4 +1,4 @@
-import { isEmptyArray, isEmptyObject, isInvalidElem } from '@/utils';
+import { isEmptyArray, isEmptyObject, isInvalidElem, isNumberType } from '@/utils';
 import groups from '../data/excelGroups';
 import keys from '../data/excelKeys';
 import { KG } from '../constants';
@@ -338,6 +338,7 @@ export const normalizeSumByGroupDTO = (prevData, newData) => {
             monolauratoDeGlicerol,
             consumption
         ),
+        cantidad: consumption,
     };
 
     return result;
@@ -1239,13 +1240,13 @@ export const getPropSum = (firstProp, secondProp, consumption) => {
     const firstValue = Number(firstProp);
     const secondValue = Number(secondProp);
 
-    if (isNaN(firstValue)) return secondValue * consumption;
+    if (isNaN(firstValue)) return secondValue * Number(consumption);
 
-    if (isNaN(secondValue) && !isNaN(firstValue)) return firstValue * consumption;
+    if (isNaN(secondValue) && !isNaN(firstValue)) return firstValue * Number(consumption);
 
     if (isNaN(secondValue)) return 0;
 
-    return firstValue * consumption + secondValue * consumption;
+    return firstValue * Number(consumption) + secondValue * Number(consumption);
 };
 
 export const getRowValues = (data) => {
@@ -1279,7 +1280,9 @@ export const groupByRegId = (data) => {
         if (idsMapped.includes(idRegistro)) {
             const index = result.findIndex((item) => item.idRegistro === idRegistro);
 
-            if (index === -1) return;
+            if (index === -1) {
+                return;
+            }
 
             result[index].values.push({
                 grupo: id,
@@ -1358,6 +1361,18 @@ export const unifyGroups = (data) => {
 
             if (gruopsMapped.includes(grupo)) {
                 const index = gruopsMapped.findIndex((e) => e === grupo);
+
+                if (index === -1) {
+                    return;
+                }
+
+                const obj = rest.values[0];
+                const foods = newValues[index].values;
+                const id1 = obj.id;
+                const id2 = foods.map((e) => e._id);
+                // console.log({ obj, foods, id1, id2 });
+                const foodWithSameId = foods.find((e) => e.id === obj.id);
+                // console.log({ foodWithSameId });
 
                 newValues[index].values.push(...rest.values);
                 return;
@@ -1850,6 +1865,85 @@ export const getZeroData = (name) => {
     result.push(0);
     result.push(0);
     result.push(0);
+
+    return result;
+};
+
+export const getSumByDay = (data, type) => {
+    if (isInvalidElem(data)) {
+        return [];
+    }
+
+    const aux = [];
+
+    const normalizedMethod = getMethodType(type);
+
+    data.forEach((row) => {
+        const alimentos = row.values;
+        let objToPush = {
+            idParticipante: row.idParticipante,
+            idRegistro: row.idRegistro,
+            fechaRegistro: row.fechaRegistro,
+        };
+
+        alimentos.forEach((grupo) => {
+            const { values } = grupo;
+            let finalSum = {};
+
+            values.forEach((alimento) => {
+                finalSum = normalizedMethod(finalSum, alimento);
+            });
+
+            objToPush = { ...objToPush, ...finalSum };
+
+            aux.push(objToPush);
+        });
+    });
+
+    const result = [];
+    let currentUser = aux[0]?.idParticipante;
+    let currentDay = aux[0]?.fechaRegistro;
+
+    aux.forEach((row) => {
+        const { idRegistro, fechaRegistro, idParticipante, ...rest } = row;
+
+        if (currentUser === idParticipante && currentDay === fechaRegistro) {
+            const firstObj = result?.find(
+                (el) =>
+                    el.idParticipante === idParticipante && el.fechaRegistro === fechaRegistro
+            );
+            const res = sumObjectValues(firstObj || {}, rest);
+            result.push({ idParticipante, idRegistro, fechaRegistro, ...res });
+            return;
+        } else {
+            currentDay = fechaRegistro;
+            currentUser = idParticipante;
+            result.push({ idParticipante, idRegistro, fechaRegistro, ...rest });
+        }
+    });
+
+    return result;
+};
+
+export const sumObjectValues = (firstObj, secondObj) => {
+    const result = {};
+
+    if (isEmptyObject(firstObj)) {
+        return secondObj;
+    }
+
+    Object.keys(firstObj).forEach((key) => {
+        const firstValue = Number(firstObj[key]);
+        const secondValue = Number(secondObj[key]);
+
+        if (isNumberType(firstObj[key]) && isNumberType(secondObj[key])) {
+            result[key] = firstValue + secondValue;
+        } else if (firstObj[key] === 'cantidad' && secondObj[key] === 'cantidad') {
+            result[key] = firstValue + secondValue;
+        } else {
+            result[key] = firstObj[key];
+        }
+    });
 
     return result;
 };
