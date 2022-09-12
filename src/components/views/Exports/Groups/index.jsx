@@ -28,6 +28,7 @@ import {
     unifyGroups,
     generateFinalCsvRows,
     getFinalColumns,
+    getSumByDay,
 } from '../utils';
 
 const Groups = ({ selected = false, setLoading }) => {
@@ -150,13 +151,14 @@ const Groups = ({ selected = false, setLoading }) => {
         try {
             const rows = getRowValues(usersData);
             const unified = unifyGroups(rows);
-
             if (isEmptyArray(unified)) {
                 message.info('No hay datos para exportar');
                 handleCancel();
                 return;
             }
-
+            console.log({ unified });
+            const totales = getSumByDay(unified);
+            console.log({ totales });
             const csvRowsPreview = generateCsvRows(unified);
             const cvsRows = generateFinalCsvRows(csvRowsPreview, keys.grupoExportable);
             const finalColumns = getFinalColumns(
@@ -177,6 +179,8 @@ const Groups = ({ selected = false, setLoading }) => {
             console.groupEnd();
         }
     };
+
+    return <div />;
 
     return (
         <CustomExport

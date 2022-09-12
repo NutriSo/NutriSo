@@ -1892,29 +1892,7 @@ export const getSumByDay = (data, type) => {
         });
     });
 
-    const result = [];
-    let currentUser = aux[0]?.idParticipante;
-    let currentDay = aux[0]?.fechaRegistro;
-
-    aux.forEach((row) => {
-        const { idRegistro, fechaRegistro, idParticipante, ...rest } = row;
-
-        if (currentUser === idParticipante && currentDay === fechaRegistro) {
-            const firstObj = result?.find(
-                (el) =>
-                    el.idParticipante === idParticipante && el.fechaRegistro === fechaRegistro
-            );
-            const res = sumObjectValues(firstObj || {}, rest);
-            result.push({ idParticipante, idRegistro, fechaRegistro, ...res });
-            return;
-        } else {
-            currentDay = fechaRegistro;
-            currentUser = idParticipante;
-            result.push({ idParticipante, idRegistro, fechaRegistro, ...rest });
-        }
-    });
-
-    return result;
+    return aux;
 };
 
 export const sumObjectValues = (firstObj, secondObj) => {
