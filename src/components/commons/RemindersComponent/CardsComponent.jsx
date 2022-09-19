@@ -97,6 +97,7 @@ const CardsComponent = () => {
                 categoria: categoria,
                 fecha: fecha,
                 global: global,
+                usuariosConfirmados: [],
             };
 
             await apiURL.patch(`/recordatorios/${seleccionado._id}`, payload);
