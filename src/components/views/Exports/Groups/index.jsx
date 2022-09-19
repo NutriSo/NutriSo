@@ -158,9 +158,9 @@ const Groups = ({ selected = false, setLoading }) => {
                 handleCancel();
                 return;
             }
-            console.log({ unified });
+            // console.log({ unified });
             const totales = getSumByDay(unified);
-            console.log({ totales });
+            // console.log({ totales });
             const csvRowsPreview = generateCsvRows(unified);
             const cvsRows = generateFinalCsvRows(csvRowsPreview, keys.grupoExportable);
             const finalColumns = getFinalColumns(
