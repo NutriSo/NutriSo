@@ -89,29 +89,20 @@ const CardsComponent = () => {
 
     const handleOk = async () => {
         try {
-            const reminder = {
+            const payload = {
                 usuarios: (listUsersPut.length > 0 && listUsersPut) || arrayUsers,
                 hora: hora,
                 titulo: titulo,
                 mensaje: msj,
                 categoria: categoria,
-                dias: [
-                    {
-                        day: 'martes',
-                        activo: false,
-                    },
-                ],
                 fecha: fecha,
                 global: global,
             };
 
-            const response = await apiURL.patch(
-                `/recordatorios/${seleccionado._id}`,
-                reminder
-            );
-            // console.log({ response });
+            await apiURL.patch(`/recordatorios/${seleccionado._id}`, payload);
+
             message.success('Se actualizó el recordatorio');
-            //window.location.reload();
+
             setIsModalVisible(false);
         } catch (error) {
             console.log(error);
@@ -136,7 +127,7 @@ const CardsComponent = () => {
             onOk() {
                 const deleteRecor = async () => {
                     try {
-                        const dlt = await apiURL.delete(`/recordatorios/${recordatorio._id}`);
+                        await apiURL.delete(`/recordatorios/${recordatorio._id}`);
 
                         window.location.reload();
                     } catch (error) {
