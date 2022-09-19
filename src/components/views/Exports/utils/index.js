@@ -2095,16 +2095,23 @@ export const getZeroData = (name) => {
 
   return result;
 };
-
+//2
 export const getSumByDay = (data, type) => {
   if (isInvalidElem(data)) {
     return [];
   }
 
   const aux = [];
+  const sumMapped = [];
+  const sum = [];
+  const repe = {};
+  console.log("aux: ", aux);
 
   const normalizedMethod = getMethodType(type);
-
+  /*aux.forEach((sum) => {
+    const { fechaRegistro, idParticipante } = aux;
+    console.log(fechaRegistro);
+  });*/
   data.forEach((row) => {
     const alimentos = row.values;
     let objToPush = {
@@ -2112,9 +2119,17 @@ export const getSumByDay = (data, type) => {
       idRegistro: row.idRegistro,
       fechaRegistro: row.fechaRegistro,
     };
+    //console.log(row.fechaRegistro);
+    console.log("row: ", row);
+    if (row.idParticipante === aux.idParticipante) {
+      console.log("repe");
+      sum.push(row);
+      console.log("sum", sum);
+    } else {
+    }
 
     alimentos.forEach((grupo) => {
-      const { values } = grupo;
+      const { values, ...rest } = grupo;
       let finalSum = {};
 
       values.forEach((alimento) => {
@@ -2123,6 +2138,7 @@ export const getSumByDay = (data, type) => {
 
       objToPush = { ...objToPush, ...finalSum };
 
+      //console.log("row", row);
       aux.push(objToPush);
     });
   });
@@ -2132,7 +2148,7 @@ export const getSumByDay = (data, type) => {
 
 export const sumObjectValues = (firstObj, secondObj) => {
   const result = {};
-
+  console.log(firstObj);
   if (isEmptyObject(firstObj)) {
     return secondObj;
   }
@@ -2143,6 +2159,7 @@ export const sumObjectValues = (firstObj, secondObj) => {
 
     if (isNumberType(firstObj[key]) && isNumberType(secondObj[key])) {
       result[key] = firstValue + secondValue;
+      console.log(result[key]);
     } else if (firstObj[key] === "cantidad" && secondObj[key] === "cantidad") {
       result[key] = firstValue + secondValue;
     } else {
