@@ -55,8 +55,13 @@ const CardsComponent = () => {
     useEffect(() => {
         fetchData();
     }, []);
+
     useEffect(() => {
-        seleccionado?._id && fetchData2();
+        if (!seleccionado?._id) {
+            return;
+        }
+
+        fetchData2();
     }, [seleccionado?._id]);
 
     const showModal = async (id) => {
@@ -212,7 +217,7 @@ const CardsComponent = () => {
             }
         });
 
-        return auxs;
+        return array;
     };
 
     return (
@@ -325,12 +330,11 @@ const CardsComponent = () => {
                         placeholder='Seleccionar usuarios'
                         onChange={(value) => setlistUsersput(value)}
                         optionLabelProp='label'
-                        defaultValue={
-                            (arrayUsers.length > 0 && getUserNames(arrayUsers)) ||
-                            listUsersPut
-                        }>
+                        defaultValue={(arrayUsers.length > 0 && arrayUsers) || listUsersPut}>
                         {listUsers.map((users) => (
-                            <Option key={users.id}>{users.nombre}</Option>
+                            <Option key={users.id} value={users.usuario}>
+                                {users.nombre}
+                            </Option>
                         ))}
                     </Select>
                     <Select
