@@ -111,6 +111,15 @@ export const getIsANumber = (param) => {
   return isNumberType(normalized);
 };
 
+export const getIsAString = (param) => {
+  return typeof param === "string";
+};
+export const getIsAScript = (param) => {};
+
+export const getIsArray = (param) => {
+  return Array.isArray(param);
+};
+
 export const returnJoinedArrayByKey = (key, arr) => {
   try {
     if (!Array.isArray(arr)) return "";

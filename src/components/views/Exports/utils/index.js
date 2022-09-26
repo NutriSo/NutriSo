@@ -3,6 +3,9 @@ import {
   isEmptyObject,
   isInvalidElem,
   isNumberType,
+  getIsAScript,
+  getIsArray,
+  getIsAString,
   getIsANumber,
 } from "@/utils";
 import groups from "../data/excelGroups";
@@ -2197,12 +2200,18 @@ export const sumObjectValues = (firstObj, secondObj) => {
     console.log({ firstValue: firstObj[key], secondValue: secondObj[key] });
     if (getIsANumber(firstObj[key]) && getIsANumber(secondObj[key])) {
       result[key] = String(firstValue + secondValue);
+      //console.log(result[key]);
+    } else if (getIsArray(firstObj[key]) && getIsArray(secondObj[key])) {
+      //result[key] = firstObj[key];
+      console.log("Ahora si");
+    } else if (getIsAString(firstObj[key]) && getIsAString(secondObj[key])) {
+      result[key] = firstObj[key] + ", " + secondObj[key];
+      console.log(result[key]);
     } else if (firstObj[key] === "cantidad" && secondObj[key] === "cantidad") {
       result[key] = String(firstValue + secondValue);
     } else {
       result[key] = firstObj[key];
     }
-    console.log(result[key]);
   });
 
   return result;
