@@ -114,10 +114,12 @@ export const getIsANumber = (param) => {
 export const getIsAString = (param) => {
   return typeof param === "string";
 };
-export const getIsAScript = (param) => {};
+export const getIsAScript = (param) => {
+  return param === "-";
+};
 
 export const getIsArray = (param) => {
-  return Array.isArray(param);
+  if (Array.isArray(param)) return true;
 };
 
 export const returnJoinedArrayByKey = (key, arr) => {

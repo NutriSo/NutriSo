@@ -2168,7 +2168,7 @@ export const getSumByDay = (data, type) => {
   //     } else {
   //     }
 
-  //     alimentos.forEach((grupo) => {
+  //  /   alimentos.forEach((grupo) => {
   //         const { values, ...rest } = grupo;
   //         let finalSum = {};
 
@@ -2193,26 +2193,30 @@ export const sumObjectValues = (firstObj, secondObj) => {
     return secondObj;
   }
 
+  console.log({ firstObj, secondObj });
   Object.keys(firstObj).forEach((key) => {
     const firstValue = Number(firstObj[key]);
     const secondValue = Number(secondObj[key]);
 
-    console.log({ firstValue: firstObj[key], secondValue: secondObj[key] });
     if (getIsANumber(firstObj[key]) && getIsANumber(secondObj[key])) {
       result[key] = String(firstValue + secondValue);
-      //console.log(result[key]);
+    } else if (getIsAScript(firstObj[key]) || getIsAScript(secondObj[key])) {
+      result[key] = "-";
     } else if (getIsArray(firstObj[key]) && getIsArray(secondObj[key])) {
       //result[key] = firstObj[key];
-      console.log("Ahora si");
+      // console.log("Ahora si");
+    } else if (getIsArray(firstValue) && getIsArray(secondValue)) {
+      //result[key] = firstObj[key];
+      // console.log("Ahora si2");
     } else if (getIsAString(firstObj[key]) && getIsAString(secondObj[key])) {
       result[key] = firstObj[key] + ", " + secondObj[key];
-      console.log(result[key]);
+      // console.log(result[key]);
     } else if (firstObj[key] === "cantidad" && secondObj[key] === "cantidad") {
       result[key] = String(firstValue + secondValue);
     } else {
       result[key] = firstObj[key];
     }
   });
-
+  console.log({ result });
   return result;
 };
