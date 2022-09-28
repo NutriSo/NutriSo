@@ -160,19 +160,19 @@ const Groups = ({ selected = false, setLoading }) => {
             }
             // console.log({ unified });
             const totales = getSumByDay(unified);
-            // console.log({ totales });
-            const csvRowsPreview = generateCsvRows(unified);
-            const cvsRows = generateFinalCsvRows(csvRowsPreview, keys.grupoExportable);
-            const finalColumns = getFinalColumns(
-                columns,
-                groups[keys.grupoExportable].length
-            );
+            console.log({ totales });
+            // const csvRowsPreview = generateCsvRows(unified);
+            // const cvsRows = generateFinalCsvRows(csvRowsPreview, keys.grupoExportable);
+            // const finalColumns = getFinalColumns(
+            //     columns,
+            //     groups[keys.grupoExportable].length
+            // );
 
-            setColumns(finalColumns);
-            setExportData(cvsRows);
-            setTimeout(() => {
-                onFileReady();
-            }, 1000);
+            // setColumns(finalColumns);
+            // setExportData(cvsRows);
+            // setTimeout(() => {
+            //     onFileReady();
+            // }, 1000);
         } catch (error) {
             handleCancel();
             message.error('Ocurrió un error al armar los datos para exportar');

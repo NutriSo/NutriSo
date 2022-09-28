@@ -209,3 +209,21 @@ export const removeDuplicatedByKey = (arr, key) => {
 
     return result;
 };
+
+export const isValidDate = (param) => {
+    if (isInvalidElem(param)) {
+        return false;
+    }
+
+    const date = new Date(param);
+
+    return date.toString() !== 'Invalid Date';
+};
+
+export const isSku = (param) => {
+    if (isInvalidElem(param)) {
+        return false;
+    }
+
+    return param === 'sku';
+};

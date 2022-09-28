@@ -8,6 +8,8 @@ import {
     getIsAString,
     getIsANumber,
     getIsObject,
+    isValidDate,
+    isSku,
 } from '@/utils';
 import groups from '../data/excelGroups';
 import keys from '../data/excelKeys';
@@ -22,7 +24,6 @@ import * as bioactives from '../data/bioactives';
 import * as additives from '../data/additives';
 import * as extraColumns2 from '../data/extraColumns';
 import * as food from '../data/foodGroups';
-
 export const getIsSelected = (state, number, index) => {
     return state[number] === true && index === number;
 };
@@ -1877,17 +1878,7 @@ export const getSumByDay = (data, type) => {
     }
 
     const objetosIterados = [];
-    const aux = [];
-    const sumMapped = [];
-    const sum = [];
-    const repe = {};
-    console.log('aux: ', aux);
 
-    const normalizedMethod = getMethodType(type);
-    /*aux.forEach((sum) => {
-    const { fechaRegistro, idParticipante } = aux;
-    console.log(fechaRegistro);
-  });*/
     console.log({ data });
     data.forEach((row) => {
         const { fechaRegistro, idParticipante } = row;
@@ -1914,46 +1905,24 @@ export const getSumByDay = (data, type) => {
 
                 values.forEach((alimento) => {
                     suma = sumObjectValues(suma, alimento);
-                    // console.log({ suma, alimento });
                 });
             });
 
-            objetosIterados.push(suma);
+            row.values.forEach((grupo) => {
+                const { values } = grupo;
+
+                values.forEach((alimento) => {
+                    suma = sumObjectValues(suma, alimento);
+                });
+            });
+
+            found.values = [suma];
+            objetosIterados.push({});
         }
     });
     console.log('objetosIterados: ', objetosIterados);
-    // data.forEach((row) => {
-    //     const alimentos = row.values;
-    //     let objToPush = {
-    //         idParticipante: row.idParticipante,
-    //         idRegistro: row.idRegistro,
-    //         fechaRegistro: row.fechaRegistro,
-    //     };
-    //     //console.log(row.fechaRegistro);
-    //     console.log('row: ', row);
-    //     if (row.idParticipante === aux.idParticipante) {
-    //         console.log('repe');
-    //         sum.push(row);
-    //         console.log('sum', sum);
-    //     } else {
-    //     }
 
-    //  /   alimentos.forEach((grupo) => {
-    //         const { values, ...rest } = grupo;
-    //         let finalSum = {};
-
-    //         values.forEach((alimento) => {
-    //             finalSum = normalizedMethod(finalSum, alimento);
-    //         });
-
-    //         objToPush = { ...objToPush, ...finalSum };
-
-    //         //console.log("row", row);
-    //         aux.push(objToPush);
-    //     });
-    // });
-
-    return aux;
+    return objetosIterados;
 };
 
 export const sumObjectValues = (firstObj, secondObj) => {
@@ -1963,14 +1932,15 @@ export const sumObjectValues = (firstObj, secondObj) => {
         return secondObj;
     }
 
-    console.log({ firstObj, secondObj });
     Object.keys(firstObj).forEach((key) => {
         const firstValue = Number(firstObj[key]);
         const secondValue = Number(secondObj[key]);
 
         const esNum1 = getIsANumber(firstObj[key]);
         const esNum2 = getIsANumber(secondObj[key]);
-        console.log({ esNum1, esNum2, 1: firstObj[key], 2: secondObj[key] });
+
+        const date1 = isValidDate(firstObj[key]);
+        const date2 = isValidDate(secondObj[key]);
 
         const areObjects = getIsObject(firstObj[key]) && getIsObject(secondObj[key]);
 
@@ -1984,8 +1954,13 @@ export const sumObjectValues = (firstObj, secondObj) => {
                 const esNum12 = getIsANumber(firstObj[key][key2]);
                 const esNum22 = getIsANumber(secondObj[key][key2]);
 
-                if (esNum12 && esNum22) {
+                if (esNum12 && esNum22 && !isSku(key2)) {
                     tempObj[key2] = String(Number(firstValue2 + secondValue2).toFixed(4));
+                } else if (
+                    getIsAScript(firstObj[key][key2]) ||
+                    getIsAScript(secondObj[key][key2])
+                ) {
+                    tempObj[key2] = '-';
                 } else {
                     tempObj[key2] = firstObj[key][key2];
                 }
@@ -1993,12 +1968,15 @@ export const sumObjectValues = (firstObj, secondObj) => {
 
             result[key] = tempObj;
         } else {
-            if (getIsANumber(firstObj[key]) && getIsANumber(secondObj[key])) {
+            if (esNum1 && esNum2 && !isSku(key)) {
                 result[key] = String(firstValue + secondValue);
             } else if (getIsAScript(firstObj[key]) || getIsAScript(secondObj[key])) {
                 result[key] = '-';
+            } else if (date1 && date2) {
+                result[key] = firstObj[key];
             } else if (getIsArray(firstObj[key]) && getIsArray(secondObj[key])) {
-            } else if (getIsArray(firstValue) && getIsArray(secondValue)) {
+                const cleanArray = new Set([...firstObj[key], ...secondObj[key]]);
+                result[key] = [...cleanArray];
             } else if (getIsAString(firstObj[key]) && getIsAString(secondObj[key])) {
                 result[key] = firstObj[key] + ', ' + secondObj[key];
             } else if (firstObj[key] === 'cantidad' && secondObj[key] === 'cantidad') {
@@ -2008,6 +1986,6 @@ export const sumObjectValues = (firstObj, secondObj) => {
             }
         }
     });
-    console.log({ result });
+
     return result;
 };
