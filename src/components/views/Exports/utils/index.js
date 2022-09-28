@@ -1879,7 +1879,6 @@ export const getSumByDay = (data, type) => {
 
     const objetosIterados = [];
 
-    console.log({ data });
     data.forEach((row) => {
         const { fechaRegistro, idParticipante } = row;
 
@@ -1900,14 +1899,6 @@ export const getSumByDay = (data, type) => {
 
             let suma = {};
 
-            found.values.forEach((grupo) => {
-                const { values } = grupo;
-
-                values.forEach((alimento) => {
-                    suma = sumObjectValues(suma, alimento);
-                });
-            });
-
             row.values.forEach((grupo) => {
                 const { values } = grupo;
 
@@ -1916,11 +1907,17 @@ export const getSumByDay = (data, type) => {
                 });
             });
 
+            found.values.forEach((grupo) => {
+                const { values } = grupo;
+
+                values.forEach((alimento) => {
+                    suma = sumObjectValues(suma, alimento);
+                });
+            });
+
             found.values = [suma];
-            objetosIterados.push({});
         }
     });
-    console.log('objetosIterados: ', objetosIterados);
 
     return objetosIterados;
 };
