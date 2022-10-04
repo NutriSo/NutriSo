@@ -1919,6 +1919,25 @@ export const getSumByDay = (data, type) => {
         }
     });
 
+    objetosIterados.forEach((row) => {
+        const elements = row.values;
+        const hasMoreThanOneElement = elements.length > 1;
+
+        if (hasMoreThanOneElement) {
+            let suma = {};
+
+            elements.forEach((grupo) => {
+                const { values } = grupo;
+
+                values.forEach((alimento) => {
+                    suma = sumObjectValues(suma, alimento);
+                });
+            });
+
+            row.values = [suma];
+        }
+    });
+
     return objetosIterados;
 };
 
