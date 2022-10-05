@@ -24,6 +24,7 @@ import * as bioactives from '../data/bioactives';
 import * as additives from '../data/additives';
 import * as extraColumns2 from '../data/extraColumns';
 import * as food from '../data/foodGroups';
+
 export const getIsSelected = (state, number, index) => {
     return state[number] === true && index === number;
 };

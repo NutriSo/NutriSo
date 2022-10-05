@@ -28,7 +28,6 @@ import {
     unifyGroups,
     generateFinalCsvRows,
     getFinalColumns,
-    getSumByDay,
 } from '../utils';
 
 const Groups = ({ selected = false, setLoading }) => {
@@ -158,21 +157,19 @@ const Groups = ({ selected = false, setLoading }) => {
                 handleCancel();
                 return;
             }
-            // console.log({ unified });
-            const totales = getSumByDay(unified);
-            console.log({ totales });
-            // const csvRowsPreview = generateCsvRows(unified);
-            // const cvsRows = generateFinalCsvRows(csvRowsPreview, keys.grupoExportable);
-            // const finalColumns = getFinalColumns(
-            //     columns,
-            //     groups[keys.grupoExportable].length
-            // );
 
-            // setColumns(finalColumns);
-            // setExportData(cvsRows);
-            // setTimeout(() => {
-            //     onFileReady();
-            // }, 1000);
+            const csvRowsPreview = generateCsvRows(unified);
+            const cvsRows = generateFinalCsvRows(csvRowsPreview, keys.grupoExportable);
+            const finalColumns = getFinalColumns(
+                columns,
+                groups[keys.grupoExportable].length
+            );
+
+            setColumns(finalColumns);
+            setExportData(cvsRows);
+            setTimeout(() => {
+                onFileReady();
+            }, 1000);
         } catch (error) {
             handleCancel();
             message.error('Ocurrió un error al armar los datos para exportar');
@@ -181,8 +178,6 @@ const Groups = ({ selected = false, setLoading }) => {
             console.groupEnd();
         }
     };
-
-    return <div />;
 
     return (
         <CustomExport
