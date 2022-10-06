@@ -24,12 +24,11 @@ import {
     getArrayByGroups,
     normalizeArrayToExport,
     getRowValues,
-    generateCsvRows,
     unifyGroups,
-    generateFinalCsvRows,
     getFinalColumns,
     getSumByDay,
     generateCsvRowsByDay,
+    generateFinalCsvRowsByDay,
 } from '../utils';
 
 const GroupsByDay = ({ selected = false, setLoading }) => {
@@ -161,18 +160,18 @@ const GroupsByDay = ({ selected = false, setLoading }) => {
 
             const totales = getSumByDay(unified);
             const csvRowsPreview = generateCsvRowsByDay(totales);
-            const cvsRows = generateFinalCsvRows(csvRowsPreview, keys.grupoExportable);
-            const finalColumns = getFinalColumns(
-                columns,
-                groups[keys.grupoExportable].length
-            );
+            const cvsRows = generateFinalCsvRowsByDay(csvRowsPreview, keys.grupoExportable);
+            // const finalColumns = getFinalColumns(
+            //     columns,
+            //     groups[keys.grupoExportable].length
+            // );
 
-            // console.log({ totales, csvRowsPreview, cvsRows });
-            setColumns(finalColumns);
-            setExportData(cvsRows);
-            setTimeout(() => {
-                onFileReady();
-            }, 1000);
+            console.log({ cvsRows });
+            // setColumns(finalColumns);
+            // setExportData(cvsRows);
+            // setTimeout(() => {
+            //     onFileReady();
+            // }, 1000);
         } catch (error) {
             handleCancel();
             message.error('Ocurrió un error al armar los datos para exportar');
@@ -182,7 +181,7 @@ const GroupsByDay = ({ selected = false, setLoading }) => {
         }
     };
 
-    // return <div />;
+    return <div />;
 
     return (
         <CustomExport
