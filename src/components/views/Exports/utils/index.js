@@ -2006,3 +2006,26 @@ export const sumObjectValues = (firstObj, secondObj) => {
 
     return result;
 };
+
+export const generateCsvRowsByDay = (data, type) => {
+    if (isInvalidElem(data)) {
+        return {};
+    }
+
+    const rows = [];
+
+    data.forEach((row) => {
+        const { fechaRegistro, idParticipante, idRegistro, values } = row;
+
+        const objToPush = {
+            fechaRegistro,
+            idParticipante,
+            idRegistro,
+            ...values[0],
+        };
+
+        rows.push(objToPush);
+    });
+
+    return rows;
+};

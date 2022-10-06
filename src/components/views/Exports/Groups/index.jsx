@@ -164,12 +164,12 @@ const Groups = ({ selected = false, setLoading }) => {
                 columns,
                 groups[keys.grupoExportable].length
             );
-
-            setColumns(finalColumns);
-            setExportData(cvsRows);
-            setTimeout(() => {
-                onFileReady();
-            }, 1000);
+            console.log({ unified, csvRowsPreview, cvsRows });
+            // setColumns(finalColumns);
+            // setExportData(cvsRows);
+            // setTimeout(() => {
+            //     onFileReady();
+            // }, 1000);
         } catch (error) {
             handleCancel();
             message.error('Ocurrió un error al armar los datos para exportar');
@@ -178,6 +178,8 @@ const Groups = ({ selected = false, setLoading }) => {
             console.groupEnd();
         }
     };
+
+    return <div />;
 
     return (
         <CustomExport

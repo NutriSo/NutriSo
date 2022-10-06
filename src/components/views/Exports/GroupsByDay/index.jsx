@@ -29,6 +29,7 @@ import {
     generateFinalCsvRows,
     getFinalColumns,
     getSumByDay,
+    generateCsvRowsByDay,
 } from '../utils';
 
 const GroupsByDay = ({ selected = false, setLoading }) => {
@@ -159,19 +160,19 @@ const GroupsByDay = ({ selected = false, setLoading }) => {
             }
 
             const totales = getSumByDay(unified);
-            // const csvRowsPreview = generateCsvRows(unified);
-            // const cvsRows = generateFinalCsvRows(csvRowsPreview, keys.grupoExportable);
-            // const finalColumns = getFinalColumns(
-            //     columns,
-            //     groups[keys.grupoExportable].length
-            // );
+            const csvRowsPreview = generateCsvRowsByDay(totales);
+            const cvsRows = generateFinalCsvRows(csvRowsPreview, keys.grupoExportable);
+            const finalColumns = getFinalColumns(
+                columns,
+                groups[keys.grupoExportable].length
+            );
 
-            console.log({ totales });
-            // setColumns(finalColumns);
-            // setExportData(cvsRows);
-            // setTimeout(() => {
-            //     onFileReady();
-            // }, 1000);
+            // console.log({ totales, csvRowsPreview, cvsRows });
+            setColumns(finalColumns);
+            setExportData(cvsRows);
+            setTimeout(() => {
+                onFileReady();
+            }, 1000);
         } catch (error) {
             handleCancel();
             message.error('Ocurrió un error al armar los datos para exportar');
@@ -181,11 +182,11 @@ const GroupsByDay = ({ selected = false, setLoading }) => {
         }
     };
 
-    return <div />;
+    // return <div />;
 
     return (
         <CustomExport
-            dataSource={[]}
+            dataSource={exportData}
             columns={columns}
             fileReady={fileReady}
             fileName={`Grupos por día sumatorias ${dayjs(new Date()).format('DD-MM-YYYY')}`}
