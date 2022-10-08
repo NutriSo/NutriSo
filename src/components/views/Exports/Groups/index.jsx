@@ -83,8 +83,7 @@ const Groups = ({ selected = false, setLoading }) => {
         try {
             const foods = [];
             const usersAux = [];
-            console.log(foods);
-            console.log(usersAux);
+
             const { data } = await apiURL.get('registroDietetico/exports');
 
             if (data?.length <= 0) {
