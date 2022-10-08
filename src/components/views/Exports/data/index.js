@@ -1,12 +1,12 @@
 export const opciones = [
     { id: 0, titulo: 'Registro dietéticos' },
-    { id: 1, titulo: 'Datos demográficos' },
+    { id: 1, titulo: 'Datos demográficos (mantenimiento)' },
     { id: 2, titulo: 'Grupos' },
     { id: 3, titulo: 'Subgrupo' },
     { id: 4, titulo: 'Ultra-procesados' },
     { id: 5, titulo: 'Subgrupo adecuada' },
-    { id: 6, titulo: 'Subgrupos SMAE' },
-    { id: 7, titulo: 'Economía de fichas' },
+    { id: 6, titulo: 'Subgrupos SMAE (pendiente)' },
+    { id: 7, titulo: 'Economía de fichas (pendiente)' },
     { id: 8, titulo: 'Grupos sumatoria por día' },
 ];
 
