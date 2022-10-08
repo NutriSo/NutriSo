@@ -2235,13 +2235,33 @@ export const generateCsvRowsByDay = (data, type) => {
 };
 
 export const generateFinalCsvRowsByDay = (data, type) => {
+    const tempFirstsValues = [];
     const tempRows = [];
 
     data.forEach((row) => {
+        const { fechaRegistro, idParticipante, idRegistro } = row;
         const newRegister = normalizePropsByDayOrder(row);
 
         tempRows.push(newRegister);
+        tempFirstsValues.push({ 0: idParticipante, 1: idRegistro, 2: fechaRegistro });
     });
 
-    return tempRows;
+    const rowsAsStrings = [];
+
+    Object.values(tempRows).forEach((rowObject, index) => {
+        const auxRow = [];
+        Object.values(rowObject).forEach((rowValue) => {
+            auxRow.push(rowValue);
+        });
+
+        auxRow.unshift(
+            tempFirstsValues[index][0],
+            tempFirstsValues[index][1],
+            tempFirstsValues[index][2]
+        );
+
+        rowsAsStrings.push(auxRow);
+    });
+
+    return rowsAsStrings;
 };
