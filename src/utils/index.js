@@ -123,7 +123,7 @@ export const getIsObject = (param) => {
 };
 
 export const getIsArray = (param) => {
-    if (Array.isArray(param)) return true;
+    return Array.isArray(param);
 };
 
 export const returnJoinedArrayByKey = (key, arr) => {
