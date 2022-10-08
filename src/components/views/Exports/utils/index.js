@@ -1,4 +1,16 @@
-import { isEmptyArray, isEmptyObject, isInvalidElem, isNumberType } from '@/utils';
+import {
+    isEmptyArray,
+    isEmptyObject,
+    isInvalidElem,
+    isNumberType,
+    getIsAScript,
+    getIsArray,
+    getIsAString,
+    getIsANumber,
+    getIsObject,
+    isValidDate,
+    isSku,
+} from '@/utils';
 import groups from '../data/excelGroups';
 import keys from '../data/excelKeys';
 import { KG } from '../constants';
@@ -1453,28 +1465,6 @@ export const generateFinalCsvRows = (data, type) => {
         rows.push(newIds);
     });
 
-    const normalizedKeysToColumnNames = [];
-
-    rows.forEach((row) => {
-        row.forEach(({ idParticipante, idRegistro, fechaRegistro, ...rest }, index) => {
-            const newRest = {};
-
-            Object.keys(rest).forEach((key) => {
-                newRest[key] = rest[key];
-                newRest[`${key}${index}`] = rest[key];
-
-                delete rest[key];
-            });
-
-            normalizedKeysToColumnNames.push({
-                idParticipante,
-                idRegistro,
-                fechaRegistro,
-                ...newRest,
-            });
-        });
-    });
-
     const tempRows = [];
 
     rows.forEach((row) => {
@@ -1515,26 +1505,6 @@ export const generateFinalCsvRows = (data, type) => {
     });
 
     return finalRows;
-};
-
-export const getMaxGroupByReg = (arreglo, callback) => {
-    let variable = 0;
-    let contador = 0;
-    let cuenta = 0;
-    arreglo.map((p) => {
-        cuenta = 0;
-
-        arreglo.map((x) => {
-            if (p.idRegistro === x.idRegistro) {
-                cuenta++;
-            }
-        });
-        if (cuenta > contador) {
-            contador = cuenta;
-            variable = p;
-        }
-    });
-    callback(contador);
 };
 
 export const getFinalColumns = (columns, maxColumns) => {
@@ -1761,6 +1731,241 @@ export const normalizePropsOrder = (data) => {
     return result;
 };
 
+export const normalizePropsByDayOrder = (data) => {
+    if (isInvalidElem(data)) return '';
+
+    const result = [];
+
+    const {
+        id,
+        sku,
+        nombreAlimento,
+        grupoExportable,
+        subGrupoExportable,
+        grupoAlimento,
+        clasificacionExportable,
+        opcionesPreparacion,
+        icono,
+        mensaje,
+        cantidadAlimento,
+        caloriasMacronutrientes,
+        vitaminas,
+        minerales,
+        aspectoGlucemico,
+        aspectoEconomico,
+        aspectoMedioambiental,
+        componentesBioactivos,
+        aditivosAlimentarios,
+        imagen,
+        marca,
+    } = data;
+
+    const {
+        energia,
+        proteina,
+        lipidos,
+        agSaturados,
+        agMonoinsaturados,
+        adPoliinsaturados,
+        colesterol,
+        omega3,
+        omega6,
+        omega9,
+        hidratosDeCarbono,
+        fibra,
+        fibraSoluble,
+        fibraInsoluble,
+        azucar,
+        etanol,
+    } = caloriasMacronutrientes;
+
+    const {
+        tiamina,
+        riboflavin,
+        niacina,
+        acidoPantotenico,
+        piridoxina,
+        biotina,
+        cobalmina,
+        acidoAscorbico,
+        acidoFolico,
+        vitaminaA,
+        vitaminaD,
+        vitaminaK,
+        vitaminaE,
+    } = vitaminas;
+
+    const {
+        calcio,
+        fosforo,
+        hierro,
+        hierroNoHem,
+        hierroTotal,
+        magnesio,
+        sodio,
+        potasio,
+        zinc,
+        selenio,
+    } = minerales;
+
+    const { indiceGlicemico, cargaGlicemica } = aspectoGlucemico;
+
+    const {
+        factorDeCorreccionParaHuellaHidricaYEGEI,
+        tipo,
+        lugar,
+        huellaHidricaTotal,
+        huellaHidricaVerde,
+        huellaHidricaAzul,
+        huellaHidricaGris,
+        aguaParaLavado,
+        aguaParaCoccion,
+        lugarEGEI,
+        citaEGEI,
+        huellaCarbono,
+        huellaEcologica,
+        energiaFosil,
+        usoDeSuelo,
+        nitrogeno,
+        puntajeEcologico,
+        ...rest
+    } = aspectoMedioambiental;
+
+    const { precio, lugarDeCompra, lugarDeVenta } = aspectoEconomico;
+
+    const {
+        fitoquimicos,
+        polifenoles,
+        antocianinas,
+        taninos,
+        isoflavonas,
+        resveratrol,
+        isotiocinatos,
+        caretenoides,
+        betacarotenos,
+        licopeno,
+        luteina,
+        alicina,
+        cafeina,
+        UFC,
+    } = componentesBioactivos;
+
+    const {
+        benzoatoDeSodio,
+        polisorbato,
+        azulBrillanteFCFoE133,
+        azurrubinaOE102,
+        amarilloOcasoFDFoE110,
+        tartrazinaOE102,
+        verdeSoE142,
+        negroBrillanteBNoE151,
+        sucralosa,
+        estevia,
+        sacarina,
+        aspartame,
+        acesulfameK,
+        carboxymethylcellulose,
+        dioxidoDeTitanio,
+        monolauratoDeGlicerol,
+    } = aditivosAlimentarios;
+
+    result.push(grupoAlimento);
+    result.push(energia);
+    result.push(proteina);
+    result.push(lipidos);
+    result.push(agSaturados);
+    result.push(agMonoinsaturados);
+    result.push(adPoliinsaturados);
+    result.push(colesterol);
+    result.push(omega3);
+    result.push(omega6);
+    result.push(omega9);
+    result.push(hidratosDeCarbono);
+    result.push(fibra);
+    result.push(fibraSoluble);
+    result.push(fibraInsoluble);
+    result.push(azucar);
+    result.push(etanol);
+    result.push(tiamina);
+    result.push(riboflavin);
+    result.push(niacina);
+    result.push(acidoPantotenico);
+    result.push(piridoxina);
+    result.push(biotina);
+    result.push(cobalmina);
+    result.push(acidoAscorbico);
+    result.push(acidoFolico);
+    result.push(vitaminaA);
+    result.push(vitaminaD);
+    result.push(vitaminaK);
+    result.push(vitaminaE);
+    result.push(calcio);
+    result.push(fosforo);
+    result.push(hierro);
+    result.push(hierroNoHem);
+    result.push(hierroTotal);
+    result.push(magnesio);
+    result.push(sodio);
+    result.push(potasio);
+    result.push(zinc);
+    result.push(selenio);
+    result.push(indiceGlicemico);
+    result.push(cargaGlicemica);
+    result.push(factorDeCorreccionParaHuellaHidricaYEGEI);
+    result.push(tipo);
+    result.push(lugar);
+    result.push(huellaHidricaTotal);
+    result.push(huellaHidricaVerde);
+    result.push(huellaHidricaAzul);
+    result.push(huellaHidricaGris);
+    result.push(aguaParaLavado);
+    result.push(aguaParaCoccion);
+    result.push(lugarEGEI);
+    result.push(citaEGEI);
+    result.push(huellaCarbono);
+    result.push(huellaEcologica);
+    result.push(usoDeSuelo);
+    result.push(energiaFosil);
+    result.push(nitrogeno);
+    result.push(rest.fosforo);
+    result.push(puntajeEcologico);
+    result.push(precio);
+    result.push(lugarDeCompra);
+    result.push(lugarDeVenta);
+    result.push(fitoquimicos);
+    result.push(polifenoles);
+    result.push(antocianinas);
+    result.push(taninos);
+    result.push(isoflavonas);
+    result.push(resveratrol);
+    result.push(isotiocinatos);
+    result.push(caretenoides);
+    result.push(betacarotenos);
+    result.push(licopeno);
+    result.push(luteina);
+    result.push(alicina);
+    result.push(cafeina);
+    result.push(UFC);
+    result.push(benzoatoDeSodio);
+    result.push(polisorbato);
+    result.push(azulBrillanteFCFoE133);
+    result.push(azurrubinaOE102);
+    result.push(amarilloOcasoFDFoE110);
+    result.push(tartrazinaOE102);
+    result.push(verdeSoE142);
+    result.push(negroBrillanteBNoE151);
+    result.push(sucralosa);
+    result.push(estevia);
+    result.push(sacarina);
+    result.push(aspartame);
+    result.push(acesulfameK);
+    result.push(carboxymethylcellulose);
+    result.push(dioxidoDeTitanio);
+    result.push(monolauratoDeGlicerol);
+
+    return result;
+};
+
 export const getZeroData = (name) => {
     const result = [];
 
@@ -1866,33 +2071,76 @@ export const getSumByDay = (data, type) => {
         return [];
     }
 
-    const aux = [];
-
-    const normalizedMethod = getMethodType(type);
+    const objetosIterados = [];
 
     data.forEach((row) => {
-        const alimentos = row.values;
-        let objToPush = {
-            idParticipante: row.idParticipante,
-            idRegistro: row.idRegistro,
-            fechaRegistro: row.fechaRegistro,
-        };
+        const { fechaRegistro, idParticipante } = row;
 
-        alimentos.forEach((grupo) => {
-            const { values } = grupo;
-            let finalSum = {};
+        const yaIterado = objetosIterados.some((obj) => {
+            return (
+                obj.fechaRegistro === fechaRegistro && obj.idParticipante === idParticipante
+            );
+        });
 
-            values.forEach((alimento) => {
-                finalSum = normalizedMethod(finalSum, alimento);
+        if (!yaIterado) {
+            objetosIterados.push(row);
+        } else {
+            const found = objetosIterados.find(
+                (ite) =>
+                    ite.fechaRegistro === fechaRegistro &&
+                    ite.idParticipante === idParticipante
+            );
+
+            let suma = {};
+
+            row.values.forEach((grupo) => {
+                const { values } = grupo;
+
+                values.forEach((alimento) => {
+                    suma = sumObjectValues(suma, alimento);
+                });
             });
 
-            objToPush = { ...objToPush, ...finalSum };
+            found.values.forEach((grupo) => {
+                const { values } = grupo;
 
-            aux.push(objToPush);
-        });
+                values.forEach((alimento) => {
+                    suma = sumObjectValues(suma, alimento);
+                });
+            });
+
+            found.values = [suma];
+        }
     });
 
-    return aux;
+    objetosIterados.forEach((row) => {
+        const elements = row.values;
+        const hasMoreThanOneElement = elements.length > 1;
+
+        if (hasMoreThanOneElement) {
+            let suma = {};
+
+            elements.forEach((grupo) => {
+                const { values } = grupo;
+
+                values.forEach((alimento) => {
+                    suma = sumObjectValues(suma, alimento);
+                });
+            });
+
+            row.values = [suma];
+        } else {
+            const hasValuesProperty = elements[0].hasOwnProperty('values');
+
+            if (hasValuesProperty) {
+                row.values = elements[0].values;
+            } else {
+                row.values = elements;
+            }
+        }
+    });
+
+    return objetosIterados;
 };
 
 export const sumObjectValues = (firstObj, secondObj) => {
@@ -1906,14 +2154,114 @@ export const sumObjectValues = (firstObj, secondObj) => {
         const firstValue = Number(firstObj[key]);
         const secondValue = Number(secondObj[key]);
 
-        if (isNumberType(firstObj[key]) && isNumberType(secondObj[key])) {
-            result[key] = firstValue + secondValue;
-        } else if (firstObj[key] === 'cantidad' && secondObj[key] === 'cantidad') {
-            result[key] = firstValue + secondValue;
+        const esNum1 = getIsANumber(firstObj[key]);
+        const esNum2 = getIsANumber(secondObj[key]);
+
+        const date1 = isValidDate(firstObj[key]);
+        const date2 = isValidDate(secondObj[key]);
+
+        const areObjects = getIsObject(firstObj[key]) && getIsObject(secondObj[key]);
+
+        if (areObjects) {
+            const tempObj = {};
+
+            Object.keys(firstObj[key]).forEach((key2) => {
+                const firstValue2 = Number(firstObj[key][key2]);
+                const secondValue2 = Number(secondObj[key][key2]);
+
+                const esNum12 = getIsANumber(firstObj[key][key2]);
+                const esNum22 = getIsANumber(secondObj[key][key2]);
+
+                if (esNum12 && esNum22 && !isSku(key2)) {
+                    tempObj[key2] = String(Number(firstValue2 + secondValue2).toFixed(4));
+                } else if (
+                    getIsAScript(firstObj[key][key2]) ||
+                    getIsAScript(secondObj[key][key2])
+                ) {
+                    tempObj[key2] = '-';
+                } else {
+                    tempObj[key2] = firstObj[key][key2];
+                }
+            });
+
+            result[key] = tempObj;
         } else {
-            result[key] = firstObj[key];
+            if (esNum1 && esNum2 && !isSku(key)) {
+                result[key] = String(firstValue + secondValue);
+            } else if (getIsAScript(firstObj[key]) || getIsAScript(secondObj[key])) {
+                result[key] = '-';
+            } else if (date1 && date2) {
+                result[key] = firstObj[key];
+            } else if (getIsArray(firstObj[key]) && getIsArray(secondObj[key])) {
+                const cleanArray = new Set([...firstObj[key], ...secondObj[key]]);
+                result[key] = [...cleanArray];
+            } else if (
+                getIsAString(firstObj[key]) &&
+                getIsAString(secondObj[key] && key !== 'usuario')
+            ) {
+                result[key] = firstObj[key] + ', ' + secondObj[key];
+            } else if (firstObj[key] === 'cantidad' && secondObj[key] === 'cantidad') {
+                result[key] = String(firstValue + secondValue);
+            } else {
+                result[key] = firstObj[key];
+            }
         }
     });
 
     return result;
+};
+
+export const generateCsvRowsByDay = (data, type) => {
+    if (isInvalidElem(data)) {
+        return {};
+    }
+
+    const rows = [];
+
+    data.forEach((row) => {
+        const { fechaRegistro, idParticipante, idRegistro, values } = row;
+
+        const objToPush = {
+            fechaRegistro,
+            idParticipante,
+            idRegistro,
+            ...values[0],
+        };
+
+        rows.push(objToPush);
+    });
+
+    return rows;
+};
+
+export const generateFinalCsvRowsByDay = (data, type) => {
+    const tempFirstsValues = [];
+    const tempRows = [];
+
+    data.forEach((row) => {
+        const { fechaRegistro, idParticipante, idRegistro } = row;
+        const newRegister = normalizePropsByDayOrder(row);
+
+        tempRows.push(newRegister);
+        tempFirstsValues.push({ 0: idParticipante, 1: idRegistro, 2: fechaRegistro });
+    });
+
+    const rowsAsStrings = [];
+
+    Object.values(tempRows).forEach((rowObject, index) => {
+        const auxRow = [];
+        Object.values(rowObject).forEach((rowValue) => {
+            auxRow.push(rowValue);
+        });
+
+        auxRow.unshift(
+            tempFirstsValues[index][0],
+            tempFirstsValues[index][1],
+            tempFirstsValues[index][2]
+        );
+
+        rowsAsStrings.push(auxRow);
+    });
+
+    return rowsAsStrings;
 };

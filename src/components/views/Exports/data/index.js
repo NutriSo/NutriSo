@@ -1,15 +1,17 @@
 export const opciones = [
-    { id: 1, titulo: 'Registro dietéticos' },
-    { id: 2, titulo: 'Datos demográficos' },
-    { id: 3, titulo: 'Grupos' },
-    { id: 4, titulo: 'Subgrupo' },
-    { id: 5, titulo: 'Ultra-procesados' },
-    { id: 6, titulo: 'Subgrupo adecuada' },
-    { id: 7, titulo: 'Subgrupos SMAE' },
-    { id: 8, titulo: 'Economía de fichas' },
+    { id: 0, titulo: 'Registro dietéticos' },
+    { id: 1, titulo: 'Datos demográficos (mantenimiento)' },
+    { id: 2, titulo: 'Grupos' },
+    { id: 3, titulo: 'Subgrupo' },
+    { id: 4, titulo: 'Ultra-procesados' },
+    { id: 5, titulo: 'Subgrupo adecuada' },
+    { id: 6, titulo: 'Subgrupos SMAE (pendiente)' },
+    { id: 7, titulo: 'Economía de fichas (pendiente)' },
+    { id: 8, titulo: 'Grupos sumatoria por día' },
 ];
 
 export const initialState = Object.freeze({
+    0: false,
     1: false,
     2: false,
     3: false,
@@ -17,6 +19,7 @@ export const initialState = Object.freeze({
     5: false,
     6: false,
     7: false,
+    8: false,
 });
 
 export const baseColumns = [

@@ -24,13 +24,14 @@ import {
     getArrayByGroups,
     normalizeArrayToExport,
     getRowValues,
-    generateCsvRows,
     unifyGroups,
-    generateFinalCsvRows,
     getFinalColumns,
+    getSumByDay,
+    generateCsvRowsByDay,
+    generateFinalCsvRowsByDay,
 } from '../utils';
 
-const Groups = ({ selected = false, setLoading }) => {
+const GroupsByDay = ({ selected = false, setLoading }) => {
     const [columns, setColumns] = useState([
         ...baseColumns,
         ...food.groupColumns0,
@@ -147,22 +148,20 @@ const Groups = ({ selected = false, setLoading }) => {
 
     const createExportData = () => {
         console.log('Armando los datos de exportación...');
-
         try {
             const rows = getRowValues(usersData);
             const unified = unifyGroups(rows);
+
             if (isEmptyArray(unified)) {
                 message.info('No hay datos para exportar');
                 handleCancel();
                 return;
             }
 
-            const csvRowsPreview = generateCsvRows(unified);
-            const cvsRows = generateFinalCsvRows(csvRowsPreview, keys.grupoExportable);
-            const finalColumns = getFinalColumns(
-                columns,
-                groups[keys.grupoExportable].length
-            );
+            const totales = getSumByDay(unified);
+            const csvRowsPreview = generateCsvRowsByDay(totales);
+            const cvsRows = generateFinalCsvRowsByDay(csvRowsPreview, keys.grupoExportable);
+            const finalColumns = getFinalColumns(columns, 1);
 
             setColumns(finalColumns);
             setExportData(cvsRows);
@@ -183,9 +182,9 @@ const Groups = ({ selected = false, setLoading }) => {
             dataSource={exportData}
             columns={columns}
             fileReady={fileReady}
-            fileName={`Grupos ${dayjs(new Date()).format('DD-MM-YYYY')}`}
+            fileName={`Grupos por día sumatorias ${dayjs(new Date()).format('DD-MM-YYYY')}`}
         />
     );
 };
 
-export default Groups;
+export default GroupsByDay;

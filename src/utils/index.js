@@ -102,6 +102,30 @@ export const isNumberType = (param) => {
     return typeof param === 'number';
 };
 
+export const getIsANumber = (param) => {
+    const normalized = Number(param);
+    if (isNaN(normalized)) {
+        return false;
+    }
+    return isNumberType(normalized);
+};
+
+export const getIsAString = (param) => {
+    return typeof param === 'string';
+};
+
+export const getIsAScript = (param) => {
+    return param === '-';
+};
+
+export const getIsObject = (param) => {
+    return typeof param === 'object' && !Array.isArray(param);
+};
+
+export const getIsArray = (param) => {
+    return Array.isArray(param);
+};
+
 export const returnJoinedArrayByKey = (key, arr) => {
     try {
         if (!Array.isArray(arr)) return '';
@@ -184,4 +208,22 @@ export const removeDuplicatedByKey = (arr, key) => {
     });
 
     return result;
+};
+
+export const isValidDate = (param) => {
+    if (isInvalidElem(param)) {
+        return false;
+    }
+
+    const date = new Date(param);
+
+    return date.toString() !== 'Invalid Date';
+};
+
+export const isSku = (param) => {
+    if (isInvalidElem(param)) {
+        return false;
+    }
+
+    return param === 'sku';
 };
