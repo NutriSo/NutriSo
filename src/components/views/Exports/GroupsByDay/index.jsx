@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { message } from 'antd';
 import dayjs from 'dayjs';
 
-import apiURL from '@/axios/axiosConfig';
 import { isEmptyArray } from '@/utils';
 import CustomExport from '@/components/commons/CustomExport';
 
@@ -18,11 +17,8 @@ import * as bioactives from '../data/bioactives';
 import * as additives from '../data/additives';
 import * as extraColumns2 from '../data/extraColumns';
 import * as food from '../data/foodGroups';
-import groups from '../data/excelGroups';
 import keys from '../data/excelKeys';
 import {
-    getArrayByGroups,
-    normalizeArrayToExport,
     getRowValues,
     unifyGroups,
     getFinalColumns,
@@ -30,6 +26,7 @@ import {
     generateCsvRowsByDay,
     generateFinalCsvRowsByDay,
 } from '../utils';
+import useData from '../hooks/useData';
 
 const GroupsByDay = ({ selected = false, setLoading }) => {
     const [columns, setColumns] = useState([
@@ -45,28 +42,8 @@ const GroupsByDay = ({ selected = false, setLoading }) => {
         ...bioactives.componentesBioactivos0,
         ...additives.aditivosAlimentarios0,
     ]);
-    const [foodReady, setFoodReady] = useState(false);
-    const [usersData, setUsersData] = useState([]);
     const [exportData, setExportData] = useState(null);
     const [fileReady, setFileReady] = useState(false);
-
-    useEffect(() => {
-        selected && getExportData();
-        return () => {
-            setExportData(null);
-            setFileReady(false);
-        };
-    }, [selected]);
-
-    useEffect(() => {
-        foodReady && createExportData();
-    }, [foodReady]);
-
-    useEffect(() => {
-        return () => {
-            setLoading(false);
-        };
-    }, []);
 
     const onFileReady = () => {
         setFileReady(true);
@@ -79,77 +56,36 @@ const GroupsByDay = ({ selected = false, setLoading }) => {
         setLoading(false);
     };
 
-    const getExportData = async () => {
-        console.log('Obteniendo datos de exportación...');
-        try {
-            const foods = [];
-            const usersAux = [];
+    const useDataHook = useData({
+        selected,
+        type: keys.grupoExportable,
+        onCancel: handleCancel,
+    });
 
-            const { data } = await apiURL.get('registroDietetico/exports');
+    useEffect(() => {
+        return () => {
+            setFileReady(false);
+        };
+    }, [selected]);
 
-            if (data?.length <= 0) {
-                message.error('No hay datos para exportar');
-                handleCancel();
-                return;
-            }
-            data.forEach((elem) => {
-                const { alimentos, horario, id, usuario } = elem;
-
-                alimentos.forEach((food) =>
-                    foods.push({
-                        ...food.id,
-                        cantidad: food.cantidad,
-                        horario,
-                        idRegistro: id,
-                        usuario,
-                    })
-                );
-            });
-
-            foods.forEach((food) => {
-                const { usuario, horario, idRegistro, grupoExportable } = food;
-
-                const isPartOfGroup = groups[keys.grupoExportable].includes(grupoExportable);
-
-                if (!isPartOfGroup) return;
-
-                const date = dayjs(horario).format('DD/MM/YYYY');
-
-                const newData = {
-                    idRegistro,
-                    idParticipante: usuario,
-                    fechaRegistro: date,
-                };
-
-                const newState = normalizeArrayToExport({
-                    state: getArrayByGroups(groups[keys.grupoExportable]),
-                    group: grupoExportable,
-                    food,
-                });
-
-                const auxSuper = {
-                    ...newData,
-                    ...newState,
-                };
-
-                usersAux.push(auxSuper);
-            });
-
-            setUsersData(usersAux);
-            setFoodReady(true);
-        } catch (error) {
-            handleCancel();
-            message.error('Error al obtener los datos');
-            console.groupCollapsed('[Exports] getExportData');
-            console.error(error);
-            console.groupEnd();
+    useEffect(() => {
+        if (!useDataHook.foodReady) {
+            return;
         }
-    };
+
+        createExportData();
+    }, [useDataHook.foodReady]);
+
+    useEffect(() => {
+        return () => {
+            setLoading(false);
+        };
+    }, []);
 
     const createExportData = () => {
         console.log('Armando los datos de exportación...');
         try {
-            const rows = getRowValues(usersData);
+            const rows = getRowValues(useDataHook.exportData);
             const unified = unifyGroups(rows);
 
             if (isEmptyArray(unified)) {
