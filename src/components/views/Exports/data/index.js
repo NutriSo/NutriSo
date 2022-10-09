@@ -7,7 +7,7 @@ export const opciones = [
     { id: 5, titulo: 'Subgrupo adecuada' },
     { id: 6, titulo: 'Subgrupos SMAE (pendiente)' },
     { id: 7, titulo: 'Economía de fichas (pendiente)' },
-    { id: 8, titulo: 'Grupos sumatoria por día' },
+    { id: 8, titulo: 'Sumatoria total por día' },
 ];
 
 export const initialState = Object.freeze({
@@ -20,6 +20,9 @@ export const initialState = Object.freeze({
     6: false,
     7: false,
     8: false,
+    9: false,
+    10: false,
+    11: false,
 });
 
 export const baseColumns = [
