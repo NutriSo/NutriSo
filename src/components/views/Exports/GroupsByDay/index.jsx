@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 import { isEmptyArray } from '@/utils';
 import CustomExport from '@/components/commons/CustomExport';
 
+import useData from '../hooks/useData';
 import { baseColumns } from '../data';
 import * as calories from '../data/calories';
 import * as vitamins from '../data/vitamins';
@@ -26,7 +27,6 @@ import {
     generateCsvRowsByDay,
     generateFinalCsvRowsByDay,
 } from '../utils';
-import useData from '../hooks/useData';
 
 const GroupsByDay = ({ selected = false, setLoading }) => {
     const [columns, setColumns] = useState([
