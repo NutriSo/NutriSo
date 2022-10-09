@@ -43,8 +43,9 @@ const useData = ({ selected, type, onCancel }) => {
                 const { usuario, horario, idRegistro } = food;
 
                 const isPartOfGroup = groups[type].includes(food[type]);
-
-                if (!isPartOfGroup) return;
+                if (!isPartOfGroup) {
+                    return;
+                }
 
                 const date = dayjs(horario).format('DD/MM/YYYY');
 
