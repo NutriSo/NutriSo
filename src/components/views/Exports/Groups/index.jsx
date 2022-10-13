@@ -24,7 +24,7 @@ import {
     getArrayByGroups,
     normalizeArrayToExport,
     getRowValues,
-    generateCsvRows,
+    generateCsvRowsByDay,
     unifyGroups,
     generateFinalCsvRows,
     getFinalColumns,
@@ -158,18 +158,19 @@ const Groups = ({ selected = false, setLoading }) => {
                 handleCancel();
                 return;
             }
-            // console.log({ unified });
+            
             const totales = getSumByDay(unified);
-            // console.log({ totales });
-            const csvRowsPreview = generateCsvRows(unified);
-            const cvsRows = generateFinalCsvRows(csvRowsPreview, keys.grupoExportable);
+           
+            const csvRowsPreview = generateCsvRowsByDay(totales);
+            
+            
             const finalColumns = getFinalColumns(
                 columns,
-                groups[keys.grupoExportable].length
+                1,
             );
 
             setColumns(finalColumns);
-            setExportData(cvsRows);
+            setExportData(csvRowsPreview);
             setTimeout(() => {
                 onFileReady();
             }, 1000);
@@ -182,7 +183,7 @@ const Groups = ({ selected = false, setLoading }) => {
         }
     };
 
-    return <div />;
+    //return <div />;
 
     return (
         <CustomExport

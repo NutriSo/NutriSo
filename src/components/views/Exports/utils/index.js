@@ -1655,7 +1655,7 @@ export const generateCsvRows = (data, type) => {
         finalRow = normalizedMethod(finalRow, food);
       });
       objToPush = { ...objToPush, ...finalRow };
-
+      console.log(objToPush, finalRow);
       rows.push(objToPush);
     });
   });
@@ -1686,6 +1686,7 @@ export const generateFinalCsvRows = (data, type) => {
         ...elem,
         idParticipante: Number(idIndex + 1),
       };
+      console.log(obj);
 
       return obj;
     });
@@ -2112,7 +2113,7 @@ export const getSumByDay = (data, type) => {
 
   const normalizedMethod = getMethodType(type);
 
-  console.log({ data });
+  //console.log({ data });
   data.forEach((row) => {
     const { fechaRegistro, idParticipante } = row;
 
@@ -2135,27 +2136,12 @@ export const getSumByDay = (data, type) => {
       let suma = {};
 
       found.values.forEach((grupo) => {
-        const { values } = grupo;
+        const { values: alimentos } = grupo;
 
-        values.forEach((alimento) => {
+        alimentos.forEach((alimento) => {
           suma = sumObjectValues(suma, alimento);
         });
       });
-      //console.log("suma1:", { suma });
-
-      //   row.values.forEach((grupo) => {
-      //     const { values } = grupo;
-
-      //     values.forEach((alimento) => {
-      //       const { name } = alimento;
-
-      //       const row = suma[name];
-
-      //       if (row) {
-      //         alimento = sumObjectValues(alimento, row);
-      //       }
-      //     });
-      //   });
       row.values.forEach((grupo) => {
         const { values } = grupo;
 
@@ -2163,18 +2149,93 @@ export const getSumByDay = (data, type) => {
           suma = sumObjectValues(suma, alimento);
         });
       });
-      const idRegistro = row.idRegistro + "," + found.idRegistro;
-      suma = { fechaRegistro, idRegistro, idParticipante, suma };
-      objetosIterados.push(suma);
-      console.log("obj:", { suma });
+      found.values = [suma];
+    }
+  });
+  objetosIterados.forEach((objs) => {
+    const groups = objs.values;
+    const hasMoreThanOneGroup = groups.length > 1;
 
-      //console.log(row.idRegistro);
+    if (hasMoreThanOneGroup) {
+      let suma = {};
+      groups.forEach((group) => {
+        const { values } = group;
+        values.forEach((alimento) => {
+          suma = sumObjectValues(suma, alimento);
+        });
+      });
+      objs.values = [suma];
+    } else if (groups[0].hasOwnProperty("values")) {
+      objs.values = groups[0].values;
     }
   });
 
-  //console.log("objetosIterados: ", objetosIterados);
-  console.log(data);
   return objetosIterados;
+};
+
+export const generateCsvRowsByDay = (data, type) => {
+  const result = [];
+
+  data.forEach((row) => {
+    const { idRegistro, idParticipante, fechaRegistro, values } = row;
+
+    const conjunto = {
+      idParticipante,
+      fechaRegistro,
+      idRegistro,
+      ...values[0],
+    };
+    result.push(conjunto);
+    //tempRows = normalizePropsByDayOrder(values[0]);
+  });
+  //console.log({ result: result });
+
+  return generateArrayByDay(result, type);
+  //console.log(generateArrayByDay(result, type));
+};
+
+export const generateArrayByDay = (data, type) => {
+  const tempRows = [];
+  const orderRows = [];
+  let result = [];
+  data.forEach((row) => {
+    tempRows.push(normalizePropsByDayOrder(row));
+
+    //console.log({ tempRows });
+    orderRows.push({
+      0: row.idParticipante,
+      1: row.idRegistro,
+      2: row.fechaRegistro,
+    });
+
+    //result = [[...orderRows], ...tempRows];
+  });
+  //console.log(orderRows);
+  tempRows.forEach((row, index) => {
+    //agregar orderRows al inicio de cada row
+    row.unshift(orderRows[index][0], orderRows[index][1], orderRows[index][2]);
+
+    //console.log({ row });
+  });
+  console.log({ tempRows });
+  return tempRows;
+};
+
+export const ArrayOrderByDay = (data, type) => {
+  const RowsId = [];
+
+  data.forEach((row) => {
+    const { idRegistro, idParticipante, fechaRegistro, ...rest } = row;
+
+    const rowsOrder = {
+      idParticipante,
+      fechaRegistro,
+      idRegistro,
+      ...rest,
+    };
+    RowsId.push(rowsOrder);
+    //console.log({ RowsId });
+  });
 };
 
 export const sumObjectValues = (firstObj, secondObj) => {
@@ -2209,7 +2270,11 @@ export const sumObjectValues = (firstObj, secondObj) => {
 
       result[key] = tempObj;
     } else {
-      if (getIsANumber(firstObj[key]) && getIsANumber(secondObj[key])) {
+      if (
+        getIsANumber(firstObj[key]) &&
+        getIsANumber(secondObj[key]) &&
+        key !== "sku"
+      ) {
         result[key] = String(firstValue + secondValue);
       } else if (getIsAScript(firstObj[key]) || getIsAScript(secondObj[key])) {
         result[key] = "-";
@@ -2231,5 +2296,240 @@ export const sumObjectValues = (firstObj, secondObj) => {
     }
   });
 
+  return result;
+};
+
+export const normalizePropsByDayOrder = (data) => {
+  if (isInvalidElem(data)) return "";
+
+  const result = [];
+
+  const {
+    id,
+    sku,
+    nombreAlimento,
+    grupoExportable,
+    subGrupoExportable,
+    grupoAlimento,
+    clasificacionExportable,
+    opcionesPreparacion,
+    icono,
+    mensaje,
+    cantidadAlimento,
+    caloriasMacronutrientes,
+    vitaminas,
+    minerales,
+    aspectoGlucemico,
+    aspectoEconomico,
+    aspectoMedioambiental,
+    componentesBioactivos,
+    aditivosAlimentarios,
+    imagen,
+    marca,
+  } = data;
+
+  const {
+    energia,
+    proteina,
+    lipidos,
+    agSaturados,
+    agMonoinsaturados,
+    adPoliinsaturados,
+    colesterol,
+    omega3,
+    omega6,
+    omega9,
+    hidratosDeCarbono,
+    fibra,
+    fibraSoluble,
+    fibraInsoluble,
+    azucar,
+    etanol,
+  } = caloriasMacronutrientes;
+
+  const {
+    tiamina,
+    riboflavin,
+    niacina,
+    acidoPantotenico,
+    piridoxina,
+    biotina,
+    cobalmina,
+    acidoAscorbico,
+    acidoFolico,
+    vitaminaA,
+    vitaminaD,
+    vitaminaK,
+    vitaminaE,
+  } = vitaminas;
+
+  const {
+    calcio,
+    fosforo,
+    hierro,
+    hierroNoHem,
+    hierroTotal,
+    magnesio,
+    sodio,
+    potasio,
+    zinc,
+    selenio,
+  } = minerales;
+
+  const { indiceGlicemico, cargaGlicemica } = aspectoGlucemico;
+
+  const {
+    factorDeCorreccionParaHuellaHidricaYEGEI,
+    tipo,
+    lugar,
+    huellaHidricaTotal,
+    huellaHidricaVerde,
+    huellaHidricaAzul,
+    huellaHidricaGris,
+    aguaParaLavado,
+    aguaParaCoccion,
+    lugarEGEI,
+    citaEGEI,
+    huellaCarbono,
+    huellaEcologica,
+    energiaFosil,
+    usoDeSuelo,
+    nitrogeno,
+    puntajeEcologico,
+    ...rest
+  } = aspectoMedioambiental;
+
+  const { precio, lugarDeCompra, lugarDeVenta } = aspectoEconomico;
+
+  const {
+    fitoquimicos,
+    polifenoles,
+    antocianinas,
+    taninos,
+    isoflavonas,
+    resveratrol,
+    isotiocinatos,
+    caretenoides,
+    betacarotenos,
+    licopeno,
+    luteina,
+    alicina,
+    cafeina,
+    UFC,
+  } = componentesBioactivos;
+
+  const {
+    benzoatoDeSodio,
+    polisorbato,
+    azulBrillanteFCFoE133,
+    azurrubinaOE102,
+    amarilloOcasoFDFoE110,
+    tartrazinaOE102,
+    verdeSoE142,
+    negroBrillanteBNoE151,
+    sucralosa,
+    estevia,
+    sacarina,
+    aspartame,
+    acesulfameK,
+    carboxymethylcellulose,
+    dioxidoDeTitanio,
+    monolauratoDeGlicerol,
+  } = aditivosAlimentarios;
+
+  result.push(grupoAlimento);
+  result.push(energia);
+  result.push(proteina);
+  result.push(lipidos);
+  result.push(agSaturados);
+  result.push(agMonoinsaturados);
+  result.push(adPoliinsaturados);
+  result.push(colesterol);
+  result.push(omega3);
+  result.push(omega6);
+  result.push(omega9);
+  result.push(hidratosDeCarbono);
+  result.push(fibra);
+  result.push(fibraSoluble);
+  result.push(fibraInsoluble);
+  result.push(azucar);
+  result.push(etanol);
+  result.push(tiamina);
+  result.push(riboflavin);
+  result.push(niacina);
+  result.push(acidoPantotenico);
+  result.push(piridoxina);
+  result.push(biotina);
+  result.push(cobalmina);
+  result.push(acidoAscorbico);
+  result.push(acidoFolico);
+  result.push(vitaminaA);
+  result.push(vitaminaD);
+  result.push(vitaminaK);
+  result.push(vitaminaE);
+  result.push(calcio);
+  result.push(fosforo);
+  result.push(hierro);
+  result.push(hierroNoHem);
+  result.push(hierroTotal);
+  result.push(magnesio);
+  result.push(sodio);
+  result.push(potasio);
+  result.push(zinc);
+  result.push(selenio);
+  result.push(indiceGlicemico);
+  result.push(cargaGlicemica);
+  result.push(factorDeCorreccionParaHuellaHidricaYEGEI);
+  result.push(tipo);
+  result.push(lugar);
+  result.push(huellaHidricaTotal);
+  result.push(huellaHidricaVerde);
+  result.push(huellaHidricaAzul);
+  result.push(huellaHidricaGris);
+  result.push(aguaParaLavado);
+  result.push(aguaParaCoccion);
+  result.push(lugarEGEI);
+  result.push(citaEGEI);
+  result.push(huellaCarbono);
+  result.push(huellaEcologica);
+  result.push(usoDeSuelo);
+  result.push(energiaFosil);
+  result.push(nitrogeno);
+  result.push(rest.fosforo);
+  result.push(puntajeEcologico);
+  result.push(precio);
+  result.push(lugarDeCompra);
+  result.push(lugarDeVenta);
+  result.push(fitoquimicos);
+  result.push(polifenoles);
+  result.push(antocianinas);
+  result.push(taninos);
+  result.push(isoflavonas);
+  result.push(resveratrol);
+  result.push(isotiocinatos);
+  result.push(caretenoides);
+  result.push(betacarotenos);
+  result.push(licopeno);
+  result.push(luteina);
+  result.push(alicina);
+  result.push(cafeina);
+  result.push(UFC);
+  result.push(benzoatoDeSodio);
+  result.push(polisorbato);
+  result.push(azulBrillanteFCFoE133);
+  result.push(azurrubinaOE102);
+  result.push(amarilloOcasoFDFoE110);
+  result.push(tartrazinaOE102);
+  result.push(verdeSoE142);
+  result.push(negroBrillanteBNoE151);
+  result.push(sucralosa);
+  result.push(estevia);
+  result.push(sacarina);
+  result.push(aspartame);
+  result.push(acesulfameK);
+  result.push(carboxymethylcellulose);
+  result.push(dioxidoDeTitanio);
+  result.push(monolauratoDeGlicerol);
+  //console.log(result);
   return result;
 };
