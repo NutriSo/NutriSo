@@ -1512,16 +1512,16 @@ export const getFinalColumns = (columns, maxColumns) => {
 
     for (let i = 0; i < maxColumns - 1; i++) {
         newColumns.push(
-            ...food[`groupColumns${0}`],
-            ...extraColumns2[`extraColumns${0}`],
-            ...calories[`caloriasMacronutrientes${0}`],
-            ...vitamins[`vitaminas${0}`],
-            ...minerals[`minerales${0}`],
-            ...glycemic[`aspectoGlucemico${0}`],
-            ...environmental[`aspectosMedioambientales${0}`],
-            ...economic[`aspectosEconomicos2`],
-            ...bioactives[`componentesBioactivos${0}`],
-            ...additives[`aditivosAlimentarios${0}`]
+            ...food.groupColumns0,
+            ...extraColumns2.extraColumns0,
+            ...calories.caloriasMacronutrientes0,
+            ...vitamins.vitaminas0,
+            ...minerals.minerales0,
+            ...glycemic.aspectoGlucemico0,
+            ...environmental.aspectosMedioambientales0,
+            ...economic.aspectosEconomicos0,
+            ...bioactives.componentesBioactivos0,
+            ...additives.aditivosAlimentarios0
         );
     }
 
@@ -2066,7 +2066,7 @@ export const getZeroData = (name) => {
     return result;
 };
 
-export const getSumByDay = (data, type) => {
+export const getSumByDay = (data) => {
     if (isInvalidElem(data)) {
         return [];
     }
@@ -2143,6 +2143,62 @@ export const getSumByDay = (data, type) => {
     return objetosIterados;
 };
 
+const createPropertyWhileObject = (objRef, params) => {
+    const [firstObj, secondObj, key] = params;
+    const tempObj = {};
+
+    Object.keys(firstObj[key]).forEach((key2) => {
+        const firstValue2 = Number(firstObj[key][key2]);
+        const secondValue2 = Number(secondObj[key][key2]);
+
+        const esNum12 = getIsANumber(firstObj[key][key2]);
+        const esNum22 = getIsANumber(secondObj[key][key2]);
+
+        if (esNum12 && esNum22 && !isSku(key2)) {
+            tempObj[key2] = String(Number(firstValue2 + secondValue2).toFixed(4));
+        } else if (getIsAScript(firstObj[key][key2]) || getIsAScript(secondObj[key][key2])) {
+            tempObj[key2] = '-';
+        } else {
+            tempObj[key2] = firstObj[key][key2];
+        }
+    });
+
+    objRef[key] = tempObj;
+};
+
+const createPropertyWhileNotObject = (objRef, params) => {
+    const [firstObj, secondObj, key] = params;
+
+    const firstValue = Number(firstObj[key]);
+    const secondValue = Number(secondObj[key]);
+
+    const esNum1 = getIsANumber(firstObj[key]);
+    const esNum2 = getIsANumber(secondObj[key]);
+
+    const date1 = isValidDate(firstObj[key]);
+    const date2 = isValidDate(secondObj[key]);
+
+    if (esNum1 && esNum2 && !isSku(key)) {
+        objRef[key] = String(firstValue + secondValue);
+    } else if (getIsAScript(firstObj[key]) || getIsAScript(secondObj[key])) {
+        objRef[key] = '-';
+    } else if (date1 && date2) {
+        objRef[key] = firstObj[key];
+    } else if (getIsArray(firstObj[key]) && getIsArray(secondObj[key])) {
+        const cleanArray = new Set([...firstObj[key], ...secondObj[key]]);
+        objRef[key] = [...cleanArray];
+    } else if (
+        getIsAString(firstObj[key]) &&
+        getIsAString(secondObj[key] && key !== 'usuario')
+    ) {
+        objRef[key] = firstObj[key] + ', ' + secondObj[key];
+    } else if (firstObj[key] === 'cantidad' && secondObj[key] === 'cantidad') {
+        objRef[key] = String(firstValue + secondValue);
+    } else {
+        objRef[key] = firstObj[key];
+    }
+};
+
 export const sumObjectValues = (firstObj, secondObj) => {
     const result = {};
 
@@ -2151,67 +2207,19 @@ export const sumObjectValues = (firstObj, secondObj) => {
     }
 
     Object.keys(firstObj).forEach((key) => {
-        const firstValue = Number(firstObj[key]);
-        const secondValue = Number(secondObj[key]);
-
-        const esNum1 = getIsANumber(firstObj[key]);
-        const esNum2 = getIsANumber(secondObj[key]);
-
-        const date1 = isValidDate(firstObj[key]);
-        const date2 = isValidDate(secondObj[key]);
-
         const areObjects = getIsObject(firstObj[key]) && getIsObject(secondObj[key]);
 
         if (areObjects) {
-            const tempObj = {};
-
-            Object.keys(firstObj[key]).forEach((key2) => {
-                const firstValue2 = Number(firstObj[key][key2]);
-                const secondValue2 = Number(secondObj[key][key2]);
-
-                const esNum12 = getIsANumber(firstObj[key][key2]);
-                const esNum22 = getIsANumber(secondObj[key][key2]);
-
-                if (esNum12 && esNum22 && !isSku(key2)) {
-                    tempObj[key2] = String(Number(firstValue2 + secondValue2).toFixed(4));
-                } else if (
-                    getIsAScript(firstObj[key][key2]) ||
-                    getIsAScript(secondObj[key][key2])
-                ) {
-                    tempObj[key2] = '-';
-                } else {
-                    tempObj[key2] = firstObj[key][key2];
-                }
-            });
-
-            result[key] = tempObj;
+            createPropertyWhileObject(result, [firstObj, secondObj, key]);
         } else {
-            if (esNum1 && esNum2 && !isSku(key)) {
-                result[key] = String(firstValue + secondValue);
-            } else if (getIsAScript(firstObj[key]) || getIsAScript(secondObj[key])) {
-                result[key] = '-';
-            } else if (date1 && date2) {
-                result[key] = firstObj[key];
-            } else if (getIsArray(firstObj[key]) && getIsArray(secondObj[key])) {
-                const cleanArray = new Set([...firstObj[key], ...secondObj[key]]);
-                result[key] = [...cleanArray];
-            } else if (
-                getIsAString(firstObj[key]) &&
-                getIsAString(secondObj[key] && key !== 'usuario')
-            ) {
-                result[key] = firstObj[key] + ', ' + secondObj[key];
-            } else if (firstObj[key] === 'cantidad' && secondObj[key] === 'cantidad') {
-                result[key] = String(firstValue + secondValue);
-            } else {
-                result[key] = firstObj[key];
-            }
+            createPropertyWhileNotObject(result, [firstObj, secondObj, key]);
         }
     });
 
     return result;
 };
 
-export const generateCsvRowsByDay = (data, type) => {
+export const generateCsvRowsByDay = (data) => {
     if (isInvalidElem(data)) {
         return {};
     }
@@ -2234,7 +2242,7 @@ export const generateCsvRowsByDay = (data, type) => {
     return rows;
 };
 
-export const generateFinalCsvRowsByDay = (data, type) => {
+export const generateFinalCsvRowsByDay = (data) => {
     const tempFirstsValues = [];
     const tempRows = [];
 
