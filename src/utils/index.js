@@ -227,3 +227,7 @@ export const isSku = (param) => {
 
     return param === 'sku';
 };
+
+export const isQuantity = (key) => {
+    return key === 'cantidad';
+};

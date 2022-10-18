@@ -2,7 +2,7 @@ import {
     isEmptyArray,
     isEmptyObject,
     isInvalidElem,
-    isNumberType,
+    isQuantity,
     getIsAScript,
     getIsArray,
     getIsAString,
@@ -1737,145 +1737,108 @@ export const normalizePropsByDayOrder = (data) => {
     const result = [];
 
     const {
-        id,
-        sku,
-        nombreAlimento,
-        grupoExportable,
-        subGrupoExportable,
-        grupoAlimento,
-        clasificacionExportable,
-        opcionesPreparacion,
-        icono,
-        mensaje,
-        cantidadAlimento,
-        caloriasMacronutrientes,
-        vitaminas,
-        minerales,
-        aspectoGlucemico,
-        aspectoEconomico,
-        aspectoMedioambiental,
-        componentesBioactivos,
-        aditivosAlimentarios,
-        imagen,
-        marca,
-    } = data;
-
-    const {
-        energia,
-        proteina,
-        lipidos,
-        agSaturados,
-        agMonoinsaturados,
-        adPoliinsaturados,
-        colesterol,
-        omega3,
-        omega6,
-        omega9,
-        hidratosDeCarbono,
-        fibra,
-        fibraSoluble,
-        fibraInsoluble,
-        azucar,
-        etanol,
-    } = caloriasMacronutrientes;
-
-    const {
-        tiamina,
-        riboflavin,
-        niacina,
-        acidoPantotenico,
-        piridoxina,
-        biotina,
-        cobalmina,
+        acesulfameK,
         acidoAscorbico,
         acidoFolico,
-        vitaminaA,
-        vitaminaD,
-        vitaminaK,
-        vitaminaE,
-    } = vitaminas;
-
-    const {
+        acidoPantotenico,
+        agMonoinsaturados,
+        agPoliinsaturados,
+        agSaturados,
+        aguaParaCoccion,
+        aguaParaLavado,
+        alicina,
+        amarilloOcasoFDFoE110,
+        antocianinas,
+        aspartame,
+        azucar,
+        azulBrillanteFCFoE133,
+        azurrubinaOE102,
+        benzoatoDeSodio,
+        betacarotenos,
+        biotina,
+        cafeina,
         calcio,
+        carboxymethylcellulose,
+        cargaGlicemica,
+        carotenoides,
+        citaEGEI,
+        cobalamina,
+        colesterol,
+        dioxidoDeTitanio,
+        energiaFosil,
+        energiaKcal,
+        estevia,
+        etanol,
+        factorDeCorreccionParaHuellaHidricaYEGEI,
+        fibra,
+        fibraInsoluble,
+        fibraSoluble,
+        fitoquimicos,
         fosforo,
+        fosforoAmbiental,
+        grupoAlimento,
+        hidratosDeCarbono,
         hierro,
         hierroNoHem,
         hierroTotal,
-        magnesio,
-        sodio,
-        potasio,
-        zinc,
-        selenio,
-    } = minerales;
-
-    const { indiceGlicemico, cargaGlicemica } = aspectoGlucemico;
-
-    const {
-        factorDeCorreccionParaHuellaHidricaYEGEI,
-        tipo,
-        lugar,
-        huellaHidricaTotal,
-        huellaHidricaVerde,
+        huellaDeCarbono,
+        huellaEcologica,
         huellaHidricaAzul,
         huellaHidricaGris,
-        aguaParaLavado,
-        aguaParaCoccion,
-        lugarEGEI,
-        citaEGEI,
-        huellaCarbono,
-        huellaEcologica,
-        energiaFosil,
-        usoDeSuelo,
-        nitrogeno,
-        puntajeEcologico,
-        ...rest
-    } = aspectoMedioambiental;
-
-    const { precio, lugarDeCompra, lugarDeVenta } = aspectoEconomico;
-
-    const {
-        fitoquimicos,
-        polifenoles,
-        antocianinas,
-        taninos,
+        huellaHidricaTotal,
+        huellaHidricaVerde,
+        indiceGlicemico,
         isoflavonas,
-        resveratrol,
-        isotiocinatos,
-        caretenoides,
-        betacarotenos,
+        isotiocianatos,
         licopeno,
+        lipidos,
+        lugar,
+        lugarDeCompra,
+        lugarDeVenta,
+        lugarEGEI,
         luteina,
-        alicina,
-        cafeina,
-        UFC,
-    } = componentesBioactivos;
-
-    const {
-        benzoatoDeSodio,
-        polisorbato,
-        azulBrillanteFCFoE133,
-        azurrubinaOE102,
-        amarilloOcasoFDFoE110,
-        tartrazinaOE102,
-        verdeSoE142,
-        negroBrillanteBNoE151,
-        sucralosa,
-        estevia,
-        sacarina,
-        aspartame,
-        acesulfameK,
-        carboxymethylcellulose,
-        dioxidoDeTitanio,
+        magnesio,
         monolauratoDeGlicerol,
-    } = aditivosAlimentarios;
+        negroBrillanteBNoE151,
+        niacina,
+        nitrogeno,
+        omega3,
+        omega6,
+        omega9,
+        piridoxina,
+        polifenoles,
+        polisorbato,
+        potasio,
+        precio,
+        proteina,
+        puntajeEcologico,
+        resveratrol,
+        riboflavina,
+        sacarina,
+        selenio,
+        sodio,
+        sucralosa,
+        taninos,
+        tartrazinaOE102,
+        tiamina,
+        tipo,
+        ufc,
+        usoDeSuelo,
+        verdeSoE142,
+        vitaminaA,
+        vitaminaD,
+        vitaminaE,
+        vitaminaK,
+        zinc,
+    } = data;
 
     result.push(grupoAlimento);
-    result.push(energia);
+    result.push(energiaKcal);
     result.push(proteina);
     result.push(lipidos);
     result.push(agSaturados);
     result.push(agMonoinsaturados);
-    result.push(adPoliinsaturados);
+    result.push(agPoliinsaturados);
     result.push(colesterol);
     result.push(omega3);
     result.push(omega6);
@@ -1887,12 +1850,12 @@ export const normalizePropsByDayOrder = (data) => {
     result.push(azucar);
     result.push(etanol);
     result.push(tiamina);
-    result.push(riboflavin);
+    result.push(riboflavina);
     result.push(niacina);
     result.push(acidoPantotenico);
     result.push(piridoxina);
     result.push(biotina);
-    result.push(cobalmina);
+    result.push(cobalamina);
     result.push(acidoAscorbico);
     result.push(acidoFolico);
     result.push(vitaminaA);
@@ -1922,12 +1885,12 @@ export const normalizePropsByDayOrder = (data) => {
     result.push(aguaParaCoccion);
     result.push(lugarEGEI);
     result.push(citaEGEI);
-    result.push(huellaCarbono);
+    result.push(huellaDeCarbono);
     result.push(huellaEcologica);
     result.push(usoDeSuelo);
     result.push(energiaFosil);
     result.push(nitrogeno);
-    result.push(rest.fosforo);
+    result.push(fosforoAmbiental);
     result.push(puntajeEcologico);
     result.push(precio);
     result.push(lugarDeCompra);
@@ -1938,14 +1901,14 @@ export const normalizePropsByDayOrder = (data) => {
     result.push(taninos);
     result.push(isoflavonas);
     result.push(resveratrol);
-    result.push(isotiocinatos);
-    result.push(caretenoides);
+    result.push(isotiocianatos);
+    result.push(carotenoides);
     result.push(betacarotenos);
     result.push(licopeno);
     result.push(luteina);
     result.push(alicina);
     result.push(cafeina);
-    result.push(UFC);
+    result.push(ufc);
     result.push(benzoatoDeSodio);
     result.push(polisorbato);
     result.push(azulBrillanteFCFoE133);
@@ -2308,6 +2271,42 @@ export const normalizeObjectsByQuantity = (data) => {
     return result;
 };
 
+export const normalizeValuesByConsumption = (data) => {
+    const result = data.map((row) => {
+        const { values, ...rest } = row;
+
+        const firstObj = {
+            ...rest,
+        };
+
+        const firstGroups = values
+            .map((group) => {
+                const alimentos = group.values;
+                const grupo = group.grupo;
+
+                const secondObj = {
+                    grupo,
+                };
+
+                const foods = alimentos
+                    .map((alimento) => {
+                        return normalizeObjectsByQuantity(alimento);
+                    })
+                    .flat(2);
+
+                secondObj.values = foods;
+                return secondObj;
+            })
+            .flat(2);
+
+        firstObj.values = firstGroups;
+
+        return firstObj;
+    });
+
+    return result;
+};
+
 export const getSumByDay = (data) => {
     if (isInvalidElem(data)) {
         return [];
@@ -2315,26 +2314,9 @@ export const getSumByDay = (data) => {
 
     const objetosIterados = [];
 
-    const newData = data
-        .map((row) => {
-            const { values } = row;
+    const normalizedData = normalizeValuesByConsumption(data);
 
-            return values
-                .map((group) => {
-                    const alimentos = group.values;
-
-                    return alimentos
-                        .map((alimento) => {
-                            return normalizeObjectsByQuantity(alimento);
-                        })
-                        .flat(2);
-                })
-                .flat(2);
-        })
-        .flat(2);
-    console.log(newData);
-
-    data.forEach((row) => {
+    normalizedData.forEach((row) => {
         const { fechaRegistro, idParticipante } = row;
 
         const yaIterado = objetosIterados.some((obj) => {
@@ -2362,50 +2344,46 @@ export const getSumByDay = (data) => {
                 });
             });
 
-            // found.values.forEach((grupo) => {
-            //     const { values } = grupo;
+            found.values.forEach((grupo) => {
+                const { values } = grupo;
 
-            //     values.forEach((alimento) => {
-            //         suma = sumObjectValues(suma, alimento);
-            //     });
-            // });
+                values.forEach((alimento) => {
+                    suma = sumObjectValues(suma, alimento);
+                });
+            });
 
             found.values = [suma];
         }
     });
 
-    // objetosIterados.forEach((row) => {
-    //     const elements = row.values;
-    //     const hasMoreThanOneElement = elements.length > 1;
+    objetosIterados.forEach((row) => {
+        const elements = row.values;
+        const hasMoreThanOneElement = elements.length > 1;
 
-    //     if (hasMoreThanOneElement) {
-    //         let suma = {};
+        if (hasMoreThanOneElement) {
+            let suma = {};
 
-    //         elements.forEach((grupo) => {
-    //             const { values } = grupo;
+            elements.forEach((grupo) => {
+                const { values } = grupo;
 
-    //             values.forEach((alimento) => {
-    //                 suma = sumObjectValues(suma, alimento);
-    //             });
-    //         });
+                values.forEach((alimento) => {
+                    suma = sumObjectValues(suma, alimento);
+                });
+            });
 
-    //         row.values = [suma];
-    //     } else {
-    //         const hasValuesProperty = elements[0].hasOwnProperty('values');
+            row.values = [suma];
+        } else {
+            const hasValuesProperty = elements[0].hasOwnProperty('values');
 
-    //         if (hasValuesProperty) {
-    //             row.values = elements[0].values;
-    //         } else {
-    //             row.values = elements;
-    //         }
-    //     }
-    // });
+            if (hasValuesProperty) {
+                row.values = elements[0].values;
+            } else {
+                row.values = elements;
+            }
+        }
+    });
 
     return objetosIterados;
-};
-
-const isQuantity = (key) => {
-    return key === 'cantidad';
 };
 
 const createPropertyWhileObject = (objRef, params) => {
