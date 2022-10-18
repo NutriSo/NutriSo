@@ -2066,12 +2066,273 @@ export const getZeroData = (name) => {
     return result;
 };
 
+export const getMultiplyData = (value, quantity) => {
+    return Number(value * quantity);
+};
+
+export const normalizeObjectsByQuantity = (data) => {
+    if (isEmptyObject(data)) return {};
+
+    const {
+        id,
+        sku,
+        nombreAlimento,
+        grupoExportable,
+        subGrupoExportable,
+        grupoAlimento,
+        clasificacionExportable,
+        subGrupoAdecuada,
+        opcionesPreparacion,
+        icono,
+        mensaje,
+        cantidadAlimento,
+        caloriasMacronutrientes,
+        vitaminas,
+        minerales,
+        aspectoGlucemico,
+        aspectoEconomico,
+        aspectoMedioambiental,
+        componentesBioactivos,
+        aditivosAlimentarios,
+        cantidad: consumption,
+    } = data;
+
+    const {
+        energia,
+        proteina,
+        lipidos,
+        agSaturados,
+        agMonoinsaturados,
+        adPoliinsaturados,
+        colesterol,
+        omega3,
+        omega6,
+        omega9,
+        hidratosDeCarbono,
+        fibra,
+        fibraSoluble,
+        fibraInsoluble,
+        azucar,
+        etanol,
+    } = caloriasMacronutrientes;
+
+    const {
+        tiamina,
+        riboflavin,
+        niacina,
+        acidoPantotenico,
+        piridoxina,
+        biotina,
+        cobalmina,
+        acidoAscorbico,
+        acidoFolico,
+        vitaminaA,
+        vitaminaD,
+        vitaminaK,
+        vitaminaE,
+    } = vitaminas;
+
+    const {
+        calcio,
+        fosforo,
+        hierro,
+        hierroNoHem,
+        hierroTotal,
+        magnesio,
+        sodio,
+        potasio,
+        zinc,
+        selenio,
+    } = minerales;
+
+    const { indiceGlicemico, cargaGlicemica } = aspectoGlucemico;
+
+    const {
+        factorDeCorreccionParaHuellaHidricaYEGEI,
+        tipo,
+        lugar,
+        huellaHidricaTotal,
+        huellaHidricaVerde,
+        huellaHidricaAzul,
+        huellaHidricaGris,
+        aguaParaLavado,
+        aguaParaCoccion,
+        lugarEGEI,
+        citaEGEI,
+        huellaCarbono,
+        huellaEcologica,
+        energiaFosil,
+        usoDeSuelo,
+        nitrogeno,
+        puntajeEcologico,
+        ...rest
+    } = aspectoMedioambiental;
+
+    const { precio, lugarDeCompra, lugarDeVenta } = aspectoEconomico;
+
+    const {
+        fitoquimicos,
+        polifenoles,
+        antocianinas,
+        taninos,
+        isoflavonas,
+        resveratrol,
+        isotiocinatos,
+        caretenoides,
+        betacarotenos,
+        licopeno,
+        luteina,
+        alicina,
+        cafeina,
+        UFC,
+    } = componentesBioactivos;
+
+    const {
+        benzoatoDeSodio,
+        polisorbato,
+        azulBrillanteFCFoE133,
+        azurrubinaOE102,
+        amarilloOcasoFDFoE110,
+        tartrazinaOE102,
+        verdeSoE142,
+        negroBrillanteBNoE151,
+        sucralosa,
+        estevia,
+        sacarina,
+        aspartame,
+        acesulfameK,
+        carboxymethylcellulose,
+        dioxidoDeTitanio,
+        monolauratoDeGlicerol,
+    } = aditivosAlimentarios;
+
+    const washingValue = (consumption * aguaParaLavado) / KG;
+    const cookingValue = (consumption * aguaParaCoccion) / KG;
+
+    const result = {
+        grupoAlimento: grupoAlimento,
+        energiaKcal: getMultiplyData(energia, consumption),
+        proteina: getMultiplyData(proteina, consumption),
+        lipidos: getMultiplyData(lipidos, consumption),
+        agSaturados: getMultiplyData(agSaturados, consumption),
+        agMonoinsaturados: getMultiplyData(agMonoinsaturados, consumption),
+        agPoliinsaturados: getMultiplyData(adPoliinsaturados, consumption),
+        colesterol: getMultiplyData(colesterol, consumption),
+        omega3: getMultiplyData(omega3, consumption),
+        omega6: getMultiplyData(omega6, consumption),
+        omega9: getMultiplyData(omega9, consumption),
+        hidratosDeCarbono: getMultiplyData(hidratosDeCarbono, consumption),
+        fibra: getMultiplyData(fibra, consumption),
+        fibraSoluble: getMultiplyData(fibraSoluble, consumption),
+        fibraInsoluble: getMultiplyData(fibraInsoluble, consumption),
+        azucar: getMultiplyData(azucar, consumption),
+        etanol: getMultiplyData(etanol, consumption),
+        tiamina: getMultiplyData(tiamina, consumption),
+        riboflavina: getMultiplyData(riboflavin, consumption),
+        niacina: getMultiplyData(niacina, consumption),
+        acidoPantotenico: getMultiplyData(acidoPantotenico, consumption),
+        piridoxina: getMultiplyData(piridoxina, consumption),
+        biotina: getMultiplyData(biotina, consumption),
+        cobalamina: getMultiplyData(cobalmina, consumption),
+        acidoAscorbico: getMultiplyData(acidoAscorbico, consumption),
+        acidoFolico: getMultiplyData(acidoFolico, consumption),
+        vitaminaA: getMultiplyData(vitaminaA, consumption),
+        vitaminaD: getMultiplyData(vitaminaD, consumption),
+        vitaminaK: getMultiplyData(vitaminaK, consumption),
+        vitaminaE: getMultiplyData(vitaminaE, consumption),
+        calcio: getMultiplyData(calcio, consumption),
+        fosforo: getMultiplyData(fosforo, consumption),
+        hierro: getMultiplyData(hierro, consumption),
+        hierroNoHem: getMultiplyData(hierroNoHem, consumption),
+        hierroTotal: getMultiplyData(hierroTotal, consumption),
+        magnesio: getMultiplyData(magnesio, consumption),
+        sodio: getMultiplyData(sodio, consumption),
+        potasio: getMultiplyData(potasio, consumption),
+        zinc: getMultiplyData(zinc, consumption),
+        selenio: getMultiplyData(selenio, consumption),
+        indiceGlicemico: getMultiplyData(indiceGlicemico, consumption),
+        cargaGlicemica: getMultiplyData(cargaGlicemica, consumption),
+        factorDeCorreccionParaHuellaHidricaYEGEI,
+        tipo: tipo,
+        lugar: lugar,
+        huellaHidricaTotal: getMultiplyData(huellaHidricaTotal, consumption),
+        huellaHidricaVerde: getMultiplyData(huellaHidricaVerde, consumption),
+        huellaHidricaAzul: getMultiplyData(huellaHidricaAzul, consumption),
+        huellaHidricaGris: getMultiplyData(huellaHidricaGris, consumption),
+        aguaParaLavado: getMultiplyData(washingValue, consumption),
+        aguaParaCoccion: getMultiplyData(cookingValue, consumption),
+        lugarEGEI: lugarEGEI,
+        citaEGEI: citaEGEI,
+        huellaDeCarbono: getMultiplyData(huellaCarbono, consumption),
+        huellaEcologica: getMultiplyData(huellaEcologica, consumption),
+        usoDeSuelo: getMultiplyData(usoDeSuelo, consumption),
+        energiaFosil: getMultiplyData(energiaFosil, consumption),
+        nitrogeno: getMultiplyData(nitrogeno, consumption),
+        fosforoAmbiental: getMultiplyData(rest.fosforo, consumption),
+        puntajeEcologico: getMultiplyData(puntajeEcologico, consumption),
+        precio: getMultiplyData(precio, consumption),
+        lugarDeCompra: lugarDeCompra,
+        lugarDeVenta: lugarDeVenta,
+        fitoquimicos: getMultiplyData(fitoquimicos, consumption),
+        polifenoles: getMultiplyData(polifenoles, consumption),
+        antocianinas: getMultiplyData(antocianinas, consumption),
+        taninos: getMultiplyData(taninos, consumption),
+        isoflavonas: getMultiplyData(isoflavonas, consumption),
+        resveratrol: getMultiplyData(resveratrol, consumption),
+        isotiocianatos: getMultiplyData(isotiocinatos, consumption),
+        carotenoides: getMultiplyData(caretenoides, consumption),
+        betacarotenos: getMultiplyData(betacarotenos, consumption),
+        licopeno: getMultiplyData(licopeno, consumption),
+        luteina: getMultiplyData(luteina, consumption),
+        alicina: getMultiplyData(alicina, consumption),
+        cafeina: getMultiplyData(cafeina, consumption),
+        ufc: getMultiplyData(UFC, consumption),
+        benzoatoDeSodio: getMultiplyData(benzoatoDeSodio, consumption),
+        polisorbato: getMultiplyData(polisorbato, consumption),
+        azulBrillanteFCFoE133: getMultiplyData(azulBrillanteFCFoE133, consumption),
+        azurrubinaOE102: getMultiplyData(azurrubinaOE102, consumption),
+        amarilloOcasoFDFoE110: getMultiplyData(amarilloOcasoFDFoE110, consumption),
+        tartrazinaOE102: getMultiplyData(tartrazinaOE102, consumption),
+        verdeSoE142: getMultiplyData(verdeSoE142, consumption),
+        negroBrillanteBNoE151: getMultiplyData(negroBrillanteBNoE151, consumption),
+        sucralosa: getMultiplyData(sucralosa, consumption),
+        estevia: getMultiplyData(estevia, consumption),
+        sacarina: getMultiplyData(sacarina, consumption),
+        aspartame: getMultiplyData(aspartame, consumption),
+        acesulfameK: getMultiplyData(acesulfameK, consumption),
+        carboxymethylcellulose: getMultiplyData(carboxymethylcellulose, consumption),
+        dioxidoDeTitanio: getMultiplyData(dioxidoDeTitanio, consumption),
+        monolauratoDeGlicerol: getMultiplyData(monolauratoDeGlicerol, consumption),
+    };
+
+    return result;
+};
+
 export const getSumByDay = (data) => {
     if (isInvalidElem(data)) {
         return [];
     }
 
     const objetosIterados = [];
+
+    const newData = data
+        .map((row) => {
+            const { values } = row;
+
+            return values
+                .map((group) => {
+                    const alimentos = group.values;
+
+                    return alimentos
+                        .map((alimento) => {
+                            return normalizeObjectsByQuantity(alimento);
+                        })
+                        .flat(2);
+                })
+                .flat(2);
+        })
+        .flat(2);
+    console.log(newData);
 
     data.forEach((row) => {
         const { fechaRegistro, idParticipante } = row;
@@ -2101,46 +2362,50 @@ export const getSumByDay = (data) => {
                 });
             });
 
-            found.values.forEach((grupo) => {
-                const { values } = grupo;
+            // found.values.forEach((grupo) => {
+            //     const { values } = grupo;
 
-                values.forEach((alimento) => {
-                    suma = sumObjectValues(suma, alimento);
-                });
-            });
+            //     values.forEach((alimento) => {
+            //         suma = sumObjectValues(suma, alimento);
+            //     });
+            // });
 
             found.values = [suma];
         }
     });
 
-    objetosIterados.forEach((row) => {
-        const elements = row.values;
-        const hasMoreThanOneElement = elements.length > 1;
+    // objetosIterados.forEach((row) => {
+    //     const elements = row.values;
+    //     const hasMoreThanOneElement = elements.length > 1;
 
-        if (hasMoreThanOneElement) {
-            let suma = {};
+    //     if (hasMoreThanOneElement) {
+    //         let suma = {};
 
-            elements.forEach((grupo) => {
-                const { values } = grupo;
+    //         elements.forEach((grupo) => {
+    //             const { values } = grupo;
 
-                values.forEach((alimento) => {
-                    suma = sumObjectValues(suma, alimento);
-                });
-            });
+    //             values.forEach((alimento) => {
+    //                 suma = sumObjectValues(suma, alimento);
+    //             });
+    //         });
 
-            row.values = [suma];
-        } else {
-            const hasValuesProperty = elements[0].hasOwnProperty('values');
+    //         row.values = [suma];
+    //     } else {
+    //         const hasValuesProperty = elements[0].hasOwnProperty('values');
 
-            if (hasValuesProperty) {
-                row.values = elements[0].values;
-            } else {
-                row.values = elements;
-            }
-        }
-    });
+    //         if (hasValuesProperty) {
+    //             row.values = elements[0].values;
+    //         } else {
+    //             row.values = elements;
+    //         }
+    //     }
+    // });
 
     return objetosIterados;
+};
+
+const isQuantity = (key) => {
+    return key === 'cantidad';
 };
 
 const createPropertyWhileObject = (objRef, params) => {
@@ -2154,10 +2419,13 @@ const createPropertyWhileObject = (objRef, params) => {
         const esNum12 = getIsANumber(firstObj[key][key2]);
         const esNum22 = getIsANumber(secondObj[key][key2]);
 
-        if (esNum12 && esNum22 && !isSku(key2)) {
+        if (esNum12 && esNum22 && !isSku(key2) && !isQuantity(key)) {
             tempObj[key2] = String(Number(firstValue2 + secondValue2).toFixed(4));
         } else if (getIsAScript(firstObj[key][key2]) || getIsAScript(secondObj[key][key2])) {
             tempObj[key2] = '-';
+        } else if (isQuantity(key)) {
+            // objRef[key] = String(firstValue + secondValue);
+            console.log('cantidad obj', { firstValue, secondValue, esNum1, esNum2 });
         } else {
             tempObj[key2] = firstObj[key][key2];
         }
@@ -2178,7 +2446,7 @@ const createPropertyWhileNotObject = (objRef, params) => {
     const date1 = isValidDate(firstObj[key]);
     const date2 = isValidDate(secondObj[key]);
 
-    if (esNum1 && esNum2 && !isSku(key)) {
+    if (esNum1 && esNum2 && !isSku(key) && !isQuantity(key)) {
         objRef[key] = String(firstValue + secondValue);
     } else if (getIsAScript(firstObj[key]) || getIsAScript(secondObj[key])) {
         objRef[key] = '-';
@@ -2192,8 +2460,9 @@ const createPropertyWhileNotObject = (objRef, params) => {
         getIsAString(secondObj[key] && key !== 'usuario')
     ) {
         objRef[key] = firstObj[key] + ', ' + secondObj[key];
-    } else if (firstObj[key] === 'cantidad' && secondObj[key] === 'cantidad') {
-        objRef[key] = String(firstValue + secondValue);
+    } else if (isQuantity(key)) {
+        // objRef[key] = String(firstValue + secondValue);
+        console.log('cantidad', { firstValue, secondValue, esNum1, esNum2 });
     } else {
         objRef[key] = firstObj[key];
     }

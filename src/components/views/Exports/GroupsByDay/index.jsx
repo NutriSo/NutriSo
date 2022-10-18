@@ -95,15 +95,16 @@ const GroupsByDay = ({ selected = false, setLoading }) => {
             }
 
             const totales = getSumByDay(unified);
-            const csvRowsPreview = generateCsvRowsByDay(totales);
-            const cvsRows = generateFinalCsvRowsByDay(csvRowsPreview, keys.grupoExportable);
-            const finalColumns = getFinalColumns(columns, 1);
+            // console.log({ totales });
+            // const csvRowsPreview = generateCsvRowsByDay(totales);
+            // const cvsRows = generateFinalCsvRowsByDay(csvRowsPreview, keys.grupoExportable);
+            // const finalColumns = getFinalColumns(columns, 1);
 
-            setColumns(finalColumns);
-            setExportData(cvsRows);
-            setTimeout(() => {
-                onFileReady();
-            }, 1000);
+            // setColumns(finalColumns);
+            // setExportData(cvsRows);
+            // setTimeout(() => {
+            //     onFileReady();
+            // }, 1000);
         } catch (error) {
             handleCancel();
             message.error('Ocurrió un error al armar los datos para exportar');
@@ -112,6 +113,8 @@ const GroupsByDay = ({ selected = false, setLoading }) => {
             console.groupEnd();
         }
     };
+
+    return <div />;
 
     return (
         <CustomExport
