@@ -2312,9 +2312,7 @@ export const normalizeValuesByConsumption = (data) => {
                 };
 
                 const foods = alimentos
-                    .map((alimento) => {
-                        return normalizeObjectsByQuantity(alimento);
-                    })
+                    .map((alimento) => normalizeObjectsByQuantity(alimento))
                     .flat(2);
 
                 secondObj.values = foods;
