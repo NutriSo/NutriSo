@@ -1533,6 +1533,30 @@ export const getFinalColumns = (columns, maxColumns) => {
     return finalColumns;
 };
 
+export const getFinalColumnsByDay = (columns, maxColumns) => {
+    const newColumns = columns;
+
+    for (let i = 0; i < maxColumns - 1; i++) {
+        newColumns.push(
+            ...calories.caloriasMacronutrientes0,
+            ...vitamins.vitaminas0,
+            ...minerals.minerales0,
+            ...glycemic.aspectoGlucemico0,
+            ...environmental.aspectosMedioambientales0,
+            ...economic.aspectosEconomicos0,
+            ...bioactives.componentesBioactivos0,
+            ...additives.aditivosAlimentarios0
+        );
+    }
+
+    const finalColumns = [];
+    newColumns.forEach((columnProps) => {
+        finalColumns.push(columnProps.title);
+    });
+
+    return finalColumns;
+};
+
 export const normalizePropsOrder = (data) => {
     if (isInvalidElem(data)) return '';
 
