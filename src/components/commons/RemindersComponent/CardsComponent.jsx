@@ -55,8 +55,13 @@ const CardsComponent = () => {
     useEffect(() => {
         fetchData();
     }, []);
+
     useEffect(() => {
-        seleccionado?._id && fetchData2();
+        if (!seleccionado?._id) {
+            return;
+        }
+
+        fetchData2();
     }, [seleccionado?._id]);
 
     const showModal = async (id) => {
@@ -89,29 +94,21 @@ const CardsComponent = () => {
 
     const handleOk = async () => {
         try {
-            const reminder = {
+            const payload = {
                 usuarios: (listUsersPut.length > 0 && listUsersPut) || arrayUsers,
                 hora: hora,
                 titulo: titulo,
                 mensaje: msj,
                 categoria: categoria,
-                dias: [
-                    {
-                        day: 'martes',
-                        activo: false,
-                    },
-                ],
                 fecha: fecha,
                 global: global,
+                usuariosConfirmados: [],
             };
 
-            const response = await apiURL.patch(
-                `/recordatorios/${seleccionado._id}`,
-                reminder
-            );
-            // console.log({ response });
+            await apiURL.patch(`/recordatorios/${seleccionado._id}`, payload);
+
             message.success('Se actualizó el recordatorio');
-            //window.location.reload();
+
             setIsModalVisible(false);
         } catch (error) {
             console.log(error);
@@ -136,7 +133,7 @@ const CardsComponent = () => {
             onOk() {
                 const deleteRecor = async () => {
                     try {
-                        const dlt = await apiURL.delete(`/recordatorios/${recordatorio._id}`);
+                        await apiURL.delete(`/recordatorios/${recordatorio._id}`);
 
                         window.location.reload();
                     } catch (error) {
@@ -220,7 +217,7 @@ const CardsComponent = () => {
             }
         });
 
-        return auxs;
+        return array;
     };
 
     return (
@@ -333,12 +330,11 @@ const CardsComponent = () => {
                         placeholder='Seleccionar usuarios'
                         onChange={(value) => setlistUsersput(value)}
                         optionLabelProp='label'
-                        defaultValue={
-                            (arrayUsers.length > 0 && getUserNames(arrayUsers)) ||
-                            listUsersPut
-                        }>
+                        defaultValue={(arrayUsers.length > 0 && arrayUsers) || listUsersPut}>
                         {listUsers.map((users) => (
-                            <Option key={users.id}>{users.nombre}</Option>
+                            <Option key={users.id} value={users.usuario}>
+                                {users.nombre}
+                            </Option>
                         ))}
                     </Select>
                     <Select

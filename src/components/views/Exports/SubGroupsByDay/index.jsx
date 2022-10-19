@@ -16,19 +16,23 @@ import * as environmental from '../data/environmental';
 import * as economic from '../data/economic';
 import * as bioactives from '../data/bioactives';
 import * as additives from '../data/additives';
+import * as extraColumns2 from '../data/extraColumns';
+import * as food from '../data/foodGroups';
 import keys from '../data/excelKeys';
 import {
-    getSumByDay,
-    unifyGroups,
     getRowValues,
+    unifyGroups,
+    getFinalColumns,
+    getSumByDay,
     generateCsvRowsByDay,
-    getFinalColumnsByDay,
     generateFinalCsvRowsByDay,
 } from '../utils';
 
-const GroupsByDay = ({ selected = false, setLoading }) => {
+const SubGroupsByDay = ({ selected = false, setLoading }) => {
     const [columns, setColumns] = useState([
         ...baseColumns,
+        ...food.groupColumns0,
+        ...extraColumns2.extraColumns0,
         ...calories.caloriasMacronutrientes0,
         ...vitamins.vitaminas0,
         ...minerals.minerales0,
@@ -54,7 +58,7 @@ const GroupsByDay = ({ selected = false, setLoading }) => {
 
     const useDataHook = useData({
         selected,
-        type: keys.grupoExportable,
+        type: keys.subGrupoExportable,
         onCancel: handleCancel,
     });
 
@@ -92,8 +96,11 @@ const GroupsByDay = ({ selected = false, setLoading }) => {
 
             const totales = getSumByDay(unified);
             const csvRowsPreview = generateCsvRowsByDay(totales);
-            const cvsRows = generateFinalCsvRowsByDay(csvRowsPreview, keys.grupoExportable);
-            const finalColumns = getFinalColumnsByDay(columns, 1);
+            const cvsRows = generateFinalCsvRowsByDay(
+                csvRowsPreview,
+                keys.subGrupoExportable
+            );
+            const finalColumns = getFinalColumns(columns, 1);
 
             setColumns(finalColumns);
             setExportData(cvsRows);
@@ -109,16 +116,16 @@ const GroupsByDay = ({ selected = false, setLoading }) => {
         }
     };
 
-    // return <div />;
-
     return (
         <CustomExport
             dataSource={exportData}
             columns={columns}
             fileReady={fileReady}
-            fileName={`Grupos por día sumatorias ${dayjs(new Date()).format('DD-MM-YYYY')}`}
+            fileName={`Subgrupos por día sumatorias ${dayjs(new Date()).format(
+                'DD-MM-YYYY'
+            )}`}
         />
     );
 };
 
-export default GroupsByDay;
+export default SubGroupsByDay;

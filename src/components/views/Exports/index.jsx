@@ -11,6 +11,7 @@ import SubGroup from './SubGroup';
 import UltraProcessed from './UltraProcessed';
 import AppropriateSubGroup from './AppropriateSubGroup';
 import GroupsByDay from './GroupsByDay';
+import SubGroupsByDay from './SubGroupsByDay';
 
 import { getIsSelected } from './utils';
 import { opciones, initialState } from './data';
@@ -46,39 +47,44 @@ const Exports = () => {
                 {opciones.map((opcion, index) => (
                     <div className='bordeBE'>
                         <h2>{opcion.titulo}</h2>
+                        {getIsSelected(selected, 0, index) && (
+                            <DietReg selected={selected[0]} setLoading={setLoading} />
+                        )}
                         {getIsSelected(selected, 1, index) && (
-                            <DietReg selected={selected[1]} setLoading={setLoading} />
+                            <Demographics selected={selected[1]} setLoading={setLoading} />
                         )}
                         {getIsSelected(selected, 2, index) && (
-                            <Demographics selected={selected[2]} setLoading={setLoading} />
+                            <Groups selected={selected[2]} setLoading={setLoading} />
                         )}
                         {getIsSelected(selected, 3, index) && (
-                            <Groups selected={selected[3]} setLoading={setLoading} />
+                            <SubGroup selected={selected[3]} setLoading={setLoading} />
                         )}
                         {getIsSelected(selected, 4, index) && (
-                            <SubGroup selected={selected[4]} setLoading={setLoading} />
+                            <UltraProcessed selected={selected[4]} setLoading={setLoading} />
                         )}
                         {getIsSelected(selected, 5, index) && (
-                            <UltraProcessed selected={selected[5]} setLoading={setLoading} />
-                        )}
-                        {getIsSelected(selected, 6, index) && (
                             <AppropriateSubGroup
-                                selected={selected[6]}
+                                selected={selected[5]}
                                 setLoading={setLoading}
                             />
                         )}
-                        {getIsSelected(selected, 9, index) && (
-                            <GroupsByDay selected={selected[9]} setLoading={setLoading} />
+                        {getIsSelected(selected, 6, index) && <div />}
+                        {getIsSelected(selected, 7, index) && <div />}
+                        {getIsSelected(selected, 8, index) && (
+                            <GroupsByDay selected={selected[8]} setLoading={setLoading} />
                         )}
-                        {selected[index + 1] === false && (
-                            <Button onClick={() => handleClick(index + 1)}>
+                        {getIsSelected(selected, 9, index) && (
+                            <SubGroupsByDay selected={selected[9]} setLoading={setLoading} />
+                        )}
+                        {selected[index] === false && (
+                            <Button onClick={() => handleClick(index)}>
                                 Exportar archivo
                             </Button>
                         )}
                     </div>
                 ))}
             </div>
-            <div style={{ display: 'none' }}></div>
+            <div style={{ display: 'none' }} />
         </>
     );
 };
