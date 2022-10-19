@@ -2238,6 +2238,54 @@ export const ArrayOrderByDay = (data, type) => {
   });
 };
 
+export const assignKeys = (firstObj, secondObj, key) => {
+  const tempObj = {};
+
+  Object.keys(firstObj[key]).forEach((key2) => {
+    const firstValue2 = Number(firstObj[key][key2]);
+    const secondValue2 = Number(secondObj[key][key2]);
+
+    const esNum12 = getIsANumber(firstObj[key][key2]);
+    const esNum22 = getIsANumber(secondObj[key][key2]);
+
+    if (esNum12 && esNum22) {
+      tempObj[key2] = String(Number(firstValue2 + secondValue2).toFixed(4));
+    } else {
+      tempObj[key2] = firstObj[key][key2];
+    }
+  });
+
+  return tempObj;
+};
+
+const comparativeObjects = (firstObj, secondObj, key) => {
+  const firstValue = Number(firstObj[key]);
+  const secondValue = Number(secondObj[key]);
+  const result = {};
+  if (
+    getIsANumber(firstObj[key]) &&
+    getIsANumber(secondObj[key]) &&
+    key !== "sku"
+  ) {
+    result[key] = String(firstValue + secondValue);
+  } else if (getIsAScript(firstObj[key]) || getIsAScript(secondObj[key])) {
+    result[key] = "-";
+  } else if (getIsADate(firstObj[key]) && getIsADate(secondObj[key])) {
+    result[key] = firstObj[key];
+  } else if (getIsArray(firstObj[key]) && getIsArray(secondObj[key])) {
+    const tempArray = new Set([...firstObj[key], ...secondObj[key]]);
+    result[key] = [...tempArray];
+  } else if (getIsAString(firstObj[key]) && getIsAString(secondObj[key])) {
+    result[key] = firstObj[key] + ", " + secondObj[key];
+  } else if (firstObj[key] === "cantidad" && secondObj[key] === "cantidad") {
+    result[key] = String(firstValue + secondValue);
+  } else {
+    result[key] = firstObj[key];
+  }
+
+  return result[key];
+};
+
 export const sumObjectValues = (firstObj, secondObj) => {
   const result = {};
 
@@ -2246,53 +2294,13 @@ export const sumObjectValues = (firstObj, secondObj) => {
   }
 
   Object.keys(firstObj).forEach((key) => {
-    const firstValue = Number(firstObj[key]);
-    const secondValue = Number(secondObj[key]);
     const areObjects =
       getIsObject(firstObj[key]) && getIsObject(secondObj[key]);
 
     if (areObjects) {
-      const tempObj = {};
-
-      Object.keys(firstObj[key]).forEach((key2) => {
-        const firstValue2 = Number(firstObj[key][key2]);
-        const secondValue2 = Number(secondObj[key][key2]);
-
-        const esNum12 = getIsANumber(firstObj[key][key2]);
-        const esNum22 = getIsANumber(secondObj[key][key2]);
-
-        if (esNum12 && esNum22) {
-          tempObj[key2] = String(Number(firstValue2 + secondValue2).toFixed(4));
-        } else {
-          tempObj[key2] = firstObj[key][key2];
-        }
-      });
-
-      result[key] = tempObj;
+      result[key] = assignKeys(firstObj, secondObj, key);
     } else {
-      if (
-        getIsANumber(firstObj[key]) &&
-        getIsANumber(secondObj[key]) &&
-        key !== "sku"
-      ) {
-        result[key] = String(firstValue + secondValue);
-      } else if (getIsAScript(firstObj[key]) || getIsAScript(secondObj[key])) {
-        result[key] = "-";
-      } else if (getIsADate(firstObj[key]) && getIsADate(secondObj[key])) {
-        result[key] = firstObj[key];
-      } else if (getIsArray(firstObj[key]) && getIsArray(secondObj[key])) {
-        const tempArray = new Set([...firstObj[key], ...secondObj[key]]);
-        result[key] = [...tempArray];
-      } else if (getIsAString(firstObj[key]) && getIsAString(secondObj[key])) {
-        result[key] = firstObj[key] + ", " + secondObj[key];
-      } else if (
-        firstObj[key] === "cantidad" &&
-        secondObj[key] === "cantidad"
-      ) {
-        result[key] = String(firstValue + secondValue);
-      } else {
-        result[key] = firstObj[key];
-      }
+      result[key] = comparativeObjects(firstObj, secondObj, key);
     }
   });
 
