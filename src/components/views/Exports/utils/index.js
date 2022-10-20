@@ -1800,7 +1800,6 @@ export const normalizePropsByDayOrder = (data) => {
         fitoquimicos,
         fosforo,
         fosforoAmbiental,
-        grupoAlimento,
         hidratosDeCarbono,
         hierro,
         hierroNoHem,
@@ -1856,7 +1855,6 @@ export const normalizePropsByDayOrder = (data) => {
         zinc,
     } = data;
 
-    result.push(grupoAlimento);
     result.push(energiaKcal);
     result.push(proteina);
     result.push(lipidos);
@@ -2197,7 +2195,6 @@ export const normalizeObjectsByQuantity = (data) => {
     const cookingValue = (consumption * aguaParaCoccion) / KG;
 
     const result = {
-        grupoAlimento: grupoAlimento,
         energiaKcal: getMultiplyData(energia, consumption),
         proteina: getMultiplyData(proteina, consumption),
         lipidos: getMultiplyData(lipidos, consumption),
@@ -2313,9 +2310,7 @@ export const normalizeValuesByConsumption = (data) => {
                 };
 
                 const foods = alimentos
-                    .map((alimento) => {
-                        return normalizeObjectsByQuantity(alimento);
-                    })
+                    .map((alimento) => normalizeObjectsByQuantity(alimento))
                     .flat(2);
 
                 secondObj.values = foods;
@@ -2517,12 +2512,22 @@ export const generateFinalCsvRowsByDay = (data) => {
     const tempFirstsValues = [];
     const tempRows = [];
 
+    const participants = new Set([...data.map((elem) => elem.idParticipante)]);
+    const copyParticipants = [...participants];
+
     data.forEach((row) => {
         const { fechaRegistro, idParticipante, idRegistro } = row;
         const newRegister = normalizePropsByDayOrder(row);
 
+        const idIndex = copyParticipants.findIndex((elem) => elem === idParticipante);
+
         tempRows.push(newRegister);
-        tempFirstsValues.push({ 0: idParticipante, 1: idRegistro, 2: fechaRegistro });
+        if (idIndex === -1) {
+            tempFirstsValues.push({ 0: idParticipante, 1: idRegistro, 2: fechaRegistro });
+            return;
+        }
+
+        tempFirstsValues.push({ 0: Number(idIndex + 1), 1: idRegistro, 2: fechaRegistro });
     });
 
     const rowsAsStrings = [];
