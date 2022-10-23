@@ -24,6 +24,7 @@ export default defineConfig(({ command, mode }) => {
     }
 
     return {
+        base: './',
         plugins: [react()],
         server: { host: true },
         resolve: {

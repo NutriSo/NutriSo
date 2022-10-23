@@ -3,6 +3,7 @@ const keys = {
     subGrupoExportable: 'subGrupoExportable',
     ultraProcesados: 'clasificacionExportable',
     subGrupoAdecuada: 'subGrupoAdecuada',
+    smae: 'grupoAlimento',
 };
 
 Object.freeze(keys);

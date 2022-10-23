@@ -12,6 +12,7 @@ import UltraProcessed from './UltraProcessed';
 import AppropriateSubGroup from './AppropriateSubGroup';
 import GroupsByDay from './GroupsByDay';
 import SubGroupsByDay from './SubGroupsByDay';
+import Smae from './SMAE';
 
 import { getIsSelected } from './utils';
 import { opciones, initialState } from './data';
@@ -68,14 +69,14 @@ const Exports = () => {
                                 setLoading={setLoading}
                             />
                         )}
-                        {getIsSelected(selected, 6, index) && <div />}
+                        {getIsSelected(selected, 6, index) && (
+                            <Smae selected={selected[6]} setLoading={setLoading} />
+                        )}
                         {getIsSelected(selected, 7, index) && <div />}
                         {getIsSelected(selected, 8, index) && (
                             <GroupsByDay selected={selected[8]} setLoading={setLoading} />
                         )}
-                        {getIsSelected(selected, 9, index) && (
-                            <SubGroupsByDay selected={selected[9]} setLoading={setLoading} />
-                        )}
+                        {getIsSelected(selected, 9, index) && <div />}
                         {selected[index] === false && (
                             <Button onClick={() => handleClick(index)}>
                                 Exportar archivo
