@@ -3,7 +3,8 @@ import axios from 'axios';
 const URL = import.meta.env.VITE_API_URL;
 
 const instance = axios.create({
-    baseURL: URL,
+    // baseURL: URL,
+    baseURL: 'http://192.168.1.144:4000/api/v2/',
     timeout: 50000,
 });
 

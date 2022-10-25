@@ -16,19 +16,23 @@ import * as environmental from '../data/environmental';
 import * as economic from '../data/economic';
 import * as bioactives from '../data/bioactives';
 import * as additives from '../data/additives';
+import * as extraColumns2 from '../data/extraColumns';
+import * as food from '../data/foodGroups';
+import groups from '../data/excelGroups';
 import keys from '../data/excelKeys';
 import {
-    getSumByDay,
-    unifyGroups,
     getRowValues,
-    generateCsvRowsByDay,
-    getFinalColumnsByDay,
-    generateFinalCsvRowsByDay,
+    generateCsvRows,
+    unifyGroups,
+    generateFinalCsvRows,
+    getFinalColumns,
 } from '../utils';
 
-const GroupsByDay = ({ selected = false, setLoading }) => {
+const Smae = ({ selected = false, setLoading }) => {
     const [columns, setColumns] = useState([
         ...baseColumns,
+        ...food.groupColumns0,
+        ...extraColumns2.extraColumns0,
         ...calories.caloriasMacronutrientes0,
         ...vitamins.vitaminas0,
         ...minerals.minerales0,
@@ -80,20 +84,19 @@ const GroupsByDay = ({ selected = false, setLoading }) => {
 
     const createExportData = () => {
         console.log('Armando los datos de exportación...');
+
         try {
             const rows = getRowValues(useDataHook.exportData);
             const unified = unifyGroups(rows);
-
             if (isEmptyArray(unified)) {
                 message.info('No hay datos para exportar');
                 handleCancel();
                 return;
             }
 
-            const totales = getSumByDay(unified);
-            const csvRowsPreview = generateCsvRowsByDay(totales);
-            const cvsRows = generateFinalCsvRowsByDay(csvRowsPreview, keys.grupoExportable);
-            const finalColumns = getFinalColumnsByDay(columns, 1);
+            const csvRowsPreview = generateCsvRows(unified, 5);
+            const cvsRows = generateFinalCsvRows(csvRowsPreview, keys.smae);
+            const finalColumns = getFinalColumns(columns, groups[keys.smae].length);
 
             setColumns(finalColumns);
             setExportData(cvsRows);
@@ -114,9 +117,9 @@ const GroupsByDay = ({ selected = false, setLoading }) => {
             dataSource={exportData}
             columns={columns}
             fileReady={fileReady}
-            fileName={`Grupos por día sumatorias ${dayjs(new Date()).format('DD-MM-YYYY')}`}
+            fileName={`Subgrupos SMAE ${dayjs(new Date()).format('DD-MM-YYYY')}`}
         />
     );
 };
 
-export default GroupsByDay;
+export default Smae;

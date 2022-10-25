@@ -30,6 +30,7 @@ const Food = () => {
             const rowValues = Object.values(row);
 
             const aux = rowValues[15] ?? 'N/A';
+            const recommendedPortion = rowValues[16] ? eval(rowValues[16]) : 0;
 
             const isString = typeof aux === 'string' || aux instanceof String;
             let opciones = [];
@@ -58,7 +59,7 @@ const Food = () => {
                 clasificacionExportable: `${rowValues[14] ?? 'N/A'}`,
                 opcionesPreparacion: opciones,
                 cantidadAlimento: {
-                    cantidadSugerida: rowValues[16] ?? 0,
+                    cantidadSugerida: recommendedPortion,
                     unidad: `${rowValues[17] ?? 'N/A'}`,
                     pesoNeto: `${rowValues[18] ?? '0'}`,
                 },
