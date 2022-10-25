@@ -37,7 +37,7 @@ const Administracion = () => {
         try {
             const { data } = await apiURL.get('/opcionesRegistro');
 
-            const onOf = data?.[0].registroLibre;
+            const onOf = data[0]?.registroLibre;
 
             setUpdateStatesOn(onOf);
         } catch (error) {
