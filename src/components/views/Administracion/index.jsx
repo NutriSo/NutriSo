@@ -244,47 +244,47 @@ const Administracion = () => {
                     <div className='switches'>
                         <Switch
                             className='switch'
-                            checked={updateStates.informacionPersonal}
+                            checked={updateStates?.informacionPersonal}
                             onChange={(s) => handlePatch({ key: 1, value: s })}
                         />
                         <Switch
                             className='switch'
-                            checked={updateStates.circunferencia}
+                            checked={updateStates?.circunferencia}
                             onChange={(s) => handlePatch({ key: 2, value: s })}
                         />
                         <Switch
                             className='switch'
-                            checked={updateStates.camposCorporales}
+                            checked={updateStates?.camposCorporales}
                             onChange={(s) => handlePatch({ key: 3, value: s })}
                         />
                         <Switch
                             className='switch'
-                            checked={updateStates.estadoGeneral}
+                            checked={updateStates?.estadoGeneral}
                             onChange={(s) => handlePatch({ key: 4, value: s })}
                         />
                         <Switch
                             className='switch'
-                            checked={updateStates.exposicionSolar}
+                            checked={updateStates?.exposicionSolar}
                             onChange={(s) => handlePatch({ key: 5, value: s })}
                         />
                         <Switch
                             className='switch'
-                            checked={updateStates.gastroIntestinal}
+                            checked={updateStates?.gastroIntestinal}
                             onChange={(s) => handlePatch({ key: 6, value: s })}
                         />
                         <Switch
                             className='switch'
-                            checked={updateStates.bioquimicos}
+                            checked={updateStates?.bioquimicos}
                             onChange={(s) => handlePatch({ key: 7, value: s })}
                         />
                         <Switch
                             className='switch'
-                            checked={updateStates.clinicos}
+                            checked={updateStates?.clinicos}
                             onChange={(s) => handlePatch({ key: 8, value: s })}
                         />
                         <Switch
                             className='switch'
-                            checked={updateStates.sueno}
+                            checked={updateStates?.sueno}
                             onChange={(s) => handlePatch({ key: 9, value: s })}
                         />
                     </div>
