@@ -45,18 +45,17 @@ const Usuarios = () => {
     }
 
     useEffect(() => {
-        fethInfo();
+        if (!globalUserId) {
+            return;
+        }
+
+        fetchInfo();
         return () => {
             setInfo({});
         };
-    }, []);
+    }, [globalUserId]);
 
-    useEffect(() => {
-        if (info?.usuario) {
-        }
-    }, [info]);
-
-    const fethInfo = async () => {
+    const fetchInfo = async () => {
         try {
             const { data, status } = await apiURL.get(
                 `/informacionUsuarios/individual?usuario=${globalUserId}`
@@ -140,7 +139,7 @@ const Usuarios = () => {
             console.groupEnd();
         }
 
-        fethInfo();
+        fetchInfo();
     }
 
     return (
