@@ -26,12 +26,22 @@ const Recetas = () => {
     const categories = ['desayuno', 'colacion1', 'comida', 'colacion2', 'cena'];
     const hasRecipes = recetas.length > 0;
 
-    const cat0 = recetas?.filter((receta) => receta.destacado === true);
-    const cat1 = recetas?.filter((receta) => receta.categoria === categories[0]);
-    const cat2 = recetas?.filter((receta) => receta.categoria === categories[1]);
-    const cat3 = recetas?.filter((receta) => receta.categoria === categories[2]);
-    const cat4 = recetas?.filter((receta) => receta.categoria === categories[3]);
-    const cat5 = recetas?.filter((receta) => receta.categoria === categories[4]);
+    const cat0 = hasRecipes ? recetas?.filter((receta) => receta.destacado === true) : [];
+    const cat1 = hasRecipes
+        ? recetas?.filter((receta) => receta.categoria === categories[0])
+        : [];
+    const cat2 = hasRecipes
+        ? recetas?.filter((receta) => receta.categoria === categories[1])
+        : [];
+    const cat3 = hasRecipes
+        ? recetas?.filter((receta) => receta.categoria === categories[2])
+        : [];
+    const cat4 = hasRecipes
+        ? recetas?.filter((receta) => receta.categoria === categories[3])
+        : [];
+    const cat5 = hasRecipes
+        ? recetas?.filter((receta) => receta.categoria === categories[4])
+        : [];
 
     const { confirm } = Modal;
     const { TextArea } = Input;
