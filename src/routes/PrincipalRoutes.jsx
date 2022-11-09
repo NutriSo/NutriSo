@@ -14,6 +14,7 @@ import Exports from '../pages/exports';
 import UsersDetails from '../pages/usuarios';
 import Recetas from '../pages/recetas';
 import Administracion from '../components/views/Administracion';
+import EquivalencesImport from '../pages/equivalencesImport';
 
 import Routes from './routes';
 
@@ -23,30 +24,19 @@ const PrincipalRoutes = () => {
             <SideMenu />
             <Switch>
                 <Route exact path={Routes.Principal} component={Home} />
-                <Route
-                    exact
-                    path={Routes.Equivalencias}
-                    component={Equivalences}
-                />
+                <Route exact path={Routes.Equivalencias} component={Equivalences} />
                 <Route exact path={Routes.ImportarAlimentos} component={Food} />
                 <Route exact path={Routes.Alimentos} component={Alimentos} />
                 <Route exact path={Routes.Ejercicios} component={Ejercicios} />
+                <Route exact path={`${Routes.Imports}${Routes.Alimentos}`} component={Food} />
                 <Route
                     exact
-                    path={`${Routes.Imports}/${Routes.Alimentos}`}
-                    component={Food}
+                    path={`${Routes.Imports}${Routes.ImportarEquivalencias}`}
+                    component={EquivalencesImport}
                 />
-                <Route
-                    exact
-                    path={Routes.Recordatorios}
-                    component={Reminders}
-                />
+                <Route exact path={Routes.Recordatorios} component={Reminders} />
                 <Route exact path={Routes.Metas} component={Metas} />
-                <Route
-                    exact
-                    path={`${Routes.UsersDetails}/:id`}
-                    component={UsersDetails}
-                />
+                <Route exact path={`${Routes.UsersDetails}/:id`} component={UsersDetails} />
                 <Route exact path={Routes.Imports} component={Imports} />
                 <Route exact path={Routes.Exports} component={Exports} />
                 <Route exact path={Routes.Recetas} component={Recetas} />
