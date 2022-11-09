@@ -16,27 +16,35 @@ const Recetas = () => {
     const [descripcion, setDescripcion] = useState('');
     const [foto, setFoto] = useState('');
     const [loading, setLoading] = useState(true);
-
     const [destacado, setDestacado] = useState(true);
-
     const [recetas, setRecetas] = useState([]);
-    //MODAL
+
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isModalActVisible, setIsModalActVisible] = useState(false);
     const [idReceta, setIdReceta] = useState('');
-    const categories = ['desayuno', 'colacion1', 'comida', 'colacion2', 'cena'];
-    const cat0 = recetas.filter((receta) => receta.destacado == true);
-    const cat1 = recetas.filter((receta) => receta.categoria === categories[0]);
-    const cat2 = recetas.filter((receta) => receta.categoria === categories[1]);
-    const cat3 = recetas.filter((receta) => receta.categoria === categories[2]);
-    const cat4 = recetas.filter((receta) => receta.categoria === categories[3]);
-    const cat5 = recetas.filter((receta) => receta.categoria === categories[4]);
 
-    //ADVERT
+    const categories = ['desayuno', 'colacion1', 'comida', 'colacion2', 'cena'];
+    const hasRecipes = recetas.length > 0;
+
+    const cat0 = hasRecipes ? recetas?.filter((receta) => receta.destacado === true) : [];
+    const cat1 = hasRecipes
+        ? recetas?.filter((receta) => receta.categoria === categories[0])
+        : [];
+    const cat2 = hasRecipes
+        ? recetas?.filter((receta) => receta.categoria === categories[1])
+        : [];
+    const cat3 = hasRecipes
+        ? recetas?.filter((receta) => receta.categoria === categories[2])
+        : [];
+    const cat4 = hasRecipes
+        ? recetas?.filter((receta) => receta.categoria === categories[3])
+        : [];
+    const cat5 = hasRecipes
+        ? recetas?.filter((receta) => receta.categoria === categories[4])
+        : [];
+
     const { confirm } = Modal;
-    //TEXTAREA
     const { TextArea } = Input;
-    //SELECT
     const { Option } = Select;
 
     useEffect(() => {
@@ -72,7 +80,6 @@ const Recetas = () => {
     };
 
     const handleUploadImg = (values) => {
-        console.log(values);
         setFoto(values?.url);
     };
 
@@ -95,6 +102,7 @@ const Recetas = () => {
             setLoading(false);
         }
     };
+
     const patchRecetas = async () => {
         setLoading(true);
         try {
@@ -108,6 +116,7 @@ const Recetas = () => {
         }
         handleCancelAct();
     };
+
     const deleteRecetas = async (receta) => {
         setLoading(true);
         try {
@@ -138,6 +147,7 @@ const Recetas = () => {
     const showModal = () => {
         setIsModalVisible(true);
     };
+
     const showModalAct = (receta) => {
         setTitulo(receta.titulo);
         setCategoria(receta.categoria);
@@ -151,13 +161,16 @@ const Recetas = () => {
         postRecetas();
         setIsModalVisible(false);
     };
+
     const handleOkAct = () => {
         patchRecetas();
         setIsModalVisible(false);
     };
+
     const handleCancel = () => {
         setIsModalVisible(false);
     };
+
     const handleCancelAct = () => {
         setIsModalActVisible(false);
     };
@@ -192,7 +205,7 @@ const Recetas = () => {
                 <div className='items'>
                     {cat0.length > 0 && <h2 className='tituloR'>Recetas Destacadas</h2>}
                     <div className='sc_receta_destacada'>
-                        {recetas.length > 0 &&
+                        {hasRecipes &&
                             cat0.map((receta) => (
                                 <RecipesCard
                                     recipe={receta}
@@ -206,7 +219,7 @@ const Recetas = () => {
                 <div className='items'>
                     {cat1.length > 0 && <h2 className='tituloR'>Desayuno</h2>}
                     <div className='sc_receta_desayuno'>
-                        {recetas.length > 0 &&
+                        {hasRecipes &&
                             cat1.map((receta) => (
                                 <RecipesCard
                                     recipe={receta}
@@ -220,7 +233,7 @@ const Recetas = () => {
                 <div className='items'>
                     {cat2.length > 0 && <h2 className='tituloR'>Colacion 1</h2>}
                     <div className='sc_receta_colacion1'>
-                        {recetas.length > 0 &&
+                        {hasRecipes &&
                             cat2.map((receta) => (
                                 <RecipesCard
                                     recipe={receta}
@@ -234,7 +247,7 @@ const Recetas = () => {
                 <div className='items'>
                     {cat3.length > 0 && <h2 className='tituloR'>Comida</h2>}
                     <div className='sc_receta_comida'>
-                        {recetas.length > 0 &&
+                        {hasRecipes &&
                             cat3.map((receta) => (
                                 <RecipesCard
                                     recipe={receta}
@@ -248,7 +261,7 @@ const Recetas = () => {
                 <div className='items'>
                     {cat4.length > 0 && <h2 className='tituloR'>Colacion 2</h2>}
                     <div className='sc_receta_colacion2'>
-                        {recetas.length > 0 &&
+                        {hasRecipes &&
                             cat4.map((receta) => (
                                 <RecipesCard
                                     recipe={receta}
@@ -262,7 +275,7 @@ const Recetas = () => {
                 <div className='items'>
                     {cat5.length > 0 && <h2 className='tituloR'>Cena</h2>}
                     <div className='sc_receta_cena'>
-                        {recetas.length > 0 &&
+                        {hasRecipes &&
                             cat5.map((receta) => (
                                 <RecipesCard
                                     recipe={receta}
