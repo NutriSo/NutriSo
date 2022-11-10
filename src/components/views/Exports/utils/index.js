@@ -1768,7 +1768,7 @@ export const generateFinalCsvRows = (data, type) => {
 
     rows.forEach((row) => {
         let newRow = [];
-        row.forEach((register, index) => {
+        row.forEach((register) => {
             const { idParticipante, idRegistro, fechaRegistro } = register;
             const newRegister = normalizePropsOrder(register);
 
@@ -1783,24 +1783,59 @@ export const generateFinalCsvRows = (data, type) => {
 
     const finalRows = [];
 
-    tempRows.forEach((elem) => {
-        const row = elem
-            .map((e) => e)
-            .reduce((acc, curr) => {
-                const isArray = Array.isArray(curr);
-                if (isArray) {
-                    const [name] = curr;
-                    const tempArray = groups[type].map((elem) => getZeroData(elem));
-                    const arrIndex = tempArray.findIndex((elem) => elem[0] === name);
-                    tempArray.splice(arrIndex, 1, curr);
+    const tempGroups = [];
 
-                    return acc.concat(...tempArray);
-                } else {
-                    return acc.concat(curr);
-                }
-            }, []);
-        const maxColumnsData = groups[type].length * 93 + 3;
-        finalRows.push(row.slice(0, maxColumnsData));
+    tempRows.forEach((elem) => {
+        const aux = [];
+
+        elem.forEach((value) => {
+            const isArray = Array.isArray(value);
+
+            if (!isArray) {
+                return;
+            }
+
+            aux.push(value);
+        });
+
+        tempGroups.push(aux);
+    });
+
+    tempRows.forEach((elem, index) => {
+        const tempAux = tempGroups[index];
+
+        const zeroArray = groups[type].map((group) => getZeroData(group));
+
+        const indexes = [];
+
+        tempAux.forEach((temp) => {
+            const groupName = temp[0];
+
+            const zeroIndex = zeroArray.findIndex((e) => e[0] === groupName);
+
+            if (zeroIndex === -1) {
+                return;
+            }
+
+            indexes.push(zeroIndex);
+        });
+
+        indexes.forEach((index, innerIndex) => {
+            zeroArray[index] = tempAux[innerIndex];
+        });
+
+        const rowToPush = [];
+
+        elem.forEach((value) => {
+            const isArray = Array.isArray(value);
+
+            if (!isArray) {
+                rowToPush.push(value);
+            }
+        });
+
+        rowToPush.push(...zeroArray.flat());
+        finalRows.push(rowToPush);
     });
 
     return finalRows;
