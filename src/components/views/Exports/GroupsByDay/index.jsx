@@ -91,6 +91,7 @@ const GroupsByDay = ({ selected = false, setLoading }) => {
             }
 
             const totales = getSumByDay(unified);
+            
             const csvRowsPreview = generateCsvRowsByDay(totales);
             const cvsRows = generateFinalCsvRowsByDay(csvRowsPreview, keys.grupoExportable);
             const finalColumns = getFinalColumnsByDay(columns, 1);
