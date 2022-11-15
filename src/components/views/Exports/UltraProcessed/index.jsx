@@ -136,8 +136,9 @@ const UltraProcessed = ({ selected = false, setLoading }) => {
 
                 usersAux.push(auxSuper);
             });
-
+            
             setUsersData(usersAux);
+            console.log(usersAux);
             setFoodReady(true);
         } catch (error) {
             handleCancel();
@@ -152,6 +153,7 @@ const UltraProcessed = ({ selected = false, setLoading }) => {
         console.log('Armando los datos de exportación...');
         try {
             const rows = getRowValues(usersData);
+            //console.log(rows);
             const unified = unifyGroups(rows);
 
             if (isEmptyArray(unified)) {
@@ -162,6 +164,7 @@ const UltraProcessed = ({ selected = false, setLoading }) => {
 
             const csvRowsPreview = generateCsvRows(unified, 3);
             const cvsRows = generateFinalCsvRows(csvRowsPreview, keys.ultraProcesados);
+            console.log(cvsRows);
             const finalColumns = getFinalColumns(
                 columns,
                 groups[keys.ultraProcesados].length

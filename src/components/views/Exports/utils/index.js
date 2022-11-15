@@ -1842,7 +1842,7 @@ export const getPropSum = (firstProp, secondProp, consumption) => {
 
 export const getRowValues = (data) => {
   if (isInvalidElem(data)) return [];
-
+  //console.log(data);
   const limpio = data.map((elem) => {
     const { fechaRegistro, idParticipante, idRegistro, ...rest } = elem;
 
@@ -1857,6 +1857,24 @@ export const getRowValues = (data) => {
   });
 
   return groupByRegId(limpio);
+};
+
+export const getRowValuesYesterday = (data) => {
+  if (isInvalidElem(data)) return [];
+  //console.log(data);
+  const limpio = data.map((elem) => {
+    const { usuario, createdAt, ...rest } = elem;
+
+    const normalizedValues = removeEmptyValues(rest);
+
+    return {
+      usuario,
+      createdAt,
+      ...normalizedValues[0],
+    };
+  });
+  //console.log(limpio);
+  return limpio;
 };
 
 export const groupByRegId = (data) => {
@@ -1940,7 +1958,7 @@ export const unifyArrays = (data) => {
 
 export const unifyGroups = (data) => {
   if (isInvalidElem(data)) return [];
-
+  console.log(data);
   const result = data.map((elem) => {
     const { values, ...rest } = elem;
 
@@ -1964,7 +1982,7 @@ export const unifyGroups = (data) => {
       gruopsMapped.push(grupo);
       newValues.push(el);
     });
-
+    console.log(newValues);
     return { ...rest, values: newValues };
   });
 
@@ -2086,7 +2104,7 @@ export const generateFinalCsvRows = (data, type) => {
     const maxColumnsData = groups[type].length * 93 + 3;
     finalRows.push(row.slice(0, maxColumnsData));
   });
-
+  console.log(finalRows);
   return finalRows;
 };
 
@@ -3099,9 +3117,30 @@ export const generateCsvRowsByDay = (data) => {
   return rows;
 };
 
+export const generateCsvRowsYesterday = (data) => {
+  if (isInvalidElem(data)) {
+    return {};
+  }
+
+  const rows = [];
+
+  data.forEach((row) => {
+    const { values } = row;
+
+    const objToPush = {
+      ...values[0],
+    };
+
+    rows.push(objToPush);
+  });
+
+  return rows;
+};
+
 export const generateFinalCsvRowsByDay = (data) => {
   const tempFirstsValues = [];
   const tempRows = [];
+  const rowsAsStrings = [];
 
   const participants = new Set([...data.map((elem) => elem.idParticipante)]);
   const copyParticipants = [...participants];
@@ -3147,4 +3186,248 @@ export const generateFinalCsvRowsByDay = (data) => {
   });
 
   return rowsAsStrings;
+};
+
+// export const generateFinalCsvRowsYesterday = (data) => {
+//   const rowsFinal = [];
+//   data.forEach((row) => {
+//     //rowsFinal.push(row);
+//     //console.log("row", row);
+//   });
+//   //console.log(rowsFinal);
+//   return rowsFinal;
+// };
+
+export const normalizeYesterdayByQuantity = (data) => {
+  if (isEmptyObject(data)) return {};
+  //usuario, fecha
+  const {
+    id,
+    sku,
+    nombreAlimento,
+    grupoExportable,
+    subGrupoExportable,
+    grupoAlimento,
+    clasificacionExportable,
+    subGrupoAdecuada,
+    opcionesPreparacion,
+    icono,
+    mensaje,
+    cantidadAlimento,
+    caloriasMacronutrientes,
+    vitaminas,
+    minerales,
+    aspectoGlucemico,
+    aspectoEconomico,
+    aspectoMedioambiental,
+    componentesBioactivos,
+    aditivosAlimentarios,
+    cantidad,
+  } = data;
+
+  const {
+    energia,
+    proteina,
+    lipidos,
+    agSaturados,
+    agMonoinsaturados,
+    adPoliinsaturados,
+    colesterol,
+    omega3,
+    omega6,
+    omega9,
+    hidratosDeCarbono,
+    fibra,
+    fibraSoluble,
+    fibraInsoluble,
+    azucar,
+    etanol,
+  } = caloriasMacronutrientes;
+
+  const {
+    tiamina,
+    riboflavin,
+    niacina,
+    acidoPantotenico,
+    piridoxina,
+    biotina,
+    cobalmina,
+    acidoAscorbico,
+    acidoFolico,
+    vitaminaA,
+    vitaminaD,
+    vitaminaK,
+    vitaminaE,
+  } = vitaminas;
+
+  const {
+    calcio,
+    fosforo,
+    hierro,
+    hierroNoHem,
+    hierroTotal,
+    magnesio,
+    sodio,
+    potasio,
+    zinc,
+    selenio,
+  } = minerales;
+
+  const { indiceGlicemico, cargaGlicemica } = aspectoGlucemico;
+
+  const {
+    factorDeCorreccionParaHuellaHidricaYEGEI,
+    tipo,
+    lugar,
+    huellaHidricaTotal,
+    huellaHidricaVerde,
+    huellaHidricaAzul,
+    huellaHidricaGris,
+    aguaParaLavado,
+    aguaParaCoccion,
+    lugarEGEI,
+    citaEGEI,
+    huellaCarbono,
+    huellaEcologica,
+    energiaFosil,
+    usoDeSuelo,
+    nitrogeno,
+    puntajeEcologico,
+    ...rest
+  } = aspectoMedioambiental;
+
+  const { precio, lugarDeCompra, lugarDeVenta } = aspectoEconomico;
+
+  const {
+    fitoquimicos,
+    polifenoles,
+    antocianinas,
+    taninos,
+    isoflavonas,
+    resveratrol,
+    isotiocinatos,
+    caretenoides,
+    betacarotenos,
+    licopeno,
+    luteina,
+    alicina,
+    cafeina,
+    UFC,
+  } = componentesBioactivos;
+
+  const {
+    benzoatoDeSodio,
+    polisorbato,
+    azulBrillanteFCFoE133,
+    azurrubinaOE102,
+    amarilloOcasoFDFoE110,
+    tartrazinaOE102,
+    verdeSoE142,
+    negroBrillanteBNoE151,
+    sucralosa,
+    estevia,
+    sacarina,
+    aspartame,
+    acesulfameK,
+    carboxymethylcellulose,
+    dioxidoDeTitanio,
+    monolauratoDeGlicerol,
+  } = aditivosAlimentarios;
+
+  const result = [
+    energia,
+    proteina,
+    lipidos,
+    agSaturados,
+    agMonoinsaturados,
+    adPoliinsaturados,
+    colesterol,
+    omega3,
+    omega6,
+    omega9,
+    hidratosDeCarbono,
+    fibra,
+    fibraSoluble,
+    fibraInsoluble,
+    azucar,
+    etanol,
+    tiamina,
+    riboflavin,
+    niacina,
+    acidoPantotenico,
+    piridoxina,
+    biotina,
+    cobalmina,
+    acidoAscorbico,
+    acidoFolico,
+    vitaminaA,
+    vitaminaD,
+    vitaminaK,
+    vitaminaE,
+    calcio,
+    fosforo,
+    hierro,
+    hierroNoHem,
+    hierroTotal,
+    magnesio,
+    sodio,
+    potasio,
+    zinc,
+    selenio,
+    indiceGlicemico,
+    cargaGlicemica,
+    factorDeCorreccionParaHuellaHidricaYEGEI,
+    tipo,
+    lugar,
+    huellaHidricaTotal,
+    huellaHidricaVerde,
+    huellaHidricaAzul,
+    huellaHidricaGris,
+    aguaParaLavado,
+    aguaParaCoccion,
+    lugarEGEI,
+    citaEGEI,
+    huellaCarbono,
+    huellaEcologica,
+    usoDeSuelo,
+    energiaFosil,
+    nitrogeno,
+    rest.fosforo,
+    puntajeEcologico,
+    precio,
+    lugarDeCompra,
+    lugarDeVenta,
+    fitoquimicos,
+    polifenoles,
+    antocianinas,
+    taninos,
+    isoflavonas,
+    resveratrol,
+    isotiocinatos,
+    caretenoides,
+    betacarotenos,
+    licopeno,
+    luteina,
+    alicina,
+    cafeina,
+    UFC,
+    benzoatoDeSodio,
+    polisorbato,
+    azulBrillanteFCFoE133,
+    azurrubinaOE102,
+    amarilloOcasoFDFoE110,
+    tartrazinaOE102,
+    verdeSoE142,
+    negroBrillanteBNoE151,
+    sucralosa,
+    estevia,
+    sacarina,
+    aspartame,
+    acesulfameK,
+    carboxymethylcellulose,
+    dioxidoDeTitanio,
+    monolauratoDeGlicerol,
+  ];
+  //console.log([result]);
+  return result;
 };

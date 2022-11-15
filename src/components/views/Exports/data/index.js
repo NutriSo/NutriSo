@@ -47,6 +47,21 @@ export const baseColumns = [
   },
 ];
 
+export const baseColumnsYesterday = [
+  {
+    title: "Usuario",
+    dataIndex: "usuario",
+    key: "usuario",
+    width: 60,
+  },
+  {
+    title: "Fecha",
+    dataIndex: "createdAt",
+    key: "createdAt",
+    width: 30,
+  },
+];
+
 export const caloriasMacronutrientes = [
   {
     title: "Energía (Kcal)",
