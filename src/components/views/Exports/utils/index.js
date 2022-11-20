@@ -1736,19 +1736,19 @@ export const generateCsvRows = (data, type) => {
     return rows;
 };
 
-export const generateFinalCsvRows = (data, type) => {
+export const generateFinalCsvRows = (data, type, users) => {
     const rows = [];
     const uniqueIds = new Set([...data.map((elem) => elem.idRegistro)]);
     const participants = new Set([...data.map((elem) => elem.idParticipante)]);
 
     const copyUnique = [...uniqueIds];
     const copyParticipants = [...participants];
-
+    // console.log({ copyParticipants, users });
     copyUnique.forEach((id) => {
         const filteredRows = data.filter((elem) => elem.idRegistro === id);
 
         const newIds = filteredRows.map((elem) => {
-            const idIndex = copyParticipants.findIndex((e) => e === elem.idParticipante);
+            const idIndex = users.findIndex((e) => e === elem.idParticipante);
             if (idIndex === -1) {
                 return elem;
             }

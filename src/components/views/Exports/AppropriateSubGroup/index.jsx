@@ -31,7 +31,7 @@ import {
 } from '../utils';
 import { isEmptyArray } from '../../../../utils';
 
-const AppropriateSubGroup = ({ selected = false, setLoading }) => {
+const AppropriateSubGroup = ({ selected = false, setLoading, users }) => {
     const [columns, setColumns] = useState([
         ...baseColumns,
         ...groupColumns,
@@ -160,7 +160,11 @@ const AppropriateSubGroup = ({ selected = false, setLoading }) => {
             }
 
             const csvRowsPreview = generateCsvRows(unified, 4);
-            const cvsRows = generateFinalCsvRows(csvRowsPreview, keys.subGrupoAdecuada);
+            const cvsRows = generateFinalCsvRows(
+                csvRowsPreview,
+                keys.subGrupoAdecuada,
+                users
+            );
             const finalColumns = getFinalColumns(
                 columns,
                 groups[keys.subGrupoAdecuada].length

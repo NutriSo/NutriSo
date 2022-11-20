@@ -32,7 +32,7 @@ import {
     getFinalColumns,
 } from '../utils';
 
-const UltraProcessed = ({ selected = false, setLoading }) => {
+const UltraProcessed = ({ selected = false, setLoading, users }) => {
     const [columns, setColumns] = useState([
         ...baseColumns,
         ...groupColumns,
@@ -161,7 +161,7 @@ const UltraProcessed = ({ selected = false, setLoading }) => {
             }
 
             const csvRowsPreview = generateCsvRows(unified, 3);
-            const cvsRows = generateFinalCsvRows(csvRowsPreview, keys.ultraProcesados);
+            const cvsRows = generateFinalCsvRows(csvRowsPreview, keys.ultraProcesados, users);
             const finalColumns = getFinalColumns(
                 columns,
                 groups[keys.ultraProcesados].length
