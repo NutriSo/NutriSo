@@ -126,6 +126,12 @@ export const caloriasMacronutrientes = [
         width: 30,
     },
     {
+        title: 'Fibra soluble (g)',
+        dataIndex: 'fibraSoluble',
+        key: 'fibraSoluble',
+        width: 30,
+    },
+    {
         title: 'Azúcar (g)',
         dataIndex: 'azucar',
         key: 'azucar',

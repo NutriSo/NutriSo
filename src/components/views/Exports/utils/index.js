@@ -196,8 +196,11 @@ export const normalizeSumByGroupDTO = (prevData, newData) => {
     const washingValue = (consumption * aguaParaLavado) / KG;
     const cookingValue = (consumption * aguaParaCoccion) / KG;
 
+    const grams = consumption * Number(cantidadAlimento.pesoNeto);
+
     const result = {
         grupoAlimento: grupoExportable,
+        gramos: getPropSum(prevData?.gramos, grams, consumption),
         energiaKcal: getPropSum(prevData?.energiaKcal, energia, consumption),
         proteina: getPropSum(prevData?.proteina, proteina, consumption),
         lipidos: getPropSum(prevData?.lipidos, lipidos, consumption),
@@ -494,8 +497,11 @@ export const normalizeSumBySubGroupDTO = (prevData, newData) => {
     const washingValue = (consumption * aguaParaLavado) / KG;
     const cookingValue = (consumption * aguaParaCoccion) / KG;
 
+    const grams = consumption * Number(cantidadAlimento.pesoNeto);
+
     const result = {
         grupoAlimento: subGrupoExportable,
+        gramos: getPropSum(prevData?.gramos, grams, consumption),
         energiaKcal: getPropSum(prevData?.energiaKcal, energia, consumption),
         proteina: getPropSum(prevData?.proteina, proteina, consumption),
         lipidos: getPropSum(prevData?.lipidos, lipidos, consumption),
@@ -648,6 +654,7 @@ export const normalizeSumBySubGroupDTO = (prevData, newData) => {
             monolauratoDeGlicerol,
             consumption
         ),
+        cantidad: consumption,
     };
 
     return result;
@@ -791,8 +798,11 @@ export const normalizeSumByUltraProcessedDTO = (prevData, newData) => {
     const washingValue = (consumption * aguaParaLavado) / KG;
     const cookingValue = (consumption * aguaParaCoccion) / KG;
 
+    const grams = consumption * Number(cantidadAlimento.pesoNeto);
+
     const result = {
         grupoAlimento: clasificacionExportable,
+        gramos: getPropSum(prevData?.gramos, grams, consumption),
         energiaKcal: getPropSum(prevData?.energiaKcal, energia, consumption),
         proteina: getPropSum(prevData?.proteina, proteina, consumption),
         lipidos: getPropSum(prevData?.lipidos, lipidos, consumption),
@@ -945,6 +955,7 @@ export const normalizeSumByUltraProcessedDTO = (prevData, newData) => {
             monolauratoDeGlicerol,
             consumption
         ),
+        cantidad: consumption,
     };
 
     return result;
@@ -1089,8 +1100,11 @@ export const normalizeSumByAppropriateDTO = (prevData, newData) => {
     const washingValue = (consumption * aguaParaLavado) / KG;
     const cookingValue = (consumption * aguaParaCoccion) / KG;
 
+    const grams = consumption * Number(cantidadAlimento.pesoNeto);
+
     const result = {
         grupoAlimento: subGrupoAdecuada,
+        gramos: getPropSum(prevData?.gramos, grams, consumption),
         energiaKcal: getPropSum(prevData?.energiaKcal, energia, consumption),
         proteina: getPropSum(prevData?.proteina, proteina, consumption),
         lipidos: getPropSum(prevData?.lipidos, lipidos, consumption),
@@ -1243,6 +1257,7 @@ export const normalizeSumByAppropriateDTO = (prevData, newData) => {
             monolauratoDeGlicerol,
             consumption
         ),
+        cantidad: consumption,
     };
 
     return result;
@@ -1386,8 +1401,11 @@ export const normalizeSumBySubGroupSmaeDTO = (prevData, newData) => {
     const washingValue = (consumption * aguaParaLavado) / KG;
     const cookingValue = (consumption * aguaParaCoccion) / KG;
 
+    const grams = consumption * Number(cantidadAlimento.pesoNeto);
+
     const result = {
         grupoAlimento: grupoAlimento,
+        gramos: getPropSum(prevData?.gramos, grams, consumption),
         energiaKcal: getPropSum(prevData?.energiaKcal, energia, consumption),
         proteina: getPropSum(prevData?.proteina, proteina, consumption),
         lipidos: getPropSum(prevData?.lipidos, lipidos, consumption),
@@ -1540,6 +1558,7 @@ export const normalizeSumBySubGroupSmaeDTO = (prevData, newData) => {
             monolauratoDeGlicerol,
             consumption
         ),
+        cantidad: consumption,
     };
 
     return result;
@@ -1739,11 +1758,9 @@ export const generateCsvRows = (data, type) => {
 export const generateFinalCsvRows = (data, type, users) => {
     const rows = [];
     const uniqueIds = new Set([...data.map((elem) => elem.idRegistro)]);
-    const participants = new Set([...data.map((elem) => elem.idParticipante)]);
 
     const copyUnique = [...uniqueIds];
-    const copyParticipants = [...participants];
-    // console.log({ copyParticipants, users });
+
     copyUnique.forEach((id) => {
         const filteredRows = data.filter((elem) => elem.idRegistro === id);
 
@@ -1898,6 +1915,7 @@ export const normalizePropsOrder = (data) => {
 
     const {
         grupoAlimento,
+        gramos,
         energiaKcal,
         proteina,
         lipidos,
@@ -1993,6 +2011,7 @@ export const normalizePropsOrder = (data) => {
     } = data;
 
     result.push(grupoAlimento);
+    result.push(gramos);
     result.push(energiaKcal);
     result.push(proteina);
     result.push(lipidos);
@@ -2005,8 +2024,8 @@ export const normalizePropsOrder = (data) => {
     result.push(omega9);
     result.push(hidratosDeCarbono);
     result.push(fibra);
-    result.push(fibraSoluble);
     result.push(fibraInsoluble);
+    result.push(fibraSoluble);
     result.push(azucar);
     result.push(etanol);
     result.push(tiamina);
@@ -2289,6 +2308,7 @@ export const getZeroData = (name) => {
     const result = [];
 
     result.push(name);
+    result.push(0);
     result.push(0);
     result.push(0);
     result.push(0);
