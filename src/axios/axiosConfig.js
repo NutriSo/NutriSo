@@ -4,7 +4,7 @@ const URL = import.meta.env.VITE_API_URL;
 
 const instance = axios.create({
   // baseURL: URL,
-  baseURL: "https://web-production-4f0d.up.railway.app/api/v2/",
+  baseURL: "https://web-production-61b0.up.railway.app/api/v2/",
   timeout: 50000,
 });
 

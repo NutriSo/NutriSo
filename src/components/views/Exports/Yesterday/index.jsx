@@ -76,6 +76,7 @@ const [exportData, setExportData] = useState(null);
     // }, [selected]);
 
     const getExportData= async () => {
+      
       console.log('Obteniendo datos de exportación...');
       try {
       
@@ -85,6 +86,7 @@ const [exportData, setExportData] = useState(null);
       const objPush = [];
       const { data } = await apiURL.get("alimentacionUsuarios/yesterday");
       //console.log({data});
+      
       if (data?.length <= 0) {
         message.error('No hay datos para exportar');
         handleCancel();
@@ -92,6 +94,7 @@ const [exportData, setExportData] = useState(null);
     }
 
       data.forEach((row) => {
+        
         const {
           createdAt,
           usuario,
@@ -101,23 +104,35 @@ const [exportData, setExportData] = useState(null);
           comidaAyer,
           desayunoAyer,
         } = row;
-        //console.log(usuario);
+        //console.log(data);
+        //console.log({row});
         cenaAyer.forEach((alimentos) => {
-          const { id } = alimentos;
+          
+          //console.log(alimentos);
+          const { id, cantidad, nombre } = alimentos;
+          
           if (id) {
+            //console.log(cantidad); 
             const newArray1 = [
               usuario,
+              id.id, //idAlimento
+              nombre, //nombreAlimento
+              cantidad, //cantidadAlimento
               dayjs(createdAt).format("DD/MM/YYYY"),
               ...normalizeYesterdayByQuantity(id),
             ];
             objPush.push(newArray1);
+            //console.log(objPush);
           }
         });
         colacion1Ayer.forEach((alimentos) => {
-          const { id } = alimentos;
+          const { id, cantidad, nombre } = alimentos;
           if (id) {
             const newArray2 = [
               usuario,
+              id.id, //idAlimento
+              nombre, //nombreAlimento
+              cantidad, //cantidadAlimento
               dayjs(createdAt).format("DD/MM/YYYY"),
               ...normalizeYesterdayByQuantity(id),
             ];
@@ -125,10 +140,13 @@ const [exportData, setExportData] = useState(null);
           }
         });
         colacion2Ayer.forEach((alimentos) => {
-          const { id } = alimentos;
+          const { id, cantidad, nombre } = alimentos;
           if (id) {
             const newArray3 = [
               usuario,
+              id.id, //idAlimento
+              nombre, //nombreAlimento
+              cantidad, //cantidadAlimento
               dayjs(createdAt).format("DD/MM/YYYY"),
               ...normalizeYesterdayByQuantity(id),
             ];
@@ -136,10 +154,13 @@ const [exportData, setExportData] = useState(null);
           }
         });
         comidaAyer.forEach((alimentos) => {
-          const { id } = alimentos;
+          const { id, cantidad, nombre } = alimentos;
           if (id) {
             const newArray4 = [
               usuario,
+              id.id, //idAlimento
+              nombre, //nombreAlimento
+              cantidad, //cantidadAlimento
               dayjs(createdAt).format("DD/MM/YYYY"),
               ...normalizeYesterdayByQuantity(id),
             ];
@@ -147,11 +168,14 @@ const [exportData, setExportData] = useState(null);
           }
         });
         desayunoAyer.forEach((alimentos) => {
-          const { id } = alimentos;
+          const { id, cantidad, nombre } = alimentos;
           //console.log({id});
           if (id) {
             const newArray5 = [
               usuario,
+              id.id, //idAlimento
+              nombre, //nombreAlimento
+              cantidad, //cantidadAlimento
               dayjs(createdAt).format("DD/MM/YYYY"),
               ...normalizeYesterdayByQuantity(id),
             ];

@@ -52,7 +52,25 @@ export const baseColumnsYesterday = [
     title: "Usuario",
     dataIndex: "usuario",
     key: "usuario",
-    width: 60,
+    width: 70,
+  },
+  {
+    title: "Id Alimento",
+    dataIndex: "idAlimento",
+    key: "idAlimento",
+    width: 70,
+  },
+  {
+    title: "Nombre del alimento",
+    dataIndex: "nombreAlimento",
+    key: "nombreAlimento",
+    width: 90,
+  },
+  {
+    title: "Cantidad",
+    dataIndex: "cantidad",
+    key: "cantidad",
+    width: 30,
   },
   {
     title: "Fecha",
