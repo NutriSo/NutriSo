@@ -32,7 +32,7 @@ import {
     getFinalColumns,
 } from '../utils';
 
-const UltraProcessed = ({ selected = false, setLoading }) => {
+const UltraProcessed = ({ selected = false, setLoading, users }) => {
     const [columns, setColumns] = useState([
         ...baseColumns,
         ...groupColumns,
@@ -136,7 +136,7 @@ const UltraProcessed = ({ selected = false, setLoading }) => {
 
                 usersAux.push(auxSuper);
             });
-            
+
             setUsersData(usersAux);
             console.log(usersAux);
             setFoodReady(true);
@@ -163,8 +163,7 @@ const UltraProcessed = ({ selected = false, setLoading }) => {
             }
 
             const csvRowsPreview = generateCsvRows(unified, 3);
-            const cvsRows = generateFinalCsvRows(csvRowsPreview, keys.ultraProcesados);
-            console.log(cvsRows);
+            const cvsRows = generateFinalCsvRows(csvRowsPreview, keys.ultraProcesados, users);
             const finalColumns = getFinalColumns(
                 columns,
                 groups[keys.ultraProcesados].length

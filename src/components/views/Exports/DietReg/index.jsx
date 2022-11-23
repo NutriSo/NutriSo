@@ -9,7 +9,7 @@ import ButtonsArea from '@/components/commons/ButtonsArea';
 import { columns } from './data';
 import { KG } from '../constants';
 
-const DietReg = ({ selected = false, setLoading }) => {
+const DietReg = ({ selected = false, setLoading, users }) => {
     const [exportData, setExportData] = useState([]);
     const [fileReady, setFileReady] = useState(false);
 
@@ -61,8 +61,10 @@ const DietReg = ({ selected = false, setLoading }) => {
                         const washingValue = (consumption * washing) / KG;
                         const cookingValue = (consumption * cooking) / KG;
 
+                        const idIndex = users.findIndex((e) => e === elem.usuario);
+
                         const newData = {
-                            idParticipante: elem.usuario,
+                            idParticipante: Number(idIndex + 1),
                             nombre: `${userInfo.nombre} ${userInfo.apellidoPaterno} ${userInfo.apellidoMaterno}`,
                             // Existen 2 posibles fechas aquí. La fecha en la que se creó el registro, o la fecha en la que dice que se realizó el consumo.
                             fechaRegistro: dayjs(elem.horario).format('DD/MM/YYYY'),

@@ -79,7 +79,7 @@ const RowComponent = () => {
             message.success('Recordatorio agregado');
             console.log(response);
         } catch (error) {
-            message.error(`Error: ${error.message}`);
+            message.error('Ocurrió un error al crear el recordatorio');
         }
     };
 

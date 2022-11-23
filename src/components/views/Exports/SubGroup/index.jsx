@@ -32,7 +32,7 @@ import {
     getFinalColumns,
 } from '../utils';
 
-const SubGroup = ({ selected = false, setLoading }) => {
+const SubGroup = ({ selected = false, setLoading, users }) => {
     const [columns, setColumns] = useState([
         ...baseColumns,
         ...groupColumns,
@@ -161,7 +161,11 @@ const SubGroup = ({ selected = false, setLoading }) => {
             }
 
             const csvRowsPreview = generateCsvRows(unified, 2);
-            const cvsRows = generateFinalCsvRows(csvRowsPreview, keys.subGrupoExportable);
+            const cvsRows = generateFinalCsvRows(
+                csvRowsPreview,
+                keys.subGrupoExportable,
+                users
+            );
             const finalColumns = getFinalColumns(
                 columns,
                 groups[keys.subGrupoExportable].length

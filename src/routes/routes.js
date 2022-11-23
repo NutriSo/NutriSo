@@ -13,6 +13,7 @@ const routes = {
     Upload: '/upload',
     Recetas: '/recetas',
     Administracion: '/administracion',
+    ImportarEquivalencias: '/importarEquivalencias',
 };
 
 export default routes;

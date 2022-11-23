@@ -95,7 +95,9 @@ const CardsComponent = () => {
     const handleOk = async () => {
         try {
             const payload = {
-                usuarios: (listUsersPut.length > 0 && listUsersPut) || arrayUsers,
+                usuarios: global
+                    ? listUsers.map((user) => user.usuario)
+                    : (listUsersPut.length > 0 && listUsersPut) || arrayUsers,
                 hora: hora,
                 titulo: titulo,
                 mensaje: msj,

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-
 import { message } from 'antd';
 import dayjs from 'dayjs';
 
@@ -28,7 +27,7 @@ import {
     getFinalColumns,
 } from '../utils';
 
-const Groups = ({ selected = false, setLoading }) => {
+const Groups = ({ selected = false, setLoading, users }) => {
     const [columns, setColumns] = useState([
         ...baseColumns,
         ...food.groupColumns0,
@@ -95,7 +94,8 @@ const Groups = ({ selected = false, setLoading }) => {
             }
 
             const csvRowsPreview = generateCsvRows(unified);
-            const cvsRows = generateFinalCsvRows(csvRowsPreview, keys.grupoExportable);
+            const cvsRows = generateFinalCsvRows(csvRowsPreview, keys.grupoExportable, users);
+
             const finalColumns = getFinalColumns(
                 columns,
                 groups[keys.grupoExportable].length
@@ -114,6 +114,8 @@ const Groups = ({ selected = false, setLoading }) => {
             console.groupEnd();
         }
     };
+
+    // return <div />;
 
     return (
         <CustomExport
