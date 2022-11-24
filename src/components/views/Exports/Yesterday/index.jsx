@@ -112,12 +112,13 @@ const [exportData, setExportData] = useState(null);
           const { id, cantidad, nombre } = alimentos;
           
           if (id) {
-            //console.log(cantidad); 
+            //console.log(id.cantidadAlimento.pesoNeto); 
             const newArray1 = [
               usuario,
               id.id, //idAlimento
               nombre, //nombreAlimento
               cantidad, //cantidadAlimento
+              id.cantidadAlimento.pesoNeto, //cantidadAlimento.pesoNetoAlimento
               dayjs(createdAt).format("DD/MM/YYYY"),
               ...normalizeYesterdayByQuantity(id),
             ];
@@ -133,6 +134,7 @@ const [exportData, setExportData] = useState(null);
               id.id, //idAlimento
               nombre, //nombreAlimento
               cantidad, //cantidadAlimento
+              id.cantidadAlimento.pesoNeto, //cantidadAlimento.pesoNetoAlimento
               dayjs(createdAt).format("DD/MM/YYYY"),
               ...normalizeYesterdayByQuantity(id),
             ];
@@ -147,6 +149,7 @@ const [exportData, setExportData] = useState(null);
               id.id, //idAlimento
               nombre, //nombreAlimento
               cantidad, //cantidadAlimento
+              id.cantidadAlimento.pesoNeto, //cantidadAlimento.pesoNetoAlimento
               dayjs(createdAt).format("DD/MM/YYYY"),
               ...normalizeYesterdayByQuantity(id),
             ];
@@ -161,6 +164,7 @@ const [exportData, setExportData] = useState(null);
               id.id, //idAlimento
               nombre, //nombreAlimento
               cantidad, //cantidadAlimento
+              id.cantidadAlimento.pesoNeto, //cantidadAlimento.pesoNetoAlimento
               dayjs(createdAt).format("DD/MM/YYYY"),
               ...normalizeYesterdayByQuantity(id),
             ];
@@ -176,6 +180,7 @@ const [exportData, setExportData] = useState(null);
               id.id, //idAlimento
               nombre, //nombreAlimento
               cantidad, //cantidadAlimento
+              id.cantidadAlimento.pesoNeto, //cantidadAlimento.pesoNetoAlimento
               dayjs(createdAt).format("DD/MM/YYYY"),
               ...normalizeYesterdayByQuantity(id),
             ];
