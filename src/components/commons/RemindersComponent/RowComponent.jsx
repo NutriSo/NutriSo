@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import dayjs from 'dayjs';
 import {
     Col,
@@ -13,18 +13,18 @@ import {
     message,
 } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
+
 import apiURL from '@/axios/axiosConfig';
+import { isEmptyArray } from '@/utils';
 
 import styles from './styles.module.scss';
 
 const RowComponent = () => {
-    const [listUsers, setlistUsers] = useState([]);
-    const [listUsersPut, setlistUsersput] = useState([]);
-    const [listRecor, setListRecor] = useState([]);
-    const [titulo, setTitulo] = useState('');
+    const [userInformation, setUserInformationList] = useState([]);
+    const [selectedUsers, setSelectedUsers] = useState([]);
+    const [title, setTitle] = useState('');
     const [msj, setMsj] = useState('');
-    const [categoria, setCategoria] = useState('');
-    const [fecha, setFecha] = useState([]);
+    const [dates, setDates] = useState([]);
     const [hora, setHora] = useState(null);
     const [global, setGlobal] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -33,25 +33,21 @@ const RowComponent = () => {
     const { TextArea } = Input;
     const { Option } = Select;
 
-    useEffect(() => {
-        fetchData();
-    }, []);
-    const fetchData = async () => {
-        try {
-            const { data } = await apiURL.get('/recordatorios');
-            setListRecor(data);
-        } catch (error) {
-            message.error(`Error: ${error.message}`);
+    const userInformationIds = useMemo(() => {
+        if (isEmptyArray(userInformation)) {
+            return [];
         }
-    };
+
+        return userInformation.map((user) => user._id);
+    }, [userInformation.length]);
 
     const showModal = async () => {
         setIsModalVisible(true);
         try {
             const { data } = await apiURL.get('/informacionUsuarios');
-            setlistUsers(data);
+            setUserInformationList(data);
         } catch (error) {
-            message.error(`Error: ${error.message}`);
+            message.error('Ocurrió un error al obtener los datos de los usuarios');
         }
     };
 
@@ -59,25 +55,19 @@ const RowComponent = () => {
         setIsModalVisible(false);
 
         try {
-            const todosUsuarios = listUsers.map((user) => user._id);
-            const reminder = {
-                usuarios: global ? todosUsuarios : listUsersPut,
-                titulo: titulo,
+            const body = {
+                usuarios: global ? userInformationIds : selectedUsers,
+                titulo: title,
                 mensaje: msj,
-                categoria: categoria,
-                dias: [
-                    {
-                        day: 'martes',
-                        activo: false,
-                    },
-                ],
-                fecha: fecha,
+                categoria: '',
+                fecha: dates,
                 hora: hora,
                 global: global,
             };
-            const response = await apiURL.post('/recordatorios', reminder);
+
+            await apiURL.post('/recordatorios', body);
             message.success('Recordatorio agregado');
-            console.log(response);
+            window.location.reload();
         } catch (error) {
             message.error('Ocurrió un error al crear el recordatorio');
         }
@@ -87,12 +77,12 @@ const RowComponent = () => {
         setIsModalVisible(false);
     };
 
-    const print = (values) => {
+    const handleDayRanges = (values) => {
         if (values) {
             const dateA = values[0];
             const dateB = values[1];
 
-            setFecha(getDaysBetweenDates(dateA, dateB));
+            setDates(getDaysBetweenDates(dateA, dateB));
         }
     };
 
@@ -114,6 +104,23 @@ const RowComponent = () => {
     const onChangeCh = (e) => {
         setGlobal(e.target.checked);
     };
+
+    const handleSelectedUsers = (userId) => {
+        setSelectedUsers(userId);
+    };
+
+    useEffect(() => {
+        return () => {
+            setUserInformationList([]);
+            setSelectedUsers([]);
+            setTitle('');
+            setMsj('');
+            setDates([]);
+            setHora(null);
+            setGlobal(false);
+            setIsModalVisible(false);
+        };
+    }, []);
 
     return (
         <>
@@ -139,7 +146,7 @@ const RowComponent = () => {
                 <Col span={24} className={styles.normalPadding}>
                     <Input
                         placeholder='Titulo del recordatorio'
-                        onChange={(e) => setTitulo(e.target.value)}
+                        onChange={(e) => setTitle(e.target.value)}
                     />
                 </Col>
                 <h3>Descripción (mensaje):</h3>
@@ -159,32 +166,18 @@ const RowComponent = () => {
                     mode='multiple'
                     style={{ width: '100%' }}
                     placeholder='Seleccionar usuarios'
-                    onChange={(value) => setlistUsersput(value)}
+                    onChange={handleSelectedUsers}
                     optionLabelProp='label'
-                    disabled={global ? true : false}>
-                    {listUsers.map((user) => (
-                        <Option
-                            key={
-                                user.id
-                            }>{`${user.nombre} ${user?.apellidoPaterno} ${user?.apellidoMaterno} `}</Option>
+                    disabled={global}>
+                    {userInformation.map((user) => (
+                        <Option key={user.usuario}>
+                            {`${user.nombre} ${user?.apellidoPaterno} ${user?.apellidoMaterno} `}
+                        </Option>
                     ))}
-                </Select>
-                <h3>Categoria</h3>
-                <Select
-                    placeholder='Seleccione Categoría'
-                    onChange={(value) => setCategoria(value)}
-                    style={{ width: '100%' }}>
-                    <Option value='desayuno'>Desayuno</Option>
-                    <Option value='comida'>Comida</Option>
-                    <Option value='cena'>Cena</Option>
-                    <Option value='ejercicio'>Ejercicio</Option>
-                    <Option value='colacion1'>Colacion 1</Option>
-                    <Option value='colacion2'>Colación 2</Option>
-                    <Option value='agua'>Agua</Option>
                 </Select>
                 <div className='site-calendar-demo-card'>
                     <h3>Fechas</h3>
-                    <RangePicker onChange={print} />
+                    <RangePicker onChange={handleDayRanges} />
                 </div>
                 <div className='site-calendar-demo-card'>
                     <h3>Horario</h3>
