@@ -25,6 +25,8 @@ import {
     unifyGroups,
     generateFinalCsvRows,
     getFinalColumns,
+    getSumByDay,
+    normalizeDataByDateAndUser,
 } from '../utils';
 
 const Groups = ({ selected = false, setLoading, users }) => {
@@ -93,7 +95,8 @@ const Groups = ({ selected = false, setLoading, users }) => {
                 return;
             }
 
-            const csvRowsPreview = generateCsvRows(unified);
+            const totales = normalizeDataByDateAndUser(unified);
+            const csvRowsPreview = generateCsvRows(totales);
             const cvsRows = generateFinalCsvRows(csvRowsPreview, keys.grupoExportable, users);
 
             const finalColumns = getFinalColumns(

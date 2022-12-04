@@ -22,8 +22,8 @@ const groups = {
         'Bebidas alcoholicas',
     ],
     [keys.subGrupoExportable]: [
-        'Leche sin azucar',
-        'Leche con azucar',
+        'Leche sin azúcar',
+        'Leche con azúcar',
         'Bebidas',
         'Quesos bajos en grasa',
         'Aves',
