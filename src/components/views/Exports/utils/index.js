@@ -1859,7 +1859,7 @@ export const generateFinalCsvRows = (data, type, users) => {
         rowToPush.push(...zeroArray.flat());
         finalRows.push(rowToPush);
     });
-    console.log({ finalRows, tempRows });
+
     return finalRows;
 };
 
