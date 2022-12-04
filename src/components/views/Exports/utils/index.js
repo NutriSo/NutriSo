@@ -1743,12 +1743,18 @@ export const generateCsvRows = (data, type) => {
         values.forEach((group) => {
             let finalRow = {};
 
-            group.values.forEach((food) => {
-                finalRow = normalizedMethod(finalRow, food);
-            });
-            objToPush = { ...objToPush, ...finalRow };
+            const isArray = Array.isArray(group.values);
 
-            rows.push(objToPush);
+            if (isArray) {
+                group.values.forEach((food) => {
+                    finalRow = normalizedMethod(finalRow, food);
+                });
+                objToPush = { ...objToPush, ...finalRow };
+                rows.push(objToPush);
+            } else {
+                objToPush = { ...objToPush, ...normalizedMethod(finalRow, group) };
+                rows.push(objToPush);
+            }
         });
     });
 
@@ -2680,16 +2686,14 @@ export const normalizeValuesByConsumption = (data) => {
     return result;
 };
 
-export const getSumByDay = (data) => {
+export const normalizeDataByDateAndUser = (data) => {
     if (isInvalidElem(data)) {
         return [];
     }
 
     const objetosIterados = [];
 
-    const normalizedData = normalizeValuesByConsumption(data);
-
-    normalizedData.forEach((row) => {
+    data.forEach((row) => {
         const { fechaRegistro, idParticipante } = row;
 
         const yaIterado = objetosIterados.some((obj) => {
@@ -2728,6 +2732,18 @@ export const getSumByDay = (data) => {
             found.values = [suma];
         }
     });
+
+    return objetosIterados;
+};
+
+export const getSumByDay = (data) => {
+    if (isInvalidElem(data)) {
+        return [];
+    }
+
+    const normalizedData = normalizeValuesByConsumption(data);
+
+    const objetosIterados = normalizeDataByDateAndUser(normalizedData);
 
     objetosIterados.forEach((row) => {
         const elements = row.values;

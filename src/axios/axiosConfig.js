@@ -1,10 +1,11 @@
 import axios from 'axios';
 
 const URL = import.meta.env.VITE_API_URL;
+const DEV_URL = import.meta.env.VITE_API_URL_DEV;
 
 const instance = axios.create({
     baseURL: URL,
-    // baseURL: 'http://192.168.1.144:4000/api/v2/',
+    // baseURL: DEV_URL,
     timeout: 50000,
 });
 
