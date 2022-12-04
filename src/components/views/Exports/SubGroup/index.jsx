@@ -30,6 +30,7 @@ import {
     unifyGroups,
     generateFinalCsvRows,
     getFinalColumns,
+    normalizeDataByDateAndUser,
 } from '../utils';
 
 const SubGroup = ({ selected = false, setLoading, users }) => {
@@ -160,7 +161,8 @@ const SubGroup = ({ selected = false, setLoading, users }) => {
                 return;
             }
 
-            const csvRowsPreview = generateCsvRows(unified, 2);
+            const totales = normalizeDataByDateAndUser(unified);
+            const csvRowsPreview = generateCsvRows(totales, 2);
             const cvsRows = generateFinalCsvRows(
                 csvRowsPreview,
                 keys.subGrupoExportable,

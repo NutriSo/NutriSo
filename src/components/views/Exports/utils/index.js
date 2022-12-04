@@ -200,7 +200,7 @@ export const normalizeSumByGroupDTO = (prevData, newData) => {
 
     const result = {
         grupoAlimento: grupoExportable,
-        gramos: getPropSum(prevData?.gramos, grams, consumption),
+        gramos: grams,
         energiaKcal: getPropSum(prevData?.energiaKcal, energia, consumption),
         proteina: getPropSum(prevData?.proteina, proteina, consumption),
         lipidos: getPropSum(prevData?.lipidos, lipidos, consumption),
@@ -501,7 +501,7 @@ export const normalizeSumBySubGroupDTO = (prevData, newData) => {
 
     const result = {
         grupoAlimento: subGrupoExportable,
-        gramos: getPropSum(prevData?.gramos, grams, consumption),
+        gramos: grams,
         energiaKcal: getPropSum(prevData?.energiaKcal, energia, consumption),
         proteina: getPropSum(prevData?.proteina, proteina, consumption),
         lipidos: getPropSum(prevData?.lipidos, lipidos, consumption),
@@ -802,7 +802,7 @@ export const normalizeSumByUltraProcessedDTO = (prevData, newData) => {
 
     const result = {
         grupoAlimento: clasificacionExportable,
-        gramos: getPropSum(prevData?.gramos, grams, consumption),
+        gramos: grams,
         energiaKcal: getPropSum(prevData?.energiaKcal, energia, consumption),
         proteina: getPropSum(prevData?.proteina, proteina, consumption),
         lipidos: getPropSum(prevData?.lipidos, lipidos, consumption),
@@ -1104,7 +1104,7 @@ export const normalizeSumByAppropriateDTO = (prevData, newData) => {
 
     const result = {
         grupoAlimento: subGrupoAdecuada,
-        gramos: getPropSum(prevData?.gramos, grams, consumption),
+        gramos: grams,
         energiaKcal: getPropSum(prevData?.energiaKcal, energia, consumption),
         proteina: getPropSum(prevData?.proteina, proteina, consumption),
         lipidos: getPropSum(prevData?.lipidos, lipidos, consumption),
@@ -1405,7 +1405,7 @@ export const normalizeSumBySubGroupSmaeDTO = (prevData, newData) => {
 
     const result = {
         grupoAlimento: grupoAlimento,
-        gramos: getPropSum(prevData?.gramos, grams, consumption),
+        gramos: grams,
         energiaKcal: getPropSum(prevData?.energiaKcal, energia, consumption),
         proteina: getPropSum(prevData?.proteina, proteina, consumption),
         lipidos: getPropSum(prevData?.lipidos, lipidos, consumption),
@@ -1833,7 +1833,6 @@ export const generateFinalCsvRows = (data, type, users) => {
 
         tempAux.forEach((temp) => {
             const groupName = temp[0];
-
             const zeroIndex = zeroArray.findIndex((e) => e[0] === groupName);
 
             if (zeroIndex === -1) {
@@ -1860,7 +1859,7 @@ export const generateFinalCsvRows = (data, type, users) => {
         rowToPush.push(...zeroArray.flat());
         finalRows.push(rowToPush);
     });
-
+    console.log({ finalRows, tempRows });
     return finalRows;
 };
 

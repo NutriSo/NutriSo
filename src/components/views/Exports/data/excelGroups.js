@@ -59,7 +59,7 @@ const groups = {
     ],
     [keys.ultraProcesados]: [
         'Ultra-procesado',
-        'Lacteos',
+        'Lácteos',
         'Huevo',
         'Pescados y mariscos',
         'Pollo',

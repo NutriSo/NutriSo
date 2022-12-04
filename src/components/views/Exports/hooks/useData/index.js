@@ -41,7 +41,6 @@ const useData = ({ selected, type, onCancel }) => {
 
             foods.forEach((food) => {
                 const { usuario, horario, idRegistro } = food;
-
                 const isPartOfGroup = groups[type].includes(food[type]);
                 if (!isPartOfGroup) {
                     return;
