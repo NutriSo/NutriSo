@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-
+import React, { useState, useEffect, useMemo } from 'react';
 import {
     Card,
     Space,
@@ -25,26 +24,22 @@ import moment from 'moment';
 import dayjs from 'dayjs';
 
 import apiURL from '@/axios/axiosConfig';
-import { capitilizeWord } from '@/utils';
+import { capitilizeWord, isEmptyArray } from '@/utils';
 
 import styles from './styles.module.scss';
 
 const CardsComponent = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [initialData, setInitialData] = useState([]);
-    const [list, setList] = useState([]);
-    const [listUsers, setlistUsers] = useState([]);
-    const [listUsersPut, setlistUsersput] = useState([]);
-    const [arrayUsers, setArrayusers] = useState([]);
-    const [titulo, setTitulo] = useState('');
+    const [reminders, setReminders] = useState([]);
+    const [userInformation, setUserInformationList] = useState([]);
+    const [selectedUsers, setSelectedUsers] = useState([]);
+    const [title, setTitle] = useState('');
     const [msj, setMsj] = useState('');
-    const [categoria, setCategoria] = useState('');
-    const [fecha, setFecha] = useState([]);
+    const [dates, setDates] = useState([]);
     const [hora, setHora] = useState(null);
     const [global, setGlobal] = useState(false);
-    const [seleccionado, setSeleccionado] = useState('');
-
-    const modalVisible = isModalVisible && seleccionado?.fecha && arrayUsers.length > 0;
+    const [selectedReminder, setSelectedReminder] = useState(null);
 
     const { RangePicker } = DatePicker;
     const { TextArea } = Input;
@@ -52,62 +47,73 @@ const CardsComponent = () => {
     const { Search } = Input;
     const { Option } = Select;
 
-    useEffect(() => {
-        fetchData();
-    }, []);
-
-    useEffect(() => {
-        if (!seleccionado?._id) {
-            return;
+    const userInformationIds = useMemo(() => {
+        if (isEmptyArray(userInformation)) {
+            return [];
         }
 
-        fetchData2();
-    }, [seleccionado?._id]);
+        return userInformation.map((user) => user._id);
+    }, [userInformation.length]);
 
-    const showModal = async (id) => {
+    const defaultHour = useMemo(() => {
+        if (!hora) {
+            return null;
+        }
+
+        return dayjs(new Date(hora[0]), 'HH:mm');
+    }, [hora]);
+
+    const defaultUsers = useMemo(() => {
+        if (!selectedReminder) {
+            return !isEmptyArray(selectedUsers) ? selectedUsers : [];
+        }
+
+        return selectedReminder.usuarios;
+    }, [selectedReminder]);
+
+    const modalVisible = isModalVisible && selectedReminder?.fecha && defaultHour;
+
+    const showModal = async (reminder) => {
         setIsModalVisible(true);
-        setSeleccionado(id);
+        setSelectedReminder(reminder);
         try {
             const { data } = await apiURL.get('/informacionUsuarios');
-            setlistUsers(data);
+            setUserInformationList(data);
         } catch (error) {
-            message.error(`Error: ${error.message}`);
+            message.error('Ocurrió un error al obtener los datos de los usuarios');
         }
     };
 
     const fetchData2 = async () => {
         try {
-            const { data } = await apiURL.get(`/recordatorios/${seleccionado._id}`);
-            if (data) {
-                setGlobal(data.global);
-                setArrayusers(data.usuarios);
-                setFecha(data.fecha);
-                setMsj(data.mensaje);
-                setTitulo(data.titulo);
-                setCategoria(data.categoria);
-                setHora(data.hora);
-            }
+            const { data } = await apiURL.get(`/recordatorios/${selectedReminder._id}`);
+
+            setGlobal(data.global);
+            setDates(data.fecha);
+            setMsj(data.mensaje);
+            setTitle(data.titulo);
+            setHora(data.hora);
         } catch (error) {
-            message.error(`Error: ${error.message}`);
+            message.error('Ocurrió un error al obtener los datos para actualizar');
         }
     };
 
     const handleOk = async () => {
         try {
-            const payload = {
-                usuarios: global
-                    ? listUsers.map((user) => user.usuario)
-                    : (listUsersPut.length > 0 && listUsersPut) || arrayUsers,
+            const noGlobalUsers = isEmptyArray(selectedUsers) ? defaultUsers : selectedUsers;
+
+            const body = {
+                usuarios: global ? userInformationIds : noGlobalUsers,
                 hora: hora,
-                titulo: titulo,
+                titulo: title,
                 mensaje: msj,
-                categoria: categoria,
-                fecha: fecha,
+                categoria: '',
+                fecha: dates,
                 global: global,
                 usuariosConfirmados: [],
             };
 
-            await apiURL.patch(`/recordatorios/${seleccionado._id}`, payload);
+            await apiURL.patch(`/recordatorios/${selectedReminder._id}`, body);
 
             message.success('Se actualizó el recordatorio');
 
@@ -119,12 +125,22 @@ const CardsComponent = () => {
             );
         }
     };
+
     const handleCancel = () => {
         setIsModalVisible(false);
-        window.location.reload();
     };
 
-    function showDeleteConfirm(recordatorio) {
+    const handleDelete = async (id) => {
+        try {
+            await apiURL.delete(`/recordatorios/${id}`);
+
+            window.location.reload();
+        } catch (error) {
+            message.error('Ocurrió un error al eliminar el recordatorio.');
+        }
+    };
+
+    const showDeleteConfirm = (reminder) => {
         confirm({
             title: '¿Estás seguro de que quieres eliminar?',
             icon: <ExclamationCircleOutlined />,
@@ -133,28 +149,16 @@ const CardsComponent = () => {
             okType: 'danger',
             cancelText: 'No',
             onOk() {
-                const deleteRecor = async () => {
-                    try {
-                        await apiURL.delete(`/recordatorios/${recordatorio._id}`);
-
-                        window.location.reload();
-                    } catch (error) {
-                        message.error(`Error: ${error.message}`);
-                    }
-                };
-                deleteRecor();
-            },
-            onCancel() {
-                console.log('Cancel');
+                handleDelete(reminder._id);
             },
         });
-    }
+    };
 
     const fetchData = async () => {
         try {
             const { data } = await apiURL.get('/recordatorios');
             setInitialData(data);
-            setList(data);
+            setReminders(data);
         } catch (error) {
             message.error(`Error: ${error.message}`);
         }
@@ -168,24 +172,24 @@ const CardsComponent = () => {
             return normalizedTitle.includes(normalizedSearch);
         });
 
-        setList(filteredData);
+        setReminders(filteredData);
     };
 
     const handleTime = (time) => {
         setHora(time);
-        setSeleccionado({ ...seleccionado, hora: time });
+        setSelectedReminder({ ...selectedReminder, hora: time });
     };
 
-    const print = (values) => {
+    const handleDayRanges = (values) => {
         if (values) {
             const dateA = values[0];
             const dateB = values[1];
 
-            setSeleccionado({
-                ...seleccionado,
+            setSelectedReminder({
+                ...selectedReminder,
                 fecha: getDaysBetweenDates(dateA, dateB),
             });
-            setFecha(getDaysBetweenDates(dateA, dateB));
+            setDates(getDaysBetweenDates(dateA, dateB));
         }
     };
 
@@ -201,27 +205,31 @@ const CardsComponent = () => {
         return dates;
     };
 
-    function onChangeCh(e) {
-        if (e.target.checked) {
-            setGlobal(true);
-        } else {
-            setGlobal(false);
-        }
-    }
-
-    const getUserNames = (array) => {
-        const auxs = [];
-
-        array.forEach((user) => {
-            const findIndex = listUsers.findIndex((elem) => elem._id === user);
-            if (findIndex !== -1) {
-                auxs.push(listUsers[findIndex].nombre);
-            }
-        });
-
-        return array;
+    const handleGlobal = (e) => {
+        setGlobal(e.target.checked);
     };
 
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        if (!selectedReminder?._id) {
+            return;
+        }
+
+        fetchData2();
+    }, [selectedReminder?._id]);
+
+    useEffect(() => {
+        if (!modalVisible) {
+            setSelectedUsers([]);
+        }
+
+        if (!isModalVisible) {
+            setSelectedReminder(null);
+        }
+    }, [modalVisible]);
     return (
         <div>
             <Row>
@@ -230,13 +238,13 @@ const CardsComponent = () => {
                         size='large'
                         placeholder='Buscar por titulo de recordatorio'
                         allowClear
-                        defaultValue={list}
+                        defaultValue={reminders}
                         onSearch={onSearch}
                         style={{ width: 1000 }}
                     />
                 </Space>
                 <Row className={styles.grid}>
-                    {list.map((recordatorio) => (
+                    {reminders.map((reminder) => (
                         <Card
                             style={{ marginTop: 16 }}
                             type='inner'
@@ -244,7 +252,7 @@ const CardsComponent = () => {
                                 <Row gutter={1} className={styles.between}>
                                     <Col span={12}>
                                         <h4 className={styles.title}>
-                                            {capitilizeWord(recordatorio.titulo)}
+                                            {capitilizeWord(reminder.titulo)}
                                         </h4>
                                     </Col>
                                     <Col span={6}>
@@ -252,14 +260,14 @@ const CardsComponent = () => {
                                             style={{}}
                                             type='primary'
                                             shape='circle'
-                                            onClick={() => showModal(recordatorio)}
+                                            onClick={() => showModal(reminder)}
                                             icon={<EditOutlined />}
                                         />
                                         <Button
                                             style={{}}
                                             type='primary'
                                             shape='circle'
-                                            onClick={() => showDeleteConfirm(recordatorio)}
+                                            onClick={() => showDeleteConfirm(reminder)}
                                             icon={<DeleteOutlined />}
                                         />
                                     </Col>
@@ -272,7 +280,7 @@ const CardsComponent = () => {
                                         type='primary'
                                         shape='circle'
                                         icon={
-                                            recordatorio.global ? (
+                                            reminder.global ? (
                                                 <GlobalOutlined />
                                             ) : (
                                                 <UserOutlined />
@@ -281,8 +289,8 @@ const CardsComponent = () => {
                                     />
                                 </Col>
                                 <Col span={12}>
-                                    <p>Mensaje: {recordatorio.mensaje}</p>
-                                    <p>Categoria: {recordatorio.categoria}</p>
+                                    <p>Mensaje: {reminder.mensaje}</p>
+                                    <p>Categoria: {reminder.categoria}</p>
                                 </Col>
                             </Row>
                         </Card>
@@ -301,8 +309,8 @@ const CardsComponent = () => {
                         </Col>
                         <Col span={18} style={{ padding: 16 }}>
                             <Input
-                                defaultValue={seleccionado?.titulo ?? titulo}
-                                onChange={(e) => setTitulo(e.target.value)}
+                                defaultValue={selectedReminder?.titulo ?? title}
+                                onChange={(e) => setTitle(e.target.value)}
                             />
                         </Col>
                     </Row>
@@ -315,14 +323,14 @@ const CardsComponent = () => {
                                 placeholder='Descripción del recordatorio'
                                 autoSize
                                 onChange={(e) => setMsj(e.target.value)}
-                                defaultValue={seleccionado?.mensaje ?? msj}
+                                defaultValue={selectedReminder?.mensaje ?? msj}
                             />
                             <div style={{ margin: '24px 0' }} />
                         </Col>
                     </Row>
                     <Checkbox
-                        onChange={onChangeCh}
-                        defaultChecked={seleccionado?.global ?? global}>
+                        onChange={handleGlobal}
+                        defaultChecked={selectedReminder?.global ?? global}>
                         Global
                     </Checkbox>
                     <Select
@@ -330,42 +338,38 @@ const CardsComponent = () => {
                         mode='multiple'
                         style={{ width: '100%' }}
                         placeholder='Seleccionar usuarios'
-                        onChange={(value) => setlistUsersput(value)}
+                        onChange={(value) => setSelectedUsers(value)}
                         optionLabelProp='label'
-                        defaultValue={(arrayUsers.length > 0 && arrayUsers) || listUsersPut}>
-                        {listUsers.map((users) => (
+                        defaultValue={defaultUsers}>
+                        {userInformation.map((users) => (
                             <Option key={users.id} value={users.usuario}>
                                 {users.nombre}
                             </Option>
                         ))}
                     </Select>
-                    <Select
-                        placeholder='Seleccione Categoría'
-                        onChange={(value) => setCategoria(value)}
-                        defaultValue={seleccionado?.categoria ?? categoria}
-                        style={{ width: '100%' }}>
-                        <Option value='desayuno'>Desayuno</Option>
-                        <Option value='comida'>Comida</Option>
-                        <Option value='cena'>Cena</Option>
-                        <Option value='ejercicio'>Ejercicio</Option>
-                        <Option value='colacion1'>Colacion 1</Option>
-                        <Option value='colacion2'>Colación 2</Option>
-                        <Option value='agua'>Agua</Option>
-                    </Select>
                     <div className='site-calendar-demo-card'>
                         <RangePicker
-                            onChange={print}
+                            onChange={handleDayRanges}
                             defaultValue={
-                                seleccionado?.fecha && [
-                                    moment(seleccionado.fecha[0]),
-                                    moment(seleccionado.fecha[seleccionado.fecha.length - 1]),
+                                selectedReminder?.fecha && [
+                                    moment(selectedReminder.fecha[0]),
+                                    moment(
+                                        selectedReminder.fecha[
+                                            selectedReminder.fecha.length - 1
+                                        ]
+                                    ),
                                 ]
                             }
                         />
                     </div>
                     <div className='site-calendar-demo-card'>
                         <h3>Horario</h3>
-                        <TimePicker use12Hours format='HH:mm' onChange={handleTime} />
+                        <TimePicker
+                            use12Hours
+                            defaultValue={defaultHour || defaultCurrentHour}
+                            format='HH:mm'
+                            onChange={handleTime}
+                        />
                     </div>
                 </Modal>
             )}

@@ -22,8 +22,8 @@ const groups = {
         'Bebidas alcoholicas',
     ],
     [keys.subGrupoExportable]: [
-        'Leche sin azucar',
-        'Leche con azucar',
+        'Leche sin azúcar',
+        'Leche con azúcar',
         'Bebidas',
         'Quesos bajos en grasa',
         'Aves',
@@ -59,7 +59,7 @@ const groups = {
     ],
     [keys.ultraProcesados]: [
         'Ultra-procesado',
-        'Lacteos',
+        'Lácteos',
         'Huevo',
         'Pescados y mariscos',
         'Pollo',

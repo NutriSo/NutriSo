@@ -113,6 +113,8 @@ const GroupsByDay = ({ selected = false, setLoading }) => {
         }
     };
 
+    // return <div />;
+
     return (
         <CustomExport
             dataSource={exportData}
