@@ -82,7 +82,9 @@ const GroupsByDay = ({ selected = false, setLoading }) => {
         console.log('Armando los datos de exportación...');
         try {
             const rows = getRowValues(useDataHook.exportData);
+            
             const unified = unifyGroups(rows);
+            
 
             if (isEmptyArray(unified)) {
                 message.info('No hay datos para exportar');
@@ -91,8 +93,10 @@ const GroupsByDay = ({ selected = false, setLoading }) => {
             }
 
             const totales = getSumByDay(unified);
+            
             const csvRowsPreview = generateCsvRowsByDay(totales);
             const cvsRows = generateFinalCsvRowsByDay(csvRowsPreview, keys.grupoExportable);
+           
             const finalColumns = getFinalColumnsByDay(columns, 1);
 
             setColumns(finalColumns);

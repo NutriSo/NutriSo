@@ -24,6 +24,7 @@ import * as bioactives from '../data/bioactives';
 import * as additives from '../data/additives';
 import * as extraColumns2 from '../data/extraColumns';
 import * as food from '../data/foodGroups';
+import dayjs from 'dayjs';
 
 export const getIsSelected = (state, number, index) => {
     return state[number] === true && index === number;
@@ -1578,8 +1579,8 @@ export const getPropSum = (firstProp, secondProp, consumption) => {
 };
 
 export const getRowValues = (data) => {
-    if (isInvalidElem(data)) return [];
-
+  if (isInvalidElem(data)) return [];
+  
     const limpio = data.map((elem) => {
         const { fechaRegistro, idParticipante, idRegistro, ...rest } = elem;
 
@@ -1594,6 +1595,24 @@ export const getRowValues = (data) => {
     });
 
     return groupByRegId(limpio);
+};
+
+export const getRowValuesYesterday = (data) => {
+  if (isInvalidElem(data)) return [];
+  
+    const limpio = data.map((elem) => {
+        const { usuario, createdAt, ...rest } = elem;
+
+        const normalizedValues = removeEmptyValues(rest);
+
+        return {
+            usuario,
+            createdAt,
+            ...normalizedValues[0],
+        };
+    });
+  
+    return limpio;
 };
 
 export const groupByRegId = (data) => {
@@ -1676,8 +1695,8 @@ export const unifyArrays = (data) => {
 };
 
 export const unifyGroups = (data) => {
-    if (isInvalidElem(data)) return [];
-
+  if (isInvalidElem(data)) return [];
+  
     const result = data.map((elem) => {
         const { values, ...rest } = elem;
 
@@ -1701,7 +1720,7 @@ export const unifyGroups = (data) => {
             gruopsMapped.push(grupo);
             newValues.push(el);
         });
-
+      
         return { ...rest, values: newValues };
     });
 
@@ -1791,7 +1810,7 @@ export const generateFinalCsvRows = (data, type, users) => {
 
     rows.forEach((row) => {
         let newRow = [];
-        row.forEach((register) => {
+        row.forEach((register, index) => {
             const { idParticipante, idRegistro, fechaRegistro } = register;
             const newRegister = normalizePropsOrder(register);
 
@@ -1833,6 +1852,7 @@ export const generateFinalCsvRows = (data, type, users) => {
 
         tempAux.forEach((temp) => {
             const groupName = temp[0];
+
             const zeroIndex = zeroArray.findIndex((e) => e[0] === groupName);
 
             if (zeroIndex === -1) {
@@ -1842,8 +1862,40 @@ export const generateFinalCsvRows = (data, type, users) => {
             indexes.push(zeroIndex);
         });
 
-        indexes.forEach((index, innerIndex) => {
-            zeroArray[index] = tempAux[innerIndex];
+        tempRows.forEach((elem, index) => {
+            const tempAux = tempGroups[index];
+
+            const zeroArray = groups[type].map((group) => getZeroData(group));
+
+            const indexes = [];
+
+            tempAux.forEach((temp) => {
+                const groupName = temp[0];
+                const zeroIndex = zeroArray.findIndex((e) => e[0] === groupName);
+
+                if (zeroIndex === -1) {
+                    return;
+                }
+
+                indexes.push(zeroIndex);
+            });
+
+            indexes.forEach((index, innerIndex) => {
+                zeroArray[index] = tempAux[innerIndex];
+            });
+
+            const rowToPush = [];
+
+            elem.forEach((value) => {
+                const isArray = Array.isArray(value);
+
+                if (!isArray) {
+                    rowToPush.push(value);
+                }
+            });
+
+            rowToPush.push(...zeroArray.flat());
+            finalRows.push(rowToPush);
         });
 
         const rowToPush = [];
@@ -2877,9 +2929,30 @@ export const generateCsvRowsByDay = (data) => {
     return rows;
 };
 
+export const generateCsvRowsYesterday = (data) => {
+    if (isInvalidElem(data)) {
+        return {};
+    }
+
+    const rows = [];
+
+    data.forEach((row) => {
+        const { values } = row;
+
+        const objToPush = {
+            ...values[0],
+        };
+
+        rows.push(objToPush);
+    });
+
+    return rows;
+};
+
 export const generateFinalCsvRowsByDay = (data) => {
     const tempFirstsValues = [];
     const tempRows = [];
+    const rowsAsStrings = [];
 
     const participants = new Set([...data.map((elem) => elem.idParticipante)]);
     const copyParticipants = [...participants];
@@ -2892,14 +2965,20 @@ export const generateFinalCsvRowsByDay = (data) => {
 
         tempRows.push(newRegister);
         if (idIndex === -1) {
-            tempFirstsValues.push({ 0: idParticipante, 1: idRegistro, 2: fechaRegistro });
+            tempFirstsValues.push({
+                0: idParticipante,
+                1: idRegistro,
+                2: fechaRegistro,
+            });
             return;
         }
 
-        tempFirstsValues.push({ 0: Number(idIndex + 1), 1: idRegistro, 2: fechaRegistro });
+        tempFirstsValues.push({
+            0: Number(idIndex + 1),
+            1: idRegistro,
+            2: fechaRegistro,
+        });
     });
-
-    const rowsAsStrings = [];
 
     Object.values(tempRows).forEach((rowObject, index) => {
         const auxRow = [];
@@ -2917,4 +2996,257 @@ export const generateFinalCsvRowsByDay = (data) => {
     });
 
     return rowsAsStrings;
+};
+
+
+export const normalizeYesterdayByQuantity = (data) => {
+  if (isEmptyObject(data)) return {};
+  
+    const {
+        id,
+        sku,
+        nombreAlimento,
+        grupoExportable,
+        subGrupoExportable,
+        grupoAlimento,
+        clasificacionExportable,
+        subGrupoAdecuada,
+        opcionesPreparacion,
+        icono,
+        mensaje,
+        cantidadAlimento,
+        caloriasMacronutrientes,
+        vitaminas,
+        minerales,
+        aspectoGlucemico,
+        aspectoEconomico,
+        aspectoMedioambiental,
+        componentesBioactivos,
+        aditivosAlimentarios,
+        cantidad,
+    } = data;
+
+    const {
+        energia,
+        proteina,
+        lipidos,
+        agSaturados,
+        agMonoinsaturados,
+        adPoliinsaturados,
+        colesterol,
+        omega3,
+        omega6,
+        omega9,
+        hidratosDeCarbono,
+        fibra,
+        fibraSoluble,
+        fibraInsoluble,
+        azucar,
+        etanol,
+    } = caloriasMacronutrientes;
+
+    const {
+        tiamina,
+        riboflavin,
+        niacina,
+        acidoPantotenico,
+        piridoxina,
+        biotina,
+        cobalmina,
+        acidoAscorbico,
+        acidoFolico,
+        vitaminaA,
+        vitaminaD,
+        vitaminaK,
+        vitaminaE,
+    } = vitaminas;
+
+    const {
+        calcio,
+        fosforo,
+        hierro,
+        hierroNoHem,
+        hierroTotal,
+        magnesio,
+        sodio,
+        potasio,
+        zinc,
+        selenio,
+    } = minerales;
+
+    const { indiceGlicemico, cargaGlicemica } = aspectoGlucemico;
+
+    const {
+        factorDeCorreccionParaHuellaHidricaYEGEI,
+        tipo,
+        lugar,
+        huellaHidricaTotal,
+        huellaHidricaVerde,
+        huellaHidricaAzul,
+        huellaHidricaGris,
+        aguaParaLavado,
+        aguaParaCoccion,
+        lugarEGEI,
+        citaEGEI,
+        huellaCarbono,
+        huellaEcologica,
+        energiaFosil,
+        usoDeSuelo,
+        nitrogeno,
+        puntajeEcologico,
+        ...rest
+    } = aspectoMedioambiental;
+
+    const { precio, lugarDeCompra, lugarDeVenta } = aspectoEconomico;
+
+    const {
+        fitoquimicos,
+        polifenoles,
+        antocianinas,
+        taninos,
+        isoflavonas,
+        resveratrol,
+        isotiocinatos,
+        caretenoides,
+        betacarotenos,
+        licopeno,
+        luteina,
+        alicina,
+        cafeina,
+        UFC,
+    } = componentesBioactivos;
+
+    const {
+        benzoatoDeSodio,
+        polisorbato,
+        azulBrillanteFCFoE133,
+        azurrubinaOE102,
+        amarilloOcasoFDFoE110,
+        tartrazinaOE102,
+        verdeSoE142,
+        negroBrillanteBNoE151,
+        sucralosa,
+        estevia,
+        sacarina,
+        aspartame,
+        acesulfameK,
+        carboxymethylcellulose,
+        dioxidoDeTitanio,
+        monolauratoDeGlicerol,
+    } = aditivosAlimentarios;
+
+    const result = [
+        energia,
+        proteina,
+        lipidos,
+        agSaturados,
+        agMonoinsaturados,
+        adPoliinsaturados,
+        colesterol,
+        omega3,
+        omega6,
+        omega9,
+        hidratosDeCarbono,
+        fibra,
+        fibraSoluble,
+        fibraInsoluble,
+        azucar,
+        etanol,
+        tiamina,
+        riboflavin,
+        niacina,
+        acidoPantotenico,
+        piridoxina,
+        biotina,
+        cobalmina,
+        acidoAscorbico,
+        acidoFolico,
+        vitaminaA,
+        vitaminaD,
+        vitaminaK,
+        vitaminaE,
+        calcio,
+        fosforo,
+        hierro,
+        hierroNoHem,
+        hierroTotal,
+        magnesio,
+        sodio,
+        potasio,
+        zinc,
+        selenio,
+        indiceGlicemico,
+        cargaGlicemica,
+        factorDeCorreccionParaHuellaHidricaYEGEI,
+        tipo,
+        lugar,
+        huellaHidricaTotal,
+        huellaHidricaVerde,
+        huellaHidricaAzul,
+        huellaHidricaGris,
+        aguaParaLavado,
+        aguaParaCoccion,
+        lugarEGEI,
+        citaEGEI,
+        huellaCarbono,
+        huellaEcologica,
+        usoDeSuelo,
+        energiaFosil,
+        nitrogeno,
+        rest.fosforo,
+        puntajeEcologico,
+        precio,
+        lugarDeCompra,
+        lugarDeVenta,
+        fitoquimicos,
+        polifenoles,
+        antocianinas,
+        taninos,
+        isoflavonas,
+        resveratrol,
+        isotiocinatos,
+        caretenoides,
+        betacarotenos,
+        licopeno,
+        luteina,
+        alicina,
+        cafeina,
+        UFC,
+        benzoatoDeSodio,
+        polisorbato,
+        azulBrillanteFCFoE133,
+        azurrubinaOE102,
+        amarilloOcasoFDFoE110,
+        tartrazinaOE102,
+        verdeSoE142,
+        negroBrillanteBNoE151,
+        sucralosa,
+        estevia,
+        sacarina,
+        aspartame,
+        acesulfameK,
+        carboxymethylcellulose,
+        dioxidoDeTitanio,
+        monolauratoDeGlicerol,
+    ];
+
+    return result;
+};
+export const normalizeAlimentosYesterday = (row, array, objPush) => {
+    row.forEach((alimentos) => {
+        const { id, cantidad, nombre } = alimentos;
+
+        if (id) {
+            const newArray1 = [
+                array[0],
+                id.id,
+                nombre,
+                cantidad,
+                id.cantidadAlimento.pesoNeto,
+                dayjs(array[1]).format('DD/MM/YYYY'),
+                ...normalizeYesterdayByQuantity(id),
+            ];
+            objPush.push(newArray1);
+        }
+    });
 };
