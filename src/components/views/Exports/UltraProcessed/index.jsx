@@ -138,7 +138,7 @@ const UltraProcessed = ({ selected = false, setLoading, users }) => {
             });
 
             setUsersData(usersAux);
-            console.log(usersAux);
+            
             setFoodReady(true);
         } catch (error) {
             handleCancel();
@@ -153,7 +153,7 @@ const UltraProcessed = ({ selected = false, setLoading, users }) => {
         console.log('Armando los datos de exportación...');
         try {
             const rows = getRowValues(usersData);
-            //console.log(rows);
+            
             const unified = unifyGroups(rows);
 
             if (isEmptyArray(unified)) {

@@ -65,13 +65,6 @@ const [exportData, setExportData] = useState(null);
         yesterday && createExportData();
     }, [yesterday]);
 
-    // useEffect(() => {
-    //     selected && createExportData();
-    //     return () => {
-    //         setLoading(false);
-    //     };
-    // }, [selected]);
-
     const getExportData= async () => {
       
       console.log('Obteniendo datos de exportación...');
@@ -89,7 +82,7 @@ const [exportData, setExportData] = useState(null);
         handleCancel();
         return;
     }
-      //console.log(data);
+      
       data.forEach((row) => {
         
         const {
@@ -102,89 +95,14 @@ const [exportData, setExportData] = useState(null);
         } = row;
         const array = [usuario, createdAt];
         
-        //console.log(alimentos);
+       
         normalizeAlimentosYesterday(cenaAyer, array, objPush);
         normalizeAlimentosYesterday(colacion1Ayer, array, objPush);
         normalizeAlimentosYesterday(colacion2Ayer, array, objPush);
         normalizeAlimentosYesterday(comidaAyer, array, objPush);
         normalizeAlimentosYesterday(desayunoAyer, array, objPush);
         
-        //console.log(objPush);
-        // cenaAyer.forEach((alimentos) => {
-        //   const { id, cantidad, nombre } = alimentos;
-        //   if (id) {
-        //     const newArray2 = [
-        //       usuario,
-        //       id.id, 
-        //       nombre, 
-        //       cantidad, 
-        //       id.cantidadAlimento.pesoNeto, 
-        //       dayjs(createdAt).format("DD/MM/YYYY"),
-        //       ...normalizeYesterdayByQuantity(id),
-        //     ];
-        //     objPush.push(newArray2);
-        //   }
-        // });
-        // colacion1Ayer.forEach((alimentos) => {
-        //   const { id, cantidad, nombre } = alimentos;
-        //   if (id) {
-        //     const newArray2 = [
-        //       usuario,
-        //       id.id, 
-        //       nombre, 
-        //       cantidad, 
-        //       id.cantidadAlimento.pesoNeto, 
-        //       dayjs(createdAt).format("DD/MM/YYYY"),
-        //       ...normalizeYesterdayByQuantity(id),
-        //     ];
-        //     objPush.push(newArray2);
-        //   }
-        // });
-        // colacion2Ayer.forEach((alimentos) => {
-        //   const { id, cantidad, nombre } = alimentos;
-        //   if (id) {
-        //     const newArray3 = [
-        //       usuario,
-        //       id.id, 
-        //       nombre, 
-        //       cantidad, 
-        //       id.cantidadAlimento.pesoNeto, 
-        //       dayjs(createdAt).format("DD/MM/YYYY"),
-        //       ...normalizeYesterdayByQuantity(id),
-        //     ];
-        //     objPush.push(newArray3);
-        //   }
-        // });
-        // comidaAyer.forEach((alimentos) => {
-        //   const { id, cantidad, nombre } = alimentos;
-        //   if (id) {
-        //     const newArray4 = [
-        //       usuario,
-        //       id.id, 
-        //       nombre, 
-        //       cantidad, 
-        //       id.cantidadAlimento.pesoNeto, 
-        //       dayjs(createdAt).format("DD/MM/YYYY"),
-        //       ...normalizeYesterdayByQuantity(id),
-        //     ];
-        //     objPush.push(newArray4);
-        //   }
-        // });
-        // desayunoAyer.forEach((alimentos) => {
-        //   const { id, cantidad, nombre } = alimentos;
-        //   if (id) {
-        //     const newArray5 = [
-        //       usuario,
-        //       id.id, 
-        //       nombre, 
-        //       cantidad, 
-        //       id.cantidadAlimento.pesoNeto, 
-        //       dayjs(createdAt).format("DD/MM/YYYY"),
-        //       ...normalizeYesterdayByQuantity(id),
-        //     ];
-        //     objPush.push(newArray5);
-        //   }
-        // });
+
         
       });
       console.log(objPush);
@@ -192,7 +110,6 @@ const [exportData, setExportData] = useState(null);
         rows.push(row);
       });
       setYesterday(rows);
-      //console.log(rows)
     } catch (error) {
       message.error('Error al obtener los datos');
       console.groupCollapsed('[Exports] getExportData');
@@ -204,21 +121,16 @@ const [exportData, setExportData] = useState(null);
     const createExportData = () => {
       console.log('Armando los datos de exportación...');
       try {
-        //console.log(yesterday);
-        //const rows = yesterday;
-        //console.log(rows);
-        //const unified = unifyGroups(rows);
-        //console.log(rows);
+        
 
         if(isEmptyArray(yesterday)){
           message.info('No hay datos para exportar');
           handleCancel();
           return;
         }
-        //console.log(yesterday);
-        //const csvRowsPreview = generateCsvRowsYesterday(yesterday);
+        
         const cvsRows =  yesterday;
-        //console.log(cvsRows);
+       
         const finalColumns = getFinalColumns(columns, 1);
 
         setColumns(finalColumns);

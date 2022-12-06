@@ -10,7 +10,6 @@ import groups from "../../data/excelGroups";
 const useData = ({ selected, type, onCancel }) => {
   const [exportData, setExportData] = useState(null);
   const [foodReady, setFoodReady] = useState(false);
-  const [yesterday, setYesterday] = useState([]);
 
   const getExportData = async () => {
     console.log("Obteniendo datos de exportación...");
