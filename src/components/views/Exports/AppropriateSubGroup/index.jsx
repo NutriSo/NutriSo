@@ -28,6 +28,7 @@ import {
     unifyGroups,
     generateFinalCsvRows,
     getFinalColumns,
+    normalizeDataByDateAndUser,
 } from '../utils';
 import { isEmptyArray } from '../../../../utils';
 
@@ -159,7 +160,8 @@ const AppropriateSubGroup = ({ selected = false, setLoading, users }) => {
                 return;
             }
 
-            const csvRowsPreview = generateCsvRows(unified, 4);
+            const totales = normalizeDataByDateAndUser(unified);
+            const csvRowsPreview = generateCsvRows(totales, 4);
             const cvsRows = generateFinalCsvRows(
                 csvRowsPreview,
                 keys.subGrupoAdecuada,

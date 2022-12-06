@@ -115,7 +115,7 @@ const Consulta = ({ onClick }) => {
         try {
             console.log('getExportData');
             const foodArrayInfo = await Promise.all(
-                data.map(async (food) => await getFoodData(food.id))
+                allData.map(async (food) => await getFoodData(food.id))
             );
 
             foodArrayInfo.forEach((food, foodIndex) => {
@@ -246,7 +246,7 @@ const Consulta = ({ onClick }) => {
 
                 setExportedData((prevState) => [...prevState, newData]);
 
-                if (foodIndex === data.length - 1) {
+                if (foodIndex === allData.length - 1) {
                     setFileReady(true);
                 }
             });
