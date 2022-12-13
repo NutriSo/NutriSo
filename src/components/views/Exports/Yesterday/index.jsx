@@ -20,10 +20,11 @@ import {
   getFinalColumns,
   normalizeYesterdayByQuantity,
   normalizeAlimentosYesterday,
+  generateFinalCsvRows,
 } from '../utils';
 
 
-const Yesterday = ({selected = false, setLoading}) => {
+const Yesterday = ({selected = false, setLoading, users}) => {
 const [exportData, setExportData] = useState(null);
   const [fileReady, setFileReady] = useState(false);
   
@@ -75,14 +76,14 @@ const [exportData, setExportData] = useState(null);
       const objPush = [];
       
       const { data } = await apiURL.get("alimentacionUsuarios/yesterday");
-      console.log({data});
+      //console.log({users});
       
       if (data?.length <= 0) {
         message.error('No hay datos para exportar');
         handleCancel();
         return;
     }
-      
+    
       data.forEach((row) => {
         
         const {
@@ -105,9 +106,10 @@ const [exportData, setExportData] = useState(null);
 
         
       });
-      console.log(objPush);
+      
       objPush.forEach((row) => {
         rows.push(row);
+        
       });
       setYesterday(rows);
     } catch (error) {
@@ -130,7 +132,7 @@ const [exportData, setExportData] = useState(null);
         }
         
         const cvsRows =  yesterday;
-       
+        console.log({cvsRows});
         const finalColumns = getFinalColumns(columns, 1);
 
         setColumns(finalColumns);

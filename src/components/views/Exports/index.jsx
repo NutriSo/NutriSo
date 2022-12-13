@@ -122,7 +122,9 @@ const Exports = () => {
                             />
                         )}
                         {getIsSelected(selected, 9, index) && (
-                            <Yesterday selected={selected[9]} setLoading={setLoading} />
+                            <Yesterday selected={selected[9]} 
+                                       setLoading={setLoading}
+                                       users={uniqueUserIds} />
                         )}
                         {selected[index] === false && (
                             <Button onClick={() => handleClick(index)}>

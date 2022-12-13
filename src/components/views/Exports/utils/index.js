@@ -1579,8 +1579,8 @@ export const getPropSum = (firstProp, secondProp, consumption) => {
 };
 
 export const getRowValues = (data) => {
-  if (isInvalidElem(data)) return [];
-  
+    if (isInvalidElem(data)) return [];
+
     const limpio = data.map((elem) => {
         const { fechaRegistro, idParticipante, idRegistro, ...rest } = elem;
 
@@ -1598,8 +1598,8 @@ export const getRowValues = (data) => {
 };
 
 export const getRowValuesYesterday = (data) => {
-  if (isInvalidElem(data)) return [];
-  
+    if (isInvalidElem(data)) return [];
+
     const limpio = data.map((elem) => {
         const { usuario, createdAt, ...rest } = elem;
 
@@ -1611,7 +1611,7 @@ export const getRowValuesYesterday = (data) => {
             ...normalizedValues[0],
         };
     });
-  
+
     return limpio;
 };
 
@@ -1695,8 +1695,8 @@ export const unifyArrays = (data) => {
 };
 
 export const unifyGroups = (data) => {
-  if (isInvalidElem(data)) return [];
-  
+    if (isInvalidElem(data)) return [];
+
     const result = data.map((elem) => {
         const { values, ...rest } = elem;
 
@@ -1720,7 +1720,7 @@ export const unifyGroups = (data) => {
             gruopsMapped.push(grupo);
             newValues.push(el);
         });
-      
+
         return { ...rest, values: newValues };
     });
 
@@ -2879,7 +2879,6 @@ const createPropertyWhileNotObject = (objRef, params) => {
     ) {
         objRef[key] = firstObj[key] + ', ' + secondObj[key];
     } else if (isQuantity(key)) {
-        // objRef[key] = String(firstValue + secondValue);
         console.log('cantidad', { firstValue, secondValue, esNum1, esNum2 });
     } else {
         objRef[key] = firstObj[key];
@@ -2949,20 +2948,16 @@ export const generateCsvRowsYesterday = (data) => {
     return rows;
 };
 
-export const generateFinalCsvRowsByDay = (data) => {
+export const generateFinalCsvRowsByDay = (data, type, users) => {
     const tempFirstsValues = [];
     const tempRows = [];
     const rowsAsStrings = [];
-
-    const participants = new Set([...data.map((elem) => elem.idParticipante)]);
-    const copyParticipants = [...participants];
 
     data.forEach((row) => {
         const { fechaRegistro, idParticipante, idRegistro } = row;
         const newRegister = normalizePropsByDayOrder(row);
 
-        const idIndex = copyParticipants.findIndex((elem) => elem === idParticipante);
-
+        const idIndex = users.findIndex((e) => e === idParticipante);
         tempRows.push(newRegister);
         if (idIndex === -1) {
             tempFirstsValues.push({
@@ -2998,10 +2993,9 @@ export const generateFinalCsvRowsByDay = (data) => {
     return rowsAsStrings;
 };
 
-
 export const normalizeYesterdayByQuantity = (data) => {
-  if (isEmptyObject(data)) return {};
-  
+    if (isEmptyObject(data)) return {};
+
     const {
         id,
         sku,
