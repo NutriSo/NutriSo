@@ -3242,18 +3242,11 @@ export const generateFinalCsvRowsByDay = (data, type, users) => {
   const tempFirstsValues = [];
   const tempRows = [];
   const rowsAsStrings = [];
-  const uniqueIds = new Set([...data.map((elem) => elem.idRegistro)]);
-
-  const participants = new Set([...data.map((elem) => elem.idParticipante)]);
-  const copyParticipants = [...participants];
 
   data.forEach((row) => {
     const { fechaRegistro, idParticipante, idRegistro } = row;
     const newRegister = normalizePropsByDayOrder(row);
 
-    // const idIndex = copyParticipants.findIndex(
-    //   (elem) => elem === idParticipante
-    // );
     const idIndex = users.findIndex((e) => e === idParticipante);
     tempRows.push(newRegister);
     if (idIndex === -1) {
@@ -3271,7 +3264,7 @@ export const generateFinalCsvRowsByDay = (data, type, users) => {
       2: fechaRegistro,
     });
   });
-  console.log(tempFirstsValues);
+
   Object.values(tempRows).forEach((rowObject, index) => {
     const auxRow = [];
     Object.values(rowObject).forEach((rowValue) => {
