@@ -17,7 +17,6 @@ import * as bioactives from '../data/bioactives';
 import * as additives from '../data/additives';
 import * as extraColumns2 from '../data/extraColumns';
 import * as food from '../data/foodGroups';
-import groups from '../data/excelGroups';
 import keys from '../data/excelKeys';
 import {
     getRowValues,
@@ -25,11 +24,10 @@ import {
     unifyGroups,
     generateFinalCsvRows,
     getFinalColumns,
-    getSumByDay,
     normalizeDataByDateAndUser,
 } from '../utils';
 
-const UltraProcessed = ({ selected = false, setLoading, users }) => {
+const UltraProcessed = ({ selected = false, setLoading, users, groupNames }) => {
     const [columns, setColumns] = useState([
         ...baseColumns,
         ...food.groupColumns0,
@@ -97,12 +95,9 @@ const UltraProcessed = ({ selected = false, setLoading, users }) => {
 
             const totales = normalizeDataByDateAndUser(unified);
             const csvRowsPreview = generateCsvRows(totales, 3);
-            const cvsRows = generateFinalCsvRows(csvRowsPreview, keys.ultraProcesados, users);
+            const cvsRows = generateFinalCsvRows(csvRowsPreview, groupNames, users);
 
-            const finalColumns = getFinalColumns(
-                columns,
-                groups[keys.ultraProcesados].length
-            );
+            const finalColumns = getFinalColumns(columns, groupNames.length);
 
             setColumns(finalColumns);
             setExportData(cvsRows);

@@ -119,6 +119,7 @@ const Exports = () => {
                                 selected={selected[2]}
                                 setLoading={setLoading}
                                 users={uniqueUserIds}
+                                groupNames={groupNames[keys.grupoExportable]}
                             />
                         )}
                         {getIsSelected(selected, 3, index) && (
@@ -126,6 +127,7 @@ const Exports = () => {
                                 selected={selected[3]}
                                 setLoading={setLoading}
                                 users={uniqueUserIds}
+                                groupNames={groupNames[keys.subGrupoExportable]}
                             />
                         )}
                         {getIsSelected(selected, 4, index) && (
@@ -133,6 +135,7 @@ const Exports = () => {
                                 selected={selected[4]}
                                 setLoading={setLoading}
                                 users={uniqueUserIds}
+                                groupNames={groupNames[keys.ultraProcesados]}
                             />
                         )}
                         {getIsSelected(selected, 5, index) && (
@@ -140,6 +143,7 @@ const Exports = () => {
                                 selected={selected[5]}
                                 setLoading={setLoading}
                                 users={uniqueUserIds}
+                                groupNames={groupNames[keys.subGrupoAdecuada]}
                             />
                         )}
 
@@ -148,6 +152,7 @@ const Exports = () => {
                                 selected={selected[6]}
                                 setLoading={setLoading}
                                 users={uniqueUserIds}
+                                groupNames={groupNames[keys.smae]}
                             />
                         )}
                         {getIsSelected(selected, 7, index) && <div />}

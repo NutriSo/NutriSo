@@ -1,5 +1,6 @@
 import { isEmptyObject } from '@/utils';
 
+import { KG } from '../../constants';
 import { getPropSum } from './shared';
 
 const normalizeSumByUltraProcessed = (prevData, newData) => {

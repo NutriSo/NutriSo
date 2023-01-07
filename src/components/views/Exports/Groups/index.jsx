@@ -17,7 +17,6 @@ import * as bioactives from '../data/bioactives';
 import * as additives from '../data/additives';
 import * as extraColumns2 from '../data/extraColumns';
 import * as food from '../data/foodGroups';
-import groups from '../data/excelGroups';
 import keys from '../data/excelKeys';
 import {
     getRowValues,
@@ -28,7 +27,7 @@ import {
     normalizeDataByDateAndUser,
 } from '../utils';
 
-const Groups = ({ selected = false, setLoading, users }) => {
+const Groups = ({ selected = false, setLoading, users, groupNames }) => {
     const [columns, setColumns] = useState([
         ...baseColumns,
         ...food.groupColumns0,
@@ -96,12 +95,9 @@ const Groups = ({ selected = false, setLoading, users }) => {
 
             const totales = normalizeDataByDateAndUser(unified);
             const csvRowsPreview = generateCsvRows(totales);
-            const cvsRows = generateFinalCsvRows(csvRowsPreview, keys.grupoExportable, users);
+            const cvsRows = generateFinalCsvRows(csvRowsPreview, groupNames, users);
 
-            const finalColumns = getFinalColumns(
-                columns,
-                groups[keys.grupoExportable].length
-            );
+            const finalColumns = getFinalColumns(columns, groupNames.length);
 
             setColumns(finalColumns);
             setExportData(cvsRows);

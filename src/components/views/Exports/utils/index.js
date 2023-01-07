@@ -271,7 +271,7 @@ export const generateCsvRows = (data, type) => {
     return rows;
 };
 
-export const generateFinalCsvRows = (data, type, users) => {
+export const generateFinalCsvRows = (data, groupNames, users) => {
     const rows = [];
     const uniqueIds = new Set([...data.map((elem) => elem.idRegistro)]);
 
@@ -337,7 +337,7 @@ export const generateFinalCsvRows = (data, type, users) => {
     tempRows.forEach((elem, index) => {
         const tempAux = tempGroups[index];
 
-        const zeroArray = groups[type].map((group) => caseGetZeroData(group));
+        const zeroArray = groupNames.map((group) => caseGetZeroData(group));
 
         const indexes = [];
 
@@ -353,40 +353,8 @@ export const generateFinalCsvRows = (data, type, users) => {
             indexes.push(zeroIndex);
         });
 
-        tempRows.forEach((elem, index) => {
-            const tempAux = tempGroups[index];
-
-            const zeroArray = groups[type].map((group) => caseGetZeroData(group));
-
-            const indexes = [];
-
-            tempAux.forEach((temp) => {
-                const groupName = temp[0];
-                const zeroIndex = zeroArray.findIndex((e) => e[0] === groupName);
-
-                if (zeroIndex === -1) {
-                    return;
-                }
-
-                indexes.push(zeroIndex);
-            });
-
-            indexes.forEach((index, innerIndex) => {
-                zeroArray[index] = tempAux[innerIndex];
-            });
-
-            const rowToPush = [];
-
-            elem.forEach((value) => {
-                const isArray = Array.isArray(value);
-
-                if (!isArray) {
-                    rowToPush.push(value);
-                }
-            });
-
-            rowToPush.push(...zeroArray.flat());
-            finalRows.push(rowToPush);
+        indexes.forEach((index, innerIndex) => {
+            zeroArray[index] = tempAux[innerIndex];
         });
 
         const rowToPush = [];
@@ -532,7 +500,7 @@ export const normalizeDataByDateAndUser = (data) => {
             found.values.forEach((grupo) => {
                 const { values } = grupo;
 
-                values.forEach((alimento) => {
+                values?.forEach((alimento) => {
                     suma = sumObjectValues(suma, alimento);
                 });
             });
