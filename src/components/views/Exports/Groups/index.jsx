@@ -25,7 +25,6 @@ import {
     unifyGroups,
     generateFinalCsvRows,
     getFinalColumns,
-    getSumByDay,
     normalizeDataByDateAndUser,
 } from '../utils';
 
@@ -117,8 +116,6 @@ const Groups = ({ selected = false, setLoading, users }) => {
             console.groupEnd();
         }
     };
-
-    // return <div />;
 
     return (
         <CustomExport
