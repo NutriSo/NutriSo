@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { Form, Input, Button, message, Row } from 'antd';
 import { LoginOutlined } from '@ant-design/icons';
 
-import apiURL from '@/axios/axiosConfig';
+import apiURL from '../../../../axios/axiosConfig';
 import { addAuthorizationAction } from '@/redux/actions/authorizationAction';
 
 import '../Login.scss';
