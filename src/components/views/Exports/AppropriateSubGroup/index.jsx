@@ -32,7 +32,7 @@ import {
 } from '../utils';
 import { isEmptyArray } from '../../../../utils';
 
-const AppropriateSubGroup = ({ selected = false, setLoading, users }) => {
+const AppropriateSubGroup = ({ selected = false, setLoading, users, groupNames }) => {
     const [columns, setColumns] = useState([
         ...baseColumns,
         ...groupColumns,
@@ -162,15 +162,8 @@ const AppropriateSubGroup = ({ selected = false, setLoading, users }) => {
 
             const totales = normalizeDataByDateAndUser(unified);
             const csvRowsPreview = generateCsvRows(totales, 4);
-            const cvsRows = generateFinalCsvRows(
-                csvRowsPreview,
-                keys.subGrupoAdecuada,
-                users
-            );
-            const finalColumns = getFinalColumns(
-                columns,
-                groups[keys.subGrupoAdecuada].length
-            );
+            const cvsRows = generateFinalCsvRows(csvRowsPreview, groupNames, users);
+            const finalColumns = getFinalColumns(columns, groupNames.length);
 
             setColumns(finalColumns);
             setExportData(cvsRows);

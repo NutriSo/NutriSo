@@ -5,6 +5,8 @@ import { Button, message } from 'antd';
 import apiURL from '@/axios/axiosConfig';
 import Loading from '@/components/commons/Loading';
 
+import exportService from '../../../services/exports/groupNames';
+
 import DietReg from './DietReg';
 import Demographics from './Demographics';
 import Groups from './Groups';
@@ -14,9 +16,10 @@ import AppropriateSubGroup from './AppropriateSubGroup';
 import GroupsByDay from './GroupsByDay';
 import Yesterday from './Yesterday';
 import Smae from './SMAE';
-
 import { getIsSelected } from './utils';
+import getNormalizedGroupNames from './utils/adapters/groupNames';
 import { opciones, initialState } from './data';
+import keys from './data/excelKeys';
 
 import './Exports.scss';
 
@@ -24,6 +27,7 @@ const Exports = () => {
     const [registers, setRegisters] = useState([]);
     const [selected, setSelected] = useState(initialState);
     const [loading, setLoading] = useState(false);
+    const [groupNames, setGroupNames] = useState([]);
 
     const uniqueUserIds = useMemo(() => {
         const ids = registers.map((item) => item.usuario);
@@ -45,6 +49,38 @@ const Exports = () => {
         }
     };
 
+    const getGroupNames = async () => {
+        try {
+            const groupsNames = await exportService.getGroupNames();
+            const subGroupsNames = await exportService.getSubGroupNames();
+            const ultraProcessedNames = await exportService.getUltraProcessedNames();
+            const appropriateSubGroupsNames =
+                await exportService.getAppropriateSubGroupNames();
+            const smaeNames = await exportService.getSMAEGroupNames();
+
+            const [groups, subGroups, ultraProcessed, appropriated, smae] =
+                getNormalizedGroupNames([
+                    groupsNames,
+                    subGroupsNames,
+                    ultraProcessedNames,
+                    appropriateSubGroupsNames,
+                    smaeNames,
+                ]);
+
+            const data = {
+                [keys.grupoExportable]: groups,
+                [keys.subGrupoExportable]: subGroups,
+                [keys.ultraProcesados]: ultraProcessed,
+                [keys.subGrupoAdecuada]: appropriated,
+                [keys.smae]: smae,
+            };
+
+            setGroupNames(data);
+        } catch (error) {
+            message.error('Ocurrió un error al obtener los nombres de los grupos');
+        }
+    };
+
     useEffect(() => {
         if (!loading) {
             setSelected(initialState);
@@ -53,6 +89,7 @@ const Exports = () => {
 
     useEffect(() => {
         getRegisters();
+        getGroupNames();
         return () => {
             setSelected(initialState);
             setLoading(false);
@@ -82,6 +119,7 @@ const Exports = () => {
                                 selected={selected[2]}
                                 setLoading={setLoading}
                                 users={uniqueUserIds}
+                                groupNames={groupNames[keys.grupoExportable]}
                             />
                         )}
                         {getIsSelected(selected, 3, index) && (
@@ -89,6 +127,7 @@ const Exports = () => {
                                 selected={selected[3]}
                                 setLoading={setLoading}
                                 users={uniqueUserIds}
+                                groupNames={groupNames[keys.subGrupoExportable]}
                             />
                         )}
                         {getIsSelected(selected, 4, index) && (
@@ -96,6 +135,7 @@ const Exports = () => {
                                 selected={selected[4]}
                                 setLoading={setLoading}
                                 users={uniqueUserIds}
+                                groupNames={groupNames[keys.ultraProcesados]}
                             />
                         )}
                         {getIsSelected(selected, 5, index) && (
@@ -103,6 +143,7 @@ const Exports = () => {
                                 selected={selected[5]}
                                 setLoading={setLoading}
                                 users={uniqueUserIds}
+                                groupNames={groupNames[keys.subGrupoAdecuada]}
                             />
                         )}
 
@@ -111,6 +152,7 @@ const Exports = () => {
                                 selected={selected[6]}
                                 setLoading={setLoading}
                                 users={uniqueUserIds}
+                                groupNames={groupNames[keys.smae]}
                             />
                         )}
                         {getIsSelected(selected, 7, index) && <div />}
@@ -122,9 +164,11 @@ const Exports = () => {
                             />
                         )}
                         {getIsSelected(selected, 9, index) && (
-                            <Yesterday selected={selected[9]} 
-                                       setLoading={setLoading}
-                                       users={uniqueUserIds} />
+                            <Yesterday
+                                selected={selected[9]}
+                                setLoading={setLoading}
+                                users={uniqueUserIds}
+                            />
                         )}
                         {selected[index] === false && (
                             <Button onClick={() => handleClick(index)}>
@@ -134,7 +178,6 @@ const Exports = () => {
                     </div>
                 ))}
             </div>
-            <div style={{ display: 'none' }} />
         </>
     );
 };
