@@ -3,13 +3,13 @@ import { isInvalidElem } from '@/utils';
 import caseSumValues from './caseSumValues';
 import caseGetValuesByConsumption from './caseGetValuesByConsumption';
 
-const getIsCurrentObjectAlreadyIterated = (source, date, userId) => {
+const getCurrentObjectHasAlreadyBeenIterated = (source, date, userId) => {
     return source.some(
         (element) => element.fechaRegistro === date && element.idParticipante === userId
     );
 };
 
-const getCurrentObjectToModify = (source, date, userId) => {
+const getIndexObjectToModify = (source, date, userId) => {
     return source.findIndex(
         (element) => element.fechaRegistro === date && element.idParticipante === userId
     );
@@ -39,14 +39,14 @@ const normalizeIndividualSumsByDateAndUser = (data) => {
     data.forEach((row) => {
         const { fechaRegistro, idParticipante } = row;
 
-        const alreadyIterated = getIsCurrentObjectAlreadyIterated(
+        const alreadyIterated = getCurrentObjectHasAlreadyBeenIterated(
             result,
             fechaRegistro,
             idParticipante
         );
 
         if (alreadyIterated) {
-            const elementIndex = getCurrentObjectToModify(
+            const elementIndex = getIndexObjectToModify(
                 result,
                 fechaRegistro,
                 idParticipante
