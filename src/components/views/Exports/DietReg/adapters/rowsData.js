@@ -38,6 +38,7 @@ const getRowsDataStructure = (data) => {
         hidratosDeCarbono: Number(food.caloriasMacronutrientes.hidratosDeCarbono * quantity),
         fibra: Number(food.caloriasMacronutrientes.fibra * quantity),
         fibraInsoluble: Number(food.caloriasMacronutrientes.fibraInsoluble * quantity),
+        fibraSoluble: Number(food.caloriasMacronutrientes.fibraSoluble * quantity),
         azucar: Number(food.caloriasMacronutrientes.azucar * quantity),
         etanol: Number(food.caloriasMacronutrientes.etanol * quantity),
         tiamina: Number(food.vitaminas.tiamina * quantity),
@@ -68,18 +69,14 @@ const getRowsDataStructure = (data) => {
         factorDeCorreccionParaHuellaHidricaYEGEI: factor,
         tipo: food.aspectoMedioambiental.tipo,
         lugar: food.aspectoMedioambiental.lugar,
-        huellaHidricaTotal: Number(
-            Number(food.aspectoMedioambiental.huellaHidricaTotal * quantity) * factor
-        ),
-        huellaHidricaVerde: Number(
-            Number(food.aspectoMedioambiental.huellaHidricaVerde * quantity) * factor
-        ),
-        huellaHidricaAzul: Number(
-            Number(food.aspectoMedioambiental.huellaHidricaAzul * quantity) * factor
-        ),
-        huellaHidricaGris: Number(
-            Number(food.aspectoMedioambiental.huellaHidricaGris * quantity) * factor
-        ),
+        huellaHidricaTotal:
+            Number(food.aspectoMedioambiental.huellaHidricaTotal * quantity) * factor,
+        huellaHidricaVerde:
+            Number(food.aspectoMedioambiental.huellaHidricaVerde * quantity) * factor,
+        huellaHidricaAzul:
+            Number(food.aspectoMedioambiental.huellaHidricaAzul * quantity) * factor,
+        huellaHidricaGris:
+            Number(food.aspectoMedioambiental.huellaHidricaGris * quantity) * factor,
         aguaParaLavado: washingValue, // revisar abajo
         aguaParaCoccion: cookingValue,
         lugarEGEI: food.aspectoMedioambiental.lugarEGEI,

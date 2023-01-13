@@ -138,6 +138,12 @@ export const columns = [
         width: 30,
     },
     {
+        title: 'Fibra soluble (g)',
+        dataIndex: 'fibraSoluble',
+        key: 'fibraSoluble',
+        width: 30,
+    },
+    {
         title: 'Azúcar (g)',
         dataIndex: 'azucar',
         key: 'azucar',
@@ -309,6 +315,12 @@ export const columns = [
         title: 'Tipo',
         dataIndex: 'tipo',
         key: 'tipo',
+        width: 30,
+    },
+    {
+        title: 'Lugar',
+        dataIndex: 'lugar',
+        key: 'lugar',
         width: 30,
     },
     {
