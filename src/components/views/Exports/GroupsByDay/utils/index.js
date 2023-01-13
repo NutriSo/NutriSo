@@ -9,82 +9,71 @@ const getIsCurrentObjectAlreadyIterated = (source, date, userId) => {
     );
 };
 
-const normalizeDataByDateAndUser = (data) => {
+const getCurrentObjectToModify = (source, date, userId) => {
+    return source.findIndex(
+        (element) => element.fechaRegistro === date && element.idParticipante === userId
+    );
+};
+
+const getObjectValuesSum = (source, currentSum) => {
+    let newSum = currentSum;
+
+    source.forEach((group) => {
+        const foodData = group.values;
+
+        foodData?.forEach((food) => {
+            newSum = caseSumValues(newSum, food);
+        });
+    });
+
+    return newSum;
+};
+
+const normalizeIndividualSumsByDateAndUser = (data) => {
     if (isInvalidElem(data)) {
         return [];
     }
 
-    const iteratedObjects = [];
+    const result = [];
 
     data.forEach((row) => {
         const { fechaRegistro, idParticipante } = row;
 
         const alreadyIterated = getIsCurrentObjectAlreadyIterated(
-            iteratedObjects,
+            result,
             fechaRegistro,
             idParticipante
         );
 
         if (alreadyIterated) {
-            const found = iteratedObjects.find(
-                (ite) =>
-                    ite.fechaRegistro === fechaRegistro &&
-                    ite.idParticipante === idParticipante
+            const elementIndex = getCurrentObjectToModify(
+                result,
+                fechaRegistro,
+                idParticipante
             );
+            const element = result[elementIndex];
 
-            let currentSum = {};
+            const firstSum = getObjectValuesSum(row.values, {});
+            const secondSum = getObjectValuesSum(element.values, firstSum);
 
-            row.values.forEach((grupo) => {
-                const { values } = grupo;
-
-                values.forEach((alimento) => {
-                    currentSum = caseSumValues(currentSum, alimento);
-                });
-            });
-
-            found.values.forEach((grupo) => {
-                const { values } = grupo;
-
-                values?.forEach((alimento) => {
-                    currentSum = caseSumValues(currentSum, alimento);
-                });
-            });
-
-            found.values = [currentSum];
-            return;
+            result[elementIndex].values = [secondSum];
+        } else {
+            result.push(row);
         }
-
-        iteratedObjects.push(row);
     });
-    console.log(iteratedObjects);
-    return iteratedObjects;
+
+    return result;
 };
 
-const getSumByDay = (data) => {
-    if (isInvalidElem(data)) {
-        return [];
-    }
-
-    const normalizedData = caseGetValuesByConsumption(data);
-
-    const iteratedObjects = normalizeDataByDateAndUser(normalizedData);
-
-    iteratedObjects.forEach((row) => {
+const getUnifiedObjectValuesSum = (data) => {
+    const result = data.map((row) => {
         const elements = row.values;
-        const hasMoreThanOneElement = elements.length > 1;
+        const hasMoreThanOneFoodInResult = elements.length > 1;
 
-        if (hasMoreThanOneElement) {
-            let suma = {};
+        if (hasMoreThanOneFoodInResult) {
+            const foodValuesSum = getObjectValuesSum(elements, {});
 
-            elements.forEach((grupo) => {
-                const { values } = grupo;
-
-                values.forEach((alimento) => {
-                    suma = caseSumValues(suma, alimento);
-                });
-            });
-
-            row.values = [suma];
+            row.values = [foodValuesSum];
         } else {
             const hasValuesProperty = elements[0].hasOwnProperty('values');
 
@@ -94,9 +83,22 @@ const getSumByDay = (data) => {
                 row.values = elements;
             }
         }
+        return row;
     });
 
-    return iteratedObjects;
+    return result;
+};
+
+const getSumByDay = (data) => {
+    if (isInvalidElem(data)) {
+        return [];
+    }
+
+    const normalizedData = caseGetValuesByConsumption(data);
+
+    const csvData = normalizeIndividualSumsByDateAndUser(normalizedData);
+
+    return getUnifiedObjectValuesSum(csvData);
 };
 
 export default getSumByDay;

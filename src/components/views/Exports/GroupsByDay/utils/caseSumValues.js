@@ -68,7 +68,7 @@ const createPropertyWhileNotObject = (objRef, params) => {
         objRef[key] = firstObj[key];
     }
 };
-
+// Verify how to sum the values of the objects with factor property
 const sumObjectValues = (firstObj, secondObj) => {
     const result = {};
 
