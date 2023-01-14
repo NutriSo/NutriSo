@@ -18,7 +18,6 @@ import * as bioactives from '../data/bioactives';
 import * as additives from '../data/additives';
 import keys from '../data/excelKeys';
 import {
-    getSumByDay,
     unifyGroups,
     getRowValues,
     generateCsvRowsByDay,
@@ -26,7 +25,9 @@ import {
     generateFinalCsvRowsByDay,
 } from '../utils';
 
-const GroupsByDay = ({ selected = false, setLoading , users}) => {
+import getSumByDay from './utils';
+
+const GroupsByDay = ({ selected = false, setLoading, users }) => {
     const [columns, setColumns] = useState([
         ...baseColumns,
         ...calories.caloriasMacronutrientes0,
@@ -82,9 +83,8 @@ const GroupsByDay = ({ selected = false, setLoading , users}) => {
         console.log('Armando los datos de exportación...');
         try {
             const rows = getRowValues(useDataHook.exportData);
-            
+
             const unified = unifyGroups(rows);
-            
 
             if (isEmptyArray(unified)) {
                 message.info('No hay datos para exportar');
@@ -93,18 +93,17 @@ const GroupsByDay = ({ selected = false, setLoading , users}) => {
             }
 
             const totales = getSumByDay(unified);
-            console.log(totales)
-            const csvRowsPreview = generateCsvRowsByDay(totales);
-            const cvsRows = generateFinalCsvRowsByDay(csvRowsPreview, keys.grupoExportable, users);
-            //console.log(users)
-            //console.log('cvsRows', cvsRows);
-            const finalColumns = getFinalColumnsByDay(columns, 1);
 
-            setColumns(finalColumns);
-            setExportData(cvsRows);
-            setTimeout(() => {
-                onFileReady();
-            }, 1000);
+            // const csvRowsPreview = generateCsvRowsByDay(totales);
+            // const cvsRows = generateFinalCsvRowsByDay(csvRowsPreview, keys.grupoExportable, users);
+
+            // const finalColumns = getFinalColumnsByDay(columns, 1);
+
+            // setColumns(finalColumns);
+            // setExportData(cvsRows);
+            // setTimeout(() => {
+            //     onFileReady();
+            // }, 1000);
         } catch (error) {
             handleCancel();
             message.error('Ocurrió un error al armar los datos para exportar');
@@ -114,7 +113,7 @@ const GroupsByDay = ({ selected = false, setLoading , users}) => {
         }
     };
 
-    // return <div />;
+    return <div />;
 
     return (
         <CustomExport

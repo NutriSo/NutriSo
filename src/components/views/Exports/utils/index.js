@@ -512,45 +512,6 @@ export const normalizeDataByDateAndUser = (data) => {
     return objetosIterados;
 };
 
-export const getSumByDay = (data) => {
-    if (isInvalidElem(data)) {
-        return [];
-    }
-
-    const normalizedData = normalizeValuesByConsumption(data);
-
-    const objetosIterados = normalizeDataByDateAndUser(normalizedData);
-
-    objetosIterados.forEach((row) => {
-        const elements = row.values;
-        const hasMoreThanOneElement = elements.length > 1;
-
-        if (hasMoreThanOneElement) {
-            let suma = {};
-
-            elements.forEach((grupo) => {
-                const { values } = grupo;
-
-                values.forEach((alimento) => {
-                    suma = sumObjectValues(suma, alimento);
-                });
-            });
-
-            row.values = [suma];
-        } else {
-            const hasValuesProperty = elements[0].hasOwnProperty('values');
-
-            if (hasValuesProperty) {
-                row.values = elements[0].values;
-            } else {
-                row.values = elements;
-            }
-        }
-    });
-
-    return objetosIterados;
-};
-
 const createPropertyWhileObject = (objRef, params) => {
     const [firstObj, secondObj, key] = params;
     const tempObj = {};

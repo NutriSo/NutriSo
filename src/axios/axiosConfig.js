@@ -14,7 +14,7 @@ instance.interceptors.request.use(async (config) => {
 
     config.headers.common['Authorization'] = `Bearer ${token}`;
     config.headers.common['Content-Type'] = 'application/json';
-    //console.log('Config: ', config);
+
     return config;
 });
 
