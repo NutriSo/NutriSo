@@ -69,14 +69,10 @@ const getRowsDataStructure = (data) => {
         factorDeCorreccionParaHuellaHidricaYEGEI: factor,
         tipo: food.aspectoMedioambiental.tipo,
         lugar: food.aspectoMedioambiental.lugar,
-        huellaHidricaTotal:
-            Number(food.aspectoMedioambiental.huellaHidricaTotal * quantity) * factor,
-        huellaHidricaVerde:
-            Number(food.aspectoMedioambiental.huellaHidricaVerde * quantity) * factor,
-        huellaHidricaAzul:
-            Number(food.aspectoMedioambiental.huellaHidricaAzul * quantity) * factor,
-        huellaHidricaGris:
-            Number(food.aspectoMedioambiental.huellaHidricaGris * quantity) * factor,
+        huellaHidricaTotal: Number(food.aspectoMedioambiental.huellaHidricaTotal * quantity),
+        huellaHidricaVerde: Number(food.aspectoMedioambiental.huellaHidricaVerde * quantity),
+        huellaHidricaAzul: Number(food.aspectoMedioambiental.huellaHidricaAzul * quantity),
+        huellaHidricaGris: Number(food.aspectoMedioambiental.huellaHidricaGris * quantity),
         aguaParaLavado: washingValue, // revisar abajo
         aguaParaCoccion: cookingValue,
         lugarEGEI: food.aspectoMedioambiental.lugarEGEI,

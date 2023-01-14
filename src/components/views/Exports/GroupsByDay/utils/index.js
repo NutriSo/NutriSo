@@ -53,10 +53,13 @@ const normalizeIndividualSumsByDateAndUser = (data) => {
             );
             const element = result[elementIndex];
 
-            const firstSum = getObjectValuesSum(row.values, {});
-            const secondSum = getObjectValuesSum(element.values, firstSum);
+            const sumOfFirstObjectValues = getObjectValuesSum(row.values, {});
+            const sumOfSecondObjectValues = getObjectValuesSum(
+                element.values,
+                sumOfFirstObjectValues
+            );
 
-            result[elementIndex].values = [secondSum];
+            result[elementIndex].values = [sumOfSecondObjectValues];
         } else {
             result.push(row);
         }

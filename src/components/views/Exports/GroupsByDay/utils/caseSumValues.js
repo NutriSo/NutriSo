@@ -1,91 +1,112 @@
-import {
-    isEmptyObject,
-    isQuantity,
-    getIsAScript,
-    getIsArray,
-    getIsAString,
-    getIsANumber,
-    getIsObject,
-    isValidDate,
-    isSku,
-} from '@/utils';
+import { isEmptyObject } from '@/utils';
 
-const createPropertyWhileObject = (objRef, params) => {
-    const [firstObj, secondObj, key] = params;
+import {
+    getIsAValidNumberToSum,
+    getAreNumbers,
+    getAreObjects,
+    getAreArrays,
+    getAreDates,
+    getAreStrings,
+    getAreScripts,
+    getUniqueValuesFromArray,
+    getIsAKeyToMultiply,
+    getWaterFootprintValue,
+} from './shared';
+import caseGetParsedSum from './caseGetParsedSum';
+import { INVALID_KEY_TO_SUM, SCRIPT, FACTOR_KEY } from '../constants';
+
+const getObjectValuesSum = (objRef, params) => {
+    const [firstObj, secondObj, objectKey] = params;
     const tempObj = {};
 
-    Object.keys(firstObj[key]).forEach((key2) => {
-        const firstValue2 = Number(firstObj[key][key2]);
-        const secondValue2 = Number(secondObj[key][key2]);
+    Object.keys(firstObj[objectKey]).forEach((keyValue) => {
+        const firstValue = firstObj[objectKey][keyValue];
+        const secondValue = secondObj[objectKey][keyValue];
 
-        const areScripts =
-            getIsAScript(firstObj[key][key2]) || getIsAScript(secondObj[key][key2]);
+        const areNumbers = getAreNumbers(firstValue, secondValue);
+        const areDates = getAreDates(firstValue, secondValue);
+        const areArrays = getAreArrays(firstValue, secondValue);
+        const areScripts = getAreScripts(firstValue, secondValue);
+        const mustFixByFactor = getIsAKeyToMultiply(keyValue);
+        const areStrings = getAreStrings(firstValue, secondValue);
+        const isNotUserKey = keyValue !== INVALID_KEY_TO_SUM && areStrings;
 
-        const areNumbers =
-            getIsANumber(firstObj[key][key2]) && getIsANumber(secondObj[key][key2]);
+        if (mustFixByFactor) {
+            tempObj[keyValue] = getWaterFootprintValue(
+                firstValue,
+                secondValue,
+                tempObj[FACTOR_KEY]
+            );
+        }
 
-        if (areNumbers && !isSku(key2) && !isQuantity(key)) {
-            tempObj[key2] = String(Number(firstValue2 + secondValue2).toFixed(4));
+        if (areNumbers && getIsAValidNumberToSum(keyValue)) {
+            tempObj[keyValue] = caseGetParsedSum(firstValue, secondValue);
         } else if (areScripts) {
-            tempObj[key2] = '-';
+            tempObj[keyValue] = SCRIPT;
+        } else if (areDates) {
+            tempObj[keyValue] = firstValue;
+        } else if (areArrays) {
+            tempObj[keyValue] = getUniqueValuesFromArray([...firstValue, ...secondValue]);
+        } else if (isNotUserKey) {
+            tempObj[keyValue] = firstValue + ', ' + secondValue;
         } else {
-            tempObj[key2] = firstObj[key][key2];
+            tempObj[keyValue] = firstValue;
         }
     });
 
-    objRef[key] = tempObj;
+    objRef[objectKey] = tempObj;
 };
 
-const createPropertyWhileNotObject = (objRef, params) => {
+const getValuesSum = (objRef, params) => {
     const [firstObj, secondObj, key] = params;
 
-    const firstValue = Number(firstObj[key]);
-    const secondValue = Number(secondObj[key]);
+    const firstValue = firstObj[key];
+    const secondValue = secondObj[key];
 
-    const areNumbers = getIsANumber(firstObj[key]) && getIsANumber(secondObj[key]);
+    const areNumbers = getAreNumbers(firstValue, secondValue);
+    const areDates = getAreDates(firstValue, secondValue);
+    const areArrays = getAreArrays(firstValue, secondValue);
+    const areScripts = getAreScripts(firstValue, secondValue);
+    const mustFixByFactor = getIsAKeyToMultiply(key);
+    const areStrings = getAreStrings(firstValue, secondValue);
+    const isNotUserKey = key !== INVALID_KEY_TO_SUM && areStrings;
 
-    const areDates = isValidDate(firstObj[key]) && isValidDate(secondObj[key]);
+    if (mustFixByFactor) {
+        objRef[key] = getWaterFootprintValue(firstValue, secondValue, objRef[FACTOR_KEY]);
+    }
 
-    const areArrays = getIsArray(firstObj[key]) && getIsArray(secondObj[key]);
-
-    const areScripts = getIsAScript(firstObj[key]) || getIsAScript(secondObj[key]);
-
-    const areStrings = getIsAString(firstObj[key]) && getIsAString(secondObj[key]);
-    const isNotUserKey = key !== 'usuario' && areStrings;
-
-    if (areNumbers && !isSku(key) && !isQuantity(key)) {
-        objRef[key] = String(firstValue + secondValue);
+    if (areNumbers && getIsAValidNumberToSum(key)) {
+        objRef[key] = caseGetParsedSum(firstValue, secondValue);
     } else if (areScripts) {
-        objRef[key] = '-';
+        objRef[key] = SCRIPT;
     } else if (areDates) {
-        objRef[key] = firstObj[key];
+        objRef[key] = firstValue;
     } else if (areArrays) {
-        const cleanArray = new Set([...firstObj[key], ...secondObj[key]]);
-        objRef[key] = [...cleanArray];
+        objRef[key] = getUniqueValuesFromArray([...firstValue, ...secondValue]);
     } else if (isNotUserKey) {
-        objRef[key] = firstObj[key] + ', ' + secondObj[key];
+        objRef[key] = firstValue + ', ' + secondValue;
     } else {
-        objRef[key] = firstObj[key];
+        objRef[key] = firstValue;
     }
 };
 // Verify how to sum the values of the objects with factor property
-const sumObjectValues = (firstObj, secondObj) => {
-    const result = {};
-
+const caseSumValues = (firstObj, secondObj) => {
     const hasNoValuesToSum = isEmptyObject(firstObj);
     if (hasNoValuesToSum) {
         return secondObj;
     }
 
+    const result = {};
+
     Object.keys(firstObj).forEach((key) => {
-        const areObjects = getIsObject(firstObj[key]) && getIsObject(secondObj[key]);
+        const areObjects = getAreObjects(firstObj[key], secondObj[key]);
 
         areObjects
-            ? createPropertyWhileObject(result, [firstObj, secondObj, key])
-            : createPropertyWhileNotObject(result, [firstObj, secondObj, key]);
+            ? getObjectValuesSum(result, [firstObj, secondObj, key])
+            : getValuesSum(result, [firstObj, secondObj, key]);
     });
 
     return result;
 };
 
-export default sumObjectValues;
+export default caseSumValues;
