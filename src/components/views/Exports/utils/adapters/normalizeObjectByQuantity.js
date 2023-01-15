@@ -143,6 +143,7 @@ const normalizeObjectsByQuantity = (data) => {
     const cookingValue = (consumption * aguaParaCoccion) / KG;
 
     const result = {
+        consumo: Number(consumption * cantidadAlimento.pesoNeto),
         energiaKcal: getMultiplyData(energia, consumption),
         proteina: getMultiplyData(proteina, consumption),
         lipidos: getMultiplyData(lipidos, consumption),

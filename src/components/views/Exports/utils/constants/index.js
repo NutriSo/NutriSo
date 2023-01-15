@@ -8,3 +8,5 @@ export const WATER_FOOTPRINT_GREEN_KEY = 'huellaHidricaVerde';
 export const WATER_FOOTPRINT_GREY_KEY = 'huellaHidricaGris';
 export const NECESSARY_WATER_TO_COOK_KEY = 'aguaParaCoccion';
 export const NECESSARY_WATER_TO_WASH_KEY = 'aguaParaLavado';
+export const ID_KEY = 'id';
+export const DEFAULT_ID_KEY = '_id';

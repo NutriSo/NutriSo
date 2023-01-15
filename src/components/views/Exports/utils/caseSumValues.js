@@ -13,9 +13,9 @@ import {
     getWaterFootprintValue,
     getIsANecessaryWaterKey,
 } from './shared';
-import { KG } from '../../constants';
+import { KG } from '../constants';
 import caseGetParsedSum from './caseGetParsedSum';
-import { INVALID_KEY_TO_SUM, SCRIPT, FACTOR_KEY } from '../constants';
+import { INVALID_KEY_TO_SUM, SCRIPT, FACTOR_KEY } from './constants';
 
 const getNecessaryWaterByConsumption = (consumption, value) => {
     return (consumption * value) / KG;

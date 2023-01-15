@@ -30,7 +30,6 @@ import normalizeSumBySubGroup from './adapters/normalizeSumBySubGroup';
 import normalizeSumByUltraProcessed from './adapters/normalizeSumByUltraProcessed';
 import normalizeSumByAppropriate from './adapters/normalizeSumByAppropriate';
 import normalizeSumBySubGroupSmae from './adapters/normalizeSumBySubGroupSmae';
-import normalizeObjectsByQuantity from './adapters/normalizeObjectByQuantity';
 import caseGetZeroData from './caseGetZeroData';
 import casePropertiesOrder from './casePropertiesOrder';
 import casePropertiesByDay from './casePropertiesOrderByDay';
@@ -428,40 +427,6 @@ export const getMultiplyData = (value, quantity) => {
     return Number(value * quantity);
 };
 
-export const normalizeValuesByConsumption = (data) => {
-    const result = data.map((row) => {
-        const { values, ...rest } = row;
-
-        const firstObj = {
-            ...rest,
-        };
-
-        const firstGroups = values
-            .map((group) => {
-                const alimentos = group.values;
-                const grupo = group.grupo;
-
-                const secondObj = {
-                    grupo,
-                };
-
-                const foods = alimentos
-                    .map((alimento) => normalizeObjectsByQuantity(alimento))
-                    .flat(2);
-
-                secondObj.values = foods;
-                return secondObj;
-            })
-            .flat(2);
-
-        firstObj.values = firstGroups;
-
-        return firstObj;
-    });
-
-    return result;
-};
-
 export const normalizeDataByDateAndUser = (data) => {
     if (isInvalidElem(data)) {
         return [];
@@ -529,7 +494,7 @@ const createPropertyWhileObject = (objRef, params) => {
             tempObj[key2] = '-';
         } else if (isQuantity(key)) {
             // objRef[key] = String(firstValue + secondValue);
-            console.log('cantidad obj', { firstValue, secondValue, esNum1, esNum2 });
+            // console.log('cantidad obj', { firstValue, secondValue, esNum1, esNum2 });
         } else {
             tempObj[key2] = firstObj[key][key2];
         }
@@ -565,7 +530,7 @@ const createPropertyWhileNotObject = (objRef, params) => {
     ) {
         objRef[key] = firstObj[key] + ', ' + secondObj[key];
     } else if (isQuantity(key)) {
-        console.log('cantidad', { firstValue, secondValue, esNum1, esNum2 });
+        // console.log('cantidad', { firstValue, secondValue, esNum1, esNum2 });
     } else {
         objRef[key] = firstObj[key];
     }
