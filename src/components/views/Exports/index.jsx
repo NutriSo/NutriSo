@@ -102,7 +102,7 @@ const Exports = () => {
             {loading && <Loading size={50} />}
             <div className='ExpContainer'>
                 {opciones.map((opcion, index) => (
-                    <div className='bordeBE'>
+                    <div key={`csvSection${index}`} className='bordeBE'>
                         <h2>{opcion.titulo}</h2>
                         {getIsSelected(selected, 0, index) && (
                             <DietReg

@@ -12,10 +12,11 @@ import {
     getIsAKeyToMultiply,
     getWaterFootprintValue,
     getIsANecessaryWaterKey,
+    getIsAValidStringToConcat,
 } from './shared';
-import { KG } from '../../constants';
+import { KG } from '../constants';
 import caseGetParsedSum from './caseGetParsedSum';
-import { INVALID_KEY_TO_SUM, SCRIPT, FACTOR_KEY } from '../constants';
+import { INVALID_KEY_TO_SUM, SCRIPT, FACTOR_KEY } from './constants';
 
 const getNecessaryWaterByConsumption = (consumption, value) => {
     return (consumption * value) / KG;
@@ -54,7 +55,7 @@ const getObjectValuesSum = (objRef, params) => {
             tempObj[keyValue] = firstValue;
         } else if (areArrays) {
             tempObj[keyValue] = getUniqueValuesFromArray([...firstValue, ...secondValue]);
-        } else if (isNotUserKey) {
+        } else if (isNotUserKey && getIsAValidStringToConcat(keyValue)) {
             tempObj[keyValue] = firstValue + ', ' + secondValue;
         } else if (mustFixNecessaryWater) {
             tempObj[keyValue] = getNecessaryWaterByConsumption(tempObj?.consumo, firstValue);
@@ -93,7 +94,7 @@ const getValuesSum = (objRef, params) => {
         objRef[key] = firstValue;
     } else if (areArrays) {
         objRef[key] = getUniqueValuesFromArray([...firstValue, ...secondValue]);
-    } else if (isNotUserKey) {
+    } else if (isNotUserKey && getIsAValidStringToConcat(key)) {
         objRef[key] = firstValue + ', ' + secondValue;
     } else if (mustFixNecessaryWater && (!isInvalidElem(firstValue) || firstValue !== 0)) {
         // console.log({ 1: objRef?.consumo, 2: firstValue, 3: key });

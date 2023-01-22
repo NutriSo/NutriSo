@@ -9,6 +9,7 @@ import {
     isValidDate,
     isSku,
 } from '@/utils';
+
 import {
     FACTOR_KEY,
     CONSUMPTION_KEY,
@@ -18,7 +19,16 @@ import {
     WATER_FOOTPRINT_TOTAL_KEY,
     NECESSARY_WATER_TO_COOK_KEY,
     NECESSARY_WATER_TO_WASH_KEY,
-} from '../constants';
+    ID_KEY,
+    DEFAULT_ID_KEY,
+    GROUPS_KEY,
+    SUBGROUPS_ADEQUATE_KEY,
+    SUBGROUPS_KEY,
+    SMAE_KEY,
+    ULTRA_PROCESSED_KEY,
+    QUANTITY_KEY,
+    INVALID_KEY_TO_SUM,
+} from './constants';
 
 export const flatArray = (array) => {
     if (isInvalidElem(array)) {
@@ -36,6 +46,21 @@ export const getIsAValidNumberToSum = (value) => {
         value !== CONSUMPTION_KEY &&
         value !== NECESSARY_WATER_TO_COOK_KEY &&
         value !== NECESSARY_WATER_TO_WASH_KEY
+    );
+};
+
+export const getIsAValidStringToConcat = (value) => {
+    return (
+        value !== INVALID_KEY_TO_SUM &&
+        value !== FACTOR_KEY &&
+        value !== ID_KEY &&
+        value !== DEFAULT_ID_KEY &&
+        value !== GROUPS_KEY &&
+        value !== SUBGROUPS_ADEQUATE_KEY &&
+        value !== SUBGROUPS_KEY &&
+        value !== SMAE_KEY &&
+        value !== ULTRA_PROCESSED_KEY &&
+        value !== QUANTITY_KEY
     );
 };
 

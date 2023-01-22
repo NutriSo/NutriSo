@@ -24,8 +24,8 @@ import {
     unifyGroups,
     generateFinalCsvRows,
     getFinalColumns,
-    normalizeDataByDateAndUser,
 } from '../utils';
+import caseNormalizeIndividualSumsByDateAndUser from '../utils/caseNormalizeIndividualSumsByDateAndUser';
 
 const UltraProcessed = ({ selected = false, setLoading, users, groupNames }) => {
     const [columns, setColumns] = useState([
@@ -93,7 +93,7 @@ const UltraProcessed = ({ selected = false, setLoading, users, groupNames }) => 
                 return;
             }
 
-            const totales = normalizeDataByDateAndUser(unified);
+            const totales = caseNormalizeIndividualSumsByDateAndUser(unified);
             const csvRowsPreview = generateCsvRows(totales, 3);
             const cvsRows = generateFinalCsvRows(csvRowsPreview, groupNames, users);
 
