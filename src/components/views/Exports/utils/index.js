@@ -191,13 +191,13 @@ export const unifyGroups = (data) => {
         const { values, ...rest } = elem;
 
         const newValues = [];
-        const gruopsMapped = [];
+        const groupsMapped = [];
 
         values.forEach((el) => {
             const { grupo, ...rest } = el;
 
-            if (gruopsMapped.includes(grupo)) {
-                const index = gruopsMapped.findIndex((e) => e === grupo);
+            if (groupsMapped.includes(grupo)) {
+                const index = groupsMapped.findIndex((e) => e === grupo);
 
                 if (index === -1) {
                     return;
@@ -207,7 +207,7 @@ export const unifyGroups = (data) => {
                 return;
             }
 
-            gruopsMapped.push(grupo);
+            groupsMapped.push(grupo);
             newValues.push(el);
         });
 

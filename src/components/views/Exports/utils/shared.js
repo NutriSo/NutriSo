@@ -21,6 +21,13 @@ import {
     NECESSARY_WATER_TO_WASH_KEY,
     ID_KEY,
     DEFAULT_ID_KEY,
+    GROUPS_KEY,
+    SUBGROUPS_ADEQUATE_KEY,
+    SUBGROUPS_KEY,
+    SMAE_KEY,
+    ULTRA_PROCESSED_KEY,
+    QUANTITY_KEY,
+    INVALID_KEY_TO_SUM,
 } from './constants';
 
 export const flatArray = (array) => {
@@ -47,7 +54,13 @@ export const getIsAValidStringToConcat = (value) => {
         value !== INVALID_KEY_TO_SUM &&
         value !== FACTOR_KEY &&
         value !== ID_KEY &&
-        value !== DEFAULT_ID_KEY
+        value !== DEFAULT_ID_KEY &&
+        value !== GROUPS_KEY &&
+        value !== SUBGROUPS_ADEQUATE_KEY &&
+        value !== SUBGROUPS_KEY &&
+        value !== SMAE_KEY &&
+        value !== ULTRA_PROCESSED_KEY &&
+        value !== QUANTITY_KEY
     );
 };
 
