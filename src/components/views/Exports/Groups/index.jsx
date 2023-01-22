@@ -24,7 +24,6 @@ import {
     unifyGroups,
     generateFinalCsvRows,
     getFinalColumns,
-    normalizeDataByDateAndUser,
 } from '../utils';
 import caseNormalizeIndividualSumsByDateAndUser from '../utils/caseNormalizeIndividualSumsByDateAndUser';
 
@@ -94,19 +93,14 @@ const Groups = ({ selected = false, setLoading, users, groupNames }) => {
                 return;
             }
 
-            const totales = normalizeDataByDateAndUser(unified);
-            console.log({
-                unified,
-                totales,
-                ola: caseNormalizeIndividualSumsByDateAndUser(unified),
-            });
-            // const csvRowsPreview = generateCsvRows(totales);
-            // const cvsRows = generateFinalCsvRows(csvRowsPreview, groupNames, users);
+            const totalSumByGroups = caseNormalizeIndividualSumsByDateAndUser(unified);
+            const csvRowsPreview = generateCsvRows(totalSumByGroups);
+            const cvsRows = generateFinalCsvRows(csvRowsPreview, groupNames, users);
 
-            // const finalColumns = getFinalColumns(columns, groupNames.length);
+            const finalColumns = getFinalColumns(columns, groupNames.length);
 
-            // setColumns(finalColumns);
-            // setExportData(cvsRows);
+            setColumns(finalColumns);
+            setExportData(cvsRows);
             setTimeout(() => {
                 onFileReady();
             }, 1000);
@@ -118,8 +112,6 @@ const Groups = ({ selected = false, setLoading, users, groupNames }) => {
             console.groupEnd();
         }
     };
-
-    return <div />;
 
     return (
         <CustomExport

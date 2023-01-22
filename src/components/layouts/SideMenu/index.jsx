@@ -118,8 +118,8 @@ const SideMenu = () => {
                 Administracion
             </Menu.Item>
             <Menu.Item
-                className='exit'
                 key={'LogIn'}
+                className='exit'
                 icon={<LogoutOutlined />}
                 onClick={logOut}>
                 Cerrar sesion
