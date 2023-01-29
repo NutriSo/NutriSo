@@ -76,6 +76,7 @@ const Exports = () => {
             };
 
             setGroupNames(data);
+            message.success('Nombres de grupos obtenidos con éxito');
         } catch (error) {
             message.error('Ocurrió un error al obtener los nombres de los grupos');
         }
