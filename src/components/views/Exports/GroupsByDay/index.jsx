@@ -93,17 +93,17 @@ const GroupsByDay = ({ selected = false, setLoading, users }) => {
             }
 
             const totales = getSumByDay(unified);
-            // const csvRowsPreview = generateCsvRowsByDay(totales);
-            // const cvsRows = generateFinalCsvRowsByDay(
-            //     csvRowsPreview,
-            //     keys.grupoExportable,
-            //     users
-            // );
+            const csvRowsPreview = generateCsvRowsByDay(totales);
+            const cvsRows = generateFinalCsvRowsByDay(
+                csvRowsPreview,
+                keys.grupoExportable,
+                users
+            );
 
-            // const finalColumns = getFinalColumnsByDay(columns, 1);
+            const finalColumns = getFinalColumnsByDay(columns, 1);
 
-            // setColumns(finalColumns);
-            // setExportData(cvsRows);
+            setColumns(finalColumns);
+            setExportData(cvsRows);
             setTimeout(() => {
                 onFileReady();
             }, 1000);
@@ -116,7 +116,6 @@ const GroupsByDay = ({ selected = false, setLoading, users }) => {
         }
     };
 
-    return <div />;
     return (
         <CustomExport
             dataSource={exportData}
