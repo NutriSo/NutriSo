@@ -28,7 +28,7 @@ import {
     getFinalColumns,
 } from '../utils';
 
-const Smae = ({ selected = false, setLoading }) => {
+const Smae = ({ selected = false, setLoading, users, groupNames }) => {
     const [columns, setColumns] = useState([
         ...baseColumns,
         ...food.groupColumns0,
@@ -95,7 +95,7 @@ const Smae = ({ selected = false, setLoading }) => {
             }
 
             const csvRowsPreview = generateCsvRows(unified, 5);
-            const cvsRows = generateFinalCsvRows(csvRowsPreview, keys.smae);
+            const cvsRows = generateFinalCsvRows(csvRowsPreview, groupNames, users);
             const finalColumns = getFinalColumns(columns, groups[keys.smae].length);
 
             setColumns(finalColumns);
