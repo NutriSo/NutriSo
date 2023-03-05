@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Col, Input, Row, Button, Modal, Select } from 'antd';
+import { Col, Input, Row, Button, Modal, Select, message } from 'antd';
 import { PlusOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 
 import apiURL from '@/axios/axiosConfig';
@@ -61,10 +61,11 @@ const Recetas = () => {
             setRecetas(data);
             setLoading(false);
         } catch (error) {
-            console.groupCollapsed('Error xd');
+            console.groupCollapsed('Error');
             console.error(error);
             console.groupEnd();
             setLoading(false);
+            message.error('Error al obtener las recetas');
         }
     };
     function obtenerDestacada(destacado) {
@@ -86,6 +87,11 @@ const Recetas = () => {
     const postRecetas = async () => {
         setLoading(true);
         try {
+            if (!url) {
+                setLoading(false);
+                return message.error('Debes ingresar una url');
+            }
+
             const recetas = {
                 titulo,
                 categoria,
@@ -97,9 +103,11 @@ const Recetas = () => {
 
             await apiURL.post('/Recetas', recetas);
             setLoading(false);
+            window.location.reload();
         } catch (error) {
             console.error(error);
             setLoading(false);
+            message.error('Error al crear la receta');
         }
     };
 
@@ -110,9 +118,11 @@ const Recetas = () => {
 
             await apiURL.patch(`/recetas/${idReceta}`, receta);
             setLoading(false);
+            window.location.reload();
         } catch (error) {
             console.error(error);
             setLoading(false);
+            message.error('Error al actualizar la receta');
         }
         handleCancelAct();
     };
@@ -127,6 +137,7 @@ const Recetas = () => {
         } catch (error) {
             console.error(error);
             setLoading(false);
+            message.error('Error al eliminar la receta');
         }
     };
 
