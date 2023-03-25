@@ -5,7 +5,6 @@ import {
     Input,
     Col,
     Row,
-    Button,
     Modal,
     DatePicker,
     TimePicker,
@@ -14,17 +13,17 @@ import {
     Checkbox,
 } from 'antd';
 import {
-    DeleteOutlined,
-    EditOutlined,
     ExclamationCircleOutlined,
-    UserOutlined,
-    GlobalOutlined,
+    CloseCircleTwoTone,
+    CheckCircleTwoTone,
+    DeleteTwoTone,
+    EditTwoTone,
 } from '@ant-design/icons';
 import moment from 'moment';
 import dayjs from 'dayjs';
 
 import apiURL from '@/axios/axiosConfig';
-import { capitilizeWord, isEmptyArray } from '@/utils';
+import { isEmptyArray } from '@/utils';
 
 import styles from './styles.module.scss';
 
@@ -55,6 +54,12 @@ const CardsComponent = () => {
         return userInformation.map((user) => user._id);
     }, [userInformation.length]);
 
+    const defaultCurrentHour = useMemo(() => {
+        const today = new Date();
+
+        return dayjs(today, 'HH:mm');
+    }, []);
+
     const defaultHour = useMemo(() => {
         if (!hora) {
             return null;
@@ -71,6 +76,19 @@ const CardsComponent = () => {
         return selectedReminder.usuarios;
     }, [selectedReminder]);
 
+    const rangeValue = useMemo(() => {
+        if (selectedReminder?.fecha) {
+            const initialDate = moment(selectedReminder.fecha[0]);
+            const finalDate = moment(
+                selectedReminder.fecha[selectedReminder.fecha.length - 1]
+            );
+
+            return [initialDate, finalDate];
+        }
+
+        return null;
+    }, [selectedReminder]);
+
     const modalVisible = isModalVisible && selectedReminder?.fecha && defaultHour;
 
     const showModal = async (reminder) => {
@@ -84,7 +102,7 @@ const CardsComponent = () => {
         }
     };
 
-    const fetchData2 = async () => {
+    const fetchOpenedReminderData = async () => {
         try {
             const { data } = await apiURL.get(`/recordatorios/${selectedReminder._id}`);
 
@@ -218,15 +236,12 @@ const CardsComponent = () => {
             return;
         }
 
-        fetchData2();
+        fetchOpenedReminderData();
     }, [selectedReminder?._id]);
 
     useEffect(() => {
         if (!modalVisible) {
             setSelectedUsers([]);
-        }
-
-        if (!isModalVisible) {
             setSelectedReminder(null);
         }
     }, [modalVisible]);
@@ -240,59 +255,45 @@ const CardsComponent = () => {
                         allowClear
                         defaultValue={reminders}
                         onSearch={onSearch}
-                        style={{ width: 1000 }}
                     />
                 </Space>
                 <Row className={styles.grid}>
                     {reminders.map((reminder) => (
                         <Card
-                            style={{ marginTop: 16 }}
-                            type='inner'
-                            title={
-                                <Row gutter={1} className={styles.between}>
-                                    <Col span={12}>
-                                        <h4 className={styles.title}>
-                                            {capitilizeWord(reminder.titulo)}
-                                        </h4>
-                                    </Col>
-                                    <Col span={6}>
-                                        <Button
-                                            style={{}}
-                                            type='primary'
-                                            shape='circle'
-                                            onClick={() => showModal(reminder)}
-                                            icon={<EditOutlined />}
-                                        />
-                                        <Button
-                                            style={{}}
-                                            type='primary'
-                                            shape='circle'
-                                            onClick={() => showDeleteConfirm(reminder)}
-                                            icon={<DeleteOutlined />}
-                                        />
-                                    </Col>
+                            hoverable
+                            actions={[
+                                <EditTwoTone
+                                    twoToneColor='#1199bb'
+                                    onClick={() => showModal(reminder)}
+                                />,
+                                <DeleteTwoTone
+                                    twoToneColor='#eb2f96'
+                                    onClick={() => showDeleteConfirm(reminder)}
+                                />,
+                            ]}
+                            className={styles.customClass}
+                            headStyle={{ backgroundColor: '#439776', color: '#FFFFFF' }}
+                            bodyStyle={{ width: '100%' }}
+                            title={reminder.titulo}>
+                            <Card.Grid hoverable={false} style={{ width: '100%' }}>
+                                <Row
+                                    align='middle'
+                                    justify='center'
+                                    gutter={2}
+                                    className={styles.globalText}>
+                                    <p>
+                                        GLOBAL:
+                                        {reminder.global ? (
+                                            <CheckCircleTwoTone twoToneColor='#52c41a' />
+                                        ) : (
+                                            <CloseCircleTwoTone twoToneColor='#eb2f96' />
+                                        )}
+                                    </p>
                                 </Row>
-                            }>
-                            <Row>
-                                <Col span={4}>
-                                    <Button
-                                        style={{}}
-                                        type='primary'
-                                        shape='circle'
-                                        icon={
-                                            reminder.global ? (
-                                                <GlobalOutlined />
-                                            ) : (
-                                                <UserOutlined />
-                                            )
-                                        }
-                                    />
-                                </Col>
-                                <Col span={12}>
-                                    <p>Mensaje: {reminder.mensaje}</p>
-                                    <p>Categoria: {reminder.categoria}</p>
-                                </Col>
-                            </Row>
+                                <Row>
+                                    <p>{reminder.mensaje}</p>
+                                </Row>
+                            </Card.Grid>
                         </Card>
                     ))}
                 </Row>
@@ -300,7 +301,7 @@ const CardsComponent = () => {
             {modalVisible && (
                 <Modal
                     title='Actualizar recordatorio'
-                    visible={modalVisible}
+                    open={modalVisible}
                     onOk={handleOk}
                     onCancel={handleCancel}>
                     <Row>
@@ -325,7 +326,6 @@ const CardsComponent = () => {
                                 onChange={(e) => setMsj(e.target.value)}
                                 defaultValue={selectedReminder?.mensaje ?? msj}
                             />
-                            <div style={{ margin: '24px 0' }} />
                         </Col>
                     </Row>
                     <Checkbox
@@ -348,19 +348,7 @@ const CardsComponent = () => {
                         ))}
                     </Select>
                     <div className='site-calendar-demo-card'>
-                        <RangePicker
-                            onChange={handleDayRanges}
-                            defaultValue={
-                                selectedReminder?.fecha && [
-                                    moment(selectedReminder.fecha[0]),
-                                    moment(
-                                        selectedReminder.fecha[
-                                            selectedReminder.fecha.length - 1
-                                        ]
-                                    ),
-                                ]
-                            }
-                        />
+                        <RangePicker onChange={handleDayRanges} defaultValue={rangeValue} />
                     </div>
                     <div className='site-calendar-demo-card'>
                         <h3>Horario</h3>
