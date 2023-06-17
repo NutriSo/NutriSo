@@ -15,6 +15,7 @@ import UsersDetails from '../pages/usuarios';
 import Recetas from '../pages/recetas';
 import Administracion from '../components/views/Administracion';
 import EquivalencesImport from '../pages/equivalencesImport';
+import Puntos from '../pages/points';
 
 import Routes from './routes';
 
@@ -41,6 +42,7 @@ const PrincipalRoutes = () => {
                 <Route exact path={Routes.Exports} component={Exports} />
                 <Route exact path={Routes.Recetas} component={Recetas} />
                 <Route exact path={Routes.Administracion} component={Administracion} />
+                <Route exact path={Routes.Puntos} component={Puntos} />
                 <Redirect to={Routes.Principal} />
             </Switch>
         </>

@@ -12,9 +12,9 @@ import {
     ScheduleOutlined,
     CloudDownloadOutlined,
     TrophyOutlined,
-    UploadOutlined,
     YoutubeOutlined,
     SettingOutlined,
+    GoldOutlined,
 } from '@ant-design/icons';
 
 import { signOutAction } from '@/redux/actions/authorizationAction';
@@ -116,6 +116,12 @@ const SideMenu = () => {
                 icon={<SettingOutlined />}
                 onClick={() => handleHistory(Routes.Administracion)}>
                 Administracion
+            </Menu.Item>
+            <Menu.Item
+                key={Routes.Puntos}
+                icon={<GoldOutlined />}
+                onClick={() => handleHistory(Routes.Puntos)}>
+                Puntos de usuario
             </Menu.Item>
             <Menu.Item
                 key={'LogIn'}
