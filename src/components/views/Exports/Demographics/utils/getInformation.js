@@ -6,7 +6,6 @@ const getInformation = (data) => {
     if (isEmptyObject(data)) {
         return DEFAULT_RESPONSE;
     }
-
     const {
         apellidoMaterno,
         apellidoPaterno,
@@ -18,6 +17,7 @@ const getInformation = (data) => {
         nombre,
         paisDeNacimiento,
         tiempoViviendoAhi,
+        usuario,
     } = data;
 
     return {
@@ -31,6 +31,7 @@ const getInformation = (data) => {
         nombre,
         paisDeNacimiento,
         tiempoViviendoAhi,
+        usuario,
     };
 };
 
