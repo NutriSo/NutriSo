@@ -4,7 +4,7 @@ Add here the corresponding section.
 
 ## 📖 Description
 
-Inm this section write a description of the task you have performed.
+In this section write a description of the task you have performed.
 
 It is not necessary to add code justifications here, feel free to share the information you consider so that the rest of us can understand it.
 
