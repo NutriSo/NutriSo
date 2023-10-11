@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { message, Divider, Input, Button } from 'antd';
+import { message, Divider, Input, Button, Select } from 'antd';
 
 import apiURL from '@/axios/axiosConfig';
 
@@ -8,14 +8,27 @@ import FoodListByGroup from './FoodListByGroup';
 import { backgroundColors } from './FoodGroupCard/constants/backgroundColors';
 import './Menus.scss';
 
+const categoryTypeOptions = [
+    'Desayuno',
+    'Colación1',
+    'Comida',
+    'Colación2',
+    'Cena',
+];
+
 const Menus = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [menuName, setMenuName] = useState('');
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [menuPreparation, setMenuPreparation] = useState([]);
+    const [categoryTypes, setCategoryTypes] = useState(null);
+
+    const { Option } = Select;
 
     const handleOnClear = () => {
+        setIsLoading(false);
         setMenuName('');
+        setCategoryTypes(null);
         setSelectedCategory(null);
         setMenuPreparation([]);
     };
@@ -33,6 +46,10 @@ const Menus = () => {
         setMenuPreparation(newMenuPreparation);
     };
 
+    const handleSelectCategoryType = (category) => {
+        setCategoryTypes(category);
+    };
+
     const handleRemoveFood = (id) => {
         const filteredMenuPreparation = menuPreparation.filter(
             (food) => food.id !== id
@@ -47,7 +64,7 @@ const Menus = () => {
             return;
         }
 
-        if (!selectedCategory) {
+        if (!categoryTypes) {
             message.warn('Debes seleccionar una categoria');
             return;
         }
@@ -63,7 +80,7 @@ const Menus = () => {
             const menu = {
                 titulo: menuName,
                 ingredientes: menuPreparation,
-                categoria: selectedCategory,
+                categoria: categoryTypes,
             };
 
             const { status } = await apiURL.post('/menusBase', menu);
@@ -96,6 +113,17 @@ const Menus = () => {
                     value={menuName}
                     onChange={handleOnChangeMenuName}
                 />
+                <Select
+                    style={{ width: '100%' }}
+                    placeholder='Selecciona una categoria'
+                    onChange={handleSelectCategoryType}
+                    value={categoryTypes}>
+                    {categoryTypeOptions.map((category) => (
+                        <Option key={category} value={category}>
+                            {category}
+                        </Option>
+                    ))}
+                </Select>
                 <Button
                     type='primary'
                     onClick={handleSaveMenu}
