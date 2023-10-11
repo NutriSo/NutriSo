@@ -15,6 +15,7 @@ const routes = {
     Administracion: '/administracion',
     ImportarEquivalencias: '/importarEquivalencias',
     Puntos: '/puntos',
+    Menus: '/menus',
 };
 
 export default routes;

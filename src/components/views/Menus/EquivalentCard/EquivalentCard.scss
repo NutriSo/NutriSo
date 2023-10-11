@@ -1,0 +1,33 @@
+.modalFoodContainer {
+    font-weight: 500;
+    font-size: 1rem;
+    text-align: center;
+    color: #000000;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.equivalentItem {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 1rem;
+    cursor: pointer;
+    border-radius: 1rem;
+    height: 100%;
+    width: 100%;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+.equivalentItem:hover {
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
+        rgba(0, 0, 0, 0.22) 0px 15px 12px;
+}
+
+.importantText {
+    font-weight: 700;
+    font-size: 2rem;
+    color: #439776;
+}

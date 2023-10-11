@@ -15,6 +15,7 @@ import {
     YoutubeOutlined,
     SettingOutlined,
     GoldOutlined,
+    OrderedListOutlined,
 } from '@ant-design/icons';
 
 import { signOutAction } from '@/redux/actions/authorizationAction';
@@ -61,11 +62,17 @@ const SideMenu = () => {
                 onClick={() => handleHistory(Routes.Alimentos)}>
                 Alimentos
             </Menu.Item>
-            <Menu.Item
+            {/* <Menu.Item
                 key={Routes.Recordatorios}
                 icon={<ScheduleOutlined />}
                 onClick={() => handleHistory(Routes.Recordatorios)}>
                 Recordatorios
+            </Menu.Item> */}
+            <Menu.Item
+                key={Routes.Menus}
+                icon={<OrderedListOutlined />}
+                onClick={() => handleHistory(Routes.Menus)}>
+                Menus
             </Menu.Item>
             <Menu.Item
                 key={Routes.Metas}
@@ -83,14 +90,18 @@ const SideMenu = () => {
                 key={`${Routes.Imports}/${Routes.ImportarEquivalencias}`}
                 icon={<CloudUploadOutlined />}
                 onClick={() =>
-                    handleHistory(`${Routes.Imports}${Routes.ImportarEquivalencias}`)
+                    handleHistory(
+                        `${Routes.Imports}${Routes.ImportarEquivalencias}`
+                    )
                 }>
                 Importar equivalencias
             </Menu.Item>
             <Menu.Item
                 key={`${Routes.Imports}/${Routes.Alimentos}`}
                 icon={<CloudUploadOutlined />}
-                onClick={() => handleHistory(`${Routes.Imports}${Routes.Alimentos}`)}>
+                onClick={() =>
+                    handleHistory(`${Routes.Imports}${Routes.Alimentos}`)
+                }>
                 Importar alimentos
             </Menu.Item>
             <Menu.Item
