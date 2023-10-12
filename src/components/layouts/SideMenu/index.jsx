@@ -72,7 +72,13 @@ const SideMenu = () => {
                 key={Routes.Menus}
                 icon={<OrderedListOutlined />}
                 onClick={() => handleHistory(Routes.Menus)}>
-                Menus
+                Crear menus
+            </Menu.Item>
+            <Menu.Item
+                key={Routes.AssignMenus}
+                icon={<ScheduleOutlined />}
+                onClick={() => handleHistory(Routes.AssignMenus)}>
+                Asignar Menu
             </Menu.Item>
             <Menu.Item
                 key={Routes.Metas}

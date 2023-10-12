@@ -16,6 +16,7 @@ const routes = {
     ImportarEquivalencias: '/importarEquivalencias',
     Puntos: '/puntos',
     Menus: '/menus',
+    AssignMenus: '/assignMenus',
 };
 
 export default routes;

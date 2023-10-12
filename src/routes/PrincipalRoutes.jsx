@@ -17,6 +17,7 @@ import Administracion from '../components/views/Administracion';
 import EquivalencesImport from '../pages/equivalencesImport';
 import Puntos from '../pages/points';
 import Menus from '../pages/menus';
+import AssignMenu from '../pages/assignMenus';
 
 import Routes from './routes';
 
@@ -65,6 +66,7 @@ const PrincipalRoutes = () => {
                 />
                 <Route exact path={Routes.Puntos} component={Puntos} />
                 <Route exact path={Routes.Menus} component={Menus} />
+                <Route exact path={Routes.AssignMenus} component={AssignMenu} />
                 <Redirect to={Routes.Principal} />
             </Switch>
         </>
