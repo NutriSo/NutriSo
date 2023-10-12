@@ -45,15 +45,19 @@ const Exports = () => {
             const { data } = await apiURL.get('registroDietetico/usuarios');
             setRegisters(data);
         } catch (error) {
-            message.error('Ocurrió un error al obtener los ids de los usuarios');
+            message.error(
+                'Ocurrió un error al obtener los ids de los usuarios'
+            );
         }
     };
 
     const getGroupNames = async () => {
+        setLoading(true);
         try {
             const groupsNames = await exportService.getGroupNames();
             const subGroupsNames = await exportService.getSubGroupNames();
-            const ultraProcessedNames = await exportService.getUltraProcessedNames();
+            const ultraProcessedNames =
+                await exportService.getUltraProcessedNames();
             const appropriateSubGroupsNames =
                 await exportService.getAppropriateSubGroupNames();
             const smaeNames = await exportService.getSMAEGroupNames();
@@ -77,8 +81,12 @@ const Exports = () => {
 
             setGroupNames(data);
             message.success('Nombres de grupos obtenidos con éxito');
+            setLoading(false);
         } catch (error) {
-            message.error('Ocurrió un error al obtener los nombres de los grupos');
+            message.error(
+                'Ocurrió un error al obtener los nombres de los grupos'
+            );
+            setLoading(false);
         }
     };
 
@@ -113,7 +121,11 @@ const Exports = () => {
                             />
                         )}
                         {getIsSelected(selected, 1, index) && (
-                            <Demographics selected={selected[1]} setLoading={setLoading} />
+                            <Demographics
+                                selected={selected[1]}
+                                setLoading={setLoading}
+                                users={uniqueUserIds}
+                            />
                         )}
                         {getIsSelected(selected, 2, index) && (
                             <Groups

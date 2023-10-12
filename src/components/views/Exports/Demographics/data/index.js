@@ -90,12 +90,6 @@ export const columns = [
         width: 30,
     },
     {
-        title: 'Actividad física',
-        dataIndex: 'actividadFisica',
-        key: 'actividadFisica',
-        width: 30,
-    },
-    {
         title: 'Tipode actividad',
         dataIndex: 'tipoDeActividad',
         key: 'tipoDeActividad',

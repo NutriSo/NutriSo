@@ -1,0 +1,107 @@
+@import '../../../styles/variables.scss';
+
+.layout {
+    margin: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.layout .badgesContainer span.itemBadge {
+    padding: 0.75rem;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    border-radius: 1rem;
+    cursor: pointer;
+    border: 2px solid transparent;
+    color: #ffffff;
+    text-wrap: pretty;
+    margin: auto 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+        border: 2px solid #ff0000;
+    }
+}
+
+.badgesList {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(1px, 1fr));
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 0 3rem;
+}
+
+.listContainer {
+    display: grid;
+    justify-content: space-between;
+    grid-template-columns: repeat(auto-fit, minmax(75px, 150px));
+    gap: 2rem;
+    margin: 0 3rem;
+}
+
+.foodGroupCardContainer {
+    cursor: pointer;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 3rem;
+    min-height: 10rem;
+    text-align: center;
+    padding: 0.5rem;
+}
+
+.foodGroupCardContainer h3 {
+    color: #ffffff;
+}
+
+.foodGroupCardContainer img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.foodGroupCardContainer:hover {
+    transform: scale(1.1);
+}
+
+.foodGroupCardContainer.active {
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
+}
+
+.menusGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+
+    .ant-card {
+        cursor: pointer;
+        border-radius: 1rem;
+        border: 2px solid transparent;
+        text-transform: capitalize;
+
+        .ant-card-actions {
+            border-bottom-right-radius: 1rem;
+            border-bottom-left-radius: 1rem;
+        }
+
+        &:hover {
+            box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px,
+                rgba(0, 0, 0, 0.23) 0px 6px 6px;
+        }
+    }
+
+    .ant-card.selected-menu {
+        border: 2px solid $BLACK;
+    }
+}
+
+.menusGrid p {
+    margin: 0;
+}
